@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+// import { SharedModule } from '../common/common.module';
 
 import { AppChatRoutingModule } from './app-chat-routing.module';
 import { ChatContainerComponent } from './chat-container/chat-container.component';
@@ -22,6 +24,15 @@ import { MessageShowChatComponent } from './message-show-chat/message-show-chat.
     EmptyChatComponent,
     LayoutAppChatComponent,
     MainChatComponent,
+    MessageShowChatComponent,
+    FormsModule,
+    // SharedModule
+  ],
+  exports: [
+    ContactRoomComponent,
+    EmptyChatComponent,
+    MainChatComponent,
+    ContactChannelComponent,
     MessageShowChatComponent,
   ]
 })
