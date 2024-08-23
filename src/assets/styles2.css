@@ -1,0 +1,250 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+/* body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+} */
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar {
+    background: #fff;
+    border: none;
+    border-radius: 0;
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+#sidebar {
+    width: 300px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: white;
+    color: #0A93BD;
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    margin-left: -300px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: white;
+}
+
+#sidebar .sidebar-header img {
+    width: 80%;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+}
+
+#sidebar ul li {
+    margin-top: 10px;
+}
+
+#sidebar ul li button {
+    font-size: 0.9em;
+    width: 220px;
+    height: 40px;
+    color: #0A93BD;
+}
+
+#sidebar ul li a {
+    font-size: 0.9em;
+    width: 220px;
+    height: 40px;
+    color: #0A93BD;
+}
+
+#sidebar ul li a:hover {
+    color: white;
+    background: #0A93BD;
+}
+
+#sidebar ul li button:hover {
+    color: white;
+    background: #0A93BD;
+}
+
+#sidebar ul li.active>a, a[aria-expanded="true"] {
+    color: #fff;
+    background: transparent;
+}
+
+#sidebar ul li.active>button, a[aria-expanded="true"] {
+    color: #fff;
+    background: transparent;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+}
+
+a[aria-expanded="true"]::before {
+    content: '';
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: calc(100% - 300px);
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    background-color: #EDF8F9;
+    right: 0;
+}
+
+#content.active {
+    width: 100%;
+}
+
+.overlay {
+    position: relative !important;
+    top: -200px !important;
+}
+
+.whenoverlay {
+    margin-top: -120px !important;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -300px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        width: 100%;
+    }
+    #content.active {
+        width: calc(100% - 300px);
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}
+
+.bg {
+    /* The image used */
+    background-image: url("/assets/BACKGROUND_1.gif");
+    /* Full height */
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: 0rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg2 {
+    /* The image used */
+    background-image: url("/assets/BG2.png");
+    /* Full height */
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: 0em;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+} */
+
+.input-container {
+    display: -ms-flexbox;
+    /* IE10 */
+    display: flex;
+    margin-bottom: 15px;
+    background: rgba(214, 214, 214, 0.712);
+}
+
+.icon {
+    padding: 12px;
+    font-size: 22px;
+    min-width: 50px;
+    text-align: center;
+    border-right: 1px solid grey;
+}
+
+.icon-right {
+    padding: 12px;
+    font-size: 22px;
+    min-width: 50px;
+    text-align: center;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none !important;
+    border: none;
+    background: rgba(214, 214, 214, 0.712);
+}
+
+.input-field-date-time {
+    width: 100%;
+    padding: 0!important;
+    outline: none !important;
+    border: none;
+    background: rgba(214, 214, 214, 0.712);
+}
+
+.input-field:focus {
+    border: none;
+}
+
+.error-message {
+    color: red;
+}

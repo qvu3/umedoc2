@@ -1,0 +1,20 @@
+/Users/Astorrevu/Desktop/Coding/new_umedoc/umedoc2/src/assets/vendors/js/editors/ace/worker-php.js
+  2327:45  error  Parsing error: Binding eval in strict mode
+
+/Users/Astorrevu/Desktop/Coding/new_umedoc/umedoc2/src/assets/vendors/js/editors/codemirror/mode/jinja2/index.html
+  32:4  error  Expected `===` but received `==`  @angular-eslint/template/eqeqeq
+
+/Users/Astorrevu/Desktop/Coding/new_umedoc/umedoc2/src/assets/vendors/js/tables/handsontable/handsontable.full.js
+   7247:3    error  Definition for rule 'import/prefer-default-export' was not found  import/prefer-default-export
+  18433:1    error  Definition for rule 'import/prefer-default-export' was not found  import/prefer-default-export
+  30821:1    error  Definition for rule 'import/prefer-default-export' was not found  import/prefer-default-export
+  34181:1    error  Definition for rule 'import/prefer-default-export' was not found  import/prefer-default-export
+  35569:1    error  Definition for rule 'import/prefer-default-export' was not found  import/prefer-default-export
+  49407:40   error  Definition for rule 'import/prefer-default-export' was not found  import/prefer-default-export
+  55210:1    error  Definition for rule 'import/prefer-default-export' was not found  import/prefer-default-export
+  55465:566  error  Definition for rule 'import/prefer-default-export' was not found  import/prefer-default-export
+
+/Users/Astorrevu/Desktop/Coding/new_umedoc/umedoc2/src/assets/vendors/lightbox2/dist/js/lightbox-plus-jquery.js
+  7972:4  error  Rule "no-unused-expressions" is already configured by another configuration comment in the preceding code. This configuration is ignored
+
+✖ 11 problems (11 errors, 0 warnings)

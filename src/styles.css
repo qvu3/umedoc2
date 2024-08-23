@@ -1,1 +1,2309 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* @import "../node_modules/angular-archwizard/archwizard.css";
+@import "../node_modules/@fullcalendar/core/main.css";
+@import "../node_modules/@fullcalendar/daygrid/main.css";
+@import "../node_modules/@fullcalendar/timegrid/main.css"; */
+/* You can add global styles to this file, and also import other style files */
+
+@media (min-width: 768px) {
+  .border-sign-in {
+    border-right: 1px solid #c8cdd6;
+  }
+}
+
+.pb-75,
+.py-75 {
+  padding-bottom: 0.75rem !important;
+}
+
+.error-message {
+  color: red;
+  text-align: left;
+}
+
+.card-provider {
+}
+
+.card-provider:hover {
+  box-shadow: 0 0.5rem 1rem rgba(243, 16, 16, 0.4) !important;
+  border: 6px solid #99e2f5 !important;
+}
+
+.card-provider.active {
+  box-shadow: 0 0.5rem 1rem rgba(193, 56, 56, 0.35) !important;
+  border: 8px solid #4db6ac !important;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}
+
+.block-ui-wrapper {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.pac-container {
+  z-index: 9999999;
+}
+
+.modal-backdrop.show {
+  z-index: 1040;
+  top: 0;
+}
+
+div[app-login] {
+  width: 100%;
+  height: 100vh;
+}
+
+.copyright {
+  background-color: #096b74;
+  padding: 22px 0;
+  text-align: center;
+  margin-top: 97px;
+}
+
+.copyright span {
+  color: #feffff;
+  font-size: 16px;
+  font-weight: 400;
+  display: block;
+  line-height: 1;
+}
+
+.btn-medical-white {
+  color: #016670 !important;
+  background-color: #ffffff;
+  width: auto;
+  margin-right: 12px;
+  border: 1px solid #016670;
+}
+
+/*
+.btn-medical-white:hover {
+    background-color: #016670;
+    color: #ffffff !important;
+} */
+
+.btn-green {
+  background-color: #016670;
+  color: #ffffff !important;
+  width: auto;
+}
+
+/*
+.btn-green:hover {
+    color: #016670 !important;
+    background-color: #ffffff;
+    border: 1px solid #016670;
+} */
+
+.title-h1 {
+  color: #016670;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  margin: 0;
+}
+
+.dataTables_info {
+  margin-left: 20px;
+  color: #97a4ba;
+  font-size: 15px;
+  font-weight: 400;
+  display: block;
+  text-transform: uppercase;
+}
+
+.page-link {
+  border: none;
+}
+
+.pagination .page-link {
+  border: none;
+  font-size: 15px;
+  font-weight: 400;
+  display: inline-block;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+}
+
+table > thead > tr > th {
+  padding: 20px 5px !important;
+  border: none;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: none;
+  border-top: none;
+  background-color: #f6f9fc;
+}
+
+table.dataTable {
+  border-collapse: collapse !important;
+}
+
+.container {
+  max-width: 1266px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+ul.ul-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.alignself {
+  align-self: center;
+}
+
+.m9 {
+  margin-left: -9px;
+  margin-right: -9px;
+}
+
+.m-0 {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.p9 {
+  padding-left: 9px;
+  padding-right: 9px;
+}
+
+a.updatebtn.mobilevs {
+  display: none !important;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+/*Site Header*/
+
+.site-header {
+  background-color: #ffffff;
+  border-top: 1px solid #d2ecf0;
+  padding: 17px 0 23px 0;
+}
+
+.site-logo {
+  text-align: center;
+}
+
+.header-myaccount ul {
+  text-align: right;
+}
+
+.header-myaccount li {
+  display: inline-block;
+  margin-right: 28px;
+}
+
+.header-myaccount li:last-child {
+  margin-right: 0;
+  margin-left: 37px;
+}
+
+.header-myaccount li strong {
+  color: #2f3d61;
+  font-size: 16px;
+  font-weight: 400;
+  display: inline-block;
+  margin-right: 14px;
+}
+
+.wellcome-user {
+  padding: 51px 0;
+}
+
+.wellcome-left-ct h1 {
+  color: #016670;
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0 0 11px 0;
+}
+
+.wellcome-breadcrumbs ul li {
+  display: inline-block;
+}
+
+.wellcome-breadcrumbs ul li a {
+  color: #97a4ba;
+  font-size: 16px;
+  font-weight: 400;
+  display: inline-block;
+}
+
+.wellcome-breadcrumbs ul li a:hover {
+  color: #97a4ba;
+}
+
+.wellcome-breadcrumbs ul li a.active {
+  color: #717171;
+}
+
+.wellcome-breadcrumbs ul li a.active:hover {
+  color: #717171;
+}
+
+.wellcome-right-ct {
+  text-align: right;
+}
+
+.wellcome-right-ct a {
+  font-size: 13px;
+  font-weight: 400;
+  display: inline-block;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  transition: all 0.4s ease;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.wellcome-right-ct a.medicalprovd-btn {
+  color: #016670;
+  background-color: #ffffff;
+  width: 242px;
+  margin-right: 12px;
+}
+
+a.updateprofile-btn {
+  background-color: #016670;
+  color: #ffffff;
+  width: 200px;
+}
+
+.wellcome-right-ct a.medicalprovd-btn:hover {
+  background-color: #016670;
+  color: #ffffff;
+}
+
+a.updateprofile-btn:hover {
+  color: #016670;
+  background-color: #ffffff;
+}
+
+.video-call-ct {
+  padding: 53px 40px;
+  background-color: #fff;
+  border-radius: 6px;
+}
+
+.video-tele-mint span {
+  color: #373f4d;
+  font-size: 16px;
+  font-weight: 400;
+  display: block;
+  line-height: 1;
+  margin-bottom: 33px;
+  margin-top: -3px;
+}
+
+.video-minutes {
+  text-align: right;
+}
+
+.video-chat-prov {
+  padding: 28px 28px 8px;
+  background-color: #fff;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.video-chat-prov h1 {
+  color: #373f4d;
+  font-size: 24px;
+  font-weight: 400;
+  margin: -6px 0 27px 0;
+}
+
+.video-chat-prov strong {
+  color: #373f4d;
+  font-size: 19px;
+  font-weight: 400;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.video-chat-prov strong span {
+  color: #97a4ba;
+  font-size: 11px;
+  font-weight: 400;
+  display: inline-block;
+  position: relative;
+  top: -3px;
+  margin-left: 10px;
+}
+
+.video-chat-prov p {
+  color: #97a4ba;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.inner-vd-chat {
+  margin-bottom: 18px;
+}
+
+.inner-vd-chatli {
+  margin-bottom: 15px;
+}
+
+.inner-vd-chatli ul {
+  text-align: right;
+}
+
+.inner-vd-chatli li {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.inner-vd-chatli li:last-child {
+  float: left;
+  margin-left: 0;
+}
+
+.inner-vd-chatli li img {
+  width: 19px;
+  height: 19px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+.inner-vd-chatli li:last-child img {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+}
+
+.type-text-field {
+  border-top: 1px solid #cae2e6;
+}
+
+.type-text-field input {
+  color: #cae2e6;
+  font-size: 14px;
+  height: 44px;
+  line-height: 44px;
+  font-weight: 400;
+  width: 100%;
+  border: none;
+  background-color: #fff;
+  padding-left: 28px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.type-text-field input::placeholder {
+  color: #cae2e6;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.type-text-field input:focus {
+  outline: none;
+}
+
+.four-boxes-height {
+  min-height: 182px;
+  border-radius: 10px;
+  padding: 15px 20px;
+}
+
+.four-boxes-background1 {
+  background-color: #ff6161;
+}
+
+.four-boxes-background2 {
+  background-color: #ffc935;
+}
+
+.four-boxes-background3 {
+  background-color: #8479ff;
+}
+
+.four-boxes-background4 {
+  background-color: #58d0ff;
+}
+
+.emer-right-fourbox {
+  text-align: right;
+  width: 100%;
+}
+
+.four-boxes-height span,
+.emer-right-fourbox a {
+  color: #ffffff;
+  font-size: 13.92px;
+  font-weight: 400;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.four-boxes-height strong {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+}
+
+.four-boxes-height a.updatebtn {
+  color: #373f4d;
+  font-size: 13px;
+  background-color: #fff;
+  font-weight: 400;
+  text-transform: uppercase;
+  width: 95px;
+  height: 28px;
+  line-height: 28px;
+  border-radius: 6px;
+  text-align: center;
+  display: inline-block;
+  float: right;
+}
+
+.emer-left-fourbox,
+.emer-right-fourbox {
+  margin-top: 20px;
+  display: inline-block;
+}
+
+.emergency-contact {
+  padding: 20px 0;
+}
+
+.umedoc-table-ct {
+  background-color: #ffffff;
+  padding: 27px;
+  border: 1px solid #eaf0f7;
+  border-radius: 8px;
+}
+
+.appointment-history {
+  margin-bottom: 34px;
+}
+
+.appointment-history h1 {
+  color: #016670;
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.appointment-history img {
+  float: right;
+}
+
+.umedoc-table .grey-light {
+  padding: 0 20px;
+}
+
+.umedoc-table .table .grey-light th {
+  color: #016670;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #f6f9fc;
+  border-color: #f6f9fc;
+}
+
+.umedoc-table .table td,
+.table th {
+  padding: 25px 40px;
+}
+
+.umedoc-table .table {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.next-previous-btn {
+  padding: 17px 0 7px 0;
+}
+
+.next-previous-btn span {
+  color: #97a4ba;
+  font-size: 15px;
+  font-weight: 400;
+  display: block;
+  text-transform: uppercase;
+}
+
+.two-buttons-next {
+  float: right;
+}
+
+.two-buttons-next a {
+  font-size: 15px;
+  font-weight: 400;
+  display: inline-block;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+}
+
+.two-buttons-next a.previous-btn {
+  color: #c4cfdd;
+  margin-right: 30px;
+}
+
+.two-buttons-next a.nextentries-btn {
+  color: #016670;
+}
+
+.two-buttons-next a.previous-btn:hover {
+  color: #016670;
+}
+
+.copyright {
+  background-color: #096b74;
+  padding: 22px 0;
+  text-align: center;
+  margin-top: 97px;
+}
+
+.copyright span {
+  color: #feffff;
+  font-size: 16px;
+  font-weight: 400;
+  display: block;
+  line-height: 1;
+}
+
+.payment_box .inner_box {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 25px;
+  box-shadow: 0px 0px 33px -24px rgba(0, 0, 0, 0.4);
+  height: 550px;
+}
+
+.payment_box .inner_box .heading h5 {
+  font-size: 24px;
+  color: #373f4d;
+  margin-bottom: 28px;
+}
+
+.payment_box .inner_box ul li {
+  width: 33%;
+  margin-right: 30px;
+}
+
+.payment_box .inner_box ul li:last-child {
+  margin: 0;
+}
+
+.payment_box .inner_box ul li .user_box {
+  background-color: #f6f9fc;
+  padding: 18px 18px 28px 18px;
+  text-align: center;
+}
+
+.payment_box .inner_box ul li .user_box img {
+  width: 100%;
+}
+
+.payment_box .inner_box ul li .user_box .desc_content {
+  margin-top: 17px;
+}
+
+.payment_box .inner_box ul li .user_box .desc_content h6 {
+  color: #424b5f;
+  font-size: 16px;
+  margin: 0;
+}
+
+.payment_box .inner_box ul li .user_box .desc_content h3 {
+  color: #016670;
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.payment_box .inner_box ul li .user_box .desc_content p {
+  color: #424b5f;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.payment_box .inner_box ul li .user_box .desc_content a {
+  background-color: #016670;
+  padding: 12px 20px;
+  height: 27px;
+  width: 100px;
+  line-height: 6px;
+  font-size: 10px;
+  color: #fff;
+  border-radius: 6px;
+  text-transform: uppercase;
+  border: none;
+  display: inline-block;
+}
+
+.payment_box .inner_box.payment_method h6 {
+  color: #373f4d;
+  font-size: 19px;
+  position: relative;
+  padding-left: 60px;
+  padding-bottom: 30px;
+  margin: 0;
+}
+
+.payment_box .inner_box.payment_method h6::before {
+  position: absolute;
+  top: -12px;
+  left: 0;
+  content: "";
+  background-image: url(/assets/image/check.png);
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 100%;
+}
+
+.payment_box .inner_box.payment_method p {
+  color: #97a4ba;
+  font-size: 19px;
+  margin: 0;
+  line-height: 27px;
+}
+
+.payment_box .inner_box.payment_method .visit {
+  text-align: center;
+}
+
+.payment_box .inner_box.payment_method .visit a {
+  background-color: #016670;
+  padding: 12px 20px;
+  height: 45px;
+  line-height: 20px;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 6px;
+  text-transform: uppercase;
+  border: none;
+  display: inline-block;
+  width: 100%;
+  margin-top: 260px;
+}
+
+/* bk css */
+
+.container {
+  max-width: 1266px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.form_login {
+  position: relative;
+  padding: 80px 0;
+  background-color: #d2ecf0;
+}
+
+.form_login::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: "";
+  background-image: url(/assets/image/form_dots.png);
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 280px;
+  background-position: right;
+}
+
+.form_login::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  content: "";
+  /* background-image: url(/assets/image/form_img.png); */
+  background-repeat: no-repeat;
+  width: 34%;
+  height: 50%;
+  z-index: 1;
+}
+
+.form_login .container {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.form_login .inner {
+  position: relative;
+  z-index: 1;
+}
+
+.form_login .site_logo {
+  margin-bottom: 85px;
+}
+
+.form_login .form_wider {
+  background-color: #fff;
+  padding: 62px 82px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 50px -24px rgba(0, 0, 0, 0.4);
+  width: 760px;
+  margin: auto;
+}
+
+.form_login .form_wider h4 {
+  color: #016670;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 58px;
+  text-align: center;
+}
+
+.form_login .form_wider .form-group {
+  position: relative;
+}
+
+.form_login .form_wider .form-group a {
+  color: #016670;
+  font-size: 15px;
+  position: absolute;
+  top: 14px;
+  right: 25px;
+}
+
+.form_login .form_wider .form-group button {
+  background-color: #016670;
+  padding: 12px 20px;
+  height: 45px;
+  width: 200px;
+  line-height: 21px;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 6px;
+  margin-top: 30px;
+  border: none;
+  display: inline-block;
+}
+
+.form_login .form_wider select option,
+.form_login .form_wider select,
+.form_login .form_wider input {
+  height: 50px;
+  color: #717171;
+  font-size: 15px;
+  margin-bottom: 18px;
+}
+
+.form_login .form_wider select {
+  height: 50px !important;
+}
+
+.form_login .form_wider input::placeholder {
+  color: #717171;
+}
+
+.form_login .login_third {
+  margin-top: 47px;
+}
+
+.form_login .login_third h6 {
+  color: #717171;
+  font-size: 14px;
+  margin: 0;
+}
+
+.form_login .login_third ul li a {
+  padding: 12px 20px;
+  height: 45px;
+  width: 200px;
+  line-height: 21px;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 6px;
+  margin-top: 17px;
+  border: none;
+  display: inline-block;
+}
+
+.form_login .login_third ul li:nth-child(1) a {
+  background-color: #005680;
+}
+
+.form_login .login_third ul li:nth-child(2) a {
+  background-color: #ee3158;
+}
+
+.form_login .new_register a {
+  background-color: #016670;
+  padding: 12px 20px;
+  height: 45px;
+  width: 262px;
+  line-height: 21px;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 6px;
+  margin-top: 30px;
+  border: none;
+  display: inline-block;
+}
+
+.form_register {
+  padding: 80px 0 140px;
+}
+
+.form_register::after {
+  position: absolute;
+  bottom: 0;
+  left: 17px;
+  content: "";
+  /* background-image: url(/assets/image/form_img.png); */
+  background-repeat: no-repeat;
+  width: 34%;
+  height: 34%;
+  background-size: 60%;
+  z-index: 1;
+}
+
+.form_register .form_wider {
+  width: 900px;
+  padding: 52px 110px 36px;
+}
+
+.form_register .row .col-md-12,
+.form_register .row .col-md-4,
+.form_register .row .col-md-6 {
+  padding: 0 15px 0px 15px;
+}
+
+.form_register .login_third {
+  margin-top: 30px;
+}
+
+.form_register .custom-checkbox {
+  text-align: left;
+  margin: 10px 0 16px 0;
+}
+
+.form_register .custom-checkbox label {
+  font-size: 16px;
+}
+
+.form_register .custom-checkbox label a {
+  color: #016670;
+}
+
+.form_register .custom-checkbox label::after {
+  border-radius: 2px;
+}
+
+.form_register .custom-checkbox label::before {
+  background-color: #fff;
+}
+
+.form_register .form_wider .form-group button {
+  text-transform: uppercase;
+}
+
+/* patinents_profile_b css*/
+
+.patinents_profile_b {
+  background-color: #d2ecf0;
+  position: relative;
+}
+
+.patinents_profile_b::before {
+  background-image: url(/assets/image/patient_pro_dots.png);
+  background-repeat: no-repeat;
+  content: "";
+  width: 60%;
+  height: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-position: top right;
+  background-size: 57%;
+}
+
+.patinents_profile_b h1 {
+  font-weight: 500;
+  margin: 0 0 46px 0;
+}
+
+.patinents_profile_b .profile_box {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px 41px 24px 41px;
+  box-shadow: 0px 0px 33px -24px rgba(0, 0, 0, 0.4);
+  margin-bottom: 24px;
+}
+
+.patinents_profile_b .profile_box .heading h4 {
+  color: #096b74;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.patinents_profile_b .profile_box .heading p {
+  color: #717171;
+  font-size: 16px;
+}
+
+.patinents_profile_b .media ul li .file-path-wrapper {
+  position: relative;
+}
+
+.patinents_profile_b .media ul li .file-path-wrapper input {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.patinents_profile_b .media ul {
+  margin: 0;
+}
+
+.patinents_profile_b .media ul li .file-path-wrapper .uploads h6 {
+  background-color: #096b74;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 11px;
+  width: 132px;
+  height: 30px;
+  border-radius: 5px;
+  padding: 8px 20px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.patinents_profile_b .media ul li a {
+  color: #67758d;
+  height: 30px;
+  font-size: 11px;
+  padding: 9px 20px;
+  border: 1px solid #dee5ef;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.patinents_profile_b .media .media-body {
+  margin-top: 5px;
+}
+
+.patinents_profile_b .media .media-body p {
+  color: #97a4ba;
+  font-size: 12px;
+  margin: 4px 0 0 0;
+}
+
+.patinents_profile_b .media {
+  border: 1px solid #dee5ef;
+  padding: 15px 25px;
+  margin-bottom: 18px;
+}
+
+.patinents_profile_b form .form-group label {
+  color: #97a4ba;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.patinents_profile_b form .form-group input {
+  height: 45px;
+  border: 2px solid #f2f4f7;
+  font-size: 16px;
+  color: #424b5f;
+}
+
+.patinents_profile_b form .insaurance .heading {
+  margin-bottom: 23px;
+  margin-top: 20px;
+}
+
+.patinents_profile_b .insaurance .heading {
+  margin-bottom: 24px;
+}
+
+.medical_info ul li h5 {
+  margin-bottom: 20px;
+}
+
+.medical_info ul li .check_list {
+  display: inline-block;
+  margin-right: 86px;
+}
+
+.medical_info ul li h5 {
+  color: #67758d;
+  font-size: 16px;
+}
+
+.medical_info .custom-control-label::before {
+  background-color: #fff;
+  border: 2px solid #ced3da;
+  width: 17px;
+  height: 17px;
+}
+
+.medical_info
+  .custom-checkbox
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
+  background-color: #007bff;
+  border: 2px solid #007bff;
+  width: 17px;
+  height: 17px;
+}
+
+.medical_info ul li {
+  border-bottom: 2px solid #d9dee8;
+  padding-bottom: 7px;
+  margin-bottom: 27px;
+}
+
+.medical_info ul li .check_list label {
+  color: #424b5f;
+  font-size: 16px;
+  margin-left: 7px;
+}
+
+.medical_info ul li.medical_condition .check_list {
+  margin-right: 40px;
+  width: 16%;
+}
+
+.patinents_profile_b .medical_info .heading h4 {
+  margin-bottom: 24px;
+}
+
+.medical_info ul li:last-child {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.medical_info ul li.medication .check_list {
+  width: 40%;
+}
+
+.medical_info ul li.medication .check_list .custom-control {
+  display: inline-block;
+  margin-right: 25px;
+}
+
+.patinents_profile_b .save_tbn {
+  text-align: center;
+}
+
+.patinents_profile_b .save_tbn ul li a {
+  background-color: #016670;
+  padding: 12px 20px;
+  height: 45px;
+  width: 200px;
+  line-height: 21px;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 6px;
+  margin-top: 30px;
+  text-transform: uppercase;
+  border: none;
+  display: inline-block;
+  transition: 0.6s ease-in-out;
+}
+
+.patinents_profile_b .save_tbn ul li a:hover {
+  background-color: #fff;
+  color: #016670;
+}
+
+.margin_out {
+  margin: 0;
+}
+
+.patient-profile-detail_b .wellcome-left-ct h1 {
+  margin: 0 0 11px 0;
+}
+
+.patient-profile-detail_b .personal_detail {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px 10px 30px;
+  width: 100%;
+}
+
+.patient-profile-detail_b .personal_detail h4 {
+  margin: 0;
+  color: #373f4d;
+  font-size: 24px;
+  padding-top: 10px;
+}
+
+.patient-profile-detail_b .personal_detail.pharmacy {
+  position: relative;
+}
+
+.patient-profile-detail_b .personal_detail.pharmacy::before {
+  width: 100%;
+  height: 70%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-size: 100%;
+  background-position: bottom right;
+}
+
+.appointment_history-table-b h1 {
+  margin: 0;
+}
+
+.patient-profile-detail_b .personal_detail .update {
+  text-align: right;
+}
+
+.patient-profile-detail_b .personal_detail .update a {
+  width: 120px;
+  height: 45px;
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+  line-height: 45px;
+  background-color: #016670;
+  border-radius: 6px;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.patient-profile-detail_b .media {
+  padding: 0;
+  border: none;
+  margin: 14px 0 0 0;
+}
+
+.patient-profile-detail_b .media .media-body {
+  margin-left: 30px;
+}
+
+.patient-profile-detail_b .media .media-body h5 {
+  color: #424b5f;
+  font-size: 21px;
+}
+
+.patient-profile-detail_b .media .media-body p a {
+  color: #016670;
+  font-size: 15px;
+}
+
+.patient-profile-detail_b .detail_view ul li h6 {
+  color: #97a4ba;
+  font-size: 14px;
+  margin: 0;
+}
+
+.patient-profile-detail_b .detail_view ul li {
+  margin-bottom: 14px;
+}
+
+.patient-profile-detail_b .detail_view ul li h6 span {
+  color: #424b5f;
+  font-size: 14px;
+  float: right;
+}
+
+.patient-profile-detail_b .detail_view {
+  margin-top: 33px;
+}
+
+.patient-profile-detail_b .wellcome-user-ct {
+  margin-bottom: 45px;
+}
+
+.patient-profile-detail_b .personal_detail .middle_heading h5 {
+  caret-color: #373f4d;
+  font-size: 19px;
+  margin: 10px 0px 3px 0;
+}
+
+.patient-profile-detail_b {
+  padding-bottom: 96px;
+}
+
+/* patinents_profile_b css end */
+
+/* graph_box css */
+
+.graph_box .heading h5 {
+  color: #2f3d61;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.graph_box .appoint_list {
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 18px;
+  margin-bottom: 9px;
+}
+
+.graph_box .appoint_list h6 {
+  color: #016670;
+  font-size: 17px;
+  margin: 0;
+}
+
+.graph_box .appoint_list a {
+  color: #97a4ba;
+  font-size: 16px;
+  margin: 5px 0;
+  display: block;
+}
+
+.graph_box .appoint_list span {
+  color: #8479ff;
+  font-size: 16px;
+  display: block;
+}
+
+.graph_box .doctr_box {
+  background-color: #fff;
+  padding: 38px 18px 44px 18px;
+  text-align: center;
+  border-radius: 7px;
+}
+
+.graph_box .doctr_box .doctr_heading h6 {
+  color: #016670;
+  font-size: 17px;
+  margin: 0;
+}
+
+.graph_box .doctr_box .doctr_heading a {
+  color: #97a4ba;
+  font-size: 16px;
+  margin: 5px 0;
+  display: block;
+}
+
+.graph_box .doctr_box .doctr_heading {
+  margin: 26px 0 125px;
+}
+
+.graph_box .doctr_box .doctr_heading span {
+  color: #8479ff;
+  font-size: 16px;
+  display: block;
+}
+
+.graph_box .doctr_box .update a {
+  width: 120px;
+  height: 45px;
+  line-height: 45px;
+  background-color: #016670;
+  color: #fff;
+  border-radius: 6px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* .graph_box .row .padd_less:nth-child(1){
+    padding-right: 5px;
+} */
+
+/*
+.graph_box .row .padd_less:nth-child(2) {
+    padding-left: 5px;
+} */
+
+.graph_box .row .padd_less:nth-child(2) .row .col-md-6 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.checklist_take ul li .check_list {
+  display: inline-block;
+  width: 100%;
+}
+
+.checklist_take ul li .check_list .radios {
+  position: relative;
+  width: 15%;
+  line-height: 44px;
+  margin-right: 0px;
+  display: inline-block;
+  padding-left: 22px;
+}
+
+.checklist_take ul li .check_list .radios input {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+}
+
+.checklist_take ul li .check_list .radios label {
+  position: relative;
+  width: 100%;
+  color: #484848;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.checklist_take ul li .check_list .radios label::before {
+  position: absolute;
+  top: 13px;
+  content: "";
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ced3da;
+  left: -29px;
+  z-index: 9999;
+  border-radius: 4px;
+}
+
+.checklist_take ul li .check_list .radios label::after {
+  position: absolute;
+  top: 13px;
+  content: "";
+  background-color: transparent;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  left: -29px;
+  z-index: 9999;
+}
+
+.checklist_take ul li a {
+  width: 127px;
+  height: 33px;
+  border: 2px solid #c8cdd6;
+  text-align: center;
+  display: inline-block;
+  color: #67758d;
+  font-size: 14px;
+  line-height: 31px;
+  border-radius: 5px;
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+
+.checklist_take ul li .min_list {
+  padding: 0;
+  margin: 25px 0 5px;
+}
+
+.checklist_take ul li .min_list li {
+  color: #97a4ba;
+  font-size: 14px;
+  position: relative;
+  padding-bottom: 4px;
+  padding-left: 20px;
+}
+
+.patinents_profile_b.checklist_take .profile_box {
+  padding: 28px 41px 4px 41px;
+}
+
+.checklist_take ul li .min_list li::before {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  content: "";
+  background-color: #096b74;
+  border-radius: 100%;
+}
+
+.checklist_take ul li .check_list .radios :checked ~ label::after {
+  background-color: #00bccf;
+}
+
+.checklist_take .medical_info .heading h4 {
+  color: #373f4d;
+  font-size: 24px;
+}
+
+.checklist_take .medical_info ul li h5 {
+  color: #67758d;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.checklist_take ul li {
+  border: none;
+  margin-bottom: 0px;
+}
+
+.checklist_take ul li .check_list .radios label {
+  color: #424b5f;
+  font-size: 16px;
+}
+
+.checklist_take .inner_box.payment_method .visit a {
+  width: 140px;
+}
+
+.checklist_take .payment_method.screening_qust .visit a {
+  width: 140px !important;
+}
+
+.checklist_take .screening_qust,
+.checklist_take .medical_info {
+  height: 610px !important;
+}
+
+.checklist_take .inner_box.payment_method .visit a {
+  margin-top: 378px !important;
+}
+
+.inner_box.payment_method.payment_select ul {
+  background-color: #f2f7fb;
+  margin-bottom: 23px;
+}
+
+.inner_box.payment_method.payment_select ul li {
+  width: 24%;
+  margin-right: 0px;
+  text-align: center;
+}
+
+.inner_box.payment_method.payment_select ul li .med_img {
+  background-color: #fff;
+  padding: 6px;
+  margin: 6px;
+}
+
+.inner_box.payment_method.payment_select form .form-group h4 {
+  color: #97a4ba;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.inner_box.payment_method.payment_select form .form-group input {
+  height: 45px;
+  border: 1px solid #ebeef3;
+}
+
+.inner_box.payment_method.payment_select form .form-group ul {
+  background-color: transparent;
+}
+
+.inner_box.payment_method.payment_select form .form-group ul li {
+  width: 45%;
+  text-align: left;
+  margin-right: 30px;
+}
+
+.inner_box.payment_method.payment_select form .form-group ul li:last-child {
+  margin: 0;
+}
+
+.payment_box .inner_box.payment_method.payment_select .visit a {
+  margin-top: 35px;
+}
+
+.graph_box .graph_img img {
+  width: 100%;
+}
+
+.graph_box .big_graph {
+  margin-top: 10px;
+}
+
+.graph_box .big_graph img {
+  width: 100%;
+}
+
+.graph_box .appoint_list {
+  padding: 18px 18px 9px 18px;
+}
+
+.graph_box .apoints_view .doctr_box .doctr_heading {
+  margin: 26px 0 89px;
+}
+
+.waiting_room,
+.maps {
+  margin-top: 20px;
+}
+
+.maps img {
+  width: 100%;
+}
+
+.waiting_room h1 {
+  margin: 0 0 9px 0;
+}
+
+/* graph_box css end */
+
+.form_login::after {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  content: "";
+  /* background-image: url(/assets/image/form_img.png); */
+  background-repeat: no-repeat;
+  background-size: 90%;
+  width: 34%;
+  height: 50%;
+  z-index: 1;
+}
+
+/*Site Header*/
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 100%;
+    padding: 0 80px;
+  }
+  .video-call-ct {
+    padding: 44px 40px;
+  }
+  .add-video-here {
+    text-align: center;
+  }
+  .video-chat-prov .col-lg-10 {
+    position: relative;
+    left: -25px;
+    top: -3px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .form_register::after {
+    left: 30px;
+    width: 34%;
+    height: 47%;
+    background-size: 80%;
+  }
+  .form_login::after {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    content: "";
+    /* background-image: url(/assets/image/form_img.png); */
+    background-repeat: no-repeat;
+    width: 25%;
+    height: 50%;
+    z-index: 1;
+  }
+  .payment_box .inner_box {
+    height: 630px;
+  }
+  .form_login {
+    padding: 80px 0 86px;
+  }
+  .form_register {
+    padding: 80px 0 52px;
+  }
+  .form_register::after {
+    left: 18px;
+  }
+  .form_login::after {
+    left: 18px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .form_login::after {
+    left: 10px;
+    width: 21%;
+    height: 46%;
+    background-size: 75%;
+  }
+  .form_login.form_register::after {
+    height: 34%;
+  }
+}
+
+@media (max-width: 1442px) {
+  .container {
+    max-width: 1266px;
+    padding: 0;
+  }
+  .form_login::after {
+    height: 41%;
+  }
+  .form_login.form_register::after {
+    height: 22%;
+  }
+  .form_login.form_register.form_forgot_password::after {
+    height: 50%;
+  }
+}
+
+@media (max-width: 1366px) {
+  .inner_box.payment_method.payment_select form .form-group ul li {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 22px;
+  }
+  .payment_box .inner_box {
+    height: auto;
+  }
+  .payment_box .inner_box.payment_method.payment_select .visit a {
+    margin-top: 5px;
+  }
+  .form_login::after {
+    height: 38%;
+  }
+}
+
+@media (max-width: 1280px) {
+  .container {
+    max-width: 1160px;
+    padding: 0;
+  }
+  .form_login::after {
+    height: 55%;
+    bottom: 0;
+    background-position: bottom;
+  }
+}
+
+@media (max-width: 1170px) {
+  .container {
+    max-width: 1080px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .container {
+    max-width: 90%;
+  }
+  .umedoc-table .table td,
+  .table th {
+    padding: 20px 5px;
+  }
+  .video-chat-prov h1 {
+    font-size: 21px;
+  }
+  .video-chat-prov strong {
+    font-size: 16px;
+  }
+  .video-chat-prov p {
+    font-size: 13px;
+  }
+  .inner-vd-chat {
+    margin-left: 9px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .wellcome-right-ct a.medicalprovd-btn {
+    width: 200px;
+  }
+  .four-boxes-height span,
+  .emer-right-fourbox a {
+    font-size: 9.92px;
+  }
+}
+
+@media (max-width: 992px) {
+  .checklist_take .medical_info .heading h4,
+  .payment_box .inner_box .heading h5 {
+    font-size: 22px;
+  }
+  .payment_box .inner_box.payment_method p {
+    font-size: 15px;
+  }
+  .checklist_take .screening_qust,
+  .checklist_take .medical_info {
+    height: auto !important;
+  }
+  .four-boxes-height strong {
+    font-size: 12px;
+  }
+  .checklist_take .inner_box.payment_method .visit a {
+    margin-top: 78px !important;
+  }
+  .form_login::before {
+    width: 100%;
+    height: 280px;
+    background-position: top right;
+    background-size: 45%;
+  }
+  .patient-profile-detail_b .personal_detail h4 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 980px) {
+  .four-boxes-height {
+    margin-bottom: 20px;
+  }
+  .video-call-chat-ct .m9 .col-lg-8 {
+    max-width: 55%;
+    flex: 55%;
+  }
+  .video-call-chat-ct .m9 .col-lg-4 {
+    max-width: 45%;
+    flex: 45%;
+  }
+}
+
+@media (max-width: 900px) {
+  .wellcome-right-ct a,
+  .wellcome-right-ct a.medicalprovd-btn {
+    width: auto;
+    padding: 4px 16px;
+    height: auto;
+  }
+  .payment_box .inner_box ul li {
+    width: 46%;
+  }
+  .medical_info ul li.medical_condition .check_list {
+    width: 27%;
+  }
+  .medical_info ul li.medication .check_list {
+    width: 70%;
+  }
+  .patinents_profile_b .media ul li .file-path-wrapper .uploads h6 {
+    font-size: 10px;
+    width: auto;
+    height: auto;
+    padding: 8px 8px;
+  }
+  .patinents_profile_b .media ul li a {
+    padding: 9px 9px;
+    font-size: 10px;
+  }
+  .form_login .container {
+    display: block;
+  }
+  .form_register .form_wider {
+    width: 100%;
+    padding: 52px 40px 36px;
+  }
+}
+
+@media (max-width: 834px) {
+  .form_login {
+    padding: 45px 0;
+  }
+  .form_login::after {
+    height: 36%;
+    background-size: 70%;
+    left: 0;
+    position: fixed;
+  }
+  .header-myaccount li:last-child {
+    margin-right: 0;
+    margin-left: 1px;
+  }
+  .patinents_profile_b .profile_box {
+    padding: 20px 25px 24px 25px;
+  }
+  .form_login .site_logo {
+    margin-bottom: 40px;
+  }
+  .form_login.form_register::after {
+    left: -25px;
+  }
+}
+
+@media (max-width: 800px) {
+  .patinents_profile_b .col-md-6 {
+    max-width: 100%;
+    flex: 100%;
+  }
+  .patient-profile-detail_b .wellcome-user-ct {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .wellcome-right-ct {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .patient-profile-detail_b {
+    padding-top: 25px;
+  }
+  .patient-profile-detail_b .personal_detail {
+    height: auto;
+    margin-bottom: 25px;
+  }
+  .form_login.form_register::after {
+    display: none;
+  }
+  .payment_box .inner_box ul li {
+    margin-right: 29px;
+  }
+  .patinents_profile_b.provider_b .graph_box .graph_img {
+    text-align: center;
+  }
+  .graph_box .heading h5 {
+    text-align: center;
+  }
+  .graph_box .graph_img img {
+    width: 100%;
+    margin-bottom: 18px;
+  }
+  .graph_box .heading h5 {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .graph_box .apoints_view .doctr_box .doctr_heading {
+    margin: 15px 0 16px;
+  }
+  .patinents_profile_b.provider_b .col-md-6.graph_s,
+  .patinents_profile_b.provider_b .col-md-6.graph_f {
+    max-width: 50%;
+    flex: 50%;
+  }
+  .wellcome-right-ct {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .wellcome-right-ct a,
+  .wellcome-right-ct a.medicalprovd-btn {
+    padding: 4px 11px;
+  }
+  .four-boxes-height span,
+  .emer-right-fourbox a {
+    font-size: 11.92px;
+  }
+  .payment_box .col-md-4,
+  .payment_box .col-md-8 {
+    max-width: 100%;
+    flex: 100%;
+  }
+  .payment_box .inner_box {
+    margin-bottom: 25px;
+  }
+  .form_login .container {
+    display: block;
+  }
+  .form_login .form_wider {
+    width: 100%;
+  }
+  .payment_box .inner_box.payment_method .visit a {
+    margin-top: 20px;
+  }
+  .header-myaccount li {
+    margin-right: 10px;
+  }
+  .wellcome-right-ct {
+    margin-top: 0px;
+  }
+  .wellcome-breadcrumbs {
+    margin: 10px 0;
+  }
+  .video-chat-prov strong {
+    font-size: 16px;
+  }
+  .video-chat-prov p {
+    font-size: 13px;
+  }
+  .inner-vd-chat {
+    margin-left: 6px;
+  }
+  .copyright {
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  a.updatebtn.mobilevs {
+    display: inline-block !important;
+  }
+  a.updatebtn.desktopvs {
+    display: none;
+  }
+  .wellcome-left-ct {
+    text-align: center;
+  }
+  .wellcome-right-ct {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .wellcome-right-ct a,
+  .wellcome-right-ct a.medicalprovd-btn {
+    padding: 4px 22px;
+  }
+  .emergency-contact .p9 {
+    max-width: 50%;
+  }
+  .four-boxes-height {
+    text-align: center;
+  }
+  .emer-right-fourbox {
+    text-align: center;
+    width: 100%;
+  }
+  .four-boxes-height a.updatebtn {
+    float: none;
+    margin-top: 10px;
+  }
+  .container {
+    max-width: 85%;
+  }
+  .site-header {
+    text-align: center;
+  }
+  .header-myaccount ul {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .umedoc-table .table td,
+  .table th {
+    font-size: 12px;
+  }
+  .umedoc-table .table .grey-light th {
+    font-size: 11px;
+  }
+  .payment_box .inner_box ul li {
+    width: 47%;
+  }
+  .form_login .site_logo {
+    margin-bottom: 45px;
+  }
+  .patient-profile-detail_b {
+    padding-bottom: 40px;
+  }
+  .video-call-chat-ct .m9 .col-lg-4,
+  .video-call-chat-ct .m9 .col-lg-8 {
+    max-width: 100%;
+    flex: 100%;
+  }
+  .video-call-chat-ct .m9 .col-lg-4 {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 667px) {
+  .payment_box .inner_box ul li {
+    margin-right: 26px;
+  }
+  .form_login .login_third {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  .payment_box .inner_box ul li {
+    margin-right: 25px;
+  }
+}
+
+@media (max-width: 600px) {
+  .umedoc-table-ct {
+    padding: 14px;
+    border-radius: 8px;
+  }
+  .checklist_take .inner_box.payment_method .visit a {
+    margin-top: 30px !important;
+  }
+  .payment_box .inner_box ul li {
+    margin-right: 23px;
+  }
+  .copyright {
+    margin-top: 40px;
+  }
+  .patinents_profile_b {
+    padding-bottom: 0;
+  }
+  .medical_info ul li.medication .check_list {
+    width: 87%;
+  }
+  .medical_info ul li.medical_condition .check_list {
+    width: 40%;
+  }
+}
+
+@media (max-width: 570px) {
+  .ume-table-innrdiv {
+    width: 690px;
+  }
+  .appointment-history img {
+    padding-right: 14px;
+  }
+  .next-previous-btn {
+    padding: 17px 14px 7px 0;
+  }
+  .umedoc-table .table td,
+  .table th {
+    font-size: 14px;
+  }
+  .umedoc-table .table .grey-light th {
+    font-size: 13px;
+  }
+  .appointment-history h1 {
+    font-size: 23px;
+    margin: 15px 0 0 !important;
+  }
+  .umedoc-table .table td,
+  .table th {
+    padding: 20px 15px;
+  }
+  .container {
+    max-width: 82%;
+  }
+  .checklist_take ul li .check_list .radios {
+    width: 36%;
+  }
+  .checklist_take .medical_info ul li h5 {
+    font-size: 12px;
+  }
+  .payment_box .inner_box ul li {
+    margin-right: 20px;
+  }
+  .medical_info ul li.medication .check_list {
+    width: 100%;
+    margin-right: 0;
+  }
+  .form_login .form_wider h4 {
+    font-size: 22px;
+    margin-bottom: 23px;
+  }
+  .form_login .login_third ul li:nth-child(1) {
+    margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 80%;
+  }
+  .waiting_room-innerdiv {
+    width: 430px;
+  }
+  .next-previous-btn {
+    text-align: center;
+  }
+  .umedoc-table.waiting_room .umedoc-table-ct {
+    overflow-x: auto;
+  }
+  .two-buttons-next {
+    float: none;
+    margin-top: 13px;
+  }
+  .next-previous-btn .col-8,
+  .next-previous-btn .col-4 {
+    max-width: 100%;
+    flex: 100%;
+  }
+  .payment_box .inner_box ul li {
+    margin-right: 0;
+    width: 100%;
+  }
+  .form_login .form_wider {
+    padding: 30px 20px 90px 20px;
+    width: 100%;
+    margin: auto;
+  }
+  .form_login::after {
+    display: none;
+  }
+  .form_login .form_wider h4 {
+    font-size: 25px;
+    margin-bottom: 30px;
+  }
+  .form_login {
+    padding: 45px 0 5px;
+  }
+  .medical_info ul li.medical_condition .check_list {
+    width: 100%;
+    margin-right: 0;
+  }
+  .patinents_profile_b .save_tbn ul li a {
+    padding: 12px 42px;
+    height: auto;
+    width: auto;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  .patient-profile-detail_b .detail_view ul li h6 span {
+    float: none;
+    display: block;
+    margin-top: 7px;
+  }
+  .patient-profile-detail_b .personal_detail .update {
+    text-align: center;
+  }
+  .patient-profile-detail_b .personal_detail h4 {
+    font-size: 18px;
+    text-align: center;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  .patient-profile-detail_b .media .media-body {
+    margin-left: 5px;
+  }
+  .form_login .form_wider {
+    padding: 30px 40px;
+  }
+  .form_register .row .col-md-12,
+  .form_register .row .col-md-4,
+  .form_register .row .col-md-6,
+  .form_register .row .col-md-3,
+  .form_register .row .col-md-2 {
+    padding: 0 0 0px 0px;
+  }
+  .inner-vd-chat {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 414px) {
+  .wellcome-right-ct a,
+  .wellcome-right-ct a.medicalprovd-btn {
+    margin-bottom: 13px;
+  }
+  .container {
+    max-width: 77%;
+  }
+  .emergency-contact .p9 {
+    max-width: 100%;
+  }
+  .checklist_take .medical_info .heading h4,
+  .payment_box .inner_box .heading h5 {
+    text-align: center;
+  }
+  .container {
+    max-width: 90%;
+  }
+  .patient-profile-detail_b .media {
+    display: block;
+    text-align: center;
+  }
+  .patient-profile-detail_b .detail_view ul li {
+    text-align: center;
+  }
+  .patient-profile-detail_b .personal_detail .middle_heading h5 {
+    margin: 20px 0px 0px 0;
+    text-align: center;
+  }
+  .wellcome-user {
+    padding: 30px 0 25px;
+  }
+}
+
+@media (max-width: 375px) {
+  .container {
+    max-width: 65%;
+  }
+  .form_login .new_register a {
+    width: 100%;
+  }
+  .inner_box.payment_method.payment_select ul li {
+    width: 23.77%;
+  }
+  .patinents_profile_b.checklist_take .profile_box {
+    padding: 22px 20px 3px 20px;
+  }
+  .wellcome-left-ct h1 {
+    font-size: 20px;
+  }
+  .header-myaccount li {
+    margin-right: 10px;
+  }
+  .umedoc-table .table td,
+  .table th {
+    padding: 20px 15px;
+  }
+  .container {
+    max-width: 85%;
+  }
+  .checklist_take ul li .check_list {
+    width: 77%;
+  }
+  .patinents_profile_b .media {
+    display: block;
+    text-align: center;
+  }
+  .patinents_profile_b h1 {
+    margin: 0 0 20px 0;
+  }
+  .patinents_profile_b .media img {
+    margin: 0 0 8px 0 !important;
+  }
+  .patinents_profile_b.provider_b .col-md-6.graph_s,
+  .patinents_profile_b.provider_b .col-md-6.graph_f {
+    max-width: 100%;
+    flex: 100%;
+  }
+  .video-tele-mint span {
+    font-size: 15px;
+  }
+  .video-call-ct {
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .inner_box.payment_method.payment_select ul li {
+    width: 22%;
+    margin: 0px 2px;
+    text-align: center;
+  }
+  .inner_box.payment_method.payment_select ul li .med_img {
+    padding: 4px;
+    margin: 4px;
+  }
+}
+
+@media (max-width: 320px) {
+  .inner_box.payment_method.payment_select ul li {
+    width: 21%;
+    margin: 0px 2px;
+  }
+  .form_login .new_register a {
+    width: auto;
+  }
+  .video-chat-prov h1 {
+    font-size: 17px;
+  }
+}
+
+aw-wizard-navigation-bar.horizontal.large-empty-symbols
+  ul.steps-indicator
+  li.current
+  .step-indicator {
+  border-color: #ec6577 !important;
+  color: #ec6577 !important;
+}
+
+.mt-6 {
+  margin-top: 60px;
+}
+.mt-8 {
+  margin-top: 80px;
+}
+
+.tooltip_medical_refill {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltiptextmedical_refill {
+  visibility: hidden;
+  width: 650px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  right: 0%;
+}
+
+.tooltip_medical_refill:hover .tooltiptextmedical_refill {
+  visibility: visible;
+}
