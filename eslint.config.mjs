@@ -32,6 +32,7 @@ const config = [
   // Angular HTML template configuration
   {
     files: ["**/*.html"],
+    ignorePatterns: ["src/assets/vendors/**"],
     languageOptions: {
       parser: angularTemplateParser,
     },
