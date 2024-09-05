@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BrowserCallTwillioComponent } from './browser-call-twillio.component';
 
@@ -6,7 +6,7 @@ describe('BrowserCallTwillioComponent', () => {
   let component: BrowserCallTwillioComponent;
   let fixture: ComponentFixture<BrowserCallTwillioComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BrowserCallTwillioComponent ]
     })

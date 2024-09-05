@@ -1,1 +1,12 @@
-<ng-select2 [options]="options" (valueChanged)="changeValue($event)"></ng-select2>
+<ng-select
+  [items]="results"
+  bindLabel="text"
+  bindValue="id"
+  [(ngModel)]="value"
+  [typeahead]="searchAllergies"
+  (change)="changeValue($event)"
+  placeholder="Select Allergy"
+  [loadingText]="'Searching...'"
+  [notFoundText]="'No allergies found'"
+  [searchable]="true">
+</ng-select>

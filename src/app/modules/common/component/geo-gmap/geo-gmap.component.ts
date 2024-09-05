@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { PharmacyCriteria } from '../../criterias/pharmacy.criteiral';
-import Global from 'src/app/Global';
-import { BaseComponent } from 'src/app/modules/base.component';
+import Global from '../../../../Global';
+import { BaseComponent } from '../../../../modules/base.component';
 import { AuthenticationService } from '../../services/authentication.service';
 import { PatientProfileService } from '../../services/patient-profile.service';
 import { CommonDialogService } from '../../services/dialog.service';
@@ -17,30 +17,33 @@ declare var google: any;
   styleUrls: ['./geo-gmap.component.css']
 })
 export class GeoGmapComponent extends BaseComponent implements OnInit, OnChanges {
-  model: PharmacyCriteria;
-  @Input() id: string;
-  @Input() city;
-  @Input() state;
-  @Input() address;
-  @Input() zipcode;
-  @Input() name: string;
+  model: PharmacyCriteria = new PharmacyCriteria;
+  @Input()
+  id!: string;
+  @Input() city: any;
+  @Input() state: any;
+  @Input() address: any;
+  @Input() zipcode: any;
+  @Input()
+  name!: string;
   @Output() onSelected: EventEmitter<any> = new EventEmitter();
   service: any;
-  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI()
+  blockUI!: NgBlockUI;
   states: any;
   constructor(authService: AuthenticationService,
     private dialog: CommonDialogService,
     private patientProfileService: PatientProfileService) {
     super(authService);
   }
-  map: any;
-  markers = [];
+  map: google.maps.Map | null = null;
+  markers: google.maps.Marker[] = [];
   currentmarker: any;
   currentWindow: any;
-  listPharmacy = [];
+  listPharmacy: PharmacyModel[] = [];
   isLoadMore: boolean = false;
   Pagination: any;
-  ngOnInit() {
+  override ngOnInit() {
     this.model = new PharmacyCriteria();
     this.initMap(null, null, null);
     this.states = Global.US_StateList;
@@ -63,8 +66,8 @@ export class GeoGmapComponent extends BaseComponent implements OnInit, OnChanges
 
   ngOnChanges(params: SimpleChanges) {
     var isChange = false;
-    if (params && params.zipcode && params.zipcode.currentValue && params.zipcode.currentValue != params.zipcode.previousValue) {
-      this.model.ZipCode = params.zipcode.currentValue;
+    if (params && params['zipcode'] && params['zipcode'].currentValue && params['zipcode'].currentValue != params['zipcode'].previousValue) {
+      this.model.ZipCode = params['zipcode'].currentValue;
       isChange = true;
     }
 
@@ -74,7 +77,7 @@ export class GeoGmapComponent extends BaseComponent implements OnInit, OnChanges
   }
 
 
-  initMap(zoom, latitude, longtitude) {
+  initMap(zoom: null, latitude: number | null, longtitude: number | null) {
     var latlng = new google.maps.LatLng(latitude, longtitude);
 
     var myOptions = null;
@@ -110,20 +113,20 @@ export class GeoGmapComponent extends BaseComponent implements OnInit, OnChanges
     }
   }
 
-  public createMarker(pharmacy, index , count) {
+  public createMarker(pharmacy: PharmacyModel, index: number , count: number) {
     var geocoder = new google.maps.Geocoder();
     var address = `${pharmacy.Address1}, ${pharmacy.City}, ${pharmacy.State} ${pharmacy.ZipCode}`;
     setTimeout(() => {
-      geocoder.geocode({ 'address': address }, function (results, status) {
+      geocoder.geocode({ 'address': address }, (results: any, status: string) => {
         // console.log(`result at ${index} = ${status}`);
         if (status === 'OK') {
           this.registerMarkerEvent(results, index, pharmacy);
         }
-      }.bind(this));
+      });
     }, 1000 * index);
   }
 
-  public registerMarkerEvent(results, index, pharmacy) {
+  public registerMarkerEvent(results: { geometry: { location: any; }; }[], index: string | number, pharmacy: PharmacyModel) {
     if(!results || !results[0]) return ;
     var myLatlng = results[0].geometry.location
     var marker = new google.maps.Marker({
@@ -134,62 +137,64 @@ export class GeoGmapComponent extends BaseComponent implements OnInit, OnChanges
     });
 
     google.maps.event.trigger(this.map, 'resize');
-    google.maps.event.addListener(this.map, "click", function (event) {
+    google.maps.event.addListener(this.map, "click", (event: any) => {
       if (this.currentWindow) {
         this.currentWindow.close();
       }
-    }.bind(this));
-    google.maps.event.addListener(marker, "mouseout", function () {
+    });
+    google.maps.event.addListener(marker, "mouseout", () => {
       if (this.currentWindow) {
         setTimeout(() => {
           this.currentWindow.close();
         }, 2000);
       }
-    }.bind(this));
-    google.maps.event.addListener(marker, "mouseover", function () {
+    });
+    google.maps.event.addListener(marker, "mouseover", () => {
       if (this.currentWindow) {
         setTimeout(() => {
           this.currentWindow.close();
         }, 2000);
       }
       this.showWindowInfo(marker, pharmacy, myLatlng);
-    }.bind(this));
+    });
 
-    google.maps.event.addListener(marker, "click", function (e) {
+    google.maps.event.addListener(marker, "click", (e: any) => {
       if (this.currentWindow) {
         setTimeout(() => {
           this.currentWindow.close();
         }, 2000);
       }
-      this.showWindowInfo(marker, pharmacy);
-    }.bind(this));
+      this.showWindowInfo(marker, pharmacy, myLatlng);
+    });
     this.markers.push(marker);
     if (index == 1) {
-      this.map.setCenter(myLatlng);
+      if (this.map) {
+        this.map.setCenter(myLatlng);
+      }
     }
   }
 
-  showWindowInfo(marker, pharmacy) {
-    var contentHtml = `<div>
-    <h5>${pharmacy.StoreName}</h5>
-    <p>${pharmacy.Address1} ${pharmacy.Address2 ? pharmacy.Address2 : ''}, ${pharmacy.City}, ${pharmacy.State} ${pharmacy.ZipCode}</p>
-    <div class="col-md-12 m-b-5">
-    <button id="pharmacy_${pharmacy.PharmacyId}" class="btn btn-warning" type="button">Select</button></div>
-    </div>`;
-    this.currentWindow = new google.maps.InfoWindow({
-      content: contentHtml
-    });
-    // this.map.setCenter(myLatlng);
-    this.currentWindow.open(this.map, marker);
-    setTimeout(() => {
-      $('#pharmacy_' + pharmacy.PharmacyId).unbind('click');
-      $('#pharmacy_' + pharmacy.PharmacyId).bind('click', function () {
-        this.onSelected.emit(pharmacy);
-      }.bind(this));
-    }, 700);
-  }
+  showWindowInfo(marker: any, pharmacy: PharmacyModel, pharmacyInfo: { StoreName: any; Address1: any; Address2: any; City: any; State: any; ZipCode: any; PharmacyId: string; }) {
+      var contentHtml = `<div>
+      <h5>${pharmacy.StoreName}</h5>
+      <p>${pharmacy.Address1} ${pharmacy.Address2 ? pharmacy.Address2 : ''}, ${pharmacy.City}, ${pharmacy.State} ${pharmacy.ZipCode}</p>
+      <div class="col-md-12 m-b-5">
+      <button id="pharmacy_${pharmacy.PharmacyId}" class="btn btn-warning" type="button">Select</button></div>
+      </div>`;
+      this.currentWindow = new google.maps.InfoWindow({
+        content: contentHtml
+      });
+      // this.map.setCenter(myLatlng);
+      this.currentWindow.open(this.map, marker);
+      setTimeout(() => {
+        $('#pharmacy_' + pharmacy.PharmacyId).unbind('click');
+        $('#pharmacy_' + pharmacy.PharmacyId).bind('click', () => {
+          this.onSelected.emit(pharmacy);
+        });
+      }, 700);
+    }
 
-  public zoomMarker(pharmacy) {
+  public zoomMarker(pharmacy: { Latitude: any; Longitude: any; }) {
     if (pharmacy && this.map) {
       var myLatlng = new google.maps.LatLng(pharmacy.Latitude,
         pharmacy.Longitude);
@@ -198,7 +203,7 @@ export class GeoGmapComponent extends BaseComponent implements OnInit, OnChanges
     }
   }
 
-  public selectMarker(pharmacy) {
+  public selectMarker(pharmacy: any) {
     this.onSelected.emit(pharmacy);
   }
 

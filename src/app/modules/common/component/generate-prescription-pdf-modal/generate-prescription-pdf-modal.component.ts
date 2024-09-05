@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { CommonDialogService } from './../../services/dialog.service';
 import { AppointmentPrescriptionDocumentService } from './../../services/appointment-prescription-document.service';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { PatientProfileService } from './../../services/patient-profile.service';
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DosePatientPrescription, PrescriptionStatusType } from '../../models/allergy-info.model';
@@ -13,10 +13,11 @@ import { DosePatientPrescription, PrescriptionStatusType } from '../../models/al
   providers:[DatePipe]
 })
 export class GeneratePrescriptionPdfModalComponent implements OnInit {
-  patientId: string;
-  appointmentId:string;
+  patientId!: string;
+  appointmentId!: string;
   results: Array<DosePatientPrescription> = new Array<DosePatientPrescription>();
-  @ViewChild('childModal') public modal: ModalDirective;
+  @ViewChild('childModal')
+  public modal!: ModalDirective;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   Submitting: boolean = false;
   constructor(private patientProfileService: PatientProfileService ,
@@ -61,7 +62,7 @@ export class GeneratePrescriptionPdfModalComponent implements OnInit {
     }
   }
 
-  show(patientId , appointmentId) {
+  show(patientId: string , appointmentId: string) {
     if (patientId && appointmentId) {
       this.patientId = patientId;
       this.appointmentId = appointmentId
@@ -81,9 +82,10 @@ export class GeneratePrescriptionPdfModalComponent implements OnInit {
         return PrescriptionStatusType[enumMember];
       }
     }
+    return ''; // Add a return statement here
   }
 
-  transformEffectiveDate(data) {
+  transformEffectiveDate(data: any) {
     if(!data) return '';
     data = data.replace('Z' , '');
     return this.datePipe.transform(data, 'MM/dd/yyyy');

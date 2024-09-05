@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { BaseComponent } from '../../../../modules/base.component';
 import { MessageConstant } from '../../constant/message.const';
 import { PatientProfileModel } from '../../models/patient-profile.model';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -15,9 +15,11 @@ import { PatientChildModalComponent } from '../patient-child-modal/patient-child
   providers:[DatePipe]
 })
 export class ChildItemComponent extends BaseComponent implements OnInit {
-  @Input() model: PatientProfileModel;
+  @Input()
+  model: PatientProfileModel = new PatientProfileModel;
   @Output() onChangedChild: EventEmitter<any> = new EventEmitter();
-  @ViewChild('editModal') modal: PatientChildModalComponent;
+  @ViewChild('editModal')
+  modal!: PatientChildModalComponent;
   constructor(authService: AuthenticationService,
     private patientProfileService: PatientProfileService,
     private dialog: CommonDialogService,
@@ -25,7 +27,7 @@ export class ChildItemComponent extends BaseComponent implements OnInit {
     super(authService);
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
   }
 
   editChild() {
@@ -53,7 +55,7 @@ export class ChildItemComponent extends BaseComponent implements OnInit {
     this.onChangedChild.emit(true);
   }
 
-  transformDob(data) {
+  transformDob(data: string | number | Date) {
     return this.datePipe.transform(data, 'MM/dd/yyyy');
   }
 

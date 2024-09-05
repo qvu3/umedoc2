@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, Input, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { BaseComponent } from '../../../../modules/base.component';
 import { AuthenticationService } from '../../services/authentication.service';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { OpentokService } from '../../services/open-tok.service';
 import { AppointmentService } from '../../services/appointment.service';
 import { CommonDialogService } from '../../services/dialog.service'; 
+import { ToxBoxModel } from '../../models/toxbox.model';
 
 @Component({
   selector: 'app-open-tok',
@@ -13,25 +14,27 @@ import { CommonDialogService } from '../../services/dialog.service';
   providers: [OpentokService]
 })
 export class OpenTokComponent extends BaseComponent implements OnInit {
-  @ViewChild('childModal') modal: ModalDirective;
-  @Input() sessionId: string;
-  @Input() isDoctor: boolean;
-  session: OT.Session;
+  @ViewChild('childModal') modal!: ModalDirective;
+  @Input()
+  sessionId!: string;
+  @Input()
+  isDoctor!: boolean;
+  session: OT.Session | null = null;
   streams: Array<OT.Stream> = [];
   changeDetectorRef: ChangeDetectorRef;
-  @Output() onClosed:EventEmitter<boolean> = new EventEmitter();
+  @Output() onClosed: EventEmitter<boolean> = new EventEmitter();
+  
   constructor(private ref: ChangeDetectorRef,
-    private authService: AuthenticationService,
-    private appointmentService: AppointmentService,
-    private dialog: CommonDialogService,
-    private opentokService: OpentokService) {
+              private authService: AuthenticationService,
+              private appointmentService: AppointmentService,
+              private dialog: CommonDialogService,
+              private opentokService: OpentokService) {
     super(authService);
     this.changeDetectorRef = ref;
   }
 
-  ngOnInit() {
+  override ngOnInit() {}
 
-  }
   onErrorJoinRoom() {
     this.dialog.showSwalErrorAlert('Error', 'Please refresh Page and join again.');
   }
@@ -45,13 +48,14 @@ export class OpenTokComponent extends BaseComponent implements OnInit {
     }
   }
 
-  initSession(config) {
+  initSession(config: ToxBoxModel) {
     this.opentokService.initSession(config).then((session: OT.Session) => {
       this.session = session;
       this.changeDetectorRef.detectChanges();
+
       this.session.on('streamCreated', (event) => {
-        //console.log('streamCreated');
-        var indexStream = this.streams.findIndex(c => c.streamId == event.stream.streamId);
+        // Arrow function keeps the correct context for "this"
+        const indexStream = this.streams.findIndex(c => c.streamId == event.stream.streamId);
         if (indexStream < 0) {
           this.streams.push(event.stream);
           this.changeDetectorRef.detectChanges();
@@ -59,7 +63,7 @@ export class OpenTokComponent extends BaseComponent implements OnInit {
       });
 
       this.session.on('streamDestroyed', (event) => {
-        //console.log('streamDestroyed');
+        // Arrow function keeps the correct context for "this"
         const idx = this.streams.indexOf(event.stream);
         if (idx > -1) {
           this.streams.splice(idx, 1);
@@ -68,13 +72,13 @@ export class OpenTokComponent extends BaseComponent implements OnInit {
       });
 
     })
-      .then(() => this.opentokService.connect())
-      .catch((err) => {
-        console.error(err);
-      });
+    .then(() => this.opentokService.connect())
+    .catch((err) => {
+      console.error(err);
+    });
   }
 
-  initSessionSubcriber(config) {
+  initSessionSubcriber(config: any) {
     this.opentokService.initSession(config)
       .then((session: OT.Session) => {
         this.session = session;
@@ -100,7 +104,6 @@ export class OpenTokComponent extends BaseComponent implements OnInit {
     this.session = null;
     this.streams = [];
     this.onClosed.emit(true);
-    this.modal.hide()
+    this.modal.hide();
   }
-
 }

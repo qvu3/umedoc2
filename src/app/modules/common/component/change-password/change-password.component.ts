@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { BaseComponent } from '../../../../modules/base.component';
 import { NgForm } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import UserModel from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -16,8 +16,8 @@ import { MessageConstant } from '../../constant/message.const';
 export class ChangePasswordComponent extends BaseComponent implements OnInit {
   public model: UserModel = new UserModel();
   editor: any;
-  @ViewChild('childModal') public modal: ModalDirective;
-  @ViewChild('f') public form: NgForm;
+  @ViewChild('childModal') public modal!: ModalDirective;
+  @ViewChild('f') public form!: NgForm;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   Submitting: boolean = false;
 
@@ -29,7 +29,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     this.model = new UserModel();
   }
 
-  ngOnInit() {
+  override ngOnInit() {
 
   }
 
@@ -52,7 +52,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit {
     });
   }
 
-  show(id) {
+  show(id: string) {
     this.model = new UserModel();
     this.model.Id = id;
 

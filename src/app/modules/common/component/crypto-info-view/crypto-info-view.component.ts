@@ -8,7 +8,8 @@ import { AppointmentService } from '../../services/appointment.service';
   styleUrls: ['./crypto-info-view.component.css']
 })
 export class CryptoInfoViewComponent implements OnInit , AfterViewInit {
-  @Input() appointmentId: string;
+  @Input()
+  appointmentId!: string;
   model: CoinBasseChargeInfo = new CoinBasseChargeInfo();
   constructor(private appointmentService: AppointmentService) {
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { PverifyPatientInsuranceModel } from '../../models/pverify-patient-insurance.model';
 
 @Component({
@@ -9,8 +9,9 @@ import { PverifyPatientInsuranceModel } from '../../models/pverify-patient-insur
   styleUrls: ['./pverify-insurance-set-final-copay.component.css']
 })
 export class PverifyInsuranceSetFinalCopayComponent implements OnInit {
-  @ViewChild('childModal') modal: ModalDirective;
-  @ViewChild('f') form: NgForm;
+  @ViewChild('childModal')
+  modal!: ModalDirective;
+  @ViewChild('f') form!: NgForm;
   @Output() onSaved: EventEmitter<PverifyPatientInsuranceModel> = new EventEmitter();
   @Output() onCanceled: EventEmitter<boolean> = new EventEmitter();
   model: PverifyPatientInsuranceModel = new PverifyPatientInsuranceModel();
@@ -32,7 +33,7 @@ export class PverifyInsuranceSetFinalCopayComponent implements OnInit {
     this.modal.hide();
   }
 
-  show(entity) {
+  show(entity: PverifyPatientInsuranceModel) {
     this.model = entity;
     this.model.FinalCopay = null;
     this.modal.show();

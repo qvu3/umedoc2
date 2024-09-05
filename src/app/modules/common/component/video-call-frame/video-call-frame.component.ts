@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import DailyIframe from '@daily-co/daily-js';
 import { DomSanitizer } from '@angular/platform-browser';
-import { BaseComponent } from 'src/app/modules/base.component';
-import { AppointmentModel } from 'src/app/modules/common/models/appointment.model';
-import { AuthenticationService } from 'src/app/modules/common/services/authentication.service';
-import { AppointmentService } from 'src/app/modules/common/services/appointment.service';
-import Global from 'src/app/Global';
+import { BaseComponent } from '../../../../modules/base.component';
+import { AppointmentModel } from '../../../../modules/common/models/appointment.model';
+import { AuthenticationService } from '../../../../modules/common/services/authentication.service';
+import { AppointmentService } from '../../../../modules/common/services/appointment.service';
+import Global from '../../../../Global';
 import { Router } from '@angular/router';
 import { VideoCallHistoryService } from '../../services/video-call-history.service';
 import { VideoCallHistoryModel } from '../../models/video-call-history.model';
@@ -18,13 +18,16 @@ import { VideoCallHistoryModel } from '../../models/video-call-history.model';
   styleUrls: ['./video-call-frame.component.css']
 })
 export class VideoCallFrameComponent extends BaseComponent implements AfterViewInit, OnChanges {
-  @Input() appointment: AppointmentModel;
-  @Input() token: string;
+  @Input()
+  appointment: AppointmentModel = new AppointmentModel;
+  @Input()
+  token!: string;
   @Input() isProvider: boolean = true;
   @Output() onClosed: EventEmitter<boolean> = new EventEmitter();
   @Output() onChange: EventEmitter<any> = new EventEmitter();
   url: any = null;
-  @ViewChild('callFrame') callFrame: ElementRef;
+  @ViewChild('callFrame')
+  callFrame!: ElementRef;
   participantClients: any;
   frame: any;
   callObject: any;
@@ -37,7 +40,7 @@ export class VideoCallFrameComponent extends BaseComponent implements AfterViewI
     super(authService);
   }
 
-  ngAfterViewInit(): void {
+  override ngAfterViewInit(): void {
     this.joinMeeting();
   }
 
@@ -78,7 +81,7 @@ export class VideoCallFrameComponent extends BaseComponent implements AfterViewI
 
       this.onChange.emit(this.participantClients);
 
-      this.frame.on("app-message", (event) => {
+      this.frame.on("app-message", (event: { data: string; }) => {
         console.log(event);
         if (event && event.data && event.data == "MIC_CAM") {
           this.frame.setLocalVideo(true);
@@ -86,7 +89,7 @@ export class VideoCallFrameComponent extends BaseComponent implements AfterViewI
         }
       });
 
-      this.frame.on('joined-meeting', (event) => {
+      this.frame.on('joined-meeting', (event: any) => {
         //this.frame.setLocalVideo(true); 
         var entity = new VideoCallHistoryModel();
         entity.ApptID = this.appointment.ID;
@@ -97,22 +100,22 @@ export class VideoCallFrameComponent extends BaseComponent implements AfterViewI
         this.onChange.emit(this.participantClients);
       });
 
-      this.frame.on('participant-joined', (event) => { 
+      this.frame.on('participant-joined', (event: any) => { 
         this.participantClients = this.frame.participants();
         this.onChange.emit(this.participantClients);
       });
 
-      this.frame.on('participant-updated', (event) => {
+      this.frame.on('participant-updated', (event: any) => {
         this.participantClients = this.frame.participants();
         this.onChange.emit(this.participantClients);
       });
 
-      this.frame.on('participant-left', (event) => {
+      this.frame.on('participant-left', (event: any) => {
         this.participantClients = this.frame.participants();
         this.onChange.emit(this.participantClients);
       });
 
-      this.frame.on('left-meeting', (event) => {
+      this.frame.on('left-meeting', (event: any) => {
         var entity = new VideoCallHistoryModel();
         entity.ApptID = this.appointment.ID;
         entity.IsLeft = true;

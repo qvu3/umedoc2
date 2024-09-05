@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PverifyInsuranceModalComponent } from './pverify-insurance-modal.component';
 
@@ -6,7 +6,7 @@ describe('PverifyInsuranceModalComponent', () => {
   let component: PverifyInsuranceModalComponent;
   let fixture: ComponentFixture<PverifyInsuranceModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PverifyInsuranceModalComponent ]
     })

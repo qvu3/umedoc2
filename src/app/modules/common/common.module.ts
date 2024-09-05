@@ -2,7 +2,6 @@ import { PatientRequestService } from './services/patient-request.service';
 import { TicketService } from './services/ticket.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 
 import { AuthGuard } from './guard/guard';
 import { CommonDialogService } from './services/dialog.service';
@@ -10,7 +9,7 @@ import { UserService } from './services/user.service';
 import { TokenService } from './services/token.service';
 import { AuthenticationService } from './services/authentication.service';
 import { PagingTableDirective } from './directive/paging-table.directive';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { CommonModule } from '@angular/common';
 import { InitMenuDirective } from './directive/init-menu.directive';
 import { CompanyService } from './services/company.service';
@@ -51,11 +50,12 @@ import { AppointmentReasonAssignmentService } from './services/appointment-reaso
 import { PaypalPaymentDirective } from './directive/paypal-payment.directive';
 import { UtilityService } from './services/utility.service';
 import { PrmcHub } from './services/prmc-hub';
-import { DeviceDetectorModule } from 'ngx-device-detector';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { ImgGalleryDirective } from './directive/img-gallery.directive';
 import { SwitchBootDirective } from './directive/switch-boot.directive';
 import { ChangePasswordComponent } from './component/change-password/change-password.component';
-import { CustomFormsModule } from 'ng2-validation';
+// import { CustomFormsModule } from 'ng2-validation';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EncryptTextBoxComponent } from './component/encrypt-text-box/encrypt-text-box.component';
 import { OpenTokComponent } from './component/open-tok/open-tok.component';
 import { PublisherComponent } from './component/open-tok/publisher/publisher.component';
@@ -64,7 +64,8 @@ import { AppointmentSlotService } from './services/appointment-slot.service';
 import { StripePaymentComponent } from './component/stripe-payment/stripe-payment.component';
 import { VideoCallFrameComponent } from './component/video-call-frame/video-call-frame.component';
 import { SelectAllergyComponent } from './component/select-allergy/select-allergy.component';
-import { NgSelect2Module } from 'ng-select2';
+// import { NgSelect2Module } from 'ng-select2';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ScheduleProviderAppointmentComponent } from './component/schedule-provider-appointment/schedule-provider-appointment.component';
 import { InitPatientMenuDirective } from './directive/init-patient-menu.directive';
@@ -128,9 +129,9 @@ import { LetterMedicationRefillComponent } from './component/letter-medication-r
     HttpClientModule,
     FormsModule,
     ModalModule.forRoot(),
-    DeviceDetectorModule.forRoot(),
-    CustomFormsModule,
-    NgSelect2Module,
+    DeviceDetectorService,
+    ReactiveFormsModule,
+    NgSelectModule,
     TextMaskModule,
     TranslateModule
   ],
@@ -202,7 +203,7 @@ import { LetterMedicationRefillComponent } from './component/letter-medication-r
     CommonModule,
     HttpClientModule,
     FormsModule,
-    CustomFormsModule,
+    ReactiveFormsModule,
     TranslateModule,
 
     PagingTableDirective,
@@ -264,7 +265,7 @@ import { LetterMedicationRefillComponent } from './component/letter-medication-r
   ],
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
       providers: [

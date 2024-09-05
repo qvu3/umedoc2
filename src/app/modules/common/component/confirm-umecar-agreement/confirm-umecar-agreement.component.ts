@@ -1,7 +1,7 @@
-import { CommonDialogService } from 'src/app/modules/common/services/dialog.service';
-import { AuthenticationService } from 'src/app/modules/common/services/authentication.service';
+import { CommonDialogService } from '../../services/dialog.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { NgForm } from '@angular/forms';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { BaseComponent } from '../../../base.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 
@@ -12,8 +12,10 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 })
 export class ConfirmUmecarAgreementComponent  extends BaseComponent implements OnInit {
   public isAgreement: boolean = false;
-  @ViewChild('childModal') public modal: ModalDirective;
-  @ViewChild('f') public form: NgForm;
+  @ViewChild('childModal')
+  public modal!: ModalDirective;
+  @ViewChild('f')
+  public form!: NgForm;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
@@ -22,7 +24,7 @@ export class ConfirmUmecarAgreementComponent  extends BaseComponent implements O
     super(authService);
   }
 
-  ngOnInit() {
+  override ngOnInit() {
 
   }
 

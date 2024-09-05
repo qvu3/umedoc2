@@ -10,7 +10,8 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrls: ['./cdc-country-info.component.css']
 })
 export class CdcCountryInfoComponent implements AfterViewInit {
-  @ViewChild('countryCdc') countryCdc: ElementRef;
+  @ViewChild('countryCdc')
+  countryCdc!: ElementRef;
   html: any;
   destination: string = 'united-states';
   urlFormat = 'https://wwwnc.cdc.gov/travel/destinations/traveler/none';

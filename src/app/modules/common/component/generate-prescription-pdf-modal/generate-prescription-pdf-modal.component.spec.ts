@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeneratePrescriptionPdfModalComponent } from './generate-prescription-pdf-modal.component';
 
@@ -6,7 +6,7 @@ describe('GeneratePrescriptionPdfModalComponent', () => {
   let component: GeneratePrescriptionPdfModalComponent;
   let fixture: ComponentFixture<GeneratePrescriptionPdfModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GeneratePrescriptionPdfModalComponent ]
     })

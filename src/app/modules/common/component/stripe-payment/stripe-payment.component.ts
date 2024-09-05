@@ -10,7 +10,7 @@ import {
 
 import { NgForm } from '@angular/forms';
 import { AppointmentModel } from '../../models/appointment.model';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { BaseComponent } from '../../../base.component';
 import { AuthenticationService } from '../../services/authentication.service';
 import { AppointmentService } from '../../services/appointment.service';
 import { CommonDialogService } from '../../services/dialog.service';
@@ -18,7 +18,7 @@ import { StripeInfoModel } from '../../models/stripe-info.model';
 import { Router } from '@angular/router';
 import { PatientProfileService } from '../../services/patient-profile.service';
 import { PatientProfileModel } from '../../models/patient-profile.model';
-import Global from 'src/app/Global';
+import Global from '../../../../Global';
 
 declare var Stripe: any;
 declare var $: any;
@@ -29,15 +29,15 @@ declare var $: any;
   styleUrls: ['./stripe-payment.component.css']
 })
 export class StripePaymentComponent extends BaseComponent implements AfterViewInit, OnDestroy {
-  @Input() model: AppointmentModel;
-  @Input() IsChangeCardInfo: boolean;
-  @Input() IsCardError: boolean;
-  @ViewChild('cardInfo') cardInfo: ElementRef;
+  @Input() model!: AppointmentModel;
+  @Input() IsChangeCardInfo!: boolean;
+  @Input() IsCardError!: boolean;
+  @ViewChild('cardInfo') cardInfo!: ElementRef;
   card: any;
   cardHandler = this.onChange.bind(this);
-  error: string;
+  error!: string;
   clientSecret: any;
-  customerID: string;
+  customerID!: string;
   stripe: any;
   patientProfile: PatientProfileModel = new PatientProfileModel();
   constructor(
@@ -51,7 +51,7 @@ export class StripePaymentComponent extends BaseComponent implements AfterViewIn
     this.stripe = Stripe(Global.stripePublicKey);
   }
 
-  ngAfterViewInit() {
+  override ngAfterViewInit() {
     var elements = this.stripe.elements();
     const style = {
       base: {
@@ -76,11 +76,11 @@ export class StripePaymentComponent extends BaseComponent implements AfterViewIn
     this.card.destroy();
   }
 
-  onChange({ error }) {
+  onChange({ error }: { error: any }) {
     if (error) {
       this.error = error.message;
     } else {
-      this.error = null;
+      this.error = '';
     }
     this.cd.detectChanges();
   }

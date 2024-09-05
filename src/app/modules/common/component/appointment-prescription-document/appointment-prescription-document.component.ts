@@ -16,16 +16,19 @@ import { AppointmentPrescriptionDocumentService } from '../../services/appointme
   providers:[DatePipe]
 })
 export class AppointmentPrescriptionDocumentComponent extends BaseComponent implements OnInit, OnChanges {
-  @Input() appointmentId: string;
-  @Input() patientId:string;
+  @Input()
+  appointmentId!: string;
+  @Input()
+  patientId!: string;
   criteria: AppointmentDocumentCriteria = new AppointmentDocumentCriteria();
   serverLink = "/api/ApptPrescriptionDocument/Search";
   aoColumnDefs: any;
   aaSorting: any;
   compRef: any;
-  aoColumns;
+  aoColumns: { sTitle: string; sClass: string; mRender: (data: any, type: any, oObj: any) => any; }[] = [];
   table: any;
-  @ViewChild('gpdf') gpdfModal : GeneratePrescriptionPdfModalComponent;
+  @ViewChild('gpdf')
+  gpdfModal!: GeneratePrescriptionPdfModalComponent;
   constructor(public authService: AuthenticationService,
     private utilityService: UtilityService,
     private dialog:CommonDialogService,
@@ -38,14 +41,14 @@ export class AppointmentPrescriptionDocumentComponent extends BaseComponent impl
   }
 
   ngOnChanges(params: SimpleChanges) {
-    if (params && params.appointmentId
-      && params.appointmentId.currentValue
-      && params.appointmentId.currentValue != params.appointmentId.previousValue) {
-      this.criteria.AppointmentID = params.appointmentId.currentValue;
+    if (params && params['appointmentId']
+      && params['appointmentId'].currentValue
+      && params['appointmentId'].currentValue != params['appointmentId'].previousValue) {
+      this.criteria.AppointmentID = params['appointmentId'].currentValue;
     }
   }
 
-  ngOnInit() {
+  override ngOnInit() {
     this.utilityService.refreshEvent.subscribe(r=>{
       this.RefreshTable();
     });
@@ -56,7 +59,7 @@ export class AppointmentPrescriptionDocumentComponent extends BaseComponent impl
     this.table.ajax.reload();
   }
 
-  DownloadItem(id) {
+  DownloadItem(id: string) {
     this.appointmentPrescriptionDocumentService.Get(id).subscribe(obj => {
       this.appointmentPrescriptionDocumentService.Download(id).subscribe(r => {
         if (r) {
@@ -68,19 +71,19 @@ export class AppointmentPrescriptionDocumentComponent extends BaseComponent impl
 
 
 
-  onFilterColumn(event) {
+  onFilterColumn(event: any) {
     if (event) {
 
     }
   }
 
-  catchTable(event) {
+  catchTable(event: any) {
     this.table = event;
   }
 
   SetCriteria(aoData: any) {
     if (aoData) {
-      aoData.forEach(element => {
+      aoData.forEach((element:any) => {
         switch (element.name) {
           case "iDisplayStart":
             this.criteria.CurrentPage = element.value;
@@ -150,7 +153,7 @@ export class AppointmentPrescriptionDocumentComponent extends BaseComponent impl
     this.gpdfModal.show(this.patientId , this.appointmentId)
   }
 
-  viewDocument(id) {
+  viewDocument(id: any) {
     this.appointmentPrescriptionDocumentService.Download(id).subscribe(r => {
       if (r) {
         var url = this.convertDataToURL(r);
@@ -159,7 +162,7 @@ export class AppointmentPrescriptionDocumentComponent extends BaseComponent impl
     });
   }
 
-  deleteDocument(id){
+  deleteDocument(id: string){
     if (id) {
       this.dialog.showSwalConfirmAlert('Are you sure you want to delete this document?').then(isConfirm => {
         if (isConfirm) {

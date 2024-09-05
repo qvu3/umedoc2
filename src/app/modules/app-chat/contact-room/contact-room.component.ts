@@ -1,6 +1,6 @@
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { BaseComponent } from '../../base.component';
 import { MessageChatModel } from '../../common/models/message-chat.model';
@@ -16,7 +16,7 @@ declare var moment: any;
   styleUrls: ['./contact-room.component.css'],
 })
 export class ContactRoomComponent extends BaseComponent implements OnInit, OnDestroy {
-  @Input() user: UserContactModel;
+  @Input() user: UserContactModel = new UserContactModel();
   @Input() isPatient: boolean = false;
   @Output() onNewRoom:EventEmitter<boolean> = new EventEmitter();
   newRoomUnsubscribe: any;
@@ -34,11 +34,11 @@ export class ContactRoomComponent extends BaseComponent implements OnInit, OnDes
     super(authService);
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.getLastestMessageDate();
   }
 
-  getMessages(roomId) {
+  getMessages(roomId: string | null) {
     if (!roomId) return;
     this.appChatService.GetMessages(roomId).subscribe(r => {
       this.messages = r || [];
@@ -57,10 +57,10 @@ export class ContactRoomComponent extends BaseComponent implements OnInit, OnDes
     });
   }
 
-  checkExistMessage(item) {
+  checkExistMessage(item: { [x: string]: any; ID?: any; }) {
     return this.messages.find(x => x.ID == item.ID) != null;
   }
-  getRoomInfo(roomId) {
+  getRoomInfo(roomId: string | null) {
     if (!roomId) return;
     this.appChatService.GetRoomInfo(roomId).subscribe(r => {
       this.roomInfo = r;
@@ -124,13 +124,13 @@ export class ContactRoomComponent extends BaseComponent implements OnInit, OnDes
         .onSnapshot(querySnapshot => {
           querySnapshot.forEach((doc) => {
             var data = doc.data();
-            var sentDate = new Date(data.SentDate.seconds * 1000 + data.SentDate.nanoseconds / 1000000);
+            var sentDate = new Date(data['SentDate'].seconds * 1000 + data['SentDate'].nanoseconds / 1000000);
             var lastesDate = new Date(this.lastestDate);
             if (sentDate >= lastesDate && !this.checkExistMessage(data)) {
               var message = Object.assign(new MessageChatModel(), data)
               message.SentDate = sentDate;
               this.messages.push(message);
-              var participant = this.roomInfo?.Participants?.find(x => x.ID == data.ParticipantID);
+              var participant = this.roomInfo?.Participants?.find(x => x.ID == data['ParticipantID']);
               if (participant) {
                 this.dialog.showToastrWarning(`You have a message from ${participant.Name}` , ()=>{
                   this.router.navigate(['/', 'app-chat', 'messages' , 'main-chat', this.roomInfo.ID]);
@@ -149,13 +149,13 @@ export class ContactRoomComponent extends BaseComponent implements OnInit, OnDes
       .onSnapshot((querySnapshot) => {
         querySnapshot.docs.forEach((doc) => {
           var data = doc.data();
-          if (data.Participants && data.Participants.length >= 2) {
-            var list = data.Participants.filter(x => x == this.currentUser.Id || x == this.user.UserId);
+          if (data['Participants'] && data['Participants'].length >= 2) {
+            var list = data['Participants'].filter((x: string) => x == this.currentUser.Id || x == this.user.UserId);
             if (list && list.length >= 2) {
-              this.user.RoomID = data.ID;
+              this.user.RoomID = data['ID'];
               this.onNewRoom.emit(true);
-              this.getRoomInfo(data.ID);
-              this.getMessages(data.ID);
+              this.getRoomInfo(data['ID']);
+              this.getMessages(data['ID']);
               this.newRoomUnsubscribe();
               this.listernMessageRoom();
               this.listernMessageStatusUnRead();

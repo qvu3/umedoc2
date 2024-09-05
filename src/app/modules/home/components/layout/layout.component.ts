@@ -10,9 +10,9 @@ import { ChangePasswordComponent } from 'src/app/modules/common/component/change
 import { isPlatformBrowser } from '@angular/common';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BalanceBillingService } from 'src/app/modules/common/services/balance-billing.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CommonDialogService } from 'src/app/modules/common/services/dialog.service';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AppointmentService } from 'src/app/modules/common/services/appointment.service';
 import { environment } from 'src/environments/environment';
 import { PatientInviteModalComponent } from '../patient-profile-new/patient-invite-modal/patient-invite-modal.component';

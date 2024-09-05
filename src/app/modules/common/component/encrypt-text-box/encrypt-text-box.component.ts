@@ -16,8 +16,8 @@ export class EncryptTextBoxComponent implements OnInit  , ControlValueAccessor{
   @Input('class') class:string="";
   @Input('placeholder') placeholder="";
   isFirst:boolean=false;
-  public value:string;
-  public valueBackup:string;
+  public value!: string;
+  public valueBackup!: string;
   private onTouch: any = () => { };
   private onModelChange: any = () => { };
   private onChange = (_: any) => { 

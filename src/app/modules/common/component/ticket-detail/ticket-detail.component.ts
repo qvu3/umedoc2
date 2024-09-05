@@ -1,9 +1,9 @@
 import { TicketType } from './../../constant/message.const';
-import { PrmcHub } from 'src/app/modules/common/services/prmc-hub';
-import { MessageConstant } from 'src/app/modules/common/constant/message.const';
-import { CommonDialogService } from 'src/app/modules/common/services/dialog.service';
-import { AuthenticationService } from 'src/app/modules/common/services/authentication.service';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { PrmcHub } from '../../../../modules/common/services/prmc-hub';
+import { MessageConstant } from '../../../../modules/common/constant/message.const';
+import { CommonDialogService } from '../../../../modules/common/services/dialog.service';
+import { AuthenticationService } from '../../../../modules/common/services/authentication.service';
+import { BaseComponent } from '../../../../modules/base.component';
 import { TicketMessageModel } from './../../models/ticket-message.model';
 import { TicketModel } from './../../models/ticket.model';
 import { DatePipe } from '@angular/common';
@@ -18,15 +18,17 @@ import { Router, ActivatedRoute } from '@angular/router';
   providers: [DatePipe]
 })
 export class TicketDetailComponent extends BaseComponent implements OnInit, OnDestroy {
-  @Input() ticketId: string;
+  @Input()
+  ticketId!: string;
   @Input() isAdminSite: boolean = false;
   link: string = '';
-  model: TicketModel;
+  model!: TicketModel;
   message: string = '';
   isPrivate: boolean = false;
-  routerName: string;
+  routerName!: string;
   currentUserId: string;
-  @ViewChild('contentMessageContainer') contentMessageContainer: ElementRef;
+  @ViewChild('contentMessageContainer')
+  contentMessageContainer!: ElementRef;
   constructor(private authService: AuthenticationService,
     private dialog: CommonDialogService,
     private prmcHub: PrmcHub,
@@ -37,7 +39,7 @@ export class TicketDetailComponent extends BaseComponent implements OnInit, OnDe
     this.currentUserId = authService.GetCurrentUser().Id;
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.model = new TicketModel();
     this.model.Messages = [];
     this.getEntity();
@@ -58,7 +60,9 @@ export class TicketDetailComponent extends BaseComponent implements OnInit, OnDe
       this.service.View(fileUrl).subscribe(r => {
         if (r) {
           var redirectWindow = window.open(r, '_blank');
-          redirectWindow.location;
+          if (redirectWindow) {
+            redirectWindow.location;
+          }
         }
       });
     }
@@ -74,7 +78,7 @@ export class TicketDetailComponent extends BaseComponent implements OnInit, OnDe
     });
   }
 
-  onKeyUpMessage(event) {
+  onKeyUpMessage(event: { which: number; shiftKey: any; preventDefault: () => void; }) {
     if (event.which === 13) {
       if (event.shiftKey) {
         event.preventDefault();
@@ -132,7 +136,7 @@ export class TicketDetailComponent extends BaseComponent implements OnInit, OnDe
     }
   }
 
-  deleteMessage(ticketMessageId) {
+  deleteMessage(ticketMessageId: any) {
     if (ticketMessageId) {
       this.dialog.showSwalConfirmAlert('Are you sure you want to delete this message?').then(isConfirm => {
         if (isConfirm) {
@@ -177,15 +181,15 @@ export class TicketDetailComponent extends BaseComponent implements OnInit, OnDe
     // this.prmcHub.onNewMessageTicketNotify.unsubscribe();
   }
 
-  uploadStatus(message) {
+  uploadStatus(message: any) {
 
   }
 
-  uploaded(returnObject) {
+  uploaded(returnObject: any) {
 
   }
 
-  errorUploaded(messageId) {
+  errorUploaded(messageId: any) {
 
   }
 

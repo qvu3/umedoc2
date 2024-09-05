@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import * as OT from '@opentok/client'; 
+import { ToxBoxModel } from '../models/toxbox.model';
 
 @Injectable()
 export class OpentokService {
 
-  session: OT.Session;
-  token: string;
+  session!: OT.Session;
+  token!: string;
 
   constructor() { }
 
@@ -14,12 +15,13 @@ export class OpentokService {
     return OT;
   }
 
-  initSession(config) {
+  initSession(config: ToxBoxModel) {
     if (config.apiKey && config.token && config.sessionId) {
       this.session = this.getOT().initSession(config.apiKey, config.sessionId);
       this.token = config.token;
       return Promise.resolve(this.session);
     } 
+    return Promise.reject('Invalid configuration');
   }
 
   connect() {

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GroupAppVideoCallComponent } from './group-app-video-call.component';
 
@@ -6,7 +6,7 @@ describe('GroupAppVideoCallComponent', () => {
   let component: GroupAppVideoCallComponent;
   let fixture: ComponentFixture<GroupAppVideoCallComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GroupAppVideoCallComponent ]
     })

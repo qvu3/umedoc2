@@ -9,17 +9,20 @@ declare var $:any;
 })
 
 export class PublisherComponent implements AfterViewInit {
-  @ViewChild('publisherDiv') publisherDiv: ElementRef;
-  @Input() session: OT.Session;
-  @Input() isDoctor:boolean;
-  publisher: OT.Publisher;
+  @ViewChild('publisherDiv')
+  publisherDiv!: ElementRef;
+  @Input()
+  session!: OT.Session;
+  @Input()
+  isDoctor!: boolean;
+  publisher!: OT.Publisher;
   publishing: Boolean;
-  heightWindow:number;
+  heightWindow!: number;
   isAudioOn:boolean=true;
   isCameraOn:boolean=true;
   @Output() onLeaveRoom:EventEmitter<boolean> = new EventEmitter();
   @Output() onError:EventEmitter<boolean> = new EventEmitter();
-  stream:OT.Stream;
+  stream!: OT.Stream;
   constructor(private opentokService: OpentokService) {
     this.publishing = false; 
   }
@@ -39,7 +42,7 @@ export class PublisherComponent implements AfterViewInit {
     
 
     if (this.session) {
-      if (this.session['isConnected']()) {
+      if (this.session && this.session.connection && this.session.connection.connectionId) {
         this.publish();
       }
       this.session.on('sessionConnected', () => this.publish());

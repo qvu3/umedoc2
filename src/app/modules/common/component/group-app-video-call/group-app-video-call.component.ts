@@ -1,8 +1,8 @@
 import {  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import DailyIframe from '@daily-co/daily-js';
- import Global from 'src/app/Global';
-import { BaseComponent } from 'src/app/modules/base.component';
+ import Global from '../../../../Global';
+import { BaseComponent } from '../../../../modules/base.component';
 import { GroupApptModel } from '../../models/group-appt.model';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -12,12 +12,15 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrls: ['./group-app-video-call.component.css']
 })
 export class GroupAppVideoCallComponent extends BaseComponent implements AfterViewInit, OnChanges {
-  @Input() groupAppt: GroupApptModel;
-  @Input() token: string;
+  @Input()
+  groupAppt: GroupApptModel = new GroupApptModel;
+  @Input()
+  token!: string;
   @Input() isProvider: boolean = true;
   @Output() onClosed: EventEmitter<boolean> = new EventEmitter();
    url: any = null;
-  @ViewChild('callFrame') callFrame: ElementRef;
+  @ViewChild('callFrame')
+  callFrame!: ElementRef;
   participantClients: any;
   frame: any;
   constructor(private authService: AuthenticationService,
@@ -26,7 +29,7 @@ export class GroupAppVideoCallComponent extends BaseComponent implements AfterVi
     super(authService);
   }
 
-  ngAfterViewInit(): void {
+  override ngAfterViewInit(): void {
     this.joinMeeting();
   }
 
@@ -65,7 +68,7 @@ export class GroupAppVideoCallComponent extends BaseComponent implements AfterVi
         lang: 'en'
       });
 
-      this.frame.on("app-message", (event) => {
+      this.frame.on("app-message", (event: { data: string; }) => {
         console.log(event);
         if (event && event.data && event.data == "MIC_CAM") {
           this.frame.setLocalVideo(true);
@@ -73,20 +76,20 @@ export class GroupAppVideoCallComponent extends BaseComponent implements AfterVi
         }
       });
 
-      this.frame.on('joined-meeting', (event) => {
+      this.frame.on('joined-meeting', (event: any) => {
         this.frame.setLocalVideo(true);
       });
 
-      this.frame.on('participant-joined', (event) => {
+      this.frame.on('participant-joined', (event: any) => {
       });
 
-      this.frame.on('participant-updated', (event) => {
+      this.frame.on('participant-updated', (event: any) => {
       });
 
-      this.frame.on('participant-left', (event) => {
+      this.frame.on('participant-left', (event: any) => {
       });
 
-      this.frame.on('left-meeting', (event) => {
+      this.frame.on('left-meeting', (event: any) => {
         this.frame.leave();
         this.frame.destroy();
         this.onClosed.emit(true);

@@ -1,8 +1,8 @@
 
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { BaseComponent } from '../../../../modules/base.component';
 import { MessageConstant } from '../../constant/message.const';
 import { ProviderProfileViewModel } from '../../models/provider-profile-request.model';
 import { ProviderProfileModel } from '../../models/provider-profile.model';
@@ -17,14 +17,14 @@ import { ProviderProfileService } from '../../services/provider-profile.service'
   styleUrls: ['./change-provider-backup.component.css']
 })
 export class ChangeProviderBackupComponent extends BaseComponent implements OnInit {
-  @ViewChild('childModal') public modal: ModalDirective;
-  @ViewChild('f') public form: NgForm;
+  @ViewChild('childModal') public modal!: ModalDirective;
+  @ViewChild('f') public form!: NgForm;
   @Output() onClosed: EventEmitter<boolean> = new EventEmitter();
   @Output() onViewProfileProvider: EventEmitter<string> = new EventEmitter();
   Submitting: boolean = false;
   providers: Array<ProviderProfileViewModel> = new Array<ProviderProfileViewModel>()
   appointmentId: string = '';
-  selectedProviderId: string;
+  selectedProviderId!: string;
   constructor(private providerProfileservice: ProviderProfileService,
     public authService: AuthenticationService,
     private dialog: CommonDialogService,
@@ -32,14 +32,14 @@ export class ChangeProviderBackupComponent extends BaseComponent implements OnIn
     super(authService);
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
   }
 
-  showProfile(providerUserId) {
+  showProfile(providerUserId: string | undefined) {
     this.onViewProfileProvider.emit(providerUserId);
   }
 
-  getProviders(appointmentId) {
+  getProviders(appointmentId: any) {
     this.providerProfileservice.GetBackupProviders(appointmentId).subscribe(r => {
       this.providers = r;
       this.modal.show();
@@ -61,7 +61,7 @@ export class ChangeProviderBackupComponent extends BaseComponent implements OnIn
     });
   }
 
-  show(appointmentId) {
+  show(appointmentId: string) {
     this.appointmentId = appointmentId;
     this.getProviders(appointmentId);
   }

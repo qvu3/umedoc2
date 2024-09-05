@@ -10,16 +10,21 @@ declare var $:any;
 })
 
 export class SubscriberComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('subscriberDiv') subscriberDiv: ElementRef;
-  @Input() isDoctor: boolean;
-  @Input() session: OT.Session;
-  @Input() stream: OT.Stream;
-  subscriber: OT.Subscriber;
+  @ViewChild('subscriberDiv')
+  subscriberDiv!: ElementRef;
+  @Input()
+  isDoctor!: boolean;
+  @Input()
+  session!: OT.Session;
+  @Input()
+  stream!: OT.Stream;
+  subscriber: OT.Subscriber | null = null;
   isCameraOn: boolean = true;
   isAudioOn: boolean = true;
   isForceOffCamera: boolean = false;
   isForceOffAudio: boolean = false;
-  @Input() totalStream: number;
+  @Input()
+  totalStream!: number;
   checkAudioTimer: any;
   constructor() { }
 
@@ -45,37 +50,41 @@ export class SubscriberComponent implements AfterViewInit, OnDestroy {
       }, 200);
 
       this.subscriber.on({
-        audioBlocked: function (event) {
+        audioBlocked: (event: any) => {
           this.isAudioOn = false;
           this.isForceOffAudio = true;
-        }.bind(this),
-        audioUnblocked: function (event) {
+        },
+        audioUnblocked: (event: any) => {
           this.isAudioOn = true;
           this.isForceOffAudio = false;
-        }.bind(this)
+        }
       });
 
       this.subscriber.on({
-        videoDisabled: function (event) {
+        videoDisabled: (event: any) => {
           this.isCameraOn = false;
           this.isForceOffCamera = true;
-        }.bind(this),
-        videoEnabled: function (event) {
+        },
+        videoEnabled: (event: any) => {
           this.isCameraOn = true;
           this.isForceOffCamera = false;
-        }.bind(this)
+        }
       });
     }
   }
 
   turnOnOffVideo() {
     this.isCameraOn = !this.isCameraOn;
-    this.subscriber.subscribeToVideo(this.isCameraOn);
+    if (this.subscriber) {
+      this.subscriber.subscribeToVideo(this.isCameraOn);
+    }
   }
 
   turnOnOffAudio() {
     this.isAudioOn = !this.isAudioOn;
-    this.subscriber.subscribeToAudio(this.isAudioOn);
+    if (this.subscriber) {
+      this.subscriber.subscribeToAudio(this.isAudioOn);
+    }
   }
 
   ngOnDestroy() {

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import DailyIframe from '@daily-co/daily-js';
 import { SimpleChanges } from '@angular/core';
 import { AppointmentModel } from '../../models/appointment.model';
-import Global from 'src/app/Global';
+import Global from '../../../../Global';
 
 @Component({
   selector: 'app-guest-video-call-frame',
@@ -11,12 +11,15 @@ import Global from 'src/app/Global';
   styleUrls: ['./guest-video-call-frame.component.css']
 })
 export class GuestVideoCallFrameComponent implements AfterViewInit, OnChanges {
-  @Input() appointment: AppointmentModel;
-  @Input() token: string;
+  @Input()
+  appointment: AppointmentModel = new AppointmentModel;
+  @Input()
+  token!: string;
   @Input() isJoinCallVideo: boolean = false;
   @Output() onClosed: EventEmitter<boolean> = new EventEmitter();
   url: any = null;
-  @ViewChild('callFrame') callFrame: ElementRef;
+  @ViewChild('callFrame')
+  callFrame!: ElementRef;
   constructor(
     private cdChanged: ChangeDetectorRef,
     private router: Router,

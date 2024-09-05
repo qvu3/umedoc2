@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CommonDialogService } from '../../services/dialog.service';
 import { UtilityService } from '../../services/utility.service';
 declare var Twilio: any;
@@ -9,7 +9,7 @@ declare var Twilio: any;
   styleUrls: ['./browser-call-twillio.component.css']
 })
 export class BrowserCallTwillioComponent implements OnInit {
-  @ViewChild('childModal') public modal: ModalDirective;
+  @ViewChild('childModal') public modal!: ModalDirective;
   phoneNumber: string = "";
   clientName: string = "";
   device: any;
@@ -58,12 +58,12 @@ export class BrowserCallTwillioComponent implements OnInit {
 
   registerCall() {
     if (this.phoneNumber && this.clientName) {
-      this.utilityService.GenerateTwilioToken(this.clientName).subscribe(r => {
+      this.utilityService.GenerateTwilioToken(this.clientName).subscribe((r: string | any[]) => {
         if (r && r.length > 0) {
           this.device = new Twilio.Device(r);
           this.registerEventCall();
         }
-      }, error => {
+      }, (error: any) => {
         this.dialog.showSwalWarningAlert('Call Client', 'Cannot execute to make a calling for this client.' )
       });
     }
@@ -90,58 +90,58 @@ export class BrowserCallTwillioComponent implements OnInit {
 
   registerEventCall() {
     if (this.device) {
-      this.device.on('ready', function (device) {
+      this.device.on('ready', (device: any) => {
         this.status = "Device is ready....";
         this.isReady = true;
-      }.bind(this));
+      });
 
-      this.device.on('error', function (error) {
+      this.device.on('error', (error: { message: any; }) => {
         this.status = error.message;
-      }.bind(this));
+      });
 
-      this.device.on('connect', function (conn) {
+      this.device.on('connect', (conn: any) => {
         this.status = 'Connected. Start calling...';
         this.isCalling = true;
         this.isConnected = true;
         this.bindVolumeIndicators(conn);
-      }.bind(this));
+      });
 
-      this.device.on('disconnect', function (conn) {
+      this.device.on('disconnect', (conn: any) => {
         this.status = "Call end....";
         this.isConnected = false;
         this.isCalling = false;
-
+      
         this.inputVolumeBarWidth=0;
         this.outputVolumeBarWidth=0;
-      }.bind(this));
+      });
 
-      this.device.on('incoming', function (conn) {
+      this.device.on('incoming', function (conn: { accept: () => void; }) {
         conn.accept();
       });
     }
   }
 
-  bindVolumeIndicators(connection) {
-    connection.on('volume', function (inputVolume, outputVolume) {
+  bindVolumeIndicators(connection: { on: (arg0: string, arg1: (inputVolume: any, outputVolume: any) => void) => void; }) {
+    connection.on('volume', (inputVolume: number, outputVolume: number) => {
       var inputColor = 'red';
       if (inputVolume < .50) {
         inputColor = 'green';
       } else if (inputVolume < .75) {
         inputColor = 'yellow';
       }
-
+  
       this.inputVolumeBarWidth = inputVolume;
       this.inputVolumeBarBg = inputColor;
-
+  
       var outputColor = 'red';
       if (outputVolume < .50) {
         outputColor = 'green';
       } else if (outputVolume < .75) {
         outputColor = 'yellow';
       }
-
+  
       this.outputVolumeBarWidth = outputVolume;
       this.outnputVolumeBarBg = outputColor;
-    }.bind(this));
+    });
   }
 }

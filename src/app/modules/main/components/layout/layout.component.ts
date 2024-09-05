@@ -7,9 +7,9 @@ import { Keepalive } from '@ng-idle/keepalive';
 import { Router } from '@angular/router';
 import { ChangePasswordComponent } from 'src/app/modules/common/component/change-password/change-password.component';
 import { isPlatformBrowser } from '@angular/common';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CommonDialogService } from 'src/app/modules/common/services/dialog.service';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { environment } from 'src/environments/environment';
 declare var $: any;
 @Component({

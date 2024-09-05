@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RoleConstants } from 'src/app/Global';
+import { RoleConstants } from '../../Global';
 import { AuthGuard } from '../common/guard/guard';
 import { ChatContainerComponent } from './chat-container/chat-container.component';
 import { EmptyChatComponent } from './empty-chat/empty-chat.component';

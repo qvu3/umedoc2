@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PverifyDisableReasonComponent } from './pverify-disable-reason.component';
 
@@ -6,7 +6,7 @@ describe('PverifyDisableReasonComponent', () => {
   let component: PverifyDisableReasonComponent;
   let fixture: ComponentFixture<PverifyDisableReasonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PverifyDisableReasonComponent ]
     })

@@ -15,15 +15,20 @@ const TYPE_CONTROL_ACCESSOR = {
   providers: [TYPE_CONTROL_ACCESSOR]
 })
 export class CropImageViewComponent implements OnInit, ControlValueAccessor  {
-  public value: string;
+  public value!: string;
   private onTouch: any = () => { };
   private onModelChange: any = () => { };
-  @Input() ModelID:string;
-  @Input() userId:string;
-  @Input() typeUpload:string;
-  @Input() link:string;
+  @Input()
+  ModelID!: string;
+  @Input()
+  userId!: string;
+  @Input()
+  typeUpload!: string;
+  @Input()
+  link!: string;
   @Input() autoSave:boolean =false; 
-  @ViewChild('cropImageApp') cropImageApp:CropImageComponent;
+  @ViewChild('cropImageApp')
+  cropImageApp!: CropImageComponent;
   constructor(private providerProfileService:ProviderProfileService,
     private dialog:CommonDialogService) { }
 
@@ -34,7 +39,7 @@ export class CropImageViewComponent implements OnInit, ControlValueAccessor  {
     this.cropImageApp.show();
   }
 
-  changeAvatar(event){
+  changeAvatar(event: any){
     if(event){
       this.writeValue(event);
       if(this.autoSave && this.userId ){

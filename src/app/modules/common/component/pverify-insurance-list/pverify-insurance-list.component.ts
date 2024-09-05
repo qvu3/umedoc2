@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { BaseComponent } from '../../../../modules/base.component';
 import { MessageConstant } from '../../constant/message.const';
 import { PverifyPatientInsuranceModel } from '../../models/pverify-patient-insurance.model';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -16,16 +16,16 @@ import { PverifyUploadImageComponent } from '../pverify-upload-image/pverify-upl
   styleUrls: ['./pverify-insurance-list.component.css']
 })
 export class PverifyInsuranceListComponent extends BaseComponent implements OnInit {
-  @Input() patientId: string;
+  @Input() patientId!: string;
   @Input() showHistory: boolean = true;
-  insuranceType: string;
+  insuranceType!: string;
   @Input() showButtonInsuranceType: boolean = true;
 
   list: Array<PverifyPatientInsuranceModel> = [];
-  @ViewChild('disableModal') disableModal: PverifyDisableReasonComponent;
-  @ViewChild('modal') pverifyAddInsuranceModal: PverifyInsuranceModalComponent;
-  @ViewChild('finalCopayModal') finalCopayModal: PverifyInsuranceSetFinalCopayComponent;
-  @ViewChild('modalImage') modalImage: PverifyUploadImageComponent;
+  @ViewChild('disableModal') disableModal!: PverifyDisableReasonComponent;
+  @ViewChild('modal') pverifyAddInsuranceModal!: PverifyInsuranceModalComponent;
+  @ViewChild('finalCopayModal') finalCopayModal!: PverifyInsuranceSetFinalCopayComponent;
+  @ViewChild('modalImage') modalImage!: PverifyUploadImageComponent;
 
   @Output() onChangeInsurance: EventEmitter<Array<PverifyPatientInsuranceModel>> = new EventEmitter();
   constructor(authService: AuthenticationService,
@@ -34,16 +34,16 @@ export class PverifyInsuranceListComponent extends BaseComponent implements OnIn
     super(authService);
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.getList();
   }
 
 
-  addPVerifyInsurance(insuranceType) {
+  addPVerifyInsurance(insuranceType: any) {
     this.pverifyAddInsuranceModal.show(insuranceType, this.patientId);
   }
 
-  showDiableReason(entity) {
+  showDiableReason(entity: any) {
     var p = Object.assign({}, entity);
     this.disableModal.show(p);
   }
@@ -57,7 +57,7 @@ export class PverifyInsuranceListComponent extends BaseComponent implements OnIn
     }
   }
 
-  saveDisableCallback(event) {
+  saveDisableCallback(event: { IsChargePatient: any; }) {
     if (event) {
       this.pverifyInsuranceService.Disable(event).subscribe(r => {
         this.getList();
@@ -76,12 +76,12 @@ export class PverifyInsuranceListComponent extends BaseComponent implements OnIn
     }
   }
 
-  setFinalCopay(item) {
+  setFinalCopay(item: any) {
     var entity = Object.assign({}, item);
     this.finalCopayModal.show(entity);
   }
 
-  saveFinalCopay(event) {
+  saveFinalCopay(event: any) {
     if (event) {
       this.pverifyInsuranceService.SetFinalCopay(event).subscribe(r => {
         this.getList();
@@ -92,12 +92,14 @@ export class PverifyInsuranceListComponent extends BaseComponent implements OnIn
     }
   }
 
-  viewReportPdf(item) {
+  viewReportPdf(item: { ReportUrlViewer: string | URL | undefined; }) {
     var redirectWindow = window.open(item.ReportUrlViewer, '_blank');
-    redirectWindow.location;
+    if (redirectWindow !== null) {
+      redirectWindow.location;
+    }
   }
 
-  enabledInsurance(item) {
+  enabledInsurance(item: { PatientID: any; InsuranceType: any; ID: any; }) {
     // Check limit insurance for Patient
     this.dialog.showSwalConfirmAlert('Are you sure you want to Enable this Insurance?').then(r => {
       if (r) {
@@ -123,11 +125,11 @@ export class PverifyInsuranceListComponent extends BaseComponent implements OnIn
     });
   }
 
-  updateImages(item) {
+  updateImages(item: { ID: any; }) {
     this.modalImage.show(item.ID);
   }
 
-  delete(item){
+  delete(item: { ID: string; }){
     this.dialog.showSwalConfirmAlert('Are you sure you want to delete this Insurance? This action cannot be undone.').then(r => {
       if (r) {
         this.pverifyInsuranceService.Delete(item.ID).subscribe(r => {

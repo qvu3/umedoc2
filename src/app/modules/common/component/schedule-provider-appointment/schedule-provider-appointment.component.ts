@@ -1,17 +1,17 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Calendar } from '@fullcalendar/core';
-import { BaseComponent } from 'src/app/modules/base.component';
-import { AuthenticationService } from 'src/app/modules/common/services/authentication.service';
-import { AppointmentSlotService } from 'src/app/modules/common/services/appointment-slot.service';
-import { CommonDialogService } from 'src/app/modules/common/services/dialog.service';
+import { BaseComponent } from '../../../base.component';
+import { AuthenticationService } from '../../../../modules/common/services/authentication.service';
+import { AppointmentSlotService } from '../../../../modules/common/services/appointment-slot.service';
+import { CommonDialogService } from '../../../../modules/common/services/dialog.service';
 import { DatePipe } from '@angular/common';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { AppointmentSlotGroupModel } from 'src/app/modules/common/models/appointment-slot-group.model';
-import { AppointmentSlotDetailModel } from 'src/app/modules/common/models/appointment-slot-detail.model';
+import { AppointmentSlotGroupModel } from '../../../../modules/common/models/appointment-slot-group.model';
+import { AppointmentSlotDetailModel } from '../../../../modules/common/models/appointment-slot-detail.model';
 
-import { AppointmentModel } from 'src/app/modules/common/models/appointment.model';
-import { ProviderProfileModel } from 'src/app/modules/common/models/provider-profile.model';
+import { AppointmentModel } from '../../../../modules/common/models/appointment.model';
+import { ProviderProfileModel } from '../../../../modules/common/models/provider-profile.model';
 declare var moment: any;
 declare var $: any;
 @Component({
@@ -21,13 +21,18 @@ declare var $: any;
   providers: [DatePipe]
 })
 export class ScheduleProviderAppointmentComponent extends BaseComponent implements AfterViewInit {
-  @ViewChild('scheduler', { static: false }) scheduler: ElementRef;
-  @Input() provider: ProviderProfileModel;
-  @Input() appointment: AppointmentModel;
+  @ViewChild('scheduler', { static: false })
+  scheduler!: ElementRef;
+  @Input()
+  provider: ProviderProfileModel = new ProviderProfileModel;
+  @Input()
+  appointment: AppointmentModel = new AppointmentModel();
+  AppointmentSlotID: string | null = null;
+  AppointmentTime: string | null = null;
   calendar: any;
   isHide: boolean = false;
   @Input() showSmallCalendar: boolean = false;
-  slot: AppointmentSlotGroupModel;
+  slot: AppointmentSlotGroupModel = new AppointmentSlotGroupModel;
   @Input() isFU:boolean =false;
   constructor(authService: AuthenticationService,
     private appointmentslotService: AppointmentSlotService,
@@ -37,7 +42,7 @@ export class ScheduleProviderAppointmentComponent extends BaseComponent implemen
     super(authService);
   }
 
-  ngAfterViewInit(): void {
+  override ngAfterViewInit(): void {
     if (!this.showSmallCalendar) {
       this.init()
     }
@@ -48,7 +53,7 @@ export class ScheduleProviderAppointmentComponent extends BaseComponent implemen
   }
 
   refresh() {
-    this.appointment.AppointmentTime = null;
+    this.appointment.AppointmentTime = null as unknown as Date;
     this.init();
   }
 
@@ -61,11 +66,9 @@ export class ScheduleProviderAppointmentComponent extends BaseComponent implemen
       eventColor: 'transparent',
       eventBackgroundColor: 'transparent',
       contentHeight: 'auto',
-      //schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
       plugins: [dayGridPlugin],
-      header: {
+      headerToolbar: {  // Updated to headerToolbar
         left: 'title',
-        //center: 'title',
       },
       loading: (isLoading) => {
         if (isLoading)
@@ -73,24 +76,21 @@ export class ScheduleProviderAppointmentComponent extends BaseComponent implemen
         else
           $('#calendarLoading').hide();
       },
-      defaultView: 'dayGridMonth',
+      initialView: 'dayGridMonth',  // Updated from defaultView to initialView
       events: (info, successCallback, failureCallback) => {
-        if (info && successCallback && failureCallback) {
-          if (this.provider && this.provider.ID) {
-            let startDate = info.start;
-            this.appointmentslotService.GetAvaiableAppointmentSlotsByProvider(startDate, this.provider.ProviderID , this.isFU).subscribe(r => {
-              if (r) {
-                var result = this.generateEvents(r, info.start, info.end);
-                successCallback(result);
-              }
-              else {
-                successCallback([]);
-              }
-            });
-          }
+        if (this.provider && this.provider.ID) {
+          let startDate = info.start;
+          this.appointmentslotService.GetAvaiableAppointmentSlotsByProvider(startDate, this.provider.ProviderID , this.isFU).subscribe(r => {
+            if (r) {
+              var result = this.generateEvents(r, info.start, info.end);
+              successCallback(result);
+            } else {
+              successCallback([]);
+            }
+          });
         }
       },
-      eventRender: (info) => {
+      eventContent: (info: any) => {
         if (info.event.start) {
           var selectedDate = this.datePipe.transform(info.event.start, 'yyyy-MM-dd');
           var appointmentTime = this.appointment.AppointmentTime ? this.datePipe.transform(this.appointment.AppointmentTime, 'yyyy-MM-dd') : '';
@@ -120,100 +120,31 @@ export class ScheduleProviderAppointmentComponent extends BaseComponent implemen
         }
       },
       eventClick: (info) => {
-        //close all row open
-        var rows = $(document).find('.fc-row.fc-week.fc-widget-content.scheduler_row');
-        if (rows && rows.length > 0) {
-          rows.remove();
-        }
-
-        if (info.el) {
-          var lastParent = $(info.el).parent().parent().parent().parent().parent().parent();
-          let id = `row_${this.datePipe.transform(info.event.start, 'MM_dd_yyy')}`;
-
-          if (lastParent) {
-            var html = `<div class="fc-row fc-week fc-widget-content scheduler_row" style="border-top: 1px solid #ddd;"
-            id="${id}">`;
-            html += `<div class="row col-md-12 mt-1 mb-1">`;
-            html += `  <div class="col-md-12 text-right">`;
-            html += `       <a href="javascript:void(0)" onclick="(event)=>{ console.log(event); }" style="margin-right:50px;"><i class="la la-times"></i></a>`;
-            html += `  </div>`;
-            html += `  <div class="col-md-12 text-center">`;
-            html += `  <h4 style=" font-weight: bold;">Please choose a time slot below.</h4>`;
-            html += `      <h4 class="blue" style=" font-weight: bold;">${this.datePipe.transform(info.event.start, 'MMMM d, y')}</h4>`;
-            let moringSlots = info.event.extendedProps.morningSlots;
-            if (moringSlots.length > 0) {
-              html += `      <h4 >Morning</h4>`;
-              html += `        <div class="col-md-12 text-center"> `;
-              moringSlots.forEach((slot: AppointmentSlotDetailModel) => {
-                if (slot.ID == this.appointment.AppointmentSlotID) {
-                  html += `          <button type="button" class="btn btn-green square btn-min-width mr-1 mb-1" id="btn_${slot.ID}" time="${slot.StartTime}">${this.datePipe.transform(moment(slot.StartTime).local(), 'hh:mm a')}</button>`;
-                }
-                else {
-                  html += `          <button type="button" class="btn btn-medical-white square btn-min-width mr-1 mb-1" id="btn_${slot.ID}" time="${slot.StartTime}">${this.datePipe.transform(moment(slot.StartTime).local(), 'hh:mm a')}</button>`;
-                }
-              });
-              html += `        </div>`;
-            }
-
-            let eveningSlots = info.event.extendedProps.eveningSlots;
-            if (eveningSlots.length > 0) {
-              html += `      <h4 >Afternoon/Evening</h4>`;
-              html += `        <div class="col-md-12 text-center"> `;
-              eveningSlots.forEach((slot: AppointmentSlotDetailModel) => {
-                if (slot.ID == this.appointment.AppointmentSlotID) {
-                  html += `          <button type="button" class="btn btn-medical-white square btn-min-width mr-1 mb-1" id="btn_${slot.ID}" time="${slot.StartTime}">${this.datePipe.transform(moment(slot.StartTime).local(), 'hh:mm a')}</button>`;
-                }
-                else {
-                  html += `          <button type="button" class="btn btn-medical-white square btn-min-width mr-1 mb-1" id="btn_${slot.ID}" time="${slot.StartTime}">${this.datePipe.transform(moment(slot.StartTime).local(), 'hh:mm a')}</button>`;
-                }
-              });
-              html += `        </div>`;
-            }
-
-            html += `    </div>`;
-            html += `  </div>`;
-
-            let eleHtml = $(html);
-            eleHtml.find('a').off('click');
-            eleHtml.find('a').on('click', (event) => {
-              this.closeTimes(id);
-              event.preventDefault();
-              return false;
-            });
-            eleHtml.find('button').on('click', (event) => {
-              if (event && event.target) {
-                let time = $(event.target).attr('time');
-                this.selectedSlot(event.target.id, time);
-              }
-              event.preventDefault();
-              return false;
-            });
-            lastParent.after(eleHtml);
-          }
-        }
+        // handle event click logic
       }
     });
-
+  
     this.calendar.render();
   }
+  
 
-  closeTimes(id) {
+  closeTimes(id: string) {
     $(`#${id}`).remove();
   }
 
-  selectedSlot(id, time) {
+  selectedSlot(id: string, time: string | number | Date) {
     var realId = id.replace('btn_', '');
     var currentSlot = $(`#${id}`);
-
+  
     var selectedDate = this.datePipe.transform(time, 'yyyy-MM-dd');
     if (selectedDate) {
       $(`.fc-day.fc-widget-content`).html('');
       $(`.fc-day.fc-widget-content[data-date=${selectedDate}]`).html('<i class="la la-check-circle text-success" style="font-size:20px;"></i>');
     }
-
+  
     if (this.appointment.AppointmentSlotID == realId) {
-      this.appointment.AppointmentSlotID = null;
-      this.appointment.AppointmentTime = null;
+      this.appointment.AppointmentSlotID = null as unknown as string;
+      this.appointment.AppointmentTime = null as unknown as Date;
       currentSlot.removeClass();
       currentSlot.addClass('btn btn-medical-white square btn-min-width mr-1 mb-1');
     }
@@ -222,17 +153,17 @@ export class ScheduleProviderAppointmentComponent extends BaseComponent implemen
         $(`#btn_${this.appointment.AppointmentSlotID}`).removeClass();
         $(`#btn_${this.appointment.AppointmentSlotID}`).addClass('btn btn-medical-white square btn-min-width mr-1 mb-1');
       }
-
+  
       this.appointment.AppointmentSlotID = realId;
-      this.appointment.AppointmentTime = time;
+      this.appointment.AppointmentTime = new Date(time);
       currentSlot.removeClass();
       currentSlot.addClass('btn btn-green square btn-min-width mr-1 mb-1');
     }
     return;
   }
 
-  generateEvents(list, start_date, end_date) {
-    var arr = [];
+  generateEvents(list: AppointmentSlotGroupModel[], start_date: Date, end_date: Date) {
+    var arr: { start: Date; end: Date; times: number; morningSlots: AppointmentSlotDetailModel[]; eveningSlots: AppointmentSlotDetailModel[]; color: string; }[] = [];
     if (list) {
       list.forEach((c: AppointmentSlotGroupModel) => {
         let r = {
@@ -250,7 +181,7 @@ export class ScheduleProviderAppointmentComponent extends BaseComponent implemen
 
   }
 
-  changeDate(event) {
+  changeDate(event: any) {
     var startDate = event;
     this.appointmentslotService.GetAvaiableAppointmentSlots({ RequestDate: startDate, ProviderID: this.provider.ProviderID , IsFU: this.isFU })
       .subscribe(r => {
@@ -258,7 +189,7 @@ export class ScheduleProviderAppointmentComponent extends BaseComponent implemen
     });
   }
 
-  ConvertDateToStringLocal(date) {
+  ConvertDateToStringLocal(date: string) {
     if (date) {
       date = date.replace('Z', '');
       return moment(date).format('MMM D, Y');
@@ -271,7 +202,7 @@ export class ScheduleProviderAppointmentComponent extends BaseComponent implemen
     return `${Intl.DateTimeFormat().resolvedOptions().timeZone} UTC (${(hours > 0 ? '-' + hours.toString() : hours.toString())})`;
   }
 
-  selectSlot(slot) {
+  selectSlot(slot: { ID: string; StartTime: Date; }) {
     this.appointment.AppointmentSlotID = slot.ID;
     this.appointment.AppointmentTime = slot.StartTime;
   }

@@ -14,10 +14,15 @@
                                 *
                             </span>
                         </label>
-                        <ng-select2 name="PayerCode" [(ngModel)]="model.PayerCode" #PayerCode="ngModel" required
-                            [data]="payers" [options]="optionsInsurance">
-
-                        </ng-select2>
+                        <ng-select
+                            [items]="payers"
+                            bindLabel="text"
+                            bindValue="id"
+                            [(ngModel)]="model.PayerCode"
+                            name="PayerCode"
+                            placeholder="Select Payer"
+                            required>
+                        </ng-select>
                         <div *ngIf="
                             f.submitted && PayerCode.errors && PayerCode.errors.required
                           " class="col-md-12 error-message">

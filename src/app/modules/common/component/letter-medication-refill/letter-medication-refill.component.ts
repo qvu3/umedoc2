@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { BaseComponent } from '../../../../modules/base.component';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
@@ -9,12 +9,13 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrls: ['./letter-medication-refill.component.css']
 })
 export class LetterMedicationRefillComponent extends BaseComponent implements OnInit {
-  @ViewChild('childModal') public modal: ModalDirective;
+  @ViewChild('childModal')
+  public modal!: ModalDirective;
   constructor(public authService: AuthenticationService) {
     super(authService);
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
   }
 
   hide() {

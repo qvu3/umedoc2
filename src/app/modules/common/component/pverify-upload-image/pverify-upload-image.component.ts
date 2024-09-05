@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { BaseComponent } from '../../../base.component';
 import { MessageConstant } from '../../constant/message.const';
 import { PverifyPatientInsuranceModel } from '../../models/pverify-patient-insurance.model';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -13,8 +13,8 @@ import { PverifyPatientInsuranceService } from '../../services/pverify-patient-i
   styleUrls: ['./pverify-upload-image.component.css']
 })
 export class PverifyUploadImageComponent extends BaseComponent implements OnInit {
-  @ViewChild('childModal') public modal: ModalDirective;
-  @ViewChild('f') public form: NgForm;
+  @ViewChild('childModal') public modal!: ModalDirective;
+  @ViewChild('f') public form!: NgForm;
   @Output() onClosed: EventEmitter<boolean> = new EventEmitter();
   Submitting: boolean = false;
   model: PverifyPatientInsuranceModel = new PverifyPatientInsuranceModel();
@@ -26,7 +26,7 @@ export class PverifyUploadImageComponent extends BaseComponent implements OnInit
 
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
   }
 
   save() {
@@ -44,13 +44,13 @@ export class PverifyUploadImageComponent extends BaseComponent implements OnInit
 
 
 
-  show(id) {
+  show(id: any) {
     this.model = new PverifyPatientInsuranceModel();
     this.getEntity(id);
     this.modal.show();
   }
 
-  getEntity(id) {
+  getEntity(id: string) {
     this.service.Get(id).subscribe(r => {
       if (r) {
         this.model = r;
@@ -63,11 +63,11 @@ export class PverifyUploadImageComponent extends BaseComponent implements OnInit
     this.modal.hide();
   }
 
-  uploadStatus(isCompleted) {
+  uploadStatus(isCompleted: any) {
     this.isUploading = !isCompleted;
   }
 
-  uploadedBack(returnObject) {
+  uploadedBack(returnObject: { ImagePath: string; ImageName: string; }) {
     if (this.model.ID) {
       var imagePath = this.model.BackImageUrl;
       this.model.BackImageUrl = returnObject.ImagePath;
@@ -88,7 +88,7 @@ export class PverifyUploadImageComponent extends BaseComponent implements OnInit
     }
   }
 
-  uploadedFront(returnObject) {
+  uploadedFront(returnObject: { ImagePath: string; ImageName: string; }) {
     if (this.model.ID) {
       var imagePath = this.model.FrontImageUrl;
       this.model.FrontImageUrl = returnObject.ImagePath;
@@ -107,7 +107,7 @@ export class PverifyUploadImageComponent extends BaseComponent implements OnInit
     }
   }
 
-  removeAttachBack(event) {
+  removeAttachBack(event: { BackImageUrl: string; }) {
     this.service.DeleteS3Image(event.BackImageUrl).subscribe(result => {
       if (result) {
         this.model.BackImageUrl = '';
@@ -123,7 +123,7 @@ export class PverifyUploadImageComponent extends BaseComponent implements OnInit
       });
   }
 
-  removeAttachFront(event) {
+  removeAttachFront(event: { FrontImageUrl: string; }) {
     this.service.DeleteS3Image(event.FrontImageUrl).subscribe(result => {
       if (result) {
         this.model.FrontImageUrl = '';

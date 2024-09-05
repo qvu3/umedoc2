@@ -3,38 +3,38 @@ declare var swal: any;
 declare var toastr: any;
 @Injectable()
 export class CommonDialogService {
-  title: string;
-  message: string;
+  title!: string;
+  message!: string;
   constructor() {
   }
 
-  showToastrSuccess(title, message) {
+  showToastrSuccess(title: string, message: string) {
     toastr.success(message, title);
   }
 
-  showToastrError(title, message) {
+  showToastrError(title: string, message: string) {
     toastr.error(message, title);
   }
 
-  showToastrWarning(message, onClick = null) {
+  showToastrWarning(message: any, onClick: (() => void) | null = null) {
     toastr.options.onclick = onClick;
     toastr.warning(message);
   }
 
-  showToastrWarningMessage(message, onClick) {
+  showToastrWarningMessage(message: any, onClick: any) {
     toastr.options.onclick = onClick;
     toastr.warning(message);
   }
 
-  showSwalSuccesAlert(title, message) {
+  showSwalSuccesAlert(title: string, message: string) {
     swal(title, message, 'success');
   }
 
-  showSwalErrorAlert(title, message) {
+  showSwalErrorAlert(title: string, message: string) {
     swal(title, message, 'error', { className: 'error-message' });
   }
 
-  showSwalWarningAlert(title, message, isHtml = false) {
+  showSwalWarningAlert(title: string, message: string, isHtml = false) {
     var content: any;
     if (isHtml) {
       content = document.createElement('span');
@@ -52,7 +52,7 @@ export class CommonDialogService {
     });
   }
 
-  showSwalConfirmAlert(message, isHtml = false) {
+  showSwalConfirmAlert(message: string, isHtml = false) {
     var content: any;
     if (isHtml) {
       content = document.createElement('span');
@@ -84,13 +84,13 @@ export class CommonDialogService {
             closeModal: true
           }
         }
-      }).then((isConfirm) => {
+      }).then((isConfirm: boolean | PromiseLike<boolean>) => {
         resolve(isConfirm);
       });
     });
   }
 
-  showSwalConfirmAlertNoCancel(message, isHtml = false, confirmButtonTitle: string) {
+  showSwalConfirmAlertNoCancel(message: any, isHtml = false, confirmButtonTitle: string) {
     var content: any;
     if (isHtml) {
       content = document.createElement('span');
@@ -116,13 +116,13 @@ export class CommonDialogService {
             closeModal: true
           }
         }
-      }).then((isConfirm) => {
+      }).then((isConfirm: boolean | PromiseLike<boolean>) => {
         resolve(isConfirm);
       });
     });
   }
 
-  showSwalConfirmGetNameFile(name) {
+  showSwalConfirmGetNameFile(name: any) {
     var nameWithoutExt = (name ?? '').split('.').slice(0, -1).join('.')
     return new Promise<string>((resolve, reject) => {
       swal({
@@ -155,7 +155,7 @@ export class CommonDialogService {
             required: true
           }
         }
-      }).then((inputValue) => { 
+      }).then((inputValue: string | boolean | PromiseLike<string>) => { 
         if(typeof inputValue === 'boolean' && inputValue === false){
           reject(false);
         }
@@ -169,7 +169,7 @@ export class CommonDialogService {
     });
   }
 
-  showSwalConfirmChangeRestrict(message, isHtml = false) {
+  showSwalConfirmChangeRestrict(message: any, isHtml = false) {
     var content: any;
     if (isHtml) {
       content = document.createElement('span');
@@ -201,7 +201,7 @@ export class CommonDialogService {
             closeModal: true
           }
         }
-      }).then((isConfirm) => {
+      }).then((isConfirm: boolean | PromiseLike<boolean>) => {
         resolve(isConfirm);
       });
     });

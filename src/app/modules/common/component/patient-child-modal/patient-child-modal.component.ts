@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { BaseComponent } from '../../../../modules/base.component';
 import { MessageConstant } from '../../constant/message.const';
 import { PatientProfileModel } from '../../models/patient-profile.model';
 import UserModel from '../../models/user.model';
@@ -15,8 +15,9 @@ import { PatientProfileService } from '../../services/patient-profile.service';
   styleUrls: ['./patient-child-modal.component.css']
 })
 export class PatientChildModalComponent extends BaseComponent implements OnInit {
-  @ViewChild('childModal') public modal: ModalDirective;
-  @ViewChild('f') public form: NgForm;
+  @ViewChild('childModal')
+  public modal!: ModalDirective;
+  @ViewChild('f') public form!: NgForm;
   @Output() onClosed: EventEmitter<boolean> = new EventEmitter();
   Submitting: boolean = false;
   model: PatientProfileModel = new PatientProfileModel();
@@ -27,7 +28,7 @@ export class PatientChildModalComponent extends BaseComponent implements OnInit 
 
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
   }
 
   save() {
@@ -56,7 +57,7 @@ export class PatientChildModalComponent extends BaseComponent implements OnInit 
     }
   }
 
-  getEntity(id) {
+  getEntity(id: string) {
     this.service.GetPatientProfileById(id).subscribe(r => {
       this.model = r;
       this.modal.show();
@@ -64,17 +65,16 @@ export class PatientChildModalComponent extends BaseComponent implements OnInit 
   }
 
 
-  show(id, parentId) {
+  show(id: string, parentId: string | null) {
     this.model = new PatientProfileModel();
     if (id) {
       this.getEntity(id);
     }
     else { 
       this.model.PatientUser= new UserModel();
-      this.model.PatientUser.ParentUserID = parentId;
+      this.model.PatientUser.ParentUserID = parentId as string;
       this.modal.show();
     }
-
   }
 
 

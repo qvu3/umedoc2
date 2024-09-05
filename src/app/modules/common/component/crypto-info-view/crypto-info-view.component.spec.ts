@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CryptoInfoViewComponent } from './crypto-info-view.component';
 
@@ -6,7 +6,7 @@ describe('CryptoInfoViewComponent', () => {
   let component: CryptoInfoViewComponent;
   let fixture: ComponentFixture<CryptoInfoViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CryptoInfoViewComponent ]
     })

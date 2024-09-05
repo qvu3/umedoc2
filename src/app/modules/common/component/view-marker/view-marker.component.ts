@@ -7,7 +7,7 @@ declare var google: any;
   styleUrls: ['./view-marker.component.css']
 })
 export class ViewMarkerComponent implements OnInit, OnChanges {
-  @Input() address;
+  @Input() address: any;
   map: any;
   currentMarker: any;
   constructor() { }
@@ -22,7 +22,7 @@ export class ViewMarkerComponent implements OnInit, OnChanges {
     }
   } 
 
-  initMap(zoom) {
+  initMap(zoom: number) {
     var latlng = new google.maps.LatLng(null, null);
     var myOptions = {
       zoom: zoom ? zoom : 14,
@@ -43,7 +43,7 @@ export class ViewMarkerComponent implements OnInit, OnChanges {
     }
 
     var latlng = new google.maps.Geocoder();
-    latlng.geocode({ 'address': this.address }, function (results, status) {
+    latlng.geocode({ 'address': this.address }, (results: { geometry: { location: any; }; }[], status: string) => {
       if (status === 'OK') {
         this.currentMarker = new google.maps.Marker({
           position: results[0].geometry.location,
@@ -53,6 +53,6 @@ export class ViewMarkerComponent implements OnInit, OnChanges {
         google.maps.event.trigger(this.map, 'resize');
         this.map.setCenter(results[0].geometry.location);
       }
-    }.bind(this));
+    });
   }
 }

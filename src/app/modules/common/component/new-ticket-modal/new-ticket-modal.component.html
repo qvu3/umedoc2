@@ -9,8 +9,14 @@
                     <div class=" col-md-12">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Patient Name</label>
-                            <ng-select2 name="PatientID" #PatientID="ngModel" [(ngModel)]="model.PatientID"
-                            [options]="options" [data]="userData" required></ng-select2>
+                            <ng-select name="PatientID" #PatientID="ngModel" 
+                                    [(ngModel)]="model.PatientID" 
+                                    [items]="userData" 
+                                    bindLabel="name" 
+                                    bindValue="id" 
+                                    placeholder="Select a patient"
+                                    required>
+                            </ng-select>
                             <div class="error-message" *ngIf="f.submitted && PatientID?.errors?.required">
                                 This field is required.
                             </div>

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { BaseComponent } from '../../../../modules/base.component';
 import { MessageConstant } from '../../constant/message.const';
 import { PatientProfileModel } from '../../models/patient-profile.model';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -15,20 +15,20 @@ import { PatientProfileService } from '../../services/patient-profile.service';
 })
 export class PatientBlockedListModalComponent extends BaseComponent implements OnInit {
   model: PatientProfileModel = new PatientProfileModel();
-  @ViewChild('childModal') public modal: ModalDirective;
-  @ViewChild('f') public form: NgForm;
+  @ViewChild('childModal') public modal!: ModalDirective;
+  @ViewChild('f') public form!: NgForm;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   Submitting: boolean = false;
-  constructor(public authenticationService: AuthenticationService,
+  constructor(public override authenticationService: AuthenticationService,
     private dialog: CommonDialogService,
     private patientProfileService: PatientProfileService) {
     super(authenticationService);
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
   }
 
-  show(id) {
+  show(id: any) {
     this.getEntity(id);
     this.modal.show();
   }
@@ -38,7 +38,7 @@ export class PatientBlockedListModalComponent extends BaseComponent implements O
     this.modal.hide();
   }
 
-  getEntity(id) {
+  getEntity(id: string) {
     this.patientProfileService.GetPatientForBlockedList(id).subscribe(r => {
       if (r) {
         this.model = r;

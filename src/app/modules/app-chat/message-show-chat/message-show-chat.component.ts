@@ -11,9 +11,12 @@ import { UtilityService } from '../../common/services/utility.service';
   styleUrls: ['./message-show-chat.component.css']
 })
 export class MessageShowChatComponent extends BaseComponent implements OnInit , OnChanges {
-  @Input() item: MessageChatModel;
-  @Input() isLeft: boolean;
-  @Input() path:string;
+  @Input()
+  item: MessageChatModel = new MessageChatModel;
+  @Input()
+  isLeft: boolean = false;
+  @Input()
+  path!: string;
   thumbnail:string ="";
   constructor(private authService :AuthenticationService,
     private utilityService: UtilityService,
@@ -23,12 +26,12 @@ export class MessageShowChatComponent extends BaseComponent implements OnInit , 
   }
 
   ngOnChanges(params:SimpleChanges){
-    if(params && params.path && params.path.currentValue){
+    if(params && params['path'] && params['path'].currentValue){
       this.getThumbnail();
     }
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.getThumbnail();
   }
 
@@ -67,7 +70,7 @@ export class MessageShowChatComponent extends BaseComponent implements OnInit , 
        && this.item.MineType.includes("image/") && 
         this.item.Path 
        && !this.thumbnail){
-      this.utilityService.GetThumbnailS3Image(this.item.Path).subscribe(r => {
+      this.utilityService.GetThumbnailS3Image(this.item.Path).subscribe((r: string) => {
         if (r) {
            this.thumbnail = r;
         }

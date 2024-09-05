@@ -17,12 +17,14 @@ export class DateTimePickerComponent implements AfterViewInit, ControlValueAcces
   @Input() hasTime: boolean = true;
   @Input() isDisabled: boolean = false;
   @Input() placeholder: string = '';
-  @ViewChild('tapicker') tapicker: ElementRef;
-  @ViewChild('dapicker') dapicker: ElementRef;
+  @ViewChild('tapicker')
+  tapicker!: ElementRef;
+  @ViewChild('dapicker')
+  dapicker!: ElementRef;
   @Input() isGreyColor: boolean = false;
   isFirst: boolean = false;
   @Input() isMaxCurrentDate: boolean = true;
-  public value: string;
+  public value!: string;
   private onTouch: any = () => { };
   private onModelChange: any = () => { };
   private previewerControl: string = '';
@@ -69,26 +71,40 @@ export class DateTimePickerComponent implements AfterViewInit, ControlValueAcces
     });
   }
 
-  onSetTimeAPicker(event) {
+  onSetTimeAPicker(event: { select: number | undefined } | undefined) {
     this.isFirst = false;
-    if (event != undefined) {
-      if (event.select != undefined) {
-        //get date selected 
-        var date = this.value;
-        var date1 = date ? new Date(this.datePipe.transform(date, 'MM/dd/yyyy'))
-          : new Date(this.datePipe.transform(new Date(), 'MM/dd/yyyy'));
-        var totalHours = Math.floor(event.select / 60);
-        var totalMinutes = (event.select % 60);
-        var date2 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate(), totalHours, totalMinutes);
-        this.writeValue(new Date(date2));
-      }
-      else {
+    if (event !== undefined) {
+      if (event.select !== undefined) {
+        // get date selected
+        const date = this.value;
+        const dateString = date
+          ? this.datePipe.transform(date, 'MM/dd/yyyy')
+          : this.datePipe.transform(new Date(), 'MM/dd/yyyy');
+  
+        // Check if dateString is not null before using it
+        if (dateString) {
+          const date1 = new Date(dateString);
+          const totalHours = Math.floor(event.select / 60);
+          const totalMinutes = event.select % 60;
+          const date2 = new Date(
+            date1.getFullYear(),
+            date1.getMonth(),
+            date1.getDate(),
+            totalHours,
+            totalMinutes
+          );
+          this.writeValue(new Date(date2));
+        } else {
+          this.writeValue(null);
+        }
+      } else {
         this.writeValue(null);
       }
     }
   }
+  
 
-  onSetDateAPicker(event) {
+  onSetDateAPicker(event: { select: string | number | Date; highlight: string | any[]; }) {
     //this.isFirst = false;
     if (event) {
       if (event.select) {

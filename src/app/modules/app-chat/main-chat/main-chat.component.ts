@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { RoleConstants } from 'src/app/Global';
-import { environment } from 'src/environments/environment';
+import { RoleConstants } from '../../../Global';
+import { environment } from '../../../../environments/environment';
 import { BaseComponent } from '../../base.component';
 import { MessageConstant } from '../../common/constant/message.const';
 import { MessageChatModel } from '../../common/models/message-chat.model';
@@ -13,6 +13,7 @@ import { UserMessageChatModel } from '../../common/models/user-message-chat.mode
 import { AppChatService } from '../../common/services/app-chat.service';
 import { AuthenticationService } from '../../common/services/authentication.service';
 import { CommonDialogService } from '../../common/services/dialog.service';
+import firebase from 'firebase/compat/app';
 declare var $: any;
 declare var moment: any;
 
@@ -22,15 +23,16 @@ declare var moment: any;
   styleUrls: ['./main-chat.component.css']
 })
 export class MainChatComponent extends BaseComponent implements OnInit, OnDestroy {
-  roomId: string;
-  roomInfo: RoomChatInfoViewModel;
+  roomId!: string;
+  roomInfo!: RoomChatInfoViewModel;
   messageUnsubscribe: any;
   content: UserMessageChatModel = new UserMessageChatModel();
   messages: MessageChatModel[] = [];
   lastestDate: Date = new Date();
   perfectScroll: any;
   isUploading: boolean = false;
-  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI()
+  blockUI!: NgBlockUI;
   constructor(
     authService: AuthenticationService,
     activeRouter: ActivatedRoute,
@@ -49,11 +51,11 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
     });
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
 
   }
 
-  uploadStatus(message) {
+  uploadStatus(message: MessageChatModel) {
     if (message) {
       message.RoomID = message.RoomID;
       message.UserID = this.currentUser.Id;
@@ -70,7 +72,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
     }
   }
 
-  uploaded(returnObject) {
+  uploaded(returnObject: { ID: string; Path: string; MineType: string; IsProvider: boolean; Sender: string; }) {
     if (returnObject && returnObject.ID) {
       var message = this.messages.find(x => x.ID == returnObject.ID);
       if (message) {
@@ -83,14 +85,14 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
     }
   }
 
-  errorUploaded(messageId) {
+  errorUploaded(messageId: string) {
     var index = this.messages.findIndex(x => x.ID == messageId);
     if (index > -1) {
       this.messages.splice(index, 1);
     }
   }
 
-  init(roomId) {
+  init(roomId: string | null) {
     this.content = new UserMessageChatModel();
     this.content.RoomID = roomId;
     this.content.Message = "";
@@ -115,7 +117,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
   //   });
   // }
 
-  getMessageStore(roomId) {
+  getMessageStore(roomId: string) {
     var today = new Date(moment().utc().format());;
     var from = new Date(moment(today).add(- 7, 'days').format());
     if (!roomId) return;
@@ -128,13 +130,13 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
         .orderBy("SentDate", "asc")
         .get()
         .then((sn) => {
-          var messages = [];
+          var messages: firebase.firestore.DocumentData[] = [];
           sn.docs.forEach(doc => {
             var data = doc.data();
-            data.SentDate = new Date(data.SentDate.seconds * 1000 + data.SentDate.nanoseconds / 1000000);
+            data['SentDate'] = new Date(data['SentDate'].seconds * 1000 + data['SentDate'].nanoseconds / 1000000);
             messages.push(data);
           })
-          this.messages = messages || [];
+          this.messages = messages as MessageChatModel[] || [];
           this.cdChanged.detectChanges();
           this.scrollToBottom();
           this.markedChat();
@@ -157,7 +159,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
     var tempMessage = new MessageChatModel();
     tempMessage.ID = message.ID;
     tempMessage.Content = message.Message;
-    tempMessage.RoomID = message.RoomID;
+    tempMessage.RoomID = message.RoomID ?? '';
     tempMessage.UserID = this.currentUser.Id;
     tempMessage.SentDate = new Date(moment().utc().format());
     tempMessage.isSending = true;
@@ -178,7 +180,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
       this.chatService.MarkedRead(this.roomId).subscribe();
     }
   }
-  scrollToTop() {
+  override scrollToTop() {
     setTimeout(() => {
       var element = $(".chat-container");
       if (element && element[0]) {
@@ -199,7 +201,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
     }, 800);
   }
 
-  checkExistMessage(item) {
+  checkExistMessage(item: { ID: string; }) {
     return this.messages.find(x => x.ID == item.ID) != null;
   }
 
@@ -211,7 +213,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
         .onSnapshot(querySnapshot => {
           querySnapshot.forEach((doc) => {
             var data = doc.data();
-            var sentDate = new Date(data.SentDate.seconds * 1000 + data.SentDate.nanoseconds / 1000000);
+            var sentDate = new Date(data['SentDate'].seconds * 1000 + data['SentDate'].nanoseconds / 1000000);
             var lastesDate = new Date(this.lastestDate);
             if (sentDate >= lastesDate) {
               this.addMessage(data);
@@ -221,7 +223,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
     }
   }
 
-  addMessage(data) {
+  addMessage(data: { [x: string]: any; SentDate?: any; ID?: any; ParticipantID?: any; Content?: any; RoomID?: any; UserID?: any; IsFile?: any; IsProvider?: any; MineType?: any; Sender?: any; Path?: any; }) {
     var sentDate = new Date(data.SentDate.seconds * 1000 + data.SentDate.nanoseconds / 1000000);
     var message = this.messages.find(x => x.ID == data.ID);
     var participant = this.roomInfo?.Participants?.find(x => x.ID == data.ParticipantID);
@@ -232,7 +234,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
         message.RoomID = data.RoomID;
         message.SentDate = sentDate;
         message.UserID = data.UserID;
-        message.ProfilePicture = participant?.ProfilePicture;
+        message.ProfilePicture = participant?.ProfilePicture || '';
         message.isSending = false;
         message.IsFile = data.IsFile ?? false;
         message.IsProvider = data.IsProvider;
@@ -241,14 +243,14 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
       }
     }
     else {
-      var message = new MessageChatModel();
+      var message: MessageChatModel | undefined = new MessageChatModel();
       message.ID = data.ID;
       message.Content = data.Content;
       message.ParticipantID = data.ParticipantID;
       message.RoomID = data.RoomID;
       message.SentDate = sentDate;
       message.UserID = data.UserID;
-      message.ProfilePicture = participant?.ProfilePicture;
+      message.ProfilePicture = participant?.ProfilePicture || '';
       message.IsFile = data.IsFile ?? false;
       message.MineType = data.MineType;
       message.IsProvider = data.IsProvider;
@@ -260,7 +262,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
     }
   }
 
-  getRoomInfo(roomId) {
+  getRoomInfo(roomId: string) {
     if (roomId) {
       this.chatService.GetRoomInfo(roomId).subscribe(r => {
         if (r) {
@@ -276,7 +278,7 @@ export class MainChatComponent extends BaseComponent implements OnInit, OnDestro
 
 
 
-  deleteRoomInfo(roomId) {
+  deleteRoomInfo(roomId: any) {
     if (roomId) {
       this.dialog.showSwalConfirmAlert('Delete this item?').then(r => {
         if (r) {

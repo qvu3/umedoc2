@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap';
-import { BaseComponent } from 'src/app/modules/base.component';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { BaseComponent } from '../../../base.component';
 import { MessageConstant } from '../../constant/message.const';
 import UserModel from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -16,8 +16,8 @@ import { UserService } from '../../services/user.service';
 export class ResetPasswordComponent extends BaseComponent implements OnInit {
   public model: UserModel = new UserModel();
   editor: any;
-  @ViewChild('childModal') public modal: ModalDirective;
-  @ViewChild('f') public form: NgForm;
+  @ViewChild('childModal') public modal!: ModalDirective;
+  @ViewChild('f') public form!: NgForm;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   Submitting: boolean = false;
 
@@ -29,7 +29,7 @@ export class ResetPasswordComponent extends BaseComponent implements OnInit {
     this.model = new UserModel();
   }
 
-  ngOnInit() {
+  override ngOnInit() {
 
   }
 
@@ -52,7 +52,7 @@ export class ResetPasswordComponent extends BaseComponent implements OnInit {
     });
   }
 
-  show(id) {
+  show(id: string) {
     this.model = new UserModel();
     this.model.Id = id;
 

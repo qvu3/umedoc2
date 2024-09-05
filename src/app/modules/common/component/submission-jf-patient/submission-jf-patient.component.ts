@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { BaseComponent } from 'src/app/modules/base.component';
-import { environment } from 'src/environments/environment';
+import { BaseComponent } from '../../../base.component';
+import { environment } from '../../../../../environments/environment';
 import { AppointmentService } from '../../services/appointment.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { DomSanitizer } from "@angular/platform-browser";
@@ -10,15 +10,17 @@ import { DomSanitizer } from "@angular/platform-browser";
   styleUrls: ['./submission-jf-patient.component.css']
 })
 export class SubmissionJfPatientComponent extends BaseComponent implements AfterViewInit {
-  @Input() submissionId: string;
-  @ViewChild('submissionFrame') submissionFrame:ElementRef;
+  @Input()
+  submissionId!: string;
+  @ViewChild('submissionFrame')
+  submissionFrame!: ElementRef;
   html: any;
   constructor(authService: AuthenticationService, private appointmentService: AppointmentService,
     private sanitized: DomSanitizer) {
     super(authService);
   }
 
-  ngAfterViewInit(): void {
+  override ngAfterViewInit(): void {
     this.getViewSubmission();
   }
 

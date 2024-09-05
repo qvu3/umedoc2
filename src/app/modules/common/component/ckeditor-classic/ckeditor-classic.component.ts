@@ -1,9 +1,9 @@
 import { Component, OnInit, forwardRef, ChangeDetectionStrategy, Input, OnChanges } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import * as ClassicEditor from '../../../../../assets/ckeditor-custom-build/ckeditor';
+import * as ClassicEditor from 'src/assets/ckeditor-custom-build/ckeditor';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import Global from 'src/app/Global';
+import Global from '../../../../Global';
 const TYPE_CONTROL_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => CkeditorClassicComponent),
@@ -18,7 +18,7 @@ const TYPE_CONTROL_ACCESSOR = {
 export class CkeditorClassicComponent implements OnInit, ControlValueAccessor {
   public Editor = ClassicEditor
   public CKEditorConfig: any = {};
-  public value: string;
+  public value!: string;
   private onTouch: any = () => { };
   private onModelChange: any = () => { };
   @Input() allowUploadImage: boolean = true;
@@ -80,7 +80,7 @@ export class CkeditorClassicComponent implements OnInit, ControlValueAccessor {
     this.onTouch = fn;
   }
 
-  onReady(editor) {
+  onReady(editor: any) {
     this.editor = editor;
     this.isFirst = true;
     if (this.value) {
@@ -89,10 +89,10 @@ export class CkeditorClassicComponent implements OnInit, ControlValueAccessor {
       this.editor.data.set('');
     }
 
-    editor.model.document.on('change', (event) => {
+    editor.model.document.on('change', (event: any) => {
       this.writeValue(editor.getData())
     });
-    editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
       return new UploadAdapter(loader, this.http, this.allowUploadImage);
     }
 
@@ -100,14 +100,14 @@ export class CkeditorClassicComponent implements OnInit, ControlValueAccessor {
       allowUploadImage: boolean = true;
       loader: any;
       url: string = `${Global.apiUrl}/api/utility/uploadImageArticle/`;
-      constructor(loader, public http: HttpClient, allowUploadImage) {
+      constructor(loader: any, public http: HttpClient, allowUploadImage: boolean) {
         this.loader = loader;
         this.allowUploadImage = allowUploadImage;
       }
 
       upload() {
         return this.loader.file
-          .then(file => new Promise(
+          .then((file:any) => new Promise(
             (resolve, reject) => {
               if (!this.allowUploadImage) {
                 reject('');

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NewTicketModalComponent } from './new-ticket-modal.component';
 
@@ -6,7 +6,7 @@ describe('NewTicketModalComponent', () => {
   let component: NewTicketModalComponent;
   let fixture: ComponentFixture<NewTicketModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ NewTicketModalComponent ]
     })

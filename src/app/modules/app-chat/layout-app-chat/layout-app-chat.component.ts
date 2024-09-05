@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Idle } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
@@ -11,25 +11,27 @@ import { UserContactModel } from '../../common/models/user-contact-chat.model';
 import { AppChatService } from '../../common/services/app-chat.service';
 import { AuthenticationService } from '../../common/services/authentication.service';
 import { CommonDialogService } from '../../common/services/dialog.service';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { environment } from 'src/environments/environment';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { environment } from '../../../../environments/environment';
+import firebase from 'firebase/compat/app';
 @Component({
   selector: 'app-layout-app-chat',
   templateUrl: './layout-app-chat.component.html',
   styleUrls: ['./layout-app-chat.component.css']
 })
 export class LayoutAppChatComponent extends BaseComponent implements OnInit, OnDestroy {
-  @ViewChild('changePassModal') changePassModal: ChangePasswordComponent;
+  @ViewChild('changePassModal')
+  changePassModal!: ChangePasswordComponent;
   contacts: UserContactModel[] = [];
   rooms: RoomChatInfoViewModel[] = [];
   newMessageStatusUnscribe: any;
-  currentRoomId: string;
+  currentRoomId!: string;
   currentYear: number;
   constructor(@Inject(PLATFORM_ID) private platformId: Object,
     private angularFireStore: AngularFirestore,
     private authService: AuthenticationService,
-    public idle: Idle,
-    public keepalive: Keepalive,
+    public override idle: Idle,
+    public override keepalive: Keepalive,
     public dialog: CommonDialogService,
     private appChatService: AppChatService,
     private authFirestore: AngularFireAuth,
@@ -43,7 +45,7 @@ export class LayoutAppChatComponent extends BaseComponent implements OnInit, OnD
 
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
 
     $('body').attr('class', 'horizontal-layout content-left-sidebar chat-application pace-done menu-expanded horizontal-menu');
     $('body').attr('data-col', 'content-left-sidebar');
@@ -87,16 +89,16 @@ export class LayoutAppChatComponent extends BaseComponent implements OnInit, OnD
     }
   }
 
-  reloadNewRoom(room) {
+  reloadNewRoom(room: { RoomID: string; }) {
     var existedRoom = this.rooms.find(x => x.ID == room.RoomID);
     if (!existedRoom) {
       this.getRooms();
     }
   }
 
-  async showNotificationNewMessage(sn) {
-    var rooms = [];
-    sn.docs.forEach(async (element) => {
+  async showNotificationNewMessage(sn: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>) {
+    var rooms: any[] = [];
+    sn.docs.forEach(async (element: { data: () => any; }) => {
       var data = element.data();
       if (data) {
         var room = rooms.find(x => x.RoomID == data.RoomID);

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeoGmapComponent } from './geo-gmap.component';
 
@@ -6,7 +6,7 @@ describe('GeoGmapComponent', () => {
   let component: GeoGmapComponent;
   let fixture: ComponentFixture<GeoGmapComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GeoGmapComponent ]
     })
