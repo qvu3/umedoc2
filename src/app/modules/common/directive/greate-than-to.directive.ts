@@ -13,14 +13,15 @@ import { FormControl, NG_VALIDATORS, Validator, AbstractControl } from '@angular
   ]
 })
 export class GreateThanToDirective implements Validator, OnChanges {
-  @Input() gtTo: FormControl;
-  _control: AbstractControl;
+  @Input()
+  gtTo!: FormControl;
+  _control!: AbstractControl;
   constructor() {
      
   }
 
   ngOnChanges(params: SimpleChanges) {
-    if(params && params.gtTo && params.gtTo.currentValue && params.gtTo.currentValue!= params.gtTo.previousValue)
+    if(params && params['gtTo'] && params['gtTo'].currentValue && params['gtTo'].currentValue!= params['gtTo'].previousValue)
     {
       this.gtTo.valueChanges.subscribe(r => {
         if (this._control) {

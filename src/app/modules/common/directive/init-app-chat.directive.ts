@@ -93,7 +93,7 @@ export class InitAppChatDirective  implements AfterViewInit{
       chatProfile.removeClass("show");
     });
     // Add class active on click of Chat users list
-    $(".chat-sidebar-list-wrapper ul li").on("click", function () {
+    $(".chat-sidebar-list-wrapper ul li").on("click",  () => {
       if ($(".chat-sidebar-list-wrapper ul li").hasClass("active")) {
         $(".chat-sidebar-list-wrapper ul li").removeClass("active");
       }
@@ -107,7 +107,7 @@ export class InitAppChatDirective  implements AfterViewInit{
       }
     });
     // app chat favorite star click
-    $(".chat-icon-favorite i").on("click", function (e) {
+    $(".chat-icon-favorite i").on("click",  (e: { stopPropagation: () => void; }) => {
       $(this).parent(".chat-icon-favorite").toggleClass("warning");
       $(this).toggleClass("bxs-star bx-star");
       e.stopPropagation();
@@ -135,10 +135,10 @@ export class InitAppChatDirective  implements AfterViewInit{
     });
 
     // chat search filter
-    $("#chat-search").on("keyup", function () {
+    $("#chat-search").on("keyup",  () => {
       var value = $(this).val().toLowerCase();
       if (value != "") {
-        $(".chat-sidebar-list-wrapper .chat-sidebar-list li").filter(function () {
+        $(".chat-sidebar-list-wrapper .chat-sidebar-list li").filter( () => {
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
       } else {
@@ -170,7 +170,7 @@ export class InitAppChatDirective  implements AfterViewInit{
     });
 
     // Add message to chat
-    function chatMessagesSend(source) {
+    function chatMessagesSend(source: any) {
       var message = chatMessageSend.val();
       if (message != "") {
         var html = '<div class="chat-message">' + "<p>" + message + "</p>" + "<div class=" + "chat-time" + ">3:35 AM</div></div>";

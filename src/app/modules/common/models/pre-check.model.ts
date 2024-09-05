@@ -1,8 +1,8 @@
 export class PreCheckModel{
-    IsFlorida:boolean;
-    IsHaveSeenCompanyCare:boolean;
-    IsThan14Age:boolean;
-    IsCalled911:boolean;
-    IsDeviceCheckGreen:boolean;
-    State:string;
+    IsFlorida: boolean = false;
+    IsHaveSeenCompanyCare: boolean = false;
+    IsThan14Age: boolean = false;
+    IsCalled911: boolean = false;
+    IsDeviceCheckGreen: boolean = false;
+    State!: string;
 }

@@ -1,4 +1,4 @@
 export class GroupApptCategoryModel {
-    ID: string;
-    CategoryName: string;
+    ID!: string;
+    CategoryName!: string;
 }

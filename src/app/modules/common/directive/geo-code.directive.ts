@@ -5,8 +5,10 @@ declare var $: any;
   selector: '[appGeoCode]'
 })
 export class GeoCodeDirective implements AfterViewInit  {
-  @Input() lat: number;
-  @Input() lon: number; 
+  @Input()
+  lat!: number;
+  @Input()
+  lon!: number; 
   @Output() onSearchCompleted: EventEmitter<any> = new EventEmitter();
   constructor(private ele: ElementRef) { }
 
@@ -21,8 +23,8 @@ export class GeoCodeDirective implements AfterViewInit  {
       detailsAttribute: "data-geo" 
     });
     
-    geo.bind("geocode:result", function (event, result) {
+    geo.bind("geocode:result",  (event: any, result: any) => {
       this.onSearchCompleted.emit(result);
-    }.bind(this)); 
+    }); 
   }
 }

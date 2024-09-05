@@ -1,12 +1,12 @@
 export class TileAvailableModel {
-    IsPediatric: boolean;
-    IsPrimaryCareUrgentCare: boolean;
-    IsPsychiatric: boolean;
-    IsCovidScreening: boolean;
-    IsTravelMedicine: boolean;
-    IsWeightLossConsultation: boolean;
-    IsDiabeticManagement: boolean;
-    IsSkinCare: boolean;
-    IsFitness: boolean;
-    IsMedicationRefill: boolean;
+    IsPediatric: boolean = false;
+    IsPrimaryCareUrgentCare: boolean = false;
+    IsPsychiatric: boolean = false;
+    IsCovidScreening: boolean = false;
+    IsTravelMedicine: boolean = false;
+    IsWeightLossConsultation: boolean = false;
+    IsDiabeticManagement: boolean = false;
+    IsSkinCare: boolean = false;
+    IsFitness: boolean = false;
+    IsMedicationRefill: boolean = false;
 }

@@ -12,48 +12,48 @@ import { ProviderProfileViewModel } from './provider-profile-request.model';
 import { ApptCategoryModel } from './appt-category.model';
 
 export class AppointmentModel {
-    ID: string;
-    PatientID: string;
-    ProviderID: string;
-    StatusID: string;
-    ReasonID: string;
+    ID!: string;
+    PatientID!: string;
+    ProviderID!: string;
+    StatusID!: string;
+    ReasonID!: string;
     IsOnDemand: boolean;
-    ApptCategoryID: string;
-    AppointmentTime: Date;
-    AppointmentTimeSort: Date;
+    ApptCategoryID!: string;
+    AppointmentTime!: Date;
+    AppointmentTimeSort!: Date;
     Liked: boolean;
-    Description: string;
+    Description!: string;
     AppointmentImageList: Array<AppointmentImageModel>;
     AppointmentReasonList: Array<AppointmentReasonAssignmentModel>;
-    TransactionPaypal: TransactionPaypalModel;
-    AppointmentVideoLink: string;
-    AppointmentStatus: AppointmentStatusModel;
-    TokboxSessionId: string;
-    CreatedOn: Date;
-    WasReferral: boolean;
+    TransactionPaypal!: TransactionPaypalModel;
+    AppointmentVideoLink!: string;
+    AppointmentStatus!: AppointmentStatusModel;
+    TokboxSessionId!: string;
+    CreatedOn!: Date;
+    WasReferral!: boolean;
     AppointmentSlotID: string;
     CreditCard: CreditCardModel;
     Reasons: Array<string>;
-    IsNewPatient: boolean;
-    CategoryName: string;
-    State: string;
-    Gender: string;
+    IsNewPatient!: boolean;
+    CategoryName!: string;
+    State!: string;
+    Gender!: string;
     RequestDate?: Date;
-    isAddInsurance: boolean = null;
-    ApptCategoryCode: string;
-    PaidByInsurance: boolean;
-    ApptCategory: ApptCategoryModel;
-    CancelReason: string;
-    IsNoShow: boolean;
-    JFSubmissionID: string;
-    CoinBaseChargeID: string;
+    isAddInsurance: boolean | null = null;
+    ApptCategoryCode!: string;
+    PaidByInsurance!: boolean;
+    ApptCategory!: ApptCategoryModel;
+    CancelReason!: string;
+    IsNoShow!: boolean;
+    JFSubmissionID!: string;
+    CoinBaseChargeID!: string;
     PayByCrypto: boolean;
-    Countries:Array<string>;
+    Countries!: Array<string>;
     Rating?: number;
-    Review: string;
+    Review!: string;
     IsCovidRelated:boolean;
-    WeightLoss: WeightLossPrecheck;
-    WeightLossPrecheck: WeightLossPrecheck;
+    WeightLoss!: WeightLossPrecheck;
+    WeightLossPrecheck!: WeightLossPrecheck;
     constructor() {
         this.Liked = false;
         this.IsOnDemand = true;
@@ -68,31 +68,31 @@ export class AppointmentModel {
         this.AppointmentSlotID = "";
     }
 
-    ByPassPaymentCode: string;
+    ByPassPaymentCode!: string;
 
     // Not Mapped
-    ProviderUserName: string;
-    PatientUserName: string;
-    GenerateReasonAssignment: string;
+    ProviderUserName!: string;
+    PatientUserName!: string;
+    GenerateReasonAssignment!: string;
     PatientUser: any;
     ProviderUser: UserModel;
-    ProviderProfile: ProviderProfileModel;
-    SelectedProvider: ProviderProfileViewModel;
-    AppointmentFollowUp: string;
-    PatientProfile: PatientProfileModel;
+    ProviderProfile!: ProviderProfileModel;
+    SelectedProvider!: ProviderProfileViewModel;
+    AppointmentFollowUp!: string;
+    PatientProfile!: PatientProfileModel;
     // Apply for payment Stripe
-    IsCharge: boolean;
+    IsCharge!: boolean;
     IsUseDailyCo: boolean = true;
-    RoomName: string;
+    RoomName!: string;
 
     PreCheckModel: PreCheckModel;
 
     IsReadAndAgreedTreatment: boolean = true;
-    GroupName: string;
+    GroupName!: string;
     LastUpdatedTime?: Date;
-    IsFromMobileApp: boolean;
-    ApptCategoryName: string;
-    Language: string;
-    IsCancelCompletedAppt: boolean;
-    PartnerName:string;
+    IsFromMobileApp!: boolean;
+    ApptCategoryName!: string;
+    Language!: string;
+    IsCancelCompletedAppt!: boolean;
+    PartnerName!: string;
 }

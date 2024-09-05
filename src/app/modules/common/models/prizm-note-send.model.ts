@@ -1,8 +1,8 @@
-import { DosePatientPrescription } from 'src/app/modules/common/models/allergy-info.model';
+import { DosePatientPrescription } from '../../../modules/common/models/allergy-info.model';
 export class PrizmNoteSendModel {
-    AppointmentID: string;
-    PatientID: string;
-    AppointmentDocumentID: string;
-    Prescriptions: DosePatientPrescription[];
-    SendFileOption: string;
+    AppointmentID!: string;
+    PatientID!: string;
+    AppointmentDocumentID!: string;
+    Prescriptions!: DosePatientPrescription[];
+    SendFileOption!: string;
 }

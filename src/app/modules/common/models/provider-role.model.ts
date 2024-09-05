@@ -1,6 +1,6 @@
 export class ProviderRoleModel {
-    ID: string;
-    RoleName: string;
-    SortOrder: number;
-    IsInactived: boolean;
+    ID!: string;
+    RoleName!: string;
+    SortOrder!: number;
+    IsInactived!: boolean;
 }

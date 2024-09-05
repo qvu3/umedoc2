@@ -1,6 +1,6 @@
 export class HealthKitDataModel{
     Value?:number;
     To?:Date;
-    UnitType:string;
-    DataType:string;
+    UnitType!: string;
+    DataType!: string;
 }

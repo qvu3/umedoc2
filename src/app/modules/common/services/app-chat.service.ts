@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { MessageChatModel } from '../models/message-chat.model';
 import { RoomChatInfoViewModel } from '../models/room-chat-info-view.model';
 import { UserContactModel } from '../models/user-contact-chat.model';
 import { BaseService } from './base.service';
+import { UserMessageChatModel } from '../models/user-message-chat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AppChatService extends BaseService<UserContactModel>{
     this.resource = `${Global.apiUrl}/api/Chat`;
   }
 
-  MarkedRead(roomId) {
+  MarkedRead(roomId: string) {
     let url = Global.apiUrl + `/api/Chat/MarkedRead/${roomId}`;
     return this.http.post(url, null);
   }
@@ -32,7 +33,7 @@ export class AppChatService extends BaseService<UserContactModel>{
     return this.http.get(url) as Observable<UserContactModel[]>;
   }
 
-  GetMessages(roomId) {
+  GetMessages(roomId: string) {
     let url = Global.apiUrl + `/api/Chat/GetMessages/${roomId}`;
     return this.http.get(url) as Observable<MessageChatModel[]>;
   }
@@ -42,12 +43,12 @@ export class AppChatService extends BaseService<UserContactModel>{
     return this.http.post(url, null) as Observable<string>;
   }
 
-  GetRoomInfo(roomId) {
+  GetRoomInfo(roomId: string) {
     let url = Global.apiUrl + `/api/Chat/GetRoomInfo/${roomId}`;
     return this.http.get(url) as Observable<RoomChatInfoViewModel>;
   }
 
-  Download(key) {
+  Download(key: string) {
     let url = Global.apiUrl + `/api/Chat/Download?key=${key}`;
     return this.http.get(url, { observe: 'response', responseType: 'blob' });
   }
@@ -62,12 +63,12 @@ export class AppChatService extends BaseService<UserContactModel>{
     return this.http.get(url) as Observable<Date>;
   }
 
-  SendMessage(entity) {
+  SendMessage(entity: UserMessageChatModel) {
     let url = Global.apiUrl + `/api/Chat/Send`;
     return this.http.post(url, entity) as Observable<MessageChatModel>;
   }
 
-  DeleteRoom(roomId) {
+  DeleteRoom(roomId: any) {
     let url = Global.apiUrl + `/api/Chat/DeleteRoom/${roomId}`;
     return this.http.post(url, null) as Observable<boolean>;
   }

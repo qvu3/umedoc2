@@ -19,7 +19,7 @@ export class AuthenticationService {
     onReloadListPaymentHistory: EventEmitter<boolean> = new EventEmitter();
     onLoadCategoryIDEvent: EventEmitter<string> = new EventEmitter();
     totalMessageUnread: number = 0;
-    currentRoomId: string;
+    currentRoomId: string | undefined;
     onReloadGetRoomsChat: EventEmitter<boolean> = new EventEmitter();
     onReloadWriteDocumentReferral: EventEmitter<boolean> = new EventEmitter();
     onReloadGroupAppt: EventEmitter<boolean> = new EventEmitter();
@@ -35,7 +35,7 @@ export class AuthenticationService {
     }
 
     set AppointmentPatientID(id) {
-        sessionStorage.setItem('appointment-patient-id', id);
+        sessionStorage.setItem('appointment-patient-id', id ?? '');
     }
 
     get vaccineAppointment() {
@@ -67,7 +67,7 @@ export class AuthenticationService {
     }
 
     set IsOnDemandAppointment(value) {
-        sessionStorage.setItem('is-ondemand-appointment', value);
+        sessionStorage.setItem('is-ondemand-appointment', value ?? '');
     }
 
 
@@ -96,24 +96,24 @@ export class AuthenticationService {
         return this.http.post(this.urlLogin, urlData, { headers: headers }) as Observable<UserModel>;
     }
 
-    Register(entity) {
+    Register(entity: any) {
         let headers = new HttpHeaders({ 'IsFromWebApp': 'true' });
         var url = `${Global.apiUrl}/api/User/Register`;
         return this.http.post(url, entity, { headers: headers }) as Observable<UserModel>;
     }
 
-    RegisterProvider(entity) {
+    RegisterProvider(entity: any) {
         let headers = new HttpHeaders({ 'IsFromWebApp': 'true' });
         var url = `${Global.apiUrl}/api/User/RegisterProvider`;
         return this.http.post(url, entity, { headers: headers }) as Observable<UserModel>;
     }
 
-    UpdatePatientSignUp(entity) {
+    UpdatePatientSignUp(entity: any) {
         var url = `${Global.apiUrl}/api/User/UpdateSignUpInfo`;
         return this.http.post(url, entity) as Observable<UserModel>;
     }
 
-    SetDefaultDate(date) {
+    SetDefaultDate(date: any) {
         var obj = this.GetDefaultDate();
         if (!obj) {
             obj = { date: date };
@@ -124,7 +124,7 @@ export class AuthenticationService {
         sessionStorage.setItem(Global.defaultDateKey, JSON.stringify(obj));
     }
 
-    SetReceivedDate(date) {
+    SetReceivedDate(date: any) {
         var obj = this.GetDefaultDate();
         if (!obj) {
             obj = { receivedDate: date };
@@ -147,7 +147,7 @@ export class AuthenticationService {
         sessionStorage.setItem(Global.currentUser, userInfo);
     }
 
-    GetCurrentUser(): UserModel {
+    GetCurrentUser(): UserModel | null {
         var strValue = sessionStorage.getItem(Global.currentUser);
         if (strValue) {
             return JSON.parse(strValue) as UserModel;
@@ -159,7 +159,7 @@ export class AuthenticationService {
         sessionStorage.clear();
     }
 
-    UpdateCurrentInfo(user) {
+    UpdateCurrentInfo(user: { FirstName: string; LastName: string; Email: string; ProfilePicture: string; State: string; }) {
         var cUser = this.GetCurrentUser();
         if (cUser && user) {
             cUser.FirstName = user.FirstName;
@@ -171,7 +171,7 @@ export class AuthenticationService {
         }
     }
 
-    setIsIdle(isIdle) {
+    setIsIdle(isIdle: boolean) {
         this.isIdle = isIdle;
     }
 

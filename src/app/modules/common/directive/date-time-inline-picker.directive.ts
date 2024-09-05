@@ -13,15 +13,20 @@ declare var $: any;
   providers: [DatePipe]
 })
 export class DateTimeInlinePickerDirective implements AfterViewInit, OnChanges {
-  @Input() state: string;
-  @Input() gender: string;
-  @Input() code: string;
-  @Input() language: string;
-  @Input() providerId:string;
+  @Input()
+  state!: string;
+  @Input()
+  gender!: string;
+  @Input()
+  code!: string;
+  @Input()
+  language!: string;
+  @Input()
+  providerId!: string;
   @Output() onChange: EventEmitter<any> = new EventEmitter();
   @Input() isCountSlot:boolean = false;
-  startDate: Date;
-  endDate: Date;
+  startDate!: Date;
+  endDate!: Date;
   criteria: ProviderCountOnDateCriteriaModel = new ProviderCountOnDateCriteriaModel();
   providerCountInfos: ProviderCountOnDateViewModel[] = [];
   @Input() needCount: boolean = true;
@@ -38,42 +43,42 @@ export class DateTimeInlinePickerDirective implements AfterViewInit, OnChanges {
       create: function () {
         console.log('create');
       },
-      onChangeMonthYear: function (year, month, datepicker) {
+      onChangeMonthYear: (year: number, month: number, datepicker: any) => {
         this.startDate = new Date(year, month - 1, 1, 0, 0, 0);
         this.endDate = new Date(year, month, 0, 24, 0, 0);
         this.getProviderCount(this.criteria);
         this.getSlotVaccineCount();
-      }.bind(this),
-      onSelect: function (date, datepicker) {
+      },
+      onSelect:  (date: Date, datepicker: any) => {
         date = new Date(`${date} 00:00:00`);
         this.onChange.emit(date);
         setTimeout(() => {
           this.generateEvents(this.providerCountInfos);
         }, 300);
-      }.bind(this)
+      }
     }); 
     this.getSlotVaccineCount();
   }
 
   ngOnChanges(params: SimpleChanges) {
-    if (params && params.isCountSlot && params.isCountSlot.currentValue && params.isCountSlot.currentValue != params.isCountSlot.previousValue) {
-      this.criteria.IsCountSlot = params.isCountSlot.currentValue;
+    if (params && params['isCountSlot'] && params['isCountSlot'].currentValue && params['isCountSlot'].currentValue != params['isCountSlot'].previousValue) {
+      this.criteria.IsCountSlot = params['isCountSlot'].currentValue;
     }
-    if (params && params.state && params.state.currentValue && params.state.currentValue != params.state.previousValue) {
-      this.criteria.State = params.state.currentValue;
+    if (params && params['state'] && params['state'].currentValue && params['state'].currentValue != params['state'].previousValue) {
+      this.criteria.State = params['state'].currentValue;
     }
-    if (params && params.gender && params.gender.currentValue != params.gender.previousValue) {
-      this.criteria.Gender = params.gender.currentValue;
+    if (params && params['gender'] && params['gender'].currentValue != params['gender'].previousValue) {
+      this.criteria.Gender = params['gender'].currentValue;
     }
-    if (params && params.code && params.code.currentValue && params.code.currentValue != params.code.previousValue) {
-      this.criteria.ApptCategoryCode = params.code.currentValue;
+    if (params && params['code'] && params['code'].currentValue && params['code'].currentValue != params['code'].previousValue) {
+      this.criteria.ApptCategoryCode = params['code'].currentValue;
     }
 
-    if (params && params.language && params.language.currentValue != params.language.previousValue) {
-      this.criteria.Language = params.language.currentValue;
+    if (params && params['language'] && params['language'].currentValue != params['language'].previousValue) {
+      this.criteria.Language = params['language'].currentValue;
     }
-    if (params && params.providerId && params.providerId.currentValue != params.providerId.previousValue) {
-      this.criteria.ProviderId = params.providerId.currentValue;
+    if (params && params['providerId'] && params['providerId'].currentValue != params['providerId'].previousValue) {
+      this.criteria.ProviderId = params['providerId'].currentValue;
     }
     this.getProviderCount(this.criteria);
   }
@@ -126,7 +131,7 @@ export class DateTimeInlinePickerDirective implements AfterViewInit, OnChanges {
     if (list) {
       list.forEach((x: ProviderCountOnDateViewModel) => {
         $('.ui-datepicker-calendar').find('a[class*=ui-state-default]').each(
-          (index, link) => {
+          (index: any, link: any) => {
             var parent = $(link).parent();
             if (parent) {
               var month = parent.attr('data-month');

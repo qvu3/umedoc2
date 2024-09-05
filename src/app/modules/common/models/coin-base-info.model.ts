@@ -1,5 +1,5 @@
 export class CoinBasseChargeInfo {
-    Code: string;
-    CryptoType: string;
-    Amount: string;
+    Code!: string;
+    CryptoType!: string;
+    Amount!: string;
 }

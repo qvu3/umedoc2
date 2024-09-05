@@ -6,8 +6,10 @@ declare var Twilio: any;
   selector: '[appTwillioCallClient]'
 })
 export class TwillioCallClientDirective {
-  @Input() phoneNumber: string;
-  @Input() clientName: string;
+  @Input()
+  phoneNumber!: string;
+  @Input()
+  clientName!: string;
   constructor(private ele: ElementRef, private utilityService: UtilityService,
     private dialog: CommonDialogService) {
 
@@ -16,17 +18,17 @@ export class TwillioCallClientDirective {
   @HostListener('click') clickCall() {
     if (this.phoneNumber && this.clientName) {
       this.phoneNumber = '+84363056106';
-      this.utilityService.GenerateTwilioToken(this.clientName).subscribe(r => {
+      this.utilityService.GenerateTwilioToken(this.clientName).subscribe((r: any) => {
         if (r) {
           Twilio.Device.setup(r);
         }
-      }, error => {
+      }, (error: any) => {
         this.dialog.showSwalWarningAlert('Call Client',  'Cannot execute to make a calling for this client.' );
       });
-      Twilio.Device.on('ready', function (device) {
+      Twilio.Device.on('ready',  (device: any) => {
         var params = { "phoneNumber": this.phoneNumber };
         Twilio.Device.connect(params);
-      }.bind(this));
+      });
     }
   }
 }

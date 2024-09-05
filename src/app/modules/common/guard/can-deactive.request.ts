@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { CommonDialogService } from '../services/dialog.service';
 import { Location } from '@angular/common';
 import { AuthenticationService } from '../services/authentication.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { WaitingRoomComponent } from '../../home/components/waiting-room/waiting-room.component';
 
 @Injectable({
@@ -60,7 +60,7 @@ export class CanDeactiveRequest implements CanDeactivate<RequestAppointmentCompo
             var isConfirm = this.dialog.showSwalConfirmAlert('Are you sure you want to quit this Appointment Request process?');
             isConfirm.then(confirmed => {
                 if (!confirmed) {
-                    const currentUrlTree = this.router.createUrlTree([], currentRoute);
+                    const currentUrlTree = this.router.createUrlTree([], { fragment: currentRoute.fragment as string | undefined });
                     const currentUrl = currentUrlTree.toString();
                     this.location.go(currentUrl);
                 }

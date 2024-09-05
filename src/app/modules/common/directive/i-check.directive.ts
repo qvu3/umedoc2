@@ -6,7 +6,8 @@ declare var $: any;
   providers: [NgModel]
 })
 export class ICheckDirective implements AfterViewInit ,OnChanges {
-  @Input() ngModel:NgModel
+  @Input()
+  ngModel!: NgModel;
   IsFirst:boolean=false;
   @Output() onChanged:EventEmitter<boolean> = new EventEmitter();
   constructor(private ele: ElementRef, private ngModel1: NgModel) {
@@ -14,10 +15,10 @@ export class ICheckDirective implements AfterViewInit ,OnChanges {
   }
 
   ngOnChanges(param:SimpleChanges){
-    if (param && param.ngModel && param.ngModel.currentValue && param.ngModel.currentValue != param.ngModel.previousValue) {
+    if (param && param['ngModel'] && param['ngModel'].currentValue && param['ngModel'].currentValue != param['ngModel'].previousValue) {
       if(this.IsFirst) return ;
       this.IsFirst=true;
-      var value = param.ngModel.currentValue;
+      var value = param['ngModel'].currentValue;
       $(this.ele.nativeElement).iCheck(value?'check':'uncheck');
     }
   }
@@ -28,13 +29,13 @@ export class ICheckDirective implements AfterViewInit ,OnChanges {
       radioClass: 'iradio_flat-green',
     });
     $(this.ele.nativeElement)
-      .on('ifChecked', function (e) {
+      .on('ifChecked',  (e: any) => {
         this.ngModel1.update.emit(true);
         this.onChanged.emit(true);
-      }.bind(this))
-      .on('ifUnchecked', function (e) {
+      })
+      .on('ifUnchecked',  (e: any) => {
         this.ngModel1.update.emit(false);
         this.onChanged.emit(false);
-      }.bind(this))
+      })
   }
 }

@@ -5,13 +5,14 @@ declare var $: any;
   selector: '[appImgGallery]'
 })
 export class ImgGalleryDirective implements AfterViewInit, OnChanges {
-  @Input() source: Array<AppointmentImageModel>;
+  @Input()
+  source: Array<AppointmentImageModel> = [];
   constructor(private ele: ElementRef) {
 
   }
 
   ngOnChanges(params: SimpleChanges) {
-    if (params && params.source && params.source.currentValue) {
+    if (params && params['source'] && params['source'].currentValue) {
       this.register();
     }
 
@@ -22,11 +23,11 @@ export class ImgGalleryDirective implements AfterViewInit, OnChanges {
   }
 
   register() {
-    setTimeout(function () {
+    setTimeout( () => {
       $(this.ele.nativeElement).lightGallery({
         thumbnail: true,
         selector: 'a'
       });
-    }.bind(this), 100);
+    }, 100);
   }
 }

@@ -1,72 +1,72 @@
 export class AllergyInfoModel {
-    Name: string;
-    Code: string;
-    CodeType: number;
-    CxCUI: number;
+    Name!: string;
+    Code!: string;
+    CodeType!: number;
+    CxCUI!: number;
 }
 
 export class AllergyAssignmentModel {
-    PatientId: number;
-    PatientAllergyId: number;
-    Name: string;
-    Code: string;
-    CodeType: number;
-    Reaction: string;
-    ReactionType: number;
-    StatusType: number;
-    OnsetDate: Date;
+    PatientId!: number;
+    PatientAllergyId!: number;
+    Name!: string;
+    Code!: string;
+    CodeType!: number;
+    Reaction!: string;
+    ReactionType!: number;
+    StatusType!: number;
+    OnsetDate!: Date;
 }
 
 export class PharmacyModel {
-    PharmacyId: number;
-    StoreName: string;
-    Address1: string;
-    Address2: string;
-    City: string;
-    State: string;
-    ZipCode: string;
-    PrimaryPhone: string;
-    Latitude: number;
-    Longitude: number;
+    PharmacyId!: number;
+    StoreName!: string;
+    Address1!: string;
+    Address2!: string;
+    City!: string;
+    State!: string;
+    ZipCode!: string;
+    PrimaryPhone!: string;
+    Latitude!: number;
+    Longitude!: number;
 }
 
 export class DoseTokenInfoModel {
-    ClinicId: string;
-    UserId: string;
-    ClinicEncrypted: string;
-    UserEncrypted: string;
+    ClinicId!: string;
+    UserId!: string;
+    ClinicEncrypted!: string;
+    UserEncrypted!: string;
 }
 
 export class DoseDispenseUnitType {
-    StandardDispenseUnitTypeID: number;
-    Name: string;
-    Abbreviation: string;
-    Singular: string;
-    Plural: string;
-    SingularOrPlural: string;
-    PotencyUnitCode: string;
-    IsActive: boolean;
+    StandardDispenseUnitTypeID!: number;
+    Name!: string;
+    Abbreviation!: string;
+    Singular!: string;
+    Plural!: string;
+    SingularOrPlural!: string;
+    PotencyUnitCode!: string;
+    IsActive!: boolean;
 }
 
 export class DosePatientPrescription {
-    PrescriptionId: number;
-    Directions: string;
-    Quantity: string;
-    DispenseUnitId: number;
-    DispenseUnitType: DoseDispenseUnitType;
-    PrescriberName: string;
-    Refills: string;
-    PharmacyId: number;
-    Pharmacy: PharmacyModel;
-    EffectiveDate: Date;
-    PrescriberId: number;
-    MedicationStatus: MedicationStatusEnum;
-    Status : PrescriptionStatusType;
-    DoseForm: string;
-    Route: string;
-    Strength: string;
-    GenericProductName: string;
-    checked:boolean;
+    PrescriptionId!: number;
+    Directions!: string;
+    Quantity!: string;
+    DispenseUnitId!: number;
+    DispenseUnitType!: DoseDispenseUnitType;
+    PrescriberName!: string;
+    Refills!: string;
+    PharmacyId!: number;
+    Pharmacy!: PharmacyModel;
+    EffectiveDate!: Date;
+    PrescriberId!: number;
+    MedicationStatus!: MedicationStatusEnum;
+    Status!: PrescriptionStatusType;
+    DoseForm!: string;
+    Route!: string;
+    Strength!: string;
+    GenericProductName!: string;
+    checked!: boolean;
 }
 
 export enum PrescriptionStatusType {

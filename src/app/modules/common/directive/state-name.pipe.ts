@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 
 @Pipe({
   name: 'stateName'

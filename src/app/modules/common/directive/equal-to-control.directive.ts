@@ -11,12 +11,13 @@ import { NG_VALIDATORS, Validator, FormControl, AbstractControl } from '@angular
   ]
 })
 export class EqualToControlDirective implements Validator , OnChanges{
-  @Input() equalControl: FormControl;
-  _control: AbstractControl;
+  @Input()
+  equalControl!: FormControl;
+  _control!: AbstractControl;
   constructor() { }
  
   ngOnChanges(params: SimpleChanges) {
-    if(params && params.gtTo && params.gtTo.currentValue && params.gtTo.currentValue!= params.gtTo.previousValue)
+    if(params && params['gtTo'] && params['gtTo'].currentValue && params['gtTo'].currentValue!= params['gtTo'].previousValue)
     {
       this.equalControl.valueChanges.subscribe(r => {
         if (this._control) {

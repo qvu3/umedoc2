@@ -11,9 +11,12 @@ declare var $: any;
     selector: '[appPaypalPayment]'
 })
 export class PaypalPaymentDirective implements AfterViewInit, OnChanges {
-    @Input() idButton: string;
-    @Input() model: AppointmentModel;
-    @Input() routerName: string;
+    @Input()
+    idButton!: string;
+    @Input()
+    model: AppointmentModel = new AppointmentModel;
+    @Input()
+    routerName!: string;
     constructor(private ele: ElementRef,
         private router: Router,
         private authenService: AuthenticationService,
@@ -22,10 +25,10 @@ export class PaypalPaymentDirective implements AfterViewInit, OnChanges {
     }
     ngOnChanges(params: SimpleChanges) {
        // console.log(params);
-        if (params && params.idButton && params.idButton.currentValue
-            && params.idButton.currentValue != params.idButton.previousValue
-            && params.model && params.model.currentValue
-            && params.model.currentValue != params.model.previousValue) {
+        if (params && params['idButton'] && params['idButton'].currentValue
+            && params['idButton'].currentValue != params['idButton'].previousValue
+            && params['model'] && params['model'].currentValue
+            && params['model'].currentValue != params['model'].previousValue) {
             this.renderPaypalButton();
         }
     }
@@ -47,24 +50,24 @@ export class PaypalPaymentDirective implements AfterViewInit, OnChanges {
             },
 
             // Set up a payment
-            payment: function (data, actions) {
+            payment:  (data: any, actions: any) => {
                 return this.service.CreatePayment(this.model).then(r => {
-                    return r.id;
+                    return (r as any).id;
                 });
-            }.bind(this),
+            },
             // Execute the payment
-            onAuthorize: function (data, actions) {
+            onAuthorize:  (data: { paymentID: any; payerID: any; }, actions: any) => {
                 var req = {
                     paymentID: data.paymentID,
                     payerID: data.payerID,
                     appointment: Object.assign({}, this.model)
                 }
-                return this.service.ExecutePayment(req).then(r => {
+                return this.service.ExecutePayment(req).then((r: any) => {
                     if (r && r.ID) {
                         this.router.navigate([`/appointment-room`, r.ID]);
                     }
                 });
-            }.bind(this)
+            }
         }, '#' + this.idButton);
     }
 }

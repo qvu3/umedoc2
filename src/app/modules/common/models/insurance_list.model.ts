@@ -1,4 +1,4 @@
 export class InsuranceListModel{
-    ID:string;
-    InsuranceName:string; 
+    ID!: string;
+    InsuranceName!: string; 
 }

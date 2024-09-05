@@ -8,21 +8,27 @@ declare var $: any;
 })
 export class ColorPickerDirective implements AfterViewInit {
   constructor(private ele: ElementRef, private ngModel: NgModel) {
-    this.ngModel.valueChanges.subscribe(r => {
-      if (r)
-        $(this.ele.nativeElement).ColorPickerSetColor(r);
-    });
+    // Check if valueChanges is not null before subscribing
+    if (this.ngModel.valueChanges) {
+      this.ngModel.valueChanges.subscribe(r => {
+        if (r) {
+          $(this.ele.nativeElement).ColorPickerSetColor(r);
+        }
+      });
+    }
   }
 
   ngAfterViewInit() {
     this.register();
   }
+
   register() {
     $(this.ele.nativeElement).ColorPicker({
       eventName: 'click',
-      onChange: function (hsb, hex, rgb, el) {
-        this.ngModel.update.emit(`#${hex}`);
-      }.bind(this) 
+      onChange: function (this: ColorPickerDirective, hsb: any, hex: any, rgb: any, el: any) {
+        // Use setValue to update the form control value
+        this.ngModel.control.setValue(`#${hex}`);
+      }
     });
   }
 }

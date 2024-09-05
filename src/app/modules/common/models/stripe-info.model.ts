@@ -12,29 +12,29 @@ export class StripeInfoModel {
 
 
 export class SetupIntentResponseModel {
-    ClientSecret: string;
-    CustomerID: string;
+    ClientSecret!: string;
+    CustomerID!: string;
 }
 
 export class CardInfoModel {
     IsShowStripePayment: boolean = true;
-    State: string;
-    CVV: string;
-    CardNumber: string;
-    ExpiredMonth: string;
-    ExpiredYear: string;
-    PatientID:string;
+    State!: string;
+    CVV!: string;
+    CardNumber!: string;
+    ExpiredMonth!: string;
+    ExpiredYear!: string;
+    PatientID!: string;
 }
 
 export class ChargeInfoModel {
-    Amount: number;
-    Total: number;
-    AppointmentID: string;
+    Amount!: number;
+    Total!: number;
+    AppointmentID!: string;
 }
 
 export class CaptureFundInfoModel {
-    Amount: number;
-    Total: number;
-    AppointmentID: string;
-    IsPartial: boolean;
+    Amount!: number;
+    Total!: number;
+    AppointmentID!: string;
+    IsPartial!: boolean;
 }

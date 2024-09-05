@@ -3,26 +3,26 @@ import { GroupApptModel } from "./group-appt.model";
 import UserModel from "./user.model";
 
 export class GroupApptPatientModel {
-    ID: string;
-    GroupApptID: string;
+    ID!: string;
+    GroupApptID!: string;
     GroupAppt: GroupApptModel;
-    PatientID: string;
-    PatientUser: UserModel;
+    PatientID!: string;
+    PatientUser!: UserModel;
 
-    ProviderID: string;
-    StripeChargeID: string;
+    ProviderID!: string;
+    StripeChargeID!: string;
     IsCancelled: boolean;
 
-    TotalPrice: number;
-    IsBooked: boolean;
-    GroupApptDocuments: GroupApptDocumentsModel[];
+    TotalPrice!: number;
+    IsBooked!: boolean;
+    GroupApptDocuments!: GroupApptDocumentsModel[];
     constructor() {
         this.GroupAppt = new GroupApptModel();
         this.IsCancelled = false;
-        this.isAddInsurance = null;
+        this.isAddInsurance = false;
     }
 
-    isAddInsurance: boolean = null;
-    PaidByInsurance:boolean = null;
+    isAddInsurance: boolean = false;
+    PaidByInsurance?: boolean;
 
 }

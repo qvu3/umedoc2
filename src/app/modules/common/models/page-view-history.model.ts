@@ -1,7 +1,7 @@
 export class PageViewHistoryModel{
-    ID:string;
-    UserID:string;
+    ID!: string;
+    UserID!: string;
     AccessDate?:Date;
-    PageName:string;
-    PageUrl:string;
+    PageName!: string;
+    PageUrl!: string;
 }

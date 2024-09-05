@@ -1,11 +1,11 @@
 
 export class EmailConfirmModel {
-    IsSuccess: boolean;
-    ReturnUrl: string;
+    IsSuccess: boolean = false;
+    ReturnUrl!: string;
 }
 
 export class EmailConfirmData {
-    UserId: string;
-    Code: string;
-    ReturnUrl: string;
+    UserId!: string;
+    Code!: string;
+    ReturnUrl!: string;
 }

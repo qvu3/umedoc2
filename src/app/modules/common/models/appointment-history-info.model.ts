@@ -1,12 +1,12 @@
 export class AppointmentHistoryInfoModel {
-    ID: string;
-    ProfilePicture: string;
-    ProviderUserName: string;
-    AppointmentTimeSort: string;
+    ID!: string;
+    ProfilePicture!: string;
+    ProviderUserName!: string;
+    AppointmentTimeSort!: string;
     AppointmentTime?: Date;
-    StatusName: string;
-    TextReasons: string;
-    CancelReason: string;
+    StatusName!: string;
+    TextReasons!: string;
+    CancelReason!: string;
     Notes: Array<AppointmentHistoryNoteModel>;
 
     constructor() {
@@ -15,11 +15,11 @@ export class AppointmentHistoryInfoModel {
 }
 
 export class AppointmentHistoryNoteModel {
-    ID: string;
-    ProfilePicture: string;
-    ProviderUserName: string;
-    CreatedOn: Date;
-    Subjective: string;
-    Plan: string;
-    FollowUp: string;
+    ID!: string;
+    ProfilePicture!: string;
+    ProviderUserName!: string;
+    CreatedOn!: Date;
+    Subjective!: string;
+    Plan!: string;
+    FollowUp!: string;
 }

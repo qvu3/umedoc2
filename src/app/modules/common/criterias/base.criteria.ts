@@ -3,7 +3,7 @@ export class BaseCriteria {
   ItemPerPage: number = 20;
   SortColumn: string = 'Name';
   SortDirection: string = 'asc';
-  SearchText: string;
+  SearchText!: string;
   HealthPatientID:string="";
-  CurrentUserID:string;
+  CurrentUserID!: string;
 }

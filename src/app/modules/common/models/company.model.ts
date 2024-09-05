@@ -1,34 +1,34 @@
 
 export class CompanyModel {
-    ID: string;
-    Name: string;
-    CompanyName: string;
-    Address1: string;
-    Address2: string;
-    City: string;
-    State: string;
-    ZipCode: string;
-    Address: string;
-    CellPhoneNumber: string;
-    PhoneNumber: string;
-    FaxNumber: string;
-    Email: string;
-    LicenseNumber: string;
-    LicenseDate: Date;
-    ProvideBy: string;
-    OrganizationID: string;
+    ID!: string;
+    Name!: string;
+    CompanyName!: string;
+    Address1!: string;
+    Address2!: string;
+    City!: string;
+    State!: string;
+    ZipCode!: string;
+    Address!: string;
+    CellPhoneNumber!: string;
+    PhoneNumber!: string;
+    FaxNumber!: string;
+    Email!: string;
+    LicenseNumber!: string;
+    LicenseDate!: Date;
+    ProvideBy!: string;
+    OrganizationID!: string;
     IsOrganization: boolean = false;
-    RepresentativeID: string;
-    LicenseTypeID: string;
-    CompanyType: number;
-    CompanyPicture: string;
-    PayPalClientID: string;
-    PayPalSecretKey: string;
-    DomainURL: string;
-    AppointmentPrice: number;
-    ByPassPaymentCode: string;
+    RepresentativeID!: string;
+    LicenseTypeID!: string;
+    CompanyType!: number;
+    CompanyPicture!: string;
+    PayPalClientID!: string;
+    PayPalSecretKey!: string;
+    DomainURL!: string;
+    AppointmentPrice!: number;
+    ByPassPaymentCode!: string;
     IsVaccineEnabled: boolean = false;
-    SubscriptionTrialDays: number;
+    SubscriptionTrialDays!: number;
     IsExistPlan: boolean = false;
     get PayPalClientIDView(): string {
         let view = "";
@@ -84,10 +84,10 @@ export class CompanyModel {
 
     isFocusID: boolean = false;
     isFocusSecret: boolean = false;
-    DontKnowCopayPrice: number;
+    DontKnowCopayPrice!: number;
     constructor() {
         this.IsOrganization = false;
     }
 
-    PortalFee: number;
+    PortalFee!: number;
 }

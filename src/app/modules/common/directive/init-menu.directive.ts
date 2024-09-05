@@ -10,7 +10,8 @@ declare var screenfull: any;
   selector: '[appInitMenu]'
 })
 export class InitMenuDirective implements AfterViewInit, OnChanges {
-  @Input() isNeedChange: string;
+  @Input()
+  isNeedChange!: string;
   @Output() onChangeMode: EventEmitter<boolean> = new EventEmitter();
   constructor(private sanitizer: Sanitizer,
     private deviceService: DeviceDetectorService) { }
@@ -41,7 +42,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
   ngOnChanges(params: SimpleChanges) {
 
-    if (params && params.isNeedChange && params.isNeedChange.currentValue && params.isNeedChange.currentValue != params.isNeedChange.previousValue) {
+    if (params && params['isNeedChange'] && params['isNeedChange'].currentValue && params['isNeedChange'].currentValue != params['isNeedChange'].previousValue) {
       //this.registerApp();
       //this.registerMenu();
     }
@@ -66,17 +67,19 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         obj: null,
 
         init: function () {
-          this.obj = new PerfectScrollbar(".main-menu-content", {
-            suppressScrollX: true,
-            wheelPropagation: false,
-          });
+          if (typeof PerfectScrollbar !== 'undefined') {
+            this.obj = new PerfectScrollbar(".main-menu-content", {
+              suppressScrollX: true,
+              wheelPropagation: false,
+            });
+          }
         },
 
         update: function () {
           if (this.obj) {
             // Scroll to currently active menu on page load if data-scroll-to-active is true
             if ($('.main-menu').data('scroll-to-active') === true) {
-              var position;
+              var position: { top: any; } | undefined;
               if ($(".main-menu-content").find('li.active').parents('li').length > 0) {
                 position = $(".main-menu-content").find('li.active').parents('li').last().position();
               }
@@ -90,7 +93,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
                 $('.main-menu').data('scroll-to-active', 'false');
               }, 300);
             }
-            this.obj.update();
+            (this.obj as any).update();
 
           }
         },
@@ -103,7 +106,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
         disable: function () {
           if (this.obj) {
-            this.obj.destroy();
+            (this.obj as any).destroy();
           }
         },
 
@@ -115,7 +118,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         }
       },
 
-      init: function (compactMenu) {
+      init: function (compactMenu: boolean) {
         if ($('.main-menu-content').length > 0) {
           this.container = $('.main-menu-content');
 
@@ -130,7 +133,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
             var menuToggle = '';
 
             if (typeof (Storage) !== "undefined") {
-              menuToggle = sessionStorage.getItem("menuLocked");
+              menuToggle = sessionStorage.getItem("menuLocked") ?? '';
             }
             if (menuToggle === "false") {
               this.change('collapsed');
@@ -153,7 +156,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
       },
 
-      drillDownMenu: function (screenSize) {
+      drillDownMenu: function (screenSize: string) {
         if ($('.drilldown-menu').length) {
           if (screenSize == 'sm' || screenSize == 'xs') {
             if ($('#navbar-mobile').attr('aria-expanded') == 'true') {
@@ -171,7 +174,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         }
       },
 
-      change: function (defMenu) {
+      change: function (defMenu: string) {
         var currentBreakpoint = Unison.fetch.now(); // Current Breakpoint
 
         this.reset();
@@ -239,17 +242,17 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         // Dropdown submenu on large screen on hover For Large screen only
         // ---------------------------------------------------------------
         if (currentBreakpoint.name == 'xl') {
-          $('body[data-open="hover"] .dropdown').off('mouseenter').on('mouseenter', function (e) {
+          $('body[data-open="hover"] .dropdown').off('mouseenter').on('mouseenter',  (e: any) => {
             if (!($(this).hasClass('show'))) {
               $(this).addClass('show');
             } else {
               $(this).removeClass('show');
             }
-          }).off('mouseleave').on('mouseleave', function (event) {
+          }).off('mouseleave').on('mouseleave',  (event: any) => {
             $(this).removeClass('show');
           });
 
-          $('body[data-open="hover"] .dropdown a').off('click').on('click', function (e) {
+          $('body[data-open="hover"] .dropdown a').off('click').on('click',  (e: any) => {
             if (menuType == 'horizontal-menu') {
               var $this = $(this);
               if ($this.hasClass('dropdown-toggle')) {
@@ -272,7 +275,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
         // Dropdown submenu on small screen on click
         // --------------------------------------------------
-        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click',  (event: { preventDefault: () => void; stopPropagation: () => void; }) => {
           if ($(this).siblings('ul.dropdown-menu').length > 0) {
             event.preventDefault();
           }
@@ -296,7 +299,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         }
       },
 
-      transit: function (callback1, callback2) {
+      transit: function (callback1: { call: (arg0: any) => void; }, callback2: { call: (arg0: any) => void; }) {
         var menuObj = this;
         $body.addClass('changing-menu');
 
@@ -334,7 +337,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
       },
 
       open: function () {
-        this.transit(function () {
+        this.transit( () => {
           $body.removeClass('menu-hide menu-collapsed').addClass('menu-open');
           this.hidden = false;
           this.expanded = true;
@@ -343,7 +346,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
             $('.sidenav-overlay').removeClass('d-none').addClass('d-block');
             $body.css('overflow', 'hidden');
           }
-        }, function () {
+        },  () => {
           if (!$('.main-menu').hasClass('menu-native-scroll') && $('.main-menu').hasClass('menu-fixed')) {
             this.manualScroller.enable();
             $('.main-menu-content').css('height', $(window).height() - $('.header-navbar').height() - $('.main-menu-header').outerHeight() - $('.main-menu-footer').outerHeight());
@@ -359,7 +362,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
       hide: function () {
 
-        this.transit(function () {
+        this.transit( () => {
           $body.removeClass('menu-open menu-expanded').addClass('menu-hide');
           this.hidden = true;
           this.expanded = false;
@@ -368,7 +371,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
             $('.sidenav-overlay').removeClass('d-block').addClass('d-none');
             $('body').css('overflow', 'auto');
           }
-        }, function () {
+        },  () => {
           if (!$('.main-menu').hasClass('menu-native-scroll') && $('.main-menu').hasClass('menu-fixed')) {
             this.manualScroller.enable();
           }
@@ -391,13 +394,13 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
               sessionStorage.setItem("menuLocked", "true");
             }
           }
-          this.transit(function () {
+          this.transit( () => {
             $body.removeClass('menu-collapsed').addClass('menu-expanded');
             this.collapsed = false;
             this.expanded = true;
 
             $('.sidenav-overlay').removeClass('d-block d-none');
-          }, function () {
+          },  () => {
 
             if (($('.main-menu').hasClass('menu-native-scroll') || $body.data('menu') == 'horizontal-menu')) {
               this.manualScroller.disable();
@@ -415,7 +418,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         }
       },
 
-      collapse: function (defMenu) {
+      collapse: function (defMenu: any) {
         if (this.collapsed === false) {
           if ($body.data('menu') == 'vertical-menu-modern') {
             $('.modern-nav-toggle').find('.toggle-icon')
@@ -426,13 +429,13 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
               sessionStorage.setItem("menuLocked", "false");
             }
           }
-          this.transit(function () {
+          this.transit( () => {
             $body.removeClass('menu-expanded').addClass('menu-collapsed');
             this.collapsed = true;
             this.expanded = false;
 
             $('.content-overlay').removeClass('d-block d-none');
-          }, function () {
+          },  () => {
 
             if ($body.data('menu') == 'vertical-content-menu') {
               this.manualScroller.disable();
@@ -454,7 +457,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         }
       },
 
-      toOverlayMenu: function (screen, menuType) {
+      toOverlayMenu: function (screen: string, menuType: string) {
         var menu = $body.data('menu');
         if (menuType == 'vertical-menu-modern') {
           if (screen == 'md' || screen == 'sm' || screen == 'xs') {
@@ -488,7 +491,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         }
       },
 
-      changeMenu: function (screen) {
+      changeMenu: function (screen: string) {
         // Replace menu html
         //$('div[data-menu="menu-wrapper"]').html('');
         //$('div[data-menu="menu-wrapper"]').html(menuWrapper_el);
@@ -517,7 +520,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
           // If Mega Menu
           megaMenu.removeClass('dropdown mega-dropdown').addClass('has-sub');
           megaMenu.children('ul').removeClass();
-          megaMenuCol.each(function (index, el) {
+          megaMenuCol.each(function (index: any, el: any) {
 
             // Remove drilldown-menu and menu list
             var megaMenuSub = $(el).find('.mega-menu-sub');
@@ -547,7 +550,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
           // Dropdown submenu on small screen on click
           // --------------------------------------------------
-          $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+          $('ul.dropdown-menu [data-toggle=dropdown]').on('click',  (event: { preventDefault: () => void; stopPropagation: () => void; }) => {
             event.preventDefault();
             event.stopPropagation();
             $(this).parent().siblings().removeClass('open');
@@ -577,14 +580,16 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
           // --------------------------------------------------
           //this.drillDownMenu(screen);
 
-          $('a.dropdown-item.nav-has-children').on('click', function () {
-            event.preventDefault();
-            event.stopPropagation();
-          });
-          $('a.dropdown-item.nav-has-parent').on('click', function () {
-            event.preventDefault();
-            event.stopPropagation();
-          });
+          $('a.dropdown-item.nav-has-children').on('click', function (e: { preventDefault: () => void; stopPropagation: () => void; }) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+        
+        $('a.dropdown-item.nav-has-parent').on('click', function (e: { preventDefault: () => void; stopPropagation: () => void; }) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+        
         }
       },
 
@@ -675,7 +680,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         speed: 300,
       },
 
-      init: function (config) {
+      init: function (config: any) {
         this.initialized = true; // Set to true when initialized
         $.extend(this.config, config);
 
@@ -683,7 +688,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
       },
 
       // Detect IE
-      detectIE: function ($menuItem) {
+      detectIE: function ($menuItem: any) {
         var ua = window.navigator.userAgent;
 
         // Test values; Uncomment to check result …
@@ -728,7 +733,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
         $('.navigation-main')
           .off('mouseenter.app.menu', 'li')
-          .on('mouseenter.app.menu', 'li', function () {
+          .on('mouseenter.app.menu', 'li',  () => {
             var $this = $(this);
             $('.hover', '.navigation-main').removeClass('hover');
             if (($body.hasClass('menu-collapsed') && $body.data('menu') != 'vertical-menu-modern') || ($body.data('menu') == 'vertical-compact-menu' && !$body.hasClass('vertical-overlay-menu'))) {
@@ -798,17 +803,17 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
             // $(this).removeClass('hover');
           })
           .off('active.app.menu', 'li')
-          .on('active.app.menu', 'li', function (e) {
+          .on('active.app.menu', 'li',  (e: { stopPropagation: () => void; }) => {
             $(this).addClass('active');
             e.stopPropagation();
           })
           .off('deactive.app.menu', 'li.active')
-          .on('deactive.app.menu', 'li.active', function (e) {
+          .on('deactive.app.menu', 'li.active',  (e: { stopPropagation: () => void; }) => {
             $(this).removeClass('active');
             e.stopPropagation();
           })
           .off('open.app.menu', 'li')
-          .on('open.app.menu', 'li', function (e) {
+          .on('open.app.menu', 'li',  (e: { stopPropagation: () => void; }) => {
 
             var $listItem = $(this);
             $listItem.addClass('open');
@@ -828,7 +833,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
             e.stopPropagation();
           })
           .off('close.app.menu', 'li.open')
-          .on('close.app.menu', 'li.open', function (e) {
+          .on('close.app.menu', 'li.open',  (e: { stopPropagation: () => void; }) => {
             var $listItem = $(this);
 
             $listItem.removeClass('open');
@@ -837,7 +842,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
             e.stopPropagation();
           })
           .off('click.app.menu', 'li')
-          .on('click.app.menu', 'li', function (e) {
+          .on('click.app.menu', 'li',  (e: { preventDefault: () => void; stopPropagation: () => void; }) => {
             var $listItem = $(this);
             if ($listItem.is('.disabled')) {
               e.preventDefault();
@@ -866,33 +871,27 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
           });
 
 
-        $('.navbar-header, .main-menu')
-          .off('mouseenter')
-          .on('mouseenter', modernMenuExpand)
-          .on('mouseleave')
-          .on('mouseleave', modernMenuCollapse);
-
-        function modernMenuExpand() {
+        const modernMenuExpand = () => {
           if ($body.data('menu') == 'vertical-menu-modern') {
             $('.main-menu, .navbar-header').addClass('expanded');
             if ($body.hasClass('menu-collapsed')) {
               var $listItem = $('.main-menu li.menu-collapsed-open'),
                 $subList = $listItem.children('ul');
-
-              $subList.hide().slideDown(200, function () {
+        
+              $subList.hide().slideDown(200,  () => {
                 $(this).css('display', '');
               });
-
+        
               $listItem.addClass('open').removeClass('menu-collapsed-open');
             }
           }
         }
 
-        function modernMenuCollapse() {
+        const modernMenuCollapse = () => {
           if ($body.hasClass('menu-collapsed') && $body.data('menu') == 'vertical-menu-modern') {
-            setTimeout(function () {
+            setTimeout( () => {
               if ($('.main-menu:hover').length === 0 && $('.navbar-header:hover').length === 0) {
-
+        
                 $('.main-menu, .navbar-header').removeClass('expanded');
                 // Hide dropdown of user profile section for material templates
                 if ($('.user-profile .user-info .dropdown').hasClass('show')) {
@@ -903,17 +902,25 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
                   var $listItem = $('.main-menu li.open'),
                     $subList = $listItem.children('ul');
                   $listItem.addClass('menu-collapsed-open');
-
-                  $subList.show().slideUp(200, function () {
+        
+                  $subList.show().slideUp(200,  () => {
                     $(this).css('display', '');
                   });
-
+        
                   $listItem.removeClass('open');
                 }
               }
             }, 1);
           }
         }
+        
+        $('.navbar-header, .main-menu')
+          .off('mouseenter')
+          .on('mouseenter', modernMenuExpand)
+          .on('mouseleave')
+          .on('mouseleave', modernMenuCollapse);
+        
+        
 
         $('.main-menu-content').on('mouseleave', function () {
           if ($body.hasClass('menu-collapsed') || $body.data('menu') == 'vertical-compact-menu') {
@@ -925,13 +932,13 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         });
 
         // If list item has sub menu items then prevent redirection.
-        $('.navigation-main li.has-sub > a').on('click', function (e) {
+        $('.navigation-main li.has-sub > a').on('click', function (e: { preventDefault: () => void; }) {
           e.preventDefault();
         });
 
         $('ul.menu-content')
           .off('click', 'li')
-          .on('click', 'li', function (e) {
+          .on('click', 'li',  (e: { preventDefault: () => void; stopPropagation: () => void; }) => {
             var $listItem = $(this);
             if ($listItem.is('.disabled')) {
               e.preventDefault();
@@ -974,7 +981,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
        * Ensure an admin submenu is within the visual viewport.
        * @param {jQuery} $menuItem The parent menu item containing the submenu.
        */
-      adjustSubmenu: function ($menuItem) {
+      adjustSubmenu: function ($menuItem: { children: (arg0: string) => any; position: () => { (): any; new(): any; top: any; }; css: (arg0: string) => string; height: () => number; }) {
         var menuHeaderHeight, menutop, topPos, winHeight,
           bottomOffset, subMenuHeight, popOutMenuHeight, borderWidth, scroll_theme,
           $submenu = $menuItem.children('ul:first'),
@@ -1037,7 +1044,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         }
       },
 
-      fullSubmenu: function ($menuItem) {
+      fullSubmenu: function ($menuItem: { children: (arg0: string) => any; }) {
         var $submenu = $menuItem.children('ul:first'),
           ul = $submenu.clone(true);
 
@@ -1052,10 +1059,10 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
       },
 
-      collapse: function ($listItem, callback) {
+      collapse: function ($listItem: { children: (arg0: string) => any; }, callback: () => void) {
         var $subList = $listItem.children('ul');
 
-        $subList.show().slideUp($.app.nav.config.speed, function () {
+        $subList.show().slideUp($.app.nav.config.speed,  () => {
           $(this).css('display', '');
 
           $(this).find('> li').removeClass('is-shown');
@@ -1068,11 +1075,11 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         });
       },
 
-      expand: function ($listItem, callback) {
+      expand: function ($listItem: { children: (arg0: string) => any; }, callback: () => void) {
         var $subList = $listItem.children('ul');
         var $children = $subList.children('li').addClass('is-hidden');
         $.app.nav.container.trigger('expanded.app.menu');
-        $subList.hide().slideDown($.app.nav.config.speed, function () {
+        $subList.hide().slideDown($.app.nav.config.speed,  () => {
           $(this).css('display', '');
 
           if (callback) {
@@ -1099,7 +1106,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
     var $html = $('html');
     var $body = $('body');
 
-    $(window).on('load', function () {
+    $(window).on('load',  () => {
       var rtl;
       var compactMenu = false; // Set it to true, if you want default menu to be compact
 
@@ -1121,7 +1128,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         $.app.nav.init(config);
       }
 
-      Unison.on('change', function (bp) {
+      Unison.on('change', function (bp: any) {
         $.app.menu.change();
       });
 
@@ -1190,7 +1197,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
       //  Notifications & messages scrollable
       if ($('.scrollable-container').length > 0) {
-        $('.scrollable-container').each(function () {
+        $('.scrollable-container').each( () => {
           var scrollable_container = new PerfectScrollbar($(this)[0]);
         });
       }
@@ -1221,8 +1228,8 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
       // });
 
       // Match the height of each card in a row
-      setTimeout(function () {
-        $('.row.match-height').each(function () {
+      setTimeout( () => {
+        $('.row.match-height').each( () => {
           $(this).find('.card').not('.card .card').matchHeight(); // Not .card .card prevents collapsible cards from taking height
         });
       }, 500);
@@ -1282,7 +1289,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
         }
       }
 
-      $('.nav-link-search').on('click', function () {
+      $('.nav-link-search').on('click',  () => {
         var $this = $(this),
           searchInput = $(this).siblings('.search-input');
 
@@ -1296,7 +1303,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
     });
 
     // Hide overlay menu on content overlay click on small screens
-    $(document).on('click', '.sidenav-overlay', function (e) {
+    $(document).on('click', '.sidenav-overlay', function (e: any) {
       // Hide menu
       $.app.menu.hide();
       return false;
@@ -1311,7 +1318,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
       if ($(swipeInElement).length > 0) {
         var swipeInMenu = new Hammer(swipeInElement);
 
-        swipeInMenu.on("panright", function (ev) {
+        swipeInMenu.on("panright", function (ev: any) {
           if ($body.hasClass('vertical-overlay-menu')) {
             $.app.menu.open();
             return false;
@@ -1329,7 +1336,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
           swipeOutMenu.get('pan').set({ direction: Hammer.DIRECTION_ALL, threshold: 100 });
 
-          swipeOutMenu.on("panleft", function (ev) {
+          swipeOutMenu.on("panleft", function (ev: any) {
             if ($body.hasClass('vertical-overlay-menu')) {
               $.app.menu.hide();
               return false;
@@ -1345,7 +1352,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
 
         var swipeOutOverlayMenu = new Hammer(swipeOutOverlayElement);
 
-        swipeOutOverlayMenu.on("panleft", function (ev) {
+        swipeOutOverlayMenu.on("panleft", function (ev: any) {
           if ($body.hasClass('vertical-overlay-menu')) {
             $.app.menu.hide();
             return false;
@@ -1354,7 +1361,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
       }
     }
 
-    $(document).on('click', '.menu-toggle, .modern-nav-toggle', function (e) {
+    $(document).on('click', '.menu-toggle, .modern-nav-toggle', function (e: { preventDefault: () => void; }) {
       e.preventDefault();
 
       // Hide dropdown of user profile section for material templates
@@ -1392,7 +1399,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
       return false;
     });
 
-    $(document).on('click', '.open-navbar-container', function (e) {
+    $(document).on('click', '.open-navbar-container', function (e: any) {
 
       var currentBreakpoint = Unison.fetch.now();
 
@@ -1402,7 +1409,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
       // return false;
     });
 
-    $(document).on('click', '.main-menu-footer .footer-toggle', function (e) {
+    $(document).on('click', '.main-menu-footer .footer-toggle',  (e: { preventDefault: () => void; }) => {
       e.preventDefault();
       $(this).find('i').toggleClass('pe-is-i-angle-down pe-is-i-angle-up');
       $('.main-menu-footer').toggleClass('footer-close footer-open');
@@ -1417,7 +1424,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
     });
 
     // Page full screen
-    $('.nav-link-expand').on('click', function (e) {
+    $('.nav-link-expand').on('click', function (e: any) {
       if (typeof screenfull != 'undefined') {
         if (screenfull.enabled) {
           screenfull.toggle();
@@ -1437,7 +1444,7 @@ export class InitMenuDirective implements AfterViewInit, OnChanges {
       }
     }
 
-    $(document).on('click', '.mega-dropdown-menu', function (e) {
+    $(document).on('click', '.mega-dropdown-menu', function (e: { stopPropagation: () => void; }) {
       e.stopPropagation();
     });
 

@@ -1,5 +1,5 @@
 export class ToxBoxModel{
-    apiKey:string;
-    sessionId:string;
-    token:string;
+    apiKey!: string;
+    sessionId!: string;
+    token!: string;
 }

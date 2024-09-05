@@ -1,6 +1,6 @@
 export class ProviderSpecialtyModel {
-    ID: string;
-    SpecialtyName: string;
-    SortOrder: number;
-    IsInactived: boolean;
+    ID!: string;
+    SpecialtyName!: string;
+    SortOrder!: number;
+    IsInactived!: boolean;
 }

@@ -12,11 +12,14 @@ export class PagingTableDirective implements AfterViewInit {
   @Input() aoColumns: any;
   @Input() aaSorting: any;
   @Input() extraParams: any;
-  @Input() serverLink: string;
+  @Input()
+  serverLink!: string;
   @Input() bServer: boolean = true;
   @Input() compRef: any;
-  @Input() isFilter: boolean;
-  @Input() isLengthChange: boolean;
+  @Input()
+  isFilter: boolean = false;
+  @Input()
+  isLengthChange: boolean = false;
   @Input() setCriteriaFn: any;
   @Input() isRowReorder: boolean = false;
   @Input() indexColReorder: number = 0;
@@ -24,7 +27,7 @@ export class PagingTableDirective implements AfterViewInit {
   @Output() onFilterColumn: EventEmitter<any> = new EventEmitter();
   @Output() onCompletedSearch: EventEmitter<any> = new EventEmitter();
   table: any;
-  url: string;
+  url!: string;
   constructor(private ele: ElementRef, private http: HttpClient,private dialog:CommonDialogService) {
 
   }
@@ -60,7 +63,7 @@ export class PagingTableDirective implements AfterViewInit {
         "infoEmpty": "No records available",
         "infoFiltered": "(filtered from _MAX_ total records)"
       },
-      "fnServerData": (sSource, aoData, fnCallback) => {
+      "fnServerData": (sSource: string, aoData: any, fnCallback: (arg0: { aaData: any; iTotalRecords: any; iTotalDisplayRecords: any; } | undefined) => void) => {
         var criteria = this.compRef[this.setCriteriaFn ? this.setCriteriaFn : "SetCriteria"](aoData);
 
         return this.http.post(sSource, criteria)
@@ -70,21 +73,21 @@ export class PagingTableDirective implements AfterViewInit {
               var result = { "aaData": dt.Data, "iTotalRecords": dt.TotalRecords, "iTotalDisplayRecords": dt.TotalRecords };
               fnCallback(result);
             } else {
-              fnCallback();
+              fnCallback({ aaData: [], iTotalRecords: 0, iTotalDisplayRecords: 0 });
             }
             this.onCompletedSearch.emit(true);
           }, error => {
             this.dialog.showSwalErrorAlert("TimeOut", error.error)
            });
       },
-      "drawCallback": (settings) => {
+      "drawCallback": (settings: any) => {
         if (!this.isRowReorder) return;
 
 
         var rows = this.table.rows({ page: 'current' }).nodes();
-        var last = null;
+        var last: string | null = null;
         var totalColumn = this.aoColumns.length;
-        this.table.column(this.indexColReorder, { page: 'current' }).data().each(function (group, i) {
+        this.table.column(this.indexColReorder, { page: 'current' }).data().each(function (group: string | null, i: any) {
           if (last !== group) {
             if (group == 'Scheduled') {
               $(rows).eq(i).before(
@@ -104,17 +107,17 @@ export class PagingTableDirective implements AfterViewInit {
     });
     var id = $(this.ele.nativeElement).attr('id')
 
-    $('#' + id + ' tbody').on('mouseover', 'div', function (event) {
+    $('#' + id + ' tbody').on('mouseover', 'div', function (event: { currentTarget: any; }) {
       if (event && event.currentTarget) {
         $(event.currentTarget).addClass('show');
       }
     }.bind(this));
-    $('#' + id + ' tbody').on('mouseout', 'div', function (event) {
+    $('#' + id + ' tbody').on('mouseout', 'div', function (event: { currentTarget: any; }) {
       if (event && event.currentTarget) {
         $(event.currentTarget).removeClass('show');
       }
     }.bind(this));
-    $('#' + id + ' tbody').on('click', 'button', function (event) {
+    $('#' + id + ' tbody').on('click', 'button',  (event: { currentTarget: { outerHTML: any; }; }) => {
       var rowId = $(event.currentTarget.outerHTML).attr('param');
       if (event && event.currentTarget && rowId) {
         var methodName = $(event.currentTarget).attr('method-name');
@@ -122,8 +125,8 @@ export class PagingTableDirective implements AfterViewInit {
           this.compRef[methodName](rowId);
         }
       }
-    }.bind(this));
-    $('#' + id + ' tbody').on('click', 'a', function (event) {
+    });
+    $('#' + id + ' tbody').on('click', 'a',  (event: { currentTarget: { outerHTML: any; }; }) => {
       var rowId = $(event.currentTarget.outerHTML).attr('param');
       if (event && event.currentTarget && rowId) {
         var methodName = $(event.currentTarget).attr('method-name');
@@ -131,6 +134,6 @@ export class PagingTableDirective implements AfterViewInit {
           this.compRef[methodName](rowId);
         }
       }
-    }.bind(this));
+    });
   }
 }

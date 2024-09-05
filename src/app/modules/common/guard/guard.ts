@@ -9,7 +9,7 @@ import {
 } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import UserModel from "../models/user.model";
-import Global from "src/app/Global";
+import Global from "../../../Global";
 import { CommonDialogService } from "../services/dialog.service";
 import { TLSSocket } from "tls";
 const jwtHelper = new JwtHelperService();
@@ -19,11 +19,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   entry = "";
 
   constructor(private router: Router, private dialog: CommonDialogService) {
-    this.entry = sessionStorage.getItem(Global.currentUser);
+    this.entry = sessionStorage.getItem(Global.currentUser)!;
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    this.entry = sessionStorage.getItem(Global.currentUser);
+    this.entry = sessionStorage.getItem(Global.currentUser) ?? "";
     if (this.entry) {
       // logged in so return true
       // Check whether the token is expired and return
@@ -83,7 +83,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
           }
         }
 
-        if (!route.data || (route.data && !route.data.Roles)) {
+        if (!route.data || (route.data && !route.data["Roles"])) {
           if (
             tk.Role == "Provider" &&
             state.url.indexOf("provider-sms-verify") < 0 &&
@@ -135,9 +135,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
           return true;
         } else {
           var roleRight = false;
-          for (var i = 0; i < route.data.Roles.length; i++) {
+          for (var i = 0; i < route.data["Roles"].length; i++) {
             if (tk.Role) {
-              if (route.data.Roles[i] === tk.Role) {
+              if (route.data["Roles"][i] === tk.Role) {
                 roleRight = true;
                 break;
               }
@@ -163,7 +163,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    this.entry = sessionStorage.getItem(Global.currentUser);
+    this.entry = sessionStorage.getItem(Global.currentUser) ?? "";
     if (this.entry) {
       // Check whether the token is expired and return
       const tk = JSON.parse(this.entry) as UserModel;

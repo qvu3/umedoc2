@@ -1,8 +1,8 @@
-import { CountOldDirective } from './count-old.directive';
+import { CountOldPipe } from './count-old.directive';
 
 describe('CountOldDirective', () => {
   it('should create an instance', () => {
-    const directive = new CountOldDirective();
+    const directive = new CountOldPipe();
     expect(directive).toBeTruthy();
   });
 });

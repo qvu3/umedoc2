@@ -8,23 +8,23 @@ import { ProviderBadgeModel } from './provider-badge.model';
 import { ProviderLanguageModel } from './provider-language.model';
 
 export class ProviderProfileModel {
-    ID: string;
-    ProviderID: string;
-    ProviderDegreeID: string;
-    ProviderRoleID: string;
-    YearsInPractice: number;
-    LicensedIn: string;
-    SelfDescription: string;
-    NumberOfAppointmentLike: number;
-    IsAvailable: boolean;
-    IsBackupAvailable: boolean;
+    ID!: string;
+    ProviderID!: string;
+    ProviderDegreeID!: string;
+    ProviderRoleID!: string;
+    YearsInPractice!: number;
+    LicensedIn!: string;
+    SelfDescription!: string;
+    NumberOfAppointmentLike!: number;
+    IsAvailable!: boolean;
+    IsBackupAvailable!: boolean;
     ProviderDegree: ProviderDegreeModel;
     ProviderRole: ProviderRoleModel;
     SpecialtyAssignments: ProviderSpecialtyAssignmentModel[];
     Educations: ProviderEducationModel[];
     ProviderUser: UserModel;
     ProviderLicenses: ProviderLicenseModel[];
-    DS_UserID: number;
+    DS_UserID!: number;
     ProviderBadges: ProviderBadgeModel[];
     ProviderLanguages: ProviderLanguageModel[];
     constructor() {
@@ -38,10 +38,10 @@ export class ProviderProfileModel {
         this.ProviderLanguages = [];
     }
 
-    IsHideAppointment: boolean;
-    CountNumberOfPatientWaiting: number;
-    ProviderName: string;
-    NPINumber: string;
-    LicenseNumber: string;
-    IsVerified: boolean;
+    IsHideAppointment!: boolean;
+    CountNumberOfPatientWaiting!: number;
+    ProviderName!: string;
+    NPINumber!: string;
+    LicenseNumber!: string;
+    IsVerified!: boolean;
 }

@@ -7,7 +7,7 @@ declare var $: any;
   providers: [NgModel]
 })
 export class SwitchBootDirective implements AfterViewInit, OnChanges {
-  @Input() ngModel: NgModel
+  @Input() ngModel!: NgModel
   @Output() onChanged: EventEmitter<boolean> = new EventEmitter()
   IsFirst: boolean = false;
   constructor(private ele: ElementRef) {
@@ -15,10 +15,10 @@ export class SwitchBootDirective implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(param: SimpleChanges) {
-    if (param && param.ngModel && param.ngModel.currentValue && param.ngModel.currentValue != param.ngModel.previousValue) {
+    if (param && param['ngModel'] && param['ngModel'].currentValue && param['ngModel'].currentValue != param['ngModel'].previousValue) {
       if (this.IsFirst) return;
       this.IsFirst = true;
-      var value = param.ngModel.currentValue;
+      var value = param['ngModel'].currentValue;
       $(this.ele.nativeElement).bootstrapSwitch('toggleState');
     }
   }
@@ -27,8 +27,8 @@ export class SwitchBootDirective implements AfterViewInit, OnChanges {
     $(this.ele.nativeElement)
       .bootstrapSwitch()
       .on('switchChange.bootstrapSwitch',
-        function (e, data) {
+         (e: any, data: any) => {
           this.onChanged.emit(data);
-        }.bind(this));
+        });
   }
 }
