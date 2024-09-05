@@ -1,0 +1,259 @@
+<div class="row" *ngIf="showButtonInsuranceType">
+    <div class="col-lg-12 col-md-12 text-center mb-2">
+        <button type="button" (click)="addPVerifyInsurance('Primary')" class="btn btn-green mr-1" style="margin-bottom: 3px;">
+            {{'Add Primary Insurance' | translate}}</button>
+        <button type="button" (click)="addPVerifyInsurance('Secondary')" class="btn btn-medical-white">
+            {{'Add Secondary Insurance' | translate}}</button>
+    </div>
+</div>
+<div *ngIf="list.length > 0">
+    <div style="min-height: 25vh;">
+        <section id="timeline" class="timeline-left timeline-wrapper">
+            <ul class="timeline">
+                <li class="timeline-line"></li>
+                <li class="timeline-group">
+                    <a href="javascript:void(0)" class="btn btn-info pull-right mb-2" (click)="getList()"><i class="la la-refresh"> {{'Refresh' | translate}}</i></a>
+                </li>
+            </ul>
+            <ng-template ngFor let-item [ngForOf]="list">
+                <ul class="timeline" *ngIf="showHistory  || (!showHistory && item.Status == 'Enabled')">
+                    <li class="timeline-line"></li>
+                    <li class="timeline-item" style="padding-bottom: 0px;">
+                        <div class="timeline-badge">
+                            <span class="bg-blue bg-lighten-1" data-toggle="tooltip" data-placement="right" title="" data-original-title="Portfolio project work">
+                                <i class="la la-plus-square-o"></i>
+                            </span>
+                        </div>
+
+                        <div class="timeline-card card border-grey border-lighten-2" style="box-shadow: 0 5px 15px 5px rgba(177 183 193 / 25%);">
+                            <div class="card-header">
+                                <h6 class="card-title text-info text-bold-500">
+                                    Insurance: {{item.PayerName}}
+                                </h6>
+                                <div class="row">
+                                    <div class="card-subtitle text-muted pt-1 col-md-8">
+                                        <span class="font-small-3 badge mr-1" [ngClass]="{'badge-success':item.Status!='Disabled' , 'badge-danger':item.Status=='Disabled' }">
+                                            {{item.Status}}</span> <span [ngClass]="item.InsuranceType == 'Primary' ? 'badge-info' : 'badge-warning'" class="font-small-3 badge">
+                                            {{item.InsuranceType}}</span><br>
+                                        <div class="font-small-3" *ngIf="item.Status == 'Disabled'">
+                                            <strong>Reason:</strong> {{item.DeclineReason}}
+                                        </div>
+                                        <div class="font-small-3"><strong>Member ID:</strong>
+                                            {{item.MemberID}}</div>
+                                        <div class="font-small-3" *ngIf="item.SubscriberFirstName">
+                                            <strong>Subscriber Name:</strong> {{item.SubscriberFirstName}}
+                                            {{item.SubscriberLastName}}
+                                        </div>
+                                        <div class="font-small-3"><strong>Subscriber DOB:</strong>
+                                            {{item.SubscriberDOB |date:'MM/dd/yyyy'}}</div>
+                                        <div class="font-small-3" *ngIf="item.DependentFirstName">
+                                            <strong>Dependent Name:</strong> {{item.DependentFirstName}}
+                                            {{item.DependentLastName}}
+                                        </div>
+                                        <div class="font-small-3" *ngIf="item.DependentDOB">
+                                            <strong>Dependent DOB:</strong> {{item.DependentDOB |
+                                            date:'MM/dd/yyyy'}}
+                                        </div>
+                                        <div class="font-small-3" *ngIf="item.FinalCopay != null">
+                                            <strong>Final Copay:</strong> {{item.FinalCopay | currency}}
+                                        </div>
+                                        <div class="row mt-1" *ngIf="item.FrontImageUrlView || item.BackImageUrlView">
+                                            <span>
+                                                <div *ngIf="item.FrontImageUrlView" class="form-group col-sm-12 col-md-2">
+                                                    <a href="{{item.FrontImageUrlView}}" target="_blank" title="Front image">
+                                                        <img style="max-width: 50px!important;height: 50px!important;" class="img-fluid img-thumbnail" [src]="item.FrontImageUrlView" alt="">
+                                                    </a>
+                                                </div>
+                                            </span>
+                                            <span>
+                                                <div *ngIf="item.BackImageUrlView" class="form-group col-sm-12 col-md-2">
+                                                    <a href="{{item.BackImageUrlView}}" target="_blank" title="Back image">
+                                                        <img style="max-width: 50px!important;height: 50px!important;" class="img-fluid img-thumbnail" [src]="item.BackImageUrlView" alt="">
+                                                    </a>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p class="col-md-4 text-right">
+                                        <button type="button" class="btn btn-info mb-1" *ngIf="currentUser && currentUser.Role && currentUser.Role != 'Patient' &&  item.Status == 'Enabled'" (click)="setFinalCopay(item)">Set Final
+                                            Copay</button><br />
+                                        <button type="button" class="btn btn-success mb-1" (click)="updateImages(item)">Update Insurance Images</button><br />
+                                        <button type="button" class="btn btn-danger mr-1" *ngIf="currentUser && currentUser.Role && (currentUser.Role == 'Special_Admin' || currentUser.Role == 'Company_Admin')" (click)="delete(item)">Remove</button>
+                                        <button type="button" class="btn btn-danger" *ngIf="currentUser && currentUser.Role && currentUser.Role != 'Patient' &&  item.Status == 'Enabled'" (click)="showDiableReason(item)">Disable</button>
+                                        <button type="button" class="btn btn-success" *ngIf="currentUser && currentUser.Role && currentUser.Role != 'Patient' && item.Status == 'Disabled'" (click)="enabledInsurance(item)">Enable</button>
+                                        <!-- <a (click)="showHistory=!showHistory" class="text-info">
+                                            <i class="la la-angle-down" *ngIf="!showHistory">Show Details</i>
+                                            <i class="la la-angle-up" *ngIf="showHistory">Hide Details</i>
+                                        </a> -->
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card-content" *ngIf="showHistory">
+                                <div class="card-body" style="border-top: 1px solid #EEEEEE;">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-12">
+                                            <h5 class="text-bold-500">Verification History</h5>
+                                            <div class="media" *ngFor="let note of item.PverifyCheckHistories">
+                                                <div class="media-left pr-1">
+                                                    <a href="javascript:void(0)">
+                                                        <span class="avatar avatar-online" *ngIf="item.ProfilePicture">
+                                                            <img [src]="item.ProfilePicture | defaultImg" alt="avatar"></span>
+                                                    </a>
+                                                </div>
+
+                                                <div class="row media-body">
+                                                    <p class="card-subtitle text-muted pt-1 col-md-8">
+                                                        <span class="font-small-3 text-bold-600">
+                                                            {{note.DateOfService | date :'MM/dd/yyyy hh:mm a'}}
+                                                        </span>
+                                                        <span class="font-small-3 badge badge-success" *ngIf="note.PlanCoverageStatus=='Active'">
+                                                            {{note.PlanCoverageStatus}}</span>
+                                                        <span class="font-small-3 badge badge-danger" *ngIf="note.PlanCoverageStatus!='Active'">
+                                                            Not Active
+                                                        </span> <br />
+                                                        <span>
+                                                            <span class="strong"><strong>Request ID:</strong></span>
+                                                            {{note.RequestID}}
+                                                        </span> <br />
+                                                        <span>
+                                                            <strong>Response Messsage:</strong>
+                                                            {{note.APIResponseMessage}}
+                                                        </span> <br />
+                                                        <span *ngIf="note.ContractedServiceProvider">
+                                                            <strong> Contracted Service Provider: </strong>
+                                                            <strong class="text-danger">{{note.ContractedServiceProvider ? note.ContractedServiceProvider + ' (Pre-Approval Hold Fee will be applied)' : 'N/A'}}</strong>
+                                                        </span>
+                                                        <br *ngIf="note.ContractedServiceProvider">
+                                                        <span *ngIf="!note.IsHMOPlan">
+                                                            <strong>Is HMO Plan:</strong> {{note.IsHMOPlan}}
+                                                        </span>
+                                                        <span *ngIf="note.IsHMOPlan">
+                                                            <strong>Is HMO Plan:</strong> <strong class="text-danger"> {{note.IsHMOPlan}} (Self-pay amount may be applied)</strong>
+                                                        </span> <br />
+                                                        <span *ngIf="!(note.IndividualDeductibleRemainingInNet_1==null)">
+                                                            <strong> Individual Deductible Remaining In Net
+                                                                1: </strong>
+                                                            {{note.IndividualDeductibleRemainingInNet_1 | currency}}
+                                                        </span>
+                                                        <span *ngIf="note.IndividualDeductibleRemainingInNet_1==null">
+                                                            <strong> Individual Deductible Remaining In Net
+                                                                1: </strong>N/A
+                                                        </span>
+                                                        <br />
+                                                        <span *ngIf="!(note.IndividualDeductibleRemainingOutNet_1==null)">
+                                                            <strong>Individual Deductible Remaining Out Net
+                                                                1:</strong>
+                                                            {{ note.IndividualDeductibleRemainingOutNet_1 |
+                                                            currency}}
+                                                        </span>
+
+                                                        <span *ngIf="note.IndividualDeductibleRemainingOutNet_1==null">
+                                                            <strong>Individual Deductible Remaining Out Net
+                                                                1:</strong> {{ " N/A"}}
+                                                        </span>
+                                                        <br />
+                                                        <span *ngIf="!(note.IndividualDeductibleRemainingInNet_2 == null)">
+                                                            <strong>Individual Deductible Remaining In Net
+                                                                2:</strong>
+                                                            {{note.IndividualDeductibleRemainingInNet_2 | currency}}
+                                                        </span>
+
+                                                        <span *ngIf="note.IndividualDeductibleRemainingInNet_2 == null">
+                                                            <strong>Individual Deductible Remaining In Net
+                                                                2:</strong> N/A
+                                                        </span>
+
+
+                                                        <br />
+                                                        <span *ngIf="!(note.IndividualDeductibleRemainingOutNet_2 == null)">
+                                                            <strong>Individual Deductible Remaining Out Net
+                                                                2:</strong>
+                                                            {{note.IndividualDeductibleRemainingOutNet_2 |
+                                                            currency}}
+                                                        </span>
+                                                        <span *ngIf="note.IndividualDeductibleRemainingOutNet_2 == null">
+                                                            <strong>Individual Deductible Remaining Out Net
+                                                                2:</strong> N/A
+                                                        </span>
+                                                        <br />
+                                                        <span *ngIf="!(note.CoPayInNet == null)">
+                                                            <strong>CoPay In Net:</strong> {{note.CoPayInNet |
+                                                            currency}}
+                                                        </span>
+
+                                                        <span *ngIf="note.CoPayInNet == null">
+                                                            <strong>CoPay In Net: </strong> N/A
+                                                        </span>
+
+                                                        <br />
+                                                        <span *ngIf="!(note.CoPayOutNet == null)">
+                                                            <strong>CoPay Out Net:</strong> {{note.CoPayOutNet |
+                                                            currency}}
+                                                        </span>
+                                                        <span *ngIf="(note.CoPayOutNet == null)">
+                                                            <strong>CoPay Out Net: </strong> N/A
+                                                        </span>
+                                                        <br />
+                                                        <span *ngIf="!(note.CoInsInNet == null)">
+                                                            <strong>CoIns In Net:</strong> {{
+                                                            note.CoInsInNet + "%" }}
+                                                        </span>
+
+                                                        <span *ngIf="note.CoInsInNet == null">
+                                                            <strong>CoIns In Net:</strong> N/A
+                                                        </span> <br />
+
+                                                        <span *ngIf="!(note.CoInsOutNet == null)">
+                                                            <strong> CoIns Out Net:</strong> {{ note.CoInsOutNet +
+                                                            "%"}}
+                                                        </span>
+
+                                                        <span *ngIf="note.CoInsOutNet == null">
+                                                            <strong> CoIns Out Net:</strong> N/A
+                                                        </span>
+
+
+
+                                                    </p>
+                                                    <p class="col-md-4 text-right">
+                                                        <button type="button" class="btn btn-outline-success mb-1 mt-3" *ngIf="currentUser && currentUser.Role && currentUser.Role != 'Patient' && note.PlanCoverageStatus=='Active'"
+                                                            (click)="viewReportPdf(note)">View Report</button><br />
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </ng-template>
+            <!-- <ul class="timeline" *ngIf="!list || list.length  == 0">
+                    <li class="timeline-line"></li>
+                    <li class="timeline-item">
+                        <div class="timeline-badge">
+                            <img [src]=" null | defaultImg" width="40" height="40" class="circle"
+                                style="border-radius: 50px;" />
+                        </div>
+
+                        <div class="timeline-card card border-grey border-lighten-2"
+                            style="box-shadow: 0 5px 15px 5px rgba(126, 136, 154, 0.87);">
+                            <div class="card-header">
+                                <h6 class="card-title text-info text-bold-500">
+                                    No Insurance.
+                                </h6>
+                            </div>
+                        </div>
+                    </li>
+                </ul> -->
+        </section>
+    </div>
+</div>
+<app-pverify-disable-reason #disableModal (onSaved)="saveDisableCallback($event)"></app-pverify-disable-reason>
+<app-pverify-insurance-modal #modal (onClosed)="getList()"></app-pverify-insurance-modal>
+<app-pverify-insurance-set-final-copay #finalCopayModal (onSaved)="saveFinalCopay($event)">
+</app-pverify-insurance-set-final-copay>
+
+<app-pverify-upload-image #modalImage (onClosed)="getList()"></app-pverify-upload-image>

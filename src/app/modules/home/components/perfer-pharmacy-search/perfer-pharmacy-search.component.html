@@ -1,0 +1,22 @@
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog modal-sp-lg" style="height: 95%;">
+    <div class="modal-content" style="height: 100%;">
+      <div class="modal-body">
+          <button type="button" (click)="hide()" class="btn btn-sm btn-danger" style="position: absolute;
+          top: 17px; right: 17px; z-index: 9999;"><i class="ft-x"></i></button>
+        <div class="row" style="height: 100%;"> 
+          <div class="col-md-12">
+            <app-geo-gmap #GeoMap 
+            [name]="model.PreferredPharmacy"  
+            [address]="model.PreferredPharmacyAddress" 
+            [city]="model.PreferredPharmacyCity" 
+            [state]="model.PreferredPharmacyState" 
+            [zipcode]="model.PreferredPharmacyZipCode? model.PreferredPharmacyZipCode : model.PatientUser.ZipCode" 
+            (onSelected)="selectPharmacy($event)"></app-geo-gmap>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

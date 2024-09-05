@@ -1,0 +1,47 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Provider</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 text-center">
+                        <h5>Choose Provider you want to switch to:</h5>
+                    </div>
+                    <div class="row" *ngFor="let provider of providers">
+                        <div class="col-3" style="padding-right: 0;">
+                            <input type="radio" name="selectedProviderId" #selectedProviderId1="ngModel"
+                                style="margin-top: 20px; width:20px; height:20px;" [value]="provider.ProviderID"
+                                [(ngModel)]="selectedProviderId" required>
+                            <span class="label-checkbox" style="margin-left:5px">
+                                <img [src]="provider.ProfilePicture | defaultImg" alt="ProfileImage" width="40"
+                                    height="40" style="border-radius:50px;">
+                            </span>
+                        </div>
+                        <div class="col-6 mt-2">
+                            <h6 style="font-weight: 700;">{{provider.ProviderName}}</h6>
+                            <span class="text-danger" *ngIf="provider.CountNumberOfPatientWaiting >0">Patient Waiting:
+                                {{provider.CountNumberOfPatientWaiting}}</span>
+                        </div>
+                        <div class="col-3 mt-2">
+                            <button type="button" class="btn btn-outline-info btn-sm"
+                                (click)="showProfile(provider.ProviderID)">View Profile</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 error-message mt-1"
+                        *ngIf="f.submitted && !selectedProviderId">
+                        Please select your provider you want to switch.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green" [disabled]="Submitting">Change</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

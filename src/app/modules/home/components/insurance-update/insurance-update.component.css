@@ -1,0 +1,24 @@
+
+.form-control-insurance-copay {
+    display : inline;
+    margin-top: -10px;
+    margin-left: 10px;
+    height : -webkit-calc(1.25em + 1.5rem + 2px);
+    height :    -moz-calc(1.25em + 1.5rem + 2px);
+    height :         calc(1.25em + 1.5rem + 2px);
+    padding : 0.75rem 1rem;
+    font-size : 1rem;
+    font-weight : 400;
+    line-height : 1.25;
+    color : #4E5154;
+    background-color : #FFFFFF;
+    background-clip : padding-box;
+    border : 1px solid #BABFC7;
+    border-radius : 0.25rem;
+    -webkit-transition : border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition : border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    -o-transition : border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    -moz-transition : border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition : border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition : border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  }

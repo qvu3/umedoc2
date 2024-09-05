@@ -1,0 +1,51 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <!-- <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate> -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Participants Information</h4>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li>
+                            <div class="col-md-12 text-right">
+                                <button type="button" (click)="refreshParticipants()"
+                                    class="btn btn-sm btn-medical-white round">
+                                    Refresh
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12">
+                    <h4>Participants Information:</h4>
+                </div>
+                <div class="col-sm-12 text-center" *ngIf="!participants">
+                    <h4>No Participant joined.</h4>
+                </div>
+                <div class="col-sm-12" *ngIf="participants">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>{{participants}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12" *ngIf="participantClients">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>{{participantClients}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-min-width btn-warning" (click)="turnOnMicCamera()">Turn On Patient's Cam & Mic</button>
+                    <button type="button" class="btn btn-min-width btn-outline-info" (click)="cancel()">Close</button>
+                </div>
+            </div>
+            <!-- </form> -->
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>

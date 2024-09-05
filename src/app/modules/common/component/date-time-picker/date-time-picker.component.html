@@ -1,0 +1,11 @@
+
+  <div [ngClass]="{'row col-md-12': (!hasTime),'col-md-8 px-0 mr-2':hasTime}">
+    <input type='text' [placeholder]="placeholder" [disabled]="isDisabled" class="form-control pickadate-selectors"
+      [style]="isGreyColor?'background-color: white':'background-color:rgba(214, 214, 214, 0.712); color:black'"
+      #dapicker />
+  </div>
+  <div class="row col-md-4" *ngIf="hasTime">
+    <input type='text' [disabled]="isDisabled" class="form-control pickadate-selectors"
+      [style]="isGreyColor?'background-color: white':'background-color:rgba(214, 214, 214, 0.712); color:black'"
+      #tapicker />
+  </div>

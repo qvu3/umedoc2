@@ -1,0 +1,225 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Patient</h4>
+                </div>
+                <div class="modal-body">
+                    <fieldset class="fieldset-user">
+                        <div class="form-group row clearfix" id="groupPersonalInfo" [ngClass]="{ 'has-error': (!Email.valid || !CellPhone.valid) }">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Email">
+                                        {{'Email:' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <input class="form-control required" type="text" name="Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #Email="ngModel" [(ngModel)]="model.Email" required>
+
+                                    <div *ngIf="f.submitted && Email.errors && Email.errors.required" class="error-message">Required
+                                    </div>
+                                    <div *ngIf="f.submitted && Email.errors && !Email.errors.required && Email.errors.pattern" class="error-message">Invalid value
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'Cell Phone:' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <input class="form-control required" [textMask]="{mask:maskPhone}"
+                                        pattern="^\(([2346789][0-9]{2}|[23456789][012346789][0-9]|[23456789][0-9][012346789])\)\s?([012346789][0-9]{2}|[0123456789][012346789][0-9]|[0123456789][0-9][012346789])-[0-9]{4}$"
+                                        placeholder="Cell Phone" name="CellPhone" [(ngModel)]="model.CellPhone" #CellPhone="ngModel" required type="text" />
+                                    <div *ngIf="f.submitted && CellPhone.errors && CellPhone.errors.required" class="error-message">Required
+                                    </div>
+                                    <div *ngIf="f.submitted && CellPhone.errors && !CellPhone.errors.required && CellPhone.errors.pattern" class="error-message">Invalid value
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row clearfix">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'Legal First Name *' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="First Name" name="FirstName" [(ngModel)]="model.FirstName" #FirstName="ngModel" required maxlength="35" />
+                                    <div *ngIf="f.submitted && FirstName.errors && FirstName.errors.required" class="error-message">Required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        Middle Name:
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="Middle Name" name="MiddleName" [(ngModel)]="model.MiddleName" #MiddleName="ngModel" maxlength="35" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'Legal Last Name *' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <input type="text" class="form-control" name="LastName" [(ngModel)]="model.LastName" placeholder="Last Name" #LastName="ngModel" required maxlength="35" />
+                                    <div *ngIf="f.submitted && LastName.errors && LastName.errors.required" class="error-message">Required
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row clearfix" [ngClass]="{ 'has-error': (!DOB.valid || !Gender.valid) }">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'Date of Birth:' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <app-date-time-picker [placeholder]="'Date of Birth'" name="DOB" [isDisabled]="false" [hasTime]="false" [(ngModel)]="model.DOB" #DOB="ngModel" required>
+                                    </app-date-time-picker>
+                                    <div *ngIf="f.submitted && DOB.errors && DOB.errors.required" class="error-message">
+                                        Required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'Gender:' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <select class="form-control" name="Gender" [(ngModel)]="model.Gender" #Gender="ngModel" required>
+                                        <option value="" disabled>{{'Select Gender' | translate}}</option>
+                                        <option value="Male">{{'Male' | translate}}</option>
+                                        <option value="Female">{{'Female' | translate}}</option>
+                                    </select>
+                                    <div *ngIf="f.submitted && Gender.errors && Gender.errors.required" class="error-message">
+                                        Required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix" [ngClass]="{ 'has-error': !Address1.valid }">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'Address 1:' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="Address1" name="Address1" [(ngModel)]="model.Address1" #Address1="ngModel" required maxlength="35" />
+                                    <div *ngIf="f.submitted && Address1.errors && Address1.errors.required" class="error-message">Required
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'Address 2:' | translate}}
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="Address2" name="Address2" [(ngModel)]="model.Address2" #Address2="ngModel" maxlength="35" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix" [ngClass]="{ 'has-error': (!City.valid || !State.valid || !ZipCode.valid) }">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'City:' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="City" name="City" [(ngModel)]="model.City" #City="ngModel" required />
+                                    <div *ngIf="f.submitted && City.errors && City.errors.required" class="error-message">Required
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'State:' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <select name="State" class="form-control m-input" [(ngModel)]="model.State" #State="ngModel" required>
+                                        <option value="" disabled>Select</option>
+                                        <option value="{{item.value}}" *ngFor="let item of us_statelist">{{item.name}}</option>
+                                    </select>
+                                    <div *ngIf="f.submitted && State.errors && State.errors.required" class="error-message">Required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'Zip Code:' | translate}}
+                                        <span class="danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <input type="text" [textMask]="{mask: maskZipCode}" class="form-control" name="ZipCode" [(ngModel)]="model.ZipCode" placeholder="Zip" #ZipCode="ngModel" required />
+                                    <div *ngIf="f.submitted && ZipCode.errors && ZipCode.errors.required" class="error-message">Required
+                                    </div>
+                                    <div *ngIf="f.submitted && ZipCode.errors && !ZipCode.errors.required && ZipCode.errors.pattern" class="error-message">
+                                        Invalid value
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix" [ngClass]="{ 'has-error': !Address1.valid }">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        {{'Partner Company :' | translate}}
+                                    </label>
+                                    <select class="form-control" name="PartnerCompanyID" [(ngModel)]="model.PartnerCompanyID" #PartnerCompanyID="ngModel">
+                                        <option value="">{{'None' | translate}}</option>
+                                        <option [value]="partner.ID" *ngFor="let partner of partnerCompanies">{{partner.Name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green" [disabled]="Submitting">Save</button>
+                    <label class="btn btn-warning" style="margin-top:8px; cursor: pointer;" title="Import XML" appFileUpload="" [typeUpload]="'add_patient_import'"
+                        (onCallback)="uploaded($event)"
+                        [fileType]="1" (onUploadStatus)="uploadStatus($event)" [link]="'/api/PatientRequest/ImportXML'">
+                        <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file" accept="*/*">
+                        <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                        <span>{{isUploading?'Uploading...':'Import XML'}}</span>
+                    </label>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

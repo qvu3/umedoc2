@@ -1,0 +1,19 @@
+<div class="card" [appActionCardButton]="'Patien-Prescriptions'">
+    <div class="card-header">
+        <h1 class="card-title" style="color: #016670;">{{'Appointment Prescription document' | translate}}</h1>
+        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+        <div class="heading-elements">
+            <a class="btn btn-sm btn-icon round bg-teal white" (click)="generatePdf()" type="button" style="-webkit-appearance: none;">
+                Generate Prescription PDF
+            </a>
+        </div>
+    </div>
+    <div class="card-content collapse show">
+        <div class="col-md-12">
+            <table class="table" [isFilter]="false" [isLengthChange]="false" appPagingTable="" [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting" [compRef]="compRef"
+                (tableEvent)="catchTable($event)" style="width: 100%">
+            </table>
+        </div>
+    </div>
+</div>
+<app-generate-prescription-pdf-modal #gpdf (closeModal)="RefreshTable()"></app-generate-prescription-pdf-modal>

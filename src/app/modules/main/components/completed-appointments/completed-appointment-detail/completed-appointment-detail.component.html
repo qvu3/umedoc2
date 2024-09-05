@@ -1,0 +1,95 @@
+<div class="content-body">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="text-muted text-bold-500 my-1">TABS</h6>
+          <div class="list-group list-group-messages">
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active" [routerLink]="['appointment-info']">
+              <i class="icon-home mr-1"></i>
+              <span>Appointment Info</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active" [routerLink]="['appointment-status-histories']">
+              <i class="icon-check mr-1"></i>
+              <span>Status History</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active" [routerLink]="['appointment-history-info']">
+              <i class="icon-list mr-1"></i>
+              <span>Appointment History Info</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active" [routerLink]="['appointment-clincial-note']">
+              <i class="icon-bell mr-1"></i>
+              <span>Clinical Note</span> </a>
+
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active" [routerLink]="['appointment-patient-storage']">
+              <i class="la la-cloud mr-1"></i>
+              <span>Medical Documents</span> </a>
+
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active" [routerLink]="['appointment-prescription-history']">
+              <i class="ft-list mr-1"></i>
+              <span>Prescription History</span>
+            </a>
+
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active" [routerLink]="['appointment-payment']">
+              <i class="icon-screen-desktop mr-1"></i>
+              <span>Payment</span>
+            </a>
+
+            <a class="list-group-item list-group-item-action border-0" *ngIf="model?.PatientID" routerLinkActive="active" [routerLink]="['task-list', model.PatientID]">
+              <i class="la la-list-alt mr-1"></i>
+              <span>Task List</span><span class="ml-1 badge badge-pill badge-danger" *ngIf="totalTaskTodo && totalTaskTodo > 0">{{totalTaskTodo}}</span>
+            </a>
+
+            <a class="list-group-item list-group-item-action border-0" *ngIf="model?.PatientID && model.PartnerName == 'Prizm'" routerLinkActive="active" [routerLink]="['prizm-patient-note', model.PatientID]">
+              <i class="la la-list-alt mr-1"></i>
+              <span>Prizm</span>
+            </a>
+
+            <div class="btn-group mt-1 mb-1">
+              <button type="button" class="btn btn-danger btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
+              <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                <a class="dropdown-item" *ngIf="model && model.ProviderProfile && model.ProviderProfile.DS_UserID && model.PatientProfile && model.PatientProfile.DS_PatientID"
+                  [routerLink]="['/dose/e-script', model.PatientProfile.DS_PatientID]" target="blank">eRx</a>
+                <a class="dropdown-item" *ngIf="model" (click)="addFutureAppt()">Add F/u Visit</a>
+                <a class="dropdown-item" *ngIf="model" (click)="changeProvider()">Change Provider</a>
+                <a class="dropdown-item" *ngIf="model" (click)="writeWorkRelease()">Write Work Release</a>
+                <a class="dropdown-item" (click)="writeLabOrder()">Write Lab Order</a>
+                <a class="dropdown-item" (click)="writeReferral()">Write Referral</a>
+                <a class="dropdown-item" *ngIf="model && model.PatientUser" (click)="callClient()">Call Patient</a>
+                <a class="dropdown-item" (click)="showHealthData()" *ngIf="model && model.PatientID">View Health Kit</a>
+                <a class="dropdown-item" (click)="restrictPatient(patientProfile.ID)" *ngIf="patientProfile && !patientProfile.IsRestricted">Restrict this Patient</a>
+                <a class="dropdown-item" (click)="restrictPatient(patientProfile.ID)" *ngIf="patientProfile && patientProfile.IsRestricted">Un-restrict this Patient</a>
+                <a class="dropdown-item" *ngIf="model && model.ID && (currentUser.Role == 'Special_Admin' || currentUser.Role == 'Company_Admin')" (click)="addInsuranceBalanceBilling()">Add Patient Statement</a>
+
+                <a class="dropdown-item" (click)="addPatientBlockList()" *ngIf="model && model.PatientID">Block/Watch</a>
+
+                <a *ngIf="model && model.AppointmentStatus && model.AppointmentStatus.StatusName == 'Completed'" class="dropdown-item" (click)="cancelAppt()">Cancel Appt</a>
+                <a *ngIf="model && model.PatientID" class="dropdown-item" (click)="combineAcct()">Combine Existing Accounts</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-body">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-combine-existing-acct-modal #combineUserModal></app-combine-existing-acct-modal>
+  <app-patient-blocked-list-modal #blockedModal></app-patient-blocked-list-modal>
+  <app-future-appointment #futureModal=""></app-future-appointment>
+  <app-change-provider #changeProviderModal (onClosed)="onCloseChangeProvider()"></app-change-provider>
+  <app-write-work-release #writeWorkReleaseModal=""></app-write-work-release>
+  <app-browser-call-twillio #browserCall></app-browser-call-twillio>
+  <app-health-data-patient #healthDataModal></app-health-data-patient>
+  <app-write-lab-order #writeLabOrderModal (OnClosedLabOrder)="OnClosedLabOrder($event)"></app-write-lab-order>
+  <app-signature-provider #signatureModal="" (OnSaved)="signatureModalClosed($event)"></app-signature-provider>
+  <app-write-lab-order-preview #orderPdfPreview=""></app-write-lab-order-preview>
+  <app-insurance-balance-billing-modal #insuranceBillingModal></app-insurance-balance-billing-modal>
+  <app-write-referral #writeReferralModal (OnClosedReferral)="OnClosedReferral($event)"></app-write-referral>
+  <app-cancel-reason-modal #cancelReasonModal (onCanceled)="onCanceled($event)" (onSaved)="cancelReasonCallback($event)">

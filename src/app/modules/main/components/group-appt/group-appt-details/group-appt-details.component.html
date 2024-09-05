@@ -1,0 +1,135 @@
+<div class="content-header row mb-1">
+    <div class="content-header-left col-md-4 col-12 mb-2">
+        <button (click)="inviteUser()" class="btn btn-info btn-min-width" type="button">Invite </button>
+    </div>
+    <div class="content-header-right col-md-8 col-12 text-right">
+        <ul class="list-inline mb-0">
+            <li>
+                <div>
+                    <button class="btn btn-green px-2 mr-1 mb-1" (click)="completedAppt()" type="button">
+                        End Group Session
+                    </button>
+                    <button class="btn btn-warning px-2 mr-1 mb-1" (click)="cancelledApp()" type="button">
+                        Cancel
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="content-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card" style="height: 600px; background-color: #6b6f81;">
+                <div class="card-body" style="padding: 0;">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 d-flex justify-content-around"
+                            *ngIf="model && (model.Status == 'Scheduled' || model.Status == 'InSession')">
+                            <div class="col-md-12 text-center" *ngIf="!token" style="top:270px;">
+                                <button type="button" class="btn btn-lg round btn-info white" style="width:200px;"
+                                    (click)="getToken()"> Start Video Call</button>
+                            </div>
+                            <div class="col-md-12" *ngIf="token && token.length>0">
+                                <app-group-app-video-call #videoCall [groupAppt]="model" (onClosed)="onClosed($event)"
+                                    [isProvider]="true" [token]="token">
+                                </app-group-app-video-call>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-xl-4 col-lg-3 col-md-6">
+                    <div class="card border" style="border: 1px solid #016670 !important;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h1 style="color: #016670">
+                                        {{model?.GroupApptCategory?.CategoryName}}
+                                    </h1>
+                                    <h5>Start at: {{model.StartTime |
+                                        date:
+                                        'MM/dd/yyyy hh:mm a'}}
+                                    </h5>
+                                    <!-- <h5>Duration: {{model.Duration}}
+                                        minutes
+                                    </h5>
+                                    <h5>Price: {{model.Price | currency}}
+                                    </h5>
+                                    <div *ngIf="model.Status == 'Scheduled'" class="badge badge-danger">
+                                        {{model.Status}}
+                                    </div>
+                                    <div *ngIf="model.Status == 'InSession'" class="badge"
+                                        style="background-color: #ff9149">
+                                        {{model.Status}}
+                                    </div>
+
+                                    <div *ngIf="model.Status == 'Cancelled'" class="badge" class="badge badge-primary">
+                                        {{model.Status}}
+                                    </div>
+
+                                    <div *ngIf="model.Status == 'Completed'" class="badge"
+                                        style="background-color:green">
+                                        {{model.Status}}
+                                    </div> -->
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row  mt-2">
+                                <div class="col-md-4">
+                                    <h5>Providers:</h5>
+                                </div>
+                                <div class="col-md-8 text-right">
+                                    <h5><img width="30px" height="30px"
+                                            src="{{model.Provider.ProfilePicture | defaultImg}}" alt=""
+                                            class="rounded-circle" style="margin-right: 0.2rem">
+                                        {{model.Provider.FirstName}}
+                                        {{model.Provider.LastName}}
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-3 col-md-6">
+                    <div class="card border" style="border: 1px solid #016670 !important;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mt-1">
+                                    <h5>Patients:</h5>
+                                </div>
+                                <div class="col-md-8 text-right"
+                                    *ngIf="model.GroupApptPatients && model.GroupApptPatients.length">
+                                    <h5 class="mt-1" *ngFor="let patient of model.GroupApptPatients,let i=index">
+                                        <img width="30px" height="30px"
+                                            src="{{patient.PatientUser?.ProfilePicture | defaultImg}}" alt=""
+                                            class="rounded-circle" style="margin-right: 0.2rem">
+                                        {{patient.PatientUser?.FirstName}}
+                                        {{patient.PatientUser?.LastName}}
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-5 col-lg-6 col-md-6">
+                    <div class="card border" style="border: 1px solid #016670 !important;">
+                        <div class="card-body">
+                            <div class="col-md-12">
+                                <app-group-appt-documents [groupApptID]="id"></app-group-appt-documents>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-group-appt-invite-user (onSaved)="getEntity()" #groupApptInviteModal></app-group-appt-invite-user>

@@ -1,0 +1,91 @@
+<div class="app-content content">
+    <div class="content-right">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <div class="app-content-overlay"></div>
+                <div class="todo-app-area">
+                    <div class="todo-app-list-wrapper">
+                        <div class="todo-app-list" *ngIf="dataList && dataList.length > 0">
+                            <div class="todo-fixed-search d-flex justify-content-between align-items-center">
+                                <div class="sidebar-toggle d-block d-lg-none">
+                                    <i class="ft-align-justify"></i>
+                                </div>
+                                <fieldset class="form-group position-relative has-icon-left m-0 flex-grow-1 pl-2">
+                                    <input type="text" class="form-control todo-search" id="todo-search"
+                                        placeholder="Search Task" name="SearchText" [(ngModel)]="criteria.SearchText"
+                                        #SearchText="ngModel" (change)="onChangeSearch($event)">
+                                    <div class="form-control-position">
+                                        <i class="ft-search"></i>
+                                    </div>
+                                </fieldset>
+                                <div class="todo-sort dropdown mr-1">
+                                    <button class="btn dropdown-toggle sorting" type="button" id="sortDropdown"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ft-filter"></i>
+                                        <span>Sort</span>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sortDropdown">
+                                        <a class="dropdown-item ascending" (click)="eventSort('asc')">Ascending</a>
+                                        <a class="dropdown-item descending" (click)="eventSort('desc')">Descending</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="todo-task-list list-group ps ps--active-y">
+                                <!-- task list start -->
+                                <ul class="todo-task-list-wrapper list-unstyled" id="todo-task-list-drag"
+                                    style="overflow-y: auto;">
+                                    <li *ngFor="let item of dataList let i = index" class="todo-item"
+                                        data-name="David Smith">
+                                        <div
+                                            class="todo-title-wrapper d-flex justify-content-sm-between justify-content-end align-items-center">
+                                            <div class="todo-title-area d-flex">
+                                                <i class="ft-more-vertical handle"></i>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        (click)="onchangeStatus($event, item.ID)" id="checkbox_{{i}}">
+                                                    <label class="custom-control-label" for="checkbox_{{i}}"></label>
+                                                </div>
+                                                <p class="todo-title mx-50 m-0 truncate">{{item.Description}}
+                                                </p>
+                                            </div>
+                                            <div class="todo-item-action d-flex align-items-center">
+
+                                                <div *ngIf="item.AssigneeUserID || item.AssignerUserID"
+                                                    class="todo-badge-wrapper d-flex">
+                                                    <span *ngIf="item?.AssigneeUser" title="Assignee User"
+                                                        class="badge badge-danger badge-pill ml-40 mr-1">{{item?.AssigneeUser?.FirstName}}
+                                                        {{item?.AssigneeUser?.LastName}}</span>
+                                                    <span *ngIf="item?.AssignerUser" title="Assigner User"
+                                                        class="badge badge-pill badge-success ml-40 mr-1">{{item.AssignerUser.FirstName}}
+                                                        {{item.AssignerUser.LastName}}</span>
+                                                </div>
+
+                                                <span *ngIf="item.PatientUser" title="Patient Name"
+                                                    class="badge badge-pill badge-warning ml-40 mr-1">{{item.PatientUser.FirstName}}
+                                                    {{item.PatientUser.LastName}}</span>
+                                                <a class="btn btn-outline-primary btn-sm mr-1"
+                                                    (click)="editTaskList(item.ID)"><i class="la la-edit"></i></a>
+                                                <a class="btn btn-outline-danger btn-sm"
+                                                    (click)="deleteTaskList(item.ID)"><i class="la la-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- task list end -->
+                        <div class="todo-task-list list-group ps ps--active-y" *ngIf="dataList.length == 0">
+                            <div style="padding: 1.5rem;">
+                                <h5>No Items Found</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-provider-task-info #providerTaskInfoModal (closeModal)="searchAsync()"></app-provider-task-info>

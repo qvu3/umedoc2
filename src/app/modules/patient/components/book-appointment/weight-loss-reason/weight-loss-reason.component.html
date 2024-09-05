@@ -1,0 +1,352 @@
+<div class="container p-4" *ngIf="model">
+    <div class="row">
+        <div class="col-md-4">
+            <p class="mt-1">1. Enter your Weight: </p>
+        </div>
+        <div class="col-md-4">
+            <input type="text" gt="0" pattern="^\d+$" class="form-control m-b-10" name="Weight" [(ngModel)]="model.Weight" #Weight="ngModel" required="" (change)="resetAll()" />
+            <div *ngIf="Weight.errors && Weight.dirty
+                        && Weight.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                field required.
+            </div>
+            <div *ngIf="Weight.errors && Weight.dirty && !Weight.errors.required
+                                    && Weight.errors.pattern" class="row error-message col-md-12" style="font-size:9px">
+                Only numbers 0-9
+            </div>
+            <div *ngIf="Weight.errors && Weight.dirty && Weight.errors.required
+            && Weight.errors.gt" class="row error-message col-md-12" style="font-size:9px">
+                Value must be great than 0.
+            </div>
+        </div>
+        <div class="col-md-4">
+            <p class="mt-1">(lbs)</p>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <p class="mt-1">Enter your Height: </p>
+        </div>
+        <div class="col-md-3">
+            <input type="text" [lte]="8" gte="0" pattern="^\d+$" class=" form-control m-b-10" name="HeightFeet" [(ngModel)]="model.HeightFeet" #HeightFeet="ngModel" (change)="resetAll()" />
+            <div *ngIf="HeightFeet.errors && HeightFeet.dirty
+                        && HeightFeet.errors.pattern" class="row error-message col-md-12" style="font-size:9px">
+                Only numbers 0-9
+            </div>
+            <div *ngIf="HeightFeet.errors && HeightFeet.dirty
+                &&  !HeightFeet.errors.pattern && (HeightFeet.errors.lte || HeightFeet.errors.gte)" class="row error-message col-md-12" style="font-size:9px">
+                Value must be in range 0-8
+            </div>
+        </div>
+        <div class="col-md-1 p-0">
+            <p class="mt-1">feets</p>
+        </div>
+        <div class="col-md-3">
+            <input type="text" [lt]="12" gte="0" pattern="^\d+$" class="form-control m-b-10" name="HeightInches" [(ngModel)]="model.HeightInches" #HeightInches="ngModel" (change)="resetAll()" />
+            <div *ngIf="HeightInches.errors && HeightInches.dirty
+                                    && HeightInches.errors.pattern" class="row error-message col-md-12" style="font-size:9px">
+                Only numbers 0-9
+            </div>
+            <div *ngIf="HeightInches.errors && HeightInches.dirty
+                        &&  !HeightInches.errors.pattern && (HeightInches.errors.lt || HeightInches.errors.gte)" class="row error-message col-md-12" style="font-size:9px">
+                Value must be in range 0-12
+            </div>
+        </div>
+        <div class="col-md-1 p-0">
+            <p class="mt-1">inches</p>
+        </div>
+    </div>
+    <div class="row" *ngIf="!Weight.errors && !HeightFeet.errors && !HeightInches.errors">
+        <div class="col-md-12 text-center mt-4" *ngIf="model.BMI">
+            <h6>Your BMI is : {{model.BMI.toFixed(0)}}</h6>
+        </div>
+        <div class="col-md-12 text-center mt-2 mb-4">
+            <button type="button" class="btn btn-min-width btn-info" (click)="changeBMI()">Compute BMI</button>
+        </div>
+    </div>
+    <div *ngIf="model.BMI  && model.BMI >=27 && !Weight.errors && !HeightFeet.errors && !HeightInches.errors">
+        <div class="row" *ngIf="model.BMI <= 30">
+            <div class="col-md-12">
+                <p style="color: black;">{{'Do you have a history of high blood pressure, high cholesterol, obstructive sleep apnea, asthma, diabetes, or other chronic disease?' | translate}}</p>
+            </div>
+            <div class="col-md-12">
+                <fieldset>
+                    <div class="d-inline-block custom-control custom-radio mr-2">
+                        <input type="radio" class="custom-control-input" name="BloodPressure" #BloodPressure="ngModel" [(ngModel)]="model.BloodPressure" [value]="true" id="colorRadio2" (change)="checkAnwser(2, true)" required>
+                        <label class="custom-control-label" for="colorRadio2" style="font-size:16px">{{'Yes' | translate}}</label>
+                    </div>
+
+
+                    <div class="d-inline-block custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="BloodPressure" #BloodPressure="ngModel" id="colorRadio2_1" [(ngModel)]="model.BloodPressure" [value]="false" (change)="checkAnwser(2, false)" required>
+                        <label class="custom-control-label" for="colorRadio2_1" style="font-size:16px">{{'No' | translate}}</label>
+                    </div>
+                </fieldset>
+                <div *ngIf="BloodPressure.errors
+                && BloodPressure.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                    This question is required.
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="model.BMI > 30 || model.BloodPressure!=undefined">
+            <div class="col-md-12">
+                <p style="color: black;">{{'Do you have a personal or family history of thyroid cancer, medullary thyroid cancer (MTC), or multiple endocrine neoplasia syndrome type 2 (MEN 2) ?' | translate}}</p>
+            </div>
+            <div class="col-md-12">
+                <fieldset>
+                    <div class="d-inline-block custom-control custom-radio mr-2">
+                        <input type="radio" class="custom-control-input" name="Cancer" #Cancer="ngModel" [(ngModel)]="model.Cancer" [value]="true" id="colorRadio3" (change)="checkAnwser(3, true)" required>
+                        <label class="custom-control-label" for="colorRadio3" style="font-size:16px">{{'Yes' | translate}}</label>
+                    </div>
+
+
+                    <div class="d-inline-block custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="Cancer" #Cancer="ngModel" id="colorRadio3_1" [(ngModel)]="model.Cancer" [value]="false" (change)="checkAnwser(3, false)" required>
+                        <label class="custom-control-label" for="colorRadio3_1" style="font-size:16px">{{'No' | translate}}</label>
+                    </div>
+                </fieldset>
+                <div *ngIf="Cancer.errors
+                && Cancer.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                    This question is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="model.Cancer!=undefined ">
+            <div class="col-md-12">
+                <p style="color: black;">{{'Do you have any history of kidney disease?' | translate}}</p>
+            </div>
+            <div class="col-md-12">
+                <fieldset>
+                    <div class="d-inline-block custom-control custom-radio mr-2">
+                        <input type="radio" class="custom-control-input" name="KidneyDisease" #KidneyDisease="ngModel" [(ngModel)]="model.KidneyDisease" [value]="true" id="colorRadio4" (change)="checkAnwser(4, true)" required>
+                        <label class="custom-control-label" for="colorRadio4" style="font-size:16px">{{'Yes' | translate}}</label>
+                    </div>
+
+
+                    <div class="d-inline-block custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="KidneyDisease" #KidneyDisease="ngModel" id="colorRadio4_1" [(ngModel)]="model.KidneyDisease" [value]="false" (change)="checkAnwser(4, false)" required>
+                        <label class="custom-control-label" for="colorRadio4_1" style="font-size:16px">{{'No' | translate}}</label>
+                    </div>
+                </fieldset>
+                <div *ngIf="KidneyDisease.errors
+                && KidneyDisease.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                    This question is required.
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="model.KidneyDisease!=undefined">
+            <div class="col-md-12">
+                <p style="color: black;">{{'Do you have a history of pancreatitis?' | translate}}</p>
+            </div>
+            <div class="col-md-12">
+                <fieldset>
+                    <div class="d-inline-block custom-control custom-radio mr-2">
+                        <input type="radio" class="custom-control-input" name="Pancreatitis" #Pancreatitis="ngModel" [(ngModel)]="model.Pancreatitis" [value]="true" id="colorRadio5" (change)="checkAnwser(5, true)" required>
+                        <label class="custom-control-label" for="colorRadio5" style="font-size:16px">{{'Yes' | translate}}</label>
+                    </div>
+
+
+                    <div class="d-inline-block custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="Pancreatitis" #c="ngModel" id="colorRadio5_1" [(ngModel)]="model.Pancreatitis" [value]="false" (change)="checkAnwser(5, false)" required>
+                        <label class="custom-control-label" for="colorRadio5_1" style="font-size:16px">{{'No' | translate}}</label>
+                    </div>
+                </fieldset>
+                <div *ngIf="Pancreatitis.errors
+                && Pancreatitis.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                    This question is required.
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="model.Pancreatitis!=undefined ">
+            <div class="col-md-12">
+                <p style="color: black;">{{'Do you have an allergy to semaglutide?' | translate}}</p>
+            </div>
+            <div class="col-md-12">
+                <fieldset>
+                    <div class="d-inline-block custom-control custom-radio mr-2">
+                        <input type="radio" class="custom-control-input" name="SemaglutideAllergy" #SemaglutideAllergy="ngModel" [(ngModel)]="model.SemaglutideAllergy" [value]="true" id="colorRadio6" (change)="checkAnwser(6, true)"
+                            required>
+                        <label class="custom-control-label" for="colorRadio6" style="font-size:16px">{{'Yes' | translate}}</label>
+                    </div>
+
+
+                    <div class="d-inline-block custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="c" #SemaglutideAllergy="ngModel" id="colorRadio6_1" [(ngModel)]="model.SemaglutideAllergy" [value]="false" (change)="checkAnwser(6, false)" required>
+                        <label class="custom-control-label" for="colorRadio6_1" style="font-size:16px">{{'No' | translate}}</label>
+                    </div>
+                </fieldset>
+                <div *ngIf="SemaglutideAllergy.errors
+                && SemaglutideAllergy.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                    This question is required.
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="model.SemaglutideAllergy!=undefined ">
+            <div class="col-md-12">
+                <p style="color: black;">{{'Are you pregnant or breastfeeding?' | translate}}</p>
+            </div>
+            <div class="col-md-12">
+                <fieldset>
+                    <div class="d-inline-block custom-control custom-radio mr-2">
+                        <input type="radio" class="custom-control-input" name="Pregnant" #Pregnant="ngModel" [(ngModel)]="model.Pregnant" [value]="true" id="colorRadio7" (change)="checkAnwser(7, true)" required>
+                        <label class="custom-control-label" for="colorRadio7" style="font-size:16px">{{'Yes' | translate}}</label>
+                    </div>
+
+
+                    <div class="d-inline-block custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="Pregnant" #Pregnant="ngModel" id="colorRadio7_1" [(ngModel)]="model.Pregnant" [value]="false" (change)="checkAnwser(7, false)" required>
+                        <label class="custom-control-label" for="colorRadio7_1" style="font-size:16px">{{'No' | translate}}</label>
+                    </div>
+                </fieldset>
+                <div *ngIf="Pregnant.errors
+                && Pregnant.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                    This question is required.
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="model.Pregnant!=undefined ">
+            <div class="col-md-12">
+                <p style="color: black;">{{'Are you on diabetic medication?' | translate}}</p>
+            </div>
+            <div class="col-md-12">
+                <fieldset>
+                    <div class="d-inline-block custom-control custom-radio mr-2">
+                        <input type="radio" class="custom-control-input" name="Diabetic" #Diabetic="ngModel" [(ngModel)]="model.Diabetic" [value]="true" id="colorRadio8" (change)="checkAnwser(8, true)" required>
+                        <label class="custom-control-label" for="colorRadio8" style="font-size:16px">{{'Yes' | translate}}</label>
+                    </div>
+
+
+                    <div class="d-inline-block custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="Diabetic" #Diabetic="ngModel" id="colorRadio8_1" [(ngModel)]="model.Diabetic" [value]="false" (change)="checkAnwser(8, false)" required>
+                        <label class="custom-control-label" for="colorRadio8_1" style="font-size:16px">{{'No' | translate}}</label>
+                    </div>
+                </fieldset>
+                <div *ngIf="Diabetic.errors
+                && Diabetic.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                    This question is required.
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="model.Diabetic!=undefined">
+            <div class="col-md-12">
+                <p style="color: black;">{{'Do you have thoughts of self harm or suicide?' | translate}}</p>
+            </div>
+            <div class="col-md-12">
+                <fieldset>
+                    <div class="d-inline-block custom-control custom-radio mr-2">
+                        <input type="radio" class="custom-control-input" name="isYes9" #isYes9="ngModel" [(ngModel)]="model.Suicide" [value]="true" id="colorRadio9" required (change)="checkAnwser(9, true)">
+                        <label class="custom-control-label" for="colorRadio9" style="font-size:16px">{{'Yes' | translate}}</label>
+                    </div>
+
+
+                    <div class="d-inline-block custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="Suicide" #Suicide="ngModel" id="colorRadio9_1" [(ngModel)]="model.Suicide" [value]="false" required (change)="checkAnwser(9, false)">
+                        <label class="custom-control-label" for="colorRadio9_1" style="font-size:16px">{{'No' | translate}}</label>
+                    </div>
+                </fieldset>
+                <div *ngIf="Suicide.errors
+                && Suicide.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                    This question is required.
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="model.Suicide!=undefined">
+            <div class="col-md-12">
+                <p style="color: black;">{{'All medications have side effects and risks, please review below to determine if this medication is right for you. Wegovy may cause:' | translate}}</p>
+            </div>
+            <div class="col-md-12">
+                <ul>
+                    <li>
+                        <p>Inflammation of your pancreas (pancreatitis). Stop using Wegovy and call your healthcare provider right away if you have severe pain in your stomach area (abdomen) that will not go away, with or without vomiting.
+                            You
+                            may feel the pain from your abdomen to your back.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Possible thyroid tumors, including cancer. Tell your healthcare provider if you get a lump or swelling in your neck, hoarseness, trouble swallowing, or shortness of breath. These may be symptoms of thyroid cancer.
+                            In
+                            studies with rodents, Wegovy and medicines that work like Wegovy caused thyroid tumors, including thyroid cancer. It is not known if Wegovy will cause thyroid tumors or a type of thyroid cancer called medullary
+                            thyroid carcinoma (MTC) in people.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Gallbladder problems. Wegovy may cause gallbladder problems, including gallstones. Some gallstones may need surgery. Call your healthcare provider if you have symptoms, such as pain in your upper stomach
+                            (abdomen),
+                            fever, yellowing of the skin or eyes (jaundice), or clay-colored stools.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Increased risk of low blood sugar (hypoglycemia) in patients with type 2 diabetes, especially those who also take medicines for type 2 diabetes such as sulfonylureas or insulin. This can be both a serious and
+                            common
+                            side effect. Talk to your healthcare provider about how to recognize and treat low blood sugar and check your blood sugar before you start and while you take Wegovy. Signs and symptoms of low blood sugar may
+                            include
+                            dizziness or light-headedness, blurred vision, anxiety, irritability or mood changes, sweating, slurred speech, hunger, confusion or drowsiness, shakiness, weakness, headache, fast heartbeat, or feeling jittery.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Kidney problems (kidney failure). In people who have kidney problems, diarrhea, nausea, and vomiting may cause a loss of fluids (dehydration) which may cause kidney problems to get worse. It is important for you
+                            to
+                            drink fluids to help reduce your chance of dehydration.</p>
+                    </li>
+                    <li>
+                        <p>Serious allergic reactions. Stop using Wegovy and get medical help right away, if you have any symptoms of a serious allergic reaction, including swelling of your face, lips, tongue, or throat; problems breathing
+                            or
+                            swallowing; severe rash or itching; fainting or feeling dizzy; or very rapid heartbeat.</p>
+                    </li>
+                    <li>
+                        <p>Change in vision in patients with type 2 diabetes. Tell your healthcare provider if you have changes in vision during treatment with Wegovy.</p>
+                    </li>
+                    <li>
+                        <p>Increased heart rate. Wegovy can increase your heart rate while you are at rest. Tell your healthcare provider if you feel your heart racing or pounding in your chest and it lasts for several minutes.</p>
+                    </li>
+                    <li>
+                        <p>Depression or thoughts of suicide. You should pay attention to any mental changes, especially sudden changes in your mood, behaviors, thoughts, or feelings. Call your healthcare provider right away if you have any
+                            mental changes that are new, worse or worry you.</p>
+                    </li>
+                    <li>
+                        <p>The most common side effects of Wegovy may include: nausea, diarrhea, vomiting, constipation, stomach (abdomen) pain, headache, tiredness (fatigue), upset stomach, dizziness, feeling bloated, belching, gas,
+                            stomach
+                            flu and heartburn.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Please note, you will be required to have lab monitoring at the beginning and throughout the duration of treatment.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Prior to starting Wegovy, you will need to have seen your primary care provider within a year, that has performed a physical examination including a palpation of your neck/thyroid. This will need to be done every
+                            6
+                            months during treatment. Records will need to be shared with Umedoc to continue treatment.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Do not share your prescription of Wegovy with anyone.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Please verify with your prescription plan that Wegovy is covered by insurance. It is a costly medication. Good Rx has a discount and manufacturer coupons are available.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Please note, in some locations, Wegovy is backordered. If this occurs, you will have to call your local pharmacies to see where it is available.
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-12 mt-1">
+                <label>
+                    <input type="checkbox" value="isAgreed" [(ngModel)]="model.isAgreed" name="isAgreed" #isAgreed="ngModel" (change)="checkAnwser(10, model.isAgreed)" required>
+                    I’ve read and agreed.
+                </label>
+                <div *ngIf="isAgreed.errors
+                && isAgreed.errors.required" class="row error-message col-md-12" style="font-size:9px">
+                    Please read and agreed
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isNotCandidate" class="row col-md-12">
+        <p class="error-message" style="font-size: 12px; font-weight: bold;">You are not a candidate</p>
+    </div>
+</div>

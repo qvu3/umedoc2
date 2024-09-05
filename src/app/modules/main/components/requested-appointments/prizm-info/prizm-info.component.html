@@ -1,0 +1,228 @@
+<div class="card"  *ngIf="model  && model.Created_Dt">
+    <div class="card-header">
+        <h4> Prizm In Take</h4>
+        <div>Last updated at: {{model.Created_Dt | date:'MM/dd/yy HH:mm a'}}</div>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="col-md-4"  *ngIf="model.PartnerPatientID">
+                <span class="patient-info-heading">Partner Patient ID</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" >:</i>
+                <span class="info"> {{model.PartnerPatientID}} </span>
+            </div>
+            <div class="col-md-4"  *ngIf="model.PCP_FirstName">
+                <span class="patient-info-heading">PCP First Name</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="Primary Care Provider First Name">:</i>
+                <span class="info"> {{model.PCP_FirstName}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PCP_LastName">
+                <span class="patient-info-heading">PCP Last Name</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="Primary Care Provider Last Name">:</i>
+                <span class="info"> {{model.PCP_LastName}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PCP_Address">
+                <span class="patient-info-heading">PCP Address</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="Primary Care Provider Address">:</i>
+                <span class="info"> {{model.PCP_Address}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PCP_City">
+                <span class="patient-info-heading">PCP City</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="Primary Care Provider City">:</i>
+                <span class="info"> {{model.PCP_City}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PCP_State">
+                <span class="patient-info-heading">PCP State</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="Primary Care Provider State">:</i>
+                <span class="info"> {{model.PCP_State}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PCP_ZipCode">
+                <span class="patient-info-heading">PCP Zip Code</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="Primary Care Provider Zip Code">:</i>
+                <span class="info"> {{model.PCP_ZipCode}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PCP_Phone">
+                <span class="patient-info-heading">PCP Phone</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="Primary Care Provider Phone">:</i>
+                <span class="info"> {{model.PCP_Phone}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PCP_Fax">
+                <span class="patient-info-heading">PCP Fax</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="Primary Care Provider Fax">:</i>
+                <span class="info"> {{model.PCP_Fax}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PCP_NPI">
+                <span class="patient-info-heading">PCP NPI</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="Primary Care Provider NPI">:</i>
+                <span class="info"> {{model.PCP_NPI}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.Category">
+                <span class="patient-info-heading">Category:</span>
+                <span class="info"> {{model.Category}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.Metformin">
+                <span class="patient-info-heading">Metformin</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="DIABETES: Has Diabetes and Takes Metformin">:</i>
+                <span class="info"> {{model.Metformin}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.DiabetesNeedle">
+                <span class="patient-info-heading">Diabetes Needle</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="DIABETES: Do you use syringes or pen needles? (what gauge?)">:</i>
+                <span class="info"> {{model.DiabetesNeedle}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.TestPerDay">
+                <span class="patient-info-heading">Test Per Day</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="DIABETES: Test Per Day">:</i>
+                <span class="info"> {{model.TestPerDay}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.DiabetesMeterUpgrade">
+                <span class="patient-info-heading">Diabetes Meter Upgrade</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="DIABETES: Upgraded meter if insurance requires?">:</i>
+                <span class="info"> {{model.DiabetesMeterUpgrade}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.Insulin">
+                <span class="patient-info-heading">Insulin</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="DIABETES:On Insulin">:</i>
+                <span class="info"> {{model.Insulin}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PainTrGeneral">
+                <span class="patient-info-heading">Pain Treatment General</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="PAIN: Has pain and Would you like to receive treatment for your pain? (General pain PC)">:</i>
+                <span class="info"> {{model.PainTrGeneral}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PainLocation">
+                <span class="patient-info-heading">Pain Location</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="PAIN location?">:</i>
+                <span class="info"> {{model.PainLocation}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PainCauseDescription">
+                <span class="patient-info-heading">Pain Cause Description</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="PAIN: When was the onset of Pain?">:</i>
+                <span class="info"> {{model.PainCauseDescription}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PainScale">
+                <span class="patient-info-heading">Pain Scale</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="PAIN Scale 1-10">:</i>
+                <span class="info"> {{model.PainScale}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PainBetter">
+                <span class="patient-info-heading">Pain Better</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="PAIN Better When">:</i>
+                <span class="info"> {{model.PainBetter}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PainWorse">
+                <span class="patient-info-heading">Pain Worse:</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="PAIN Worse When?">:</i>
+                <span class="info"> {{model.PainWorse}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PainInflammationTr">
+                <span class="patient-info-heading">Pain Inflammation Treatment: </span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="PAIN: Caused by inflammation due to arthritis or joint ? Wants Treatment?">:</i>
+                <span class="info"> {{model.PainInflammationTr}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PainSwellingSoreTr">
+                <span class="patient-info-heading">Pain Swelling Sore Treatment</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="PAIN: discomfort due to swelling or soreness? Wants treatment?">:</i>
+                <span class="info"> {{model.PainSwellingSoreTr}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.MigraineTr">
+                <span class="patient-info-heading">Migraine Treatment</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="MIGRAINE (MIG): Do you suffer from MIGRAINE HEADACHE? Want treatment?">:</i>
+                <span class="info"> {{model.MigraineTr}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.MigraineHowLong">
+                <span class="patient-info-heading">Migrain How Long</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="MIGRAINE: How long have you had them?">:</i>
+                <span class="info"> {{model.MigraineHowLong}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.MigrainesOften">
+                <span class="patient-info-heading">Migraines Often</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="MIGRAINE: How Often? how long do they last?">:</i>
+                <span class="info"> {{model.MigrainesOften}} </span>
+            </div>
+            <div class="col-md-4"  *ngIf="model.TensionHTr">
+                <span class="patient-info-heading">Tension Head Treatment</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="TENSION (TH): Do you suffer from Tension Stress Headaches? Want treatment?">:</i>
+                <span class="info"> {{model.TensionHTr}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.TensionHHowLong">
+                <span class="patient-info-heading">Tension Head How Long</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="TENSION Headache: How long since you've had them?">:</i>
+                <span class="info"> {{model.TensionHHowLong}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.TensionHOften">
+                <span class="patient-info-heading">Tension Head Often</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="TENSION: how often do you get them and long do they last?">:</i>
+                <span class="info"> {{model.TensionHOften}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.Allergies">
+                <span class="patient-info-heading">Allergies:</span>
+                <span class="info"> {{model.Allergies}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.AllergyReact">
+                <span class="patient-info-heading">Allergy Reaction:</span>
+                <span class="info"> {{model.AllergyReact}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.NsaidHistory">
+                <span class="patient-info-heading">Nsaid History</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="INTAKE: Has history of stomach ulcers or stomach discomfort after taking an NSAID?">:</i>
+                <span class="info"> {{model.NsaidHistory}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.DrHelp">
+                <span class="patient-info-heading">Dr Help</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="INTAKE: Lets see if your Dr thinks that (Treatment) will help, is that ok?">:</i>
+                <span class="info"> {{model.DrHelp}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.DrSimilarMed">
+                <span class="patient-info-heading">Dr Similar Med</span>
+                <i class="la la-question-circle" data-toggle="tooltip" data-placement="top" title="INTAKE: If Dr Precribes alternative is it ok?">:</i>
+                <span class="info"> {{model.DrSimilarMed}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.InsuranceName">
+                <span class="patient-info-heading">Insurance Name:</span>
+                <span class="info"> {{model.InsuranceName}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.InsuranceID">
+                <span class="patient-info-heading">Insurance ID:</span>
+                <span class="info"> {{model.InsuranceID}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.InsuranceBin">
+                <span class="patient-info-heading">Bin:</span>
+                <span class="info"> {{model.InsuranceBin}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.InsurancePCN">
+                <span class="patient-info-heading">PCN:</span>
+                <span class="info"> {{model.InsurancePCN}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.InsuranceGroupID">
+                <span class="patient-info-heading">Group ID:</span>
+                <span class="info"> {{model.InsuranceGroupID}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.InsuranceMedicareID">
+                <span class="patient-info-heading">Medicare ID:</span>
+                <span class="info"> {{model.InsuranceMedicareID}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.Last4SSN">
+                <span class="patient-info-heading">Last 4 SSN:</span>
+                <span class="info"> {{model.Last4SSN}} </span>
+            </div>
+
+            <div class="col-md-4" *ngIf="model.ScriptOrderFor">
+                <span class="patient-info-heading">ScriptOrderFor:</span>
+                <span class="info"> {{model.ScriptOrderFor}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.ScriptReq">
+                <span class="patient-info-heading">ScriptReq:</span>
+                <span class="info"> {{model.ScriptReq}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.ScriptPPharmacy">
+                <span class="patient-info-heading">ScriptPPharmacy:</span>
+                <span class="info"> {{model.ScriptPPharmacy}} </span>
+            </div>
+            <div class="col-md-4" *ngIf="model.PatientToken">
+                <span class="patient-info-heading">PatientToken:</span>
+                <span class="info"> {{model.PatientToken}} </span>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Combine Existing Account</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>Existing Accounts: </h6>
+                        </div>
+                    </div>
+                    <div class="row" *ngFor="let item of list">
+                        <div class="col-md-9">
+                            <div class="col-md-12"> {{item.OldUser.FirstName}} {{item.OldUser.LastName}}</div>
+                            <div class="col-md-12">{{item.OldUser.DOB | date: 'MM/dd/yyyy'}}</div>
+                            <div class="col-md-12">{{item.OldUser.Email}}</div>
+                            <hr/>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-medical-white btn-sm m-t-5" (click)="remove(item.OldUserID)">
+                                <i class="fa fa-trash"></i> Delete</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-12 control-label">Add Existing Account:</label>
+                                <div class="col-md-9">
+                                    <ng-select2 name="oldUserId1" #oldUserId1="ngModel" [(ngModel)]="oldUserId" [options]="options" [data]="userData" required></ng-select2>
+                                    <div class="error-message" *ngIf="f.submitted && oldUserId1?.errors?.required">
+                                        This field is required.
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn  btn-medical-white">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Close</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

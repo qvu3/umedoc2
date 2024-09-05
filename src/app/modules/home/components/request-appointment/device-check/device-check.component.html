@@ -1,0 +1,117 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row clearfix mt-3">
+          <div class="col-md-2">
+            <i class="icon-camcorder" style="font-size:35px"></i>
+          </div>
+          <div class="col-md-10 ">
+            <div class="progress mt-1 h-10">
+              <div class="progress-bar l-turquoise" role="progressbar" [attr.aria-valuenow]="model.packetVideo"
+                aria-valuemin="0" aria-valuemax="1000" [style.width.%]="((model.packetVideo*100)/1000)">
+              </div>
+            </div>
+            <i>Pack Lost : {{Math.ceil((model.packetLostVideo*100)/1000)}} - Packet Received:
+              {{Math.ceil((model.packetVideo*100)/1000)}}
+            </i>
+          </div>
+        </div>
+        <div class="row clearfix mt-2">
+          <div class="col-md-2">
+            <i class="icon-volume-1" style="font-size:35px"></i>
+          </div>
+          <div class="col-md-10">
+            <div class="progress mt-1  h-10">
+              <div class="progress-bar l-turquoise" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                aria-valuemax="1000" [style.width.%]="((model.packetAudio*100)/1000)">
+              </div>
+            </div>
+            <i>Pack Lost : {{Math.ceil((model.packetLostAudio*100)*1000)}} - Packet Received:
+              {{Math.ceil((model.packetAudio*100)/1000)}}</i>
+          </div>
+        </div>
+        <div class="row clearfix mt-2">
+          <div class="col-md-2">
+            <i class="icon-bar-chart" style="font-size:35px"></i>
+          </div>
+          <div class="col-md-10">
+            <div class="progress mt-1  h-10">
+              <div class="progress-bar l-turquoise" role="progressbar" [attr.aria-valuenow]="model.percent"
+                aria-valuemin="0" aria-valuemax="100" [style.width.%]="model.percent">
+              </div>
+            </div>
+
+            <i><span>Connectivity Test</span></i>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary mr-1" href="javascript:void(0)" (click)="reTest()"><i
+            class="icon-refresh"></i> Start Test</a>
+        <button type="button" class="btn btn-green" (click)="hide()">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<div bsModal #resultModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog" *ngIf="model.isCompleted">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row clearfix">
+          <div class="col-md-12 text-center m-b-20">
+            <div *ngIf="model.isCompleted && !model.isConnectivity">
+              <p style="font-size: 17px;  font-style: italic;
+                  margin-bottom: 0px; margin-top: 20px;">Your
+                bandwidth is </p>
+              <span style="font-size:30px;color:deeppink">Bad</span>
+            </div>
+            <div *ngIf="model.isCompleted && model.isConnectivity">
+              <p style="font-size: 17px;  font-style: italic;
+                  margin-bottom: 0px; margin-top: 20px;">Your
+                bandwidth is</p>
+              <span *ngIf="model.statusConnect == 'Bad' || model.statusConnect == 'Poor'"
+                style="font-size:30px;color:deeppink">
+                {{model.statusConnect}}
+              </span>
+              <span *ngIf="model.statusConnect != 'Bad' && model.statusConnect != 'Poor'"
+                style="font-size:30px;color:#34c1ce">
+                {{model.statusConnect}}
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-6 text-center">
+            <h6>Video</h6>
+            <div class="col-md-12 text-center" *ngIf="!model.videoSupported">
+              <p>Not Support</p>
+            </div>
+            <div class="text-center" *ngIf="model.videoSupported">
+              <p>{{model.bitrateVideo}} <i>Kbps</i></p>
+            </div>
+          </div>
+          <div class="col-md-6 text-center">
+            <h6>Audio</h6>
+            <div class="col-md-12 text-center" *ngIf="!model.audioSupported">
+              <p>Not Support</p>
+            </div>
+            <div class="text-center" *ngIf="model.audioSupported">
+              <p>{{model.bitrateAudio}} <i>Kbps</i></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-md-12 text-center">
+          <a class="btn btn-outline-primary mr-1" href="javascript:void(0)" (click)="reTest()"><i
+              class="icon-refresh"></i> Test Again</a>
+          <a class="btn btn-outline-danger" href="javascript:void(0)" (click)="hideResult()">Close</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

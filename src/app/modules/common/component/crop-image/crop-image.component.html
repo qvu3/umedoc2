@@ -1,0 +1,58 @@
+<div
+  bsModal
+  #childModal="bs-modal"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row clearfix">
+          <div class="col-lg-12 col-md-12">
+            <div class="img-container">
+              <img id="image" src="" class="img-responsive" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-green btn-min-width"
+          (click)="cropImageAndSave()"
+          *ngIf="urlFinal.length > 0"
+          [disabled]="Submitting ? 'disabled' : null"
+        >
+          {{ Submitting ? "Uploading..." : "Crop & Upload Image" }}
+        </button>
+        <label
+          class="btn btn-green btn-min-width"
+          style="margin-top:8px;"
+          for="inputImage"
+          title="Upload image file"
+        >
+          <input
+            type="file"
+            class="sr-only"
+            id="inputImage"
+            name="file"
+            accept="image/*"
+            [disabled]="Submitting ? 'disabled' : null"
+          />
+          Import New Image
+        </label>
+          <button
+          type="button"
+          class="btn btn-medical-white btn-min-width"
+          (click)="hide()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

@@ -1,0 +1,5 @@
+<select name="Language" [(ngModel)]="lang" #Language="ngModel" class="form-control m-input {{colClass}}" style="margin:auto;"
+    (change)="changeLanguage()">
+    <option value="en">English</option>
+    <option value="es">Español</option>
+</select>

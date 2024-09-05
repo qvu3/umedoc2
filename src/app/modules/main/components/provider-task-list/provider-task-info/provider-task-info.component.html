@@ -1,0 +1,82 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{model.ID ? 'Edit Task List':'Add Task List'}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" *ngIf="!patientId">
+                        <label for="Choose Patient">
+                            Choose Patient:
+                        </label>
+                        <ng-select2 name="PatientID" [(ngModel)]="model.PatientID" #PatientID="ngModel" [data]="reasons"
+                            [value]="model.PatientID" required="" [options]="optionsPatient">
+                        </ng-select2>
+
+                        <div *ngIf="f.submitted && PatientID.errors && PatientID.errors.required" class="error-message">
+                            Please choose patient.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Description">
+                            Description:
+                        </label>
+                        <textarea rows="4" class="form-control" placeholder="Enter task list content" name="Description"
+                            [(ngModel)]="model.Description" #Description="ngModel" required>
+
+                            </textarea>
+                        <div *ngIf="
+                            f.submitted && Description.errors && Description.errors.required
+                          " class="col-md-12 error-message">
+                            This field is required.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Assigner">
+                            Assigner:
+                        </label>
+                        <ng-select2 name="AssignerUserID" [(ngModel)]="model.AssignerUserID" #AssignerUserID="ngModel"
+                            [data]="userProviderList" [value]="model.AssignerUserID" [options]="optionsPatient">
+                        </ng-select2>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Assignee">
+                            Assignee:
+                        </label>
+                        <ng-select2 name="AssigneeUserID" [(ngModel)]="model.AssigneeUserID" #AssigneeUserID="ngModel"
+                            [data]="userProviderList" [value]="model.AssigneeUserID" [options]="optionsPatient">
+                        </ng-select2>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Status">
+                            Status:
+                        </label>
+                        <select class="form-control" name="Status" [(ngModel)]="model.Status" #Status="ngModel"
+                            required>
+                            <!-- <option value="" disabled>Select status</option> -->
+                            <option value="To-do">To-do</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                        <div *ngIf="f.submitted && Status.errors && Status.errors.required" class="error-message">
+                            This field is required.
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green">Save</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

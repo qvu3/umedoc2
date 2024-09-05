@@ -1,1 +1,163 @@
-<p>layout-app-chat works!</p>
+<div appInitMenu="" appInitAppChat="">
+    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow navbar-static-top navbar-light navbar-brand-center">
+        <div class="navbar-wrapper">
+            <div class="navbar-header">
+                <ul class="nav navbar-nav flex-row">
+                    <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1" hidden></i></a></li>
+                    <li class="nav-item">
+                        <a class="navbar-brand" [routerLink]="['/']" style="padding: 10px 0;">
+                            <img class="brand-logo" alt="Prime logo" style="width:auto;" src="assets/image/site-logo.png">
+                        </a>
+                    </li>
+                    <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="la la-ellipsis-v"></i></a></li>
+                </ul>
+            </div>
+            <div class="navbar-container content">
+                <div class="collapse navbar-collapse" id="navbar-mobile">
+                    <ul class="nav navbar-nav mr-auto float-left">
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand" href="javascript:void(0)"><i class="ficon ft-maximize"></i></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav float-right">
+                        <li class="dropdown dropdown-notification nav-item mr-1" *ngIf="currentUser && (currentUser.Role=='Special_Admin' || currentUser.Role=='Company_Admin') " title="Chat with Patients">
+                            <a class="nav-link nav-link-label" routerLink="" *ngIf="TotalMessageUnRead>0">
+                                <i class="ficon ft-message-square"></i><span class="badge badge-pill badge-danger badge-up badge-glow">{{TotalMessageUnRead}}</span>
+                            </a>
+                        </li>
+                        <li *ngIf="currentUser && currentUser.Role && currentUser.Role=='Patient'">
+                            <div class="col-md-12 text-right" style="margin-top: 20px;">
+                                <button type="button" [routerLink]="['/','patient-profile']" class="btn btn-sm btn-medical-white round">
+                                    Dashboard
+                                </button>
+                            </div>
+                        </li>
+                        <li *ngIf="currentUser && currentUser.Role && currentUser.Role!='Patient'">
+                            <div class="col-md-12 text-right" style="margin-top: 20px;">
+                                <button type="button" [routerLink]="['/','management', 'dashboard']" class="btn btn-sm btn-medical-white round">
+                                    Dashboard
+                                </button>
+                            </div>
+                        </li>
+
+                        <li class="dropdown dropdown-user nav-item" *ngIf="currentUser">
+                            <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                                <span class="avatar"><img [src]="currentUser.ProfilePicture" alt="avatar">
+                                    <i class="la la-angle-down pl-1" style="font-size: 0.8rem;"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a *ngIf="currentUser.Role && currentUser.Role != 'Patient'" class="dropdown-item" [routerLink]="['/','management','my-profile']"><i class="ft-user"></i> My
+                                    Profile</a>
+                                <a *ngIf="currentUser.Role && currentUser.Role == 'Patient'" class="dropdown-item" [routerLink]="['/','patient-profile']"><i class="ft-user"></i> My
+                                    Profile</a>
+                                <a class="dropdown-item" (click)="changepassword()"><i class="ft-lock"></i> Change
+                                    Password</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" (click)="signOut()"><i class="ft-power"></i> Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- BEGIN: Content-->
+    <div class="app-content content" style="height:86vh;">
+        <div class="sidebar-left">
+            <div class="sidebar">
+                <!-- app chat sidebar start -->
+                <div class="chat-sidebar card">
+                    <span class="chat-sidebar-close">
+                        <i class="ft-x"></i>
+                    </span>
+                    <div class="chat-sidebar-search">
+                        <div class="d-flex align-items-center">
+                            <div class="chat-sidebar-profile-toggle">
+                                <div class="avatar">
+                                    <img [src]="currentUser.ProfilePicture| defaultImg" class="cursor-pointer" alt="user_avatar" height="36" width="36">
+                                </div>
+                            </div>
+                            <fieldset class="form-group position-relative has-icon-left mx-75 mb-0">
+                                <input type="text" class="form-control round" id="chat-search" placeholder="Search">
+                                <div class="form-control-position">
+                                    <i class="ft-search text-dark"></i>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="chat-sidebar-list-wrapper pt-2 ps ps--active-y">
+                        <h6 class="px-2 pt-2 pb-25 mb-0">ROOMS<i class="ft-plus float-right cursor-pointer"></i></h6>
+                        <ul class="chat-sidebar-list">
+                            <li *ngFor="let room of rooms" [ngClass]="{'active': room.ID == CurrentRoomId}">
+                                <div app-contact-channel [room]="room"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- app chat sidebar ends -->
+
+            </div>
+        </div>
+        <div class="content-right">
+            <div class="content-overlay"></div>
+            <div class="content-wrapper">
+                <div class="content-header row">
+                </div>
+                <div class="content-body">
+                    <!-- app chat overlay -->
+                    <div class="chat-overlay"></div>
+                    <!-- app chat window start -->
+                    <section class="chat-window-wrapper">
+                        <router-outlet></router-outlet>
+                        <app-change-password #changePassModal></app-change-password>
+                    </section>
+                    <!-- app chat window ends -->
+                    <!-- app chat profile right sidebar start -->
+                    <section class="chat-profile">
+                        <header class="chat-profile-header text-center border-bottom">
+                            <span class="chat-profile-close">
+                                <i class="ft-x"></i>
+                            </span>
+                            <div class="my-2">
+
+                                <img src="/assets/images/portrait/small/avatar-s-26.png" class="round mb-1" alt="chat avatar" height="100" width="100">
+
+                                <h5 class="app-chat-user-name mb-0">Elizabeth Elliott</h5>
+                                <span>Devloper</span>
+                            </div>
+                        </header>
+                        <div class="chat-profile-content p-2 ps">
+                            <h6 class="mt-1">ABOUT</h6>
+                            <p>It is a long established fact that a reader will be distracted by the readable content.
+                            </p>
+                            <h6 class="mt-2">PERSONAL INFORMATION</h6>
+                            <ul class="list-unstyled">
+                                <li class="mb-25">email@gmail.com</li>
+                                <li>+1(789) 950-7654</li>
+                            </ul>
+                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                            </div>
+                            <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- app chat profile right sidebar ends -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+    <!-- BEGIN: Footer-->
+    <div class="copyright margin_out">
+        <footer>
+            <div class="container">
+                <div class="copyright-content">
+                    <span>Copyright © {{currentYear}} <a class="text-bold-800 grey darken-2" href="https://umedoc.com/" target="_blank">
+                            Umedoc</a> - All Right Reserved</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- END: Footer-->
+</div>

@@ -1,0 +1,54 @@
+<div class="row clearfix h-500" id="geoMapModal">
+    <div class="col-md-3">
+        <div class="m-b-10" id="search-box">
+            <form #f="ngForm" (ngSubmit)="f.form.valid && search()">
+                <div>
+                    <label for="ZipCode">Please enter a Zip Code:</label>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xl-8 col-lg-6 col-sm-12 col-12">
+                        <input type="text" [textMask]="{mask: maskZipCode}" class="form-control" name="ZipCode"
+                            [(ngModel)]="model.ZipCode" placeholder="Zip" #ZipCode="ngModel" />
+                    </div>
+
+                    <div class="form-group col-xl-4 col-lg-6 col-sm-12 col-12 text-right">
+                        <button class="btn btn-outline-info btn-block" type="submit"><i class="la la-search"></i> Search</button>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="error-message" *ngIf="f.submitted && checkRequireAtLeastField()">
+                            Please enter a Zip Code.
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr>
+        <div class="col-md-12" style="position: relative;height: 100%;">
+            <ul class="list-group " [ngStyle]="getStyleResult()">
+                <li class="text-center" *ngIf="listPharmacy.length==0">
+                    <h6>Not found any data</h6>
+                </li>
+                <li *ngFor="let item of listPharmacy,let i=index" class="list-item">
+                    <div class="row col-md-12 clearfix" href="javascript:void(0)" (click)="zoomMarker(item)"
+                        style="padding-left: 0px; padding-right: 0px; margin-right: 0px;">
+                        <div class="col-md-12">
+                            <label class="text-bold-600"><a href="javascript:void(0)" (click)="zoomMarker(item)" style="color:#016670">
+                                <button style="border-radius:50%" class="btn btn-green">{{i+1}}</button>
+                                    {{item.StoreName}}</a></label>
+                            <p class="mb-1">{{item.Address1}} {{item.Address2 ? item.Address2 : ''}}, {{item.City}},
+                                {{item.State}} {{item.ZipCode}}</p>
+                            <p class="mb-1">Phone#: {{item.PrimaryPhone}}</p>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-medical-white btn-min-width"
+                                (click)="selectMarker(item)">Select</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div id="gmap" style="position: absolute;overflow: hidden;top: 0;left: 0;width: 99%;height: 100%;"></div>
+    </div>
+</div>

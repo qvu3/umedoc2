@@ -1,0 +1,19 @@
+<div style="min-height: 70vh;">
+  <div class="row">
+    <div class="col-md-6">
+      <label>From Date: </label>
+      <app-date-time-picker name="FromDate" #FromDate="ngModel" [hasTime]="false" [isMaxCurrentDate]="false"
+        [(ngModel)]="criteria.FromDate">
+      </app-date-time-picker>
+    </div>
+    <div class="col-md-6">
+      <label>To Date: </label>
+      <app-date-time-picker name="ToDate" #EndDate="ngModel" [hasTime]="false" [(ngModel)]="criteria.EndDate"
+        [isMaxCurrentDate]="false">
+      </app-date-time-picker>
+    </div>
+  </div>
+  <div class="col-md-12 text-center mt-1">
+    <button class="btn round btn-green btn-min-width" type="button" (click)="generateExcelReport()">Apply</button>
+  </div>
+</div>

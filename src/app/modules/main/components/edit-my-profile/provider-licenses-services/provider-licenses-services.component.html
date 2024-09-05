@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-md-12">
+        <app-provider-licenses></app-provider-licenses>
+    </div>
+    <hr />
+    <div class="col-md-12">
+        <app-provider-services></app-provider-services>
+    </div>
+
+    <hr />
+    <div class="col-md-12" *ngIf="currentUser && (currentUser.Role == 'Special_Admin' || currentUser.Role == 'Company_Admin')">
+        <app-provider-insurance-in-net></app-provider-insurance-in-net>
+    </div>
+</div>

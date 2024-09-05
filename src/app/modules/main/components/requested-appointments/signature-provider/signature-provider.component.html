@@ -1,0 +1,33 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog modal-md">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Signature</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-md-12 b-dash p-0 text-center" style="border-style: double;">
+                            <input type="hidden" name="Value1" #Value1="ngModel" [(ngModel)]="signatureValue"
+                                required />
+                            <signature-pad [options]="signaturePadOptions" (onEndEvent)="drawComplete()">
+                            </signature-pad>
+                            <div class="error-message" *ngIf="f.submitted && Value1.errors && Value1.errors.required">
+                                Please sign by handing writing here.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary">Preview</button>
+                    <button type="button" class="btn btn-danger" (click)="clearSignature()">
+                        Clear</button>
+                    <button type="button" class="btn btn-outline-primary" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="content-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="card" [appActionCardButton]="'Completed-Appointments'" style="min-height: 65vh;">
+          <div class="card-header">
+            <h1 class="card-title title-h1">Manage Patient Request</h1>
+            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+            <div class="heading-elements">
+              <ul class="list-inline mb-0">
+                <li><a data-action="reload" (click)="search()"><i class="ft-rotate-cw"></i></a></li>
+                <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-content collapse show">
+            <div class="col-md-12 card-body card-dashboard">
+              <form class="col-md-12">
+                <div class="row col-md-12 border border-light rounded py-2 mb-2">
+                  <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="users-list-role">Patient</label>
+                    <fieldset class="form-group">
+                      <input type="search" class="form-control" name="PatientName" [(ngModel)]="criteria.PatientName"
+                        placeholder="Patient Name" #PatientName="ngModel" />
+                    </fieldset>
+                  </div>
+                  <div class="col-12 col-sm-6 col-lg-3">
+                    <label for="users-list-status">Categoty</label>
+                    <fieldset class="form-group">
+                      <select id="appointment-type-list" class="form-control" name="RequestCategory"
+                        [(ngModel)]="criteria.RequestCategory" #RequestCategory="ngModel">
+                        <option value="">All</option>
+                        <option value="Refill">Refill</option>
+                        <option value="Change Medication">Change Medication</option>
+                        <option value="Change Pharmacy">Change Pharmacy</option>
+                        <option value="Others">Others</option> 
+                      </select>
+                    </fieldset>
+                  </div>
+  
+  
+                  <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
+                    <button (click)="search()" class="btn btn-block btn-green">Search</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-body card-dashboard">
+              <div class="default-tab ">
+                <ul class="nav nav-tabs nav-linetriangle" style="padding-top:-20p;" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#Appointments"> To Do </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#GroupSession"> Closed</a>
+                  </li>
+  
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" id="Appointments" role="tabpanel">
+                    <div class="mt-2">
+                        <app-patient-request-table [isClosed]="false"  [patientName]="criteria.PatientName" [requestCategory]="criteria.RequestCategory"></app-patient-request-table>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="GroupSession" role="tabpanel">
+                    <div class="mt-2">
+                        <app-patient-request-table [isClosed]="true"  [patientName]="criteria.PatientName" [requestCategory]="criteria.RequestCategory"></app-patient-request-table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,68 @@
+.patient-info-heading{
+    font-weight: 900;
+    display: inline-block;
+    width: 100px;
+}
+
+.patient-info-heading-left{
+    font-weight: 900;
+    display: inline-block;
+    width: 200px;
+}
+
+
+.form-payment-control{
+    width: 100%;
+    height: -webkit-calc(1.25em + 1.5rem + 2px);
+    height: -moz-calc(1.25em + 1.5rem + 2px);
+    height: calc(1.25em + 1.5rem + 2px);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.25;
+    color: #4E5154;
+    background-color: #FFFFFF;
+    background-clip: padding-box;
+    border: 1px solid #BABFC7;
+    border-radius: 0.25rem;
+    -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    -o-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    -moz-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+#cardInfo{
+  font-size: medium;
+  border: medium;
+  border-style: groove;
+}
+
+@-webkit-keyframes redPulse {
+    from { background-color: #FF1635; -webkit-box-shadow: 0 0 9px #000000; }
+    50% { background-color: #096797; -webkit-box-shadow: 0 0 18px rgb(17, 158, 251); }
+    to { background-color: #FF1635; -webkit-box-shadow: 0 0 9px #000000; }
+  }
+
+.redButtonGlowing {
+    color: white;
+    border-color: transparent !important;
+    -webkit-animation-name: redPulse !important;
+    -webkit-animation-duration: 4s;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes whitePulse {
+    from { background-color: #ffffff; -webkit-box-shadow: 0 0 9px #000000; }
+    50% { background-color: #e9e9e9; -webkit-box-shadow: 0 0 18px #ffffff; }
+    to { background-color: #ffffff; -webkit-box-shadow: 0 0 9px #000000; }
+  }
+
+.whiteButtonGlowing {
+    color: black;
+    border-color: transparent !important;
+    -webkit-animation-name: whitePulse !important;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-iteration-count: infinite;
+}

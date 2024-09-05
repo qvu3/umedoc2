@@ -1,0 +1,33 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Charge Amount</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Amount: </label>
+                        <div class="col-sm-12">
+                            <input type="number" min="0" step="1" class="form-control" name="Amount"
+                                [(ngModel)]="model.Amount" #Amount="ngModel" [gt]="0" required />
+                            <div *ngIf="f.submitted && Amount.errors && Amount.errors.required" class="error-message">
+                                This field is required.</div>
+
+                            <div *ngIf="f.submitted && Amount.errors && !Amount.errors.required &&  Amount.errors?.gt"
+                                class="error-message">
+                                Charge amount must be greater than 0.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green" [disabled]="Submitting">Charge Now</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

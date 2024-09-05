@@ -1,0 +1,113 @@
+<div class="content-body">
+  <div class="row">
+    <div class="col-3">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="text-muted text-bold-500 my-1">Information</h6>
+          <div class="list-group list-group-messages">
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['patient-info-tab']" [routerLinkActive]="'active show'">
+              <i class="icon-home mr-1"></i>
+              <span>Patient Info</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['address-info-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-tags mr-1"></i>
+              <span>Address</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['emergency-contact-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-ambulance mr-1"></i>
+              <span>Emergency Contact</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['insurances-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-ticket mr-1"></i>
+              <span>Insurances</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['credit-card-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-credit-card mr-1"></i>
+              <span>Edit Credit Card</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['prefer-pharmacy-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-map-marker mr-1"></i>
+              <span>Preferred Pharmacy</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['medical-documents-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-stethoscope mr-1"></i>
+              <span>Medical Documents</span>
+            </a>
+            <a *ngIf="model && model?.PatientUser && !model.PatientUser.ParentUserID" class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['children-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-users mr-1"></i>
+              <span>Children</span>
+            </a>
+
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['allergies-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-user-md mr-1"></i>
+              <span>Allergies</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['medical-conditions-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-medkit mr-1"></i>
+              <span>Medical Conditions</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['medications-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-university mr-1"></i>
+              <span>Medications</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['patient-appointment-history-info-tab']" [routerLinkActive]="'active show'">
+              <i class="icon-list mr-1"></i>
+              <span>Appointment History Info</span>
+            </a>
+
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['patient-prescription-history-info-tab']" [routerLinkActive]="'active show'">
+              <i class="icon-list mr-1"></i>
+              <span>Prescription history</span>
+            </a>
+
+            <a class="list-group-item list-group-item-action border-0" data-toggle="tab" [routerLink]="['patient-login-history-info-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-sign-in mr-1"></i>
+              <span>Login History</span>
+            </a>
+
+            <a class="list-group-item list-group-item-action border-0" *ngIf="model && model.PatientID" data-toggle="tab" [routerLink]="['patient-page-view-history-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-eye mr-1"></i>
+              <span>Page View History</span>
+            </a>
+
+            <a class="list-group-item list-group-item-action border-0" *ngIf="model && model.PatientID" data-toggle="tab" [routerLink]="['patient-task-list-tab']" [routerLinkActive]="'active show'">
+              <i class="la la-list-alt mr-1"></i>
+              <span>Task List</span><span class="ml-1 badge badge-pill badge-danger" *ngIf="totalTaskTodo && totalTaskTodo > 0">{{totalTaskTodo}}</span>
+            </a>
+
+            <div class="btn-group mt-1 mb-1">
+              <button type="button" class="btn btn-danger btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
+              <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                <a class="dropdown-item" *ngIf="model && providerProfile && providerProfile.DS_UserID && model && model.DS_PatientID" [routerLink]="['/dose/e-script', model.DS_PatientID]" target="blank">eRx</a>
+                <a class="dropdown-item" *ngIf="model" (click)="addFutureAppt()">Add F/u Visit</a>
+                <a class="dropdown-item" *ngIf="model && model.PatientUser" (click)="callClient()">Call Patient</a>
+                <a class="dropdown-item" (click)="showHealthData()" *ngIf="model && model.PatientID">View Health Kit</a>
+                <a class="dropdown-item" (click)="showPatientBlockWatch()" *ngIf="model && model.PatientID">Block/Watch</a>
+
+                <a class="dropdown-item" (click)="restrictPatient(model.ID)" *ngIf="model && !model.IsRestricted">Restrict this Patient</a>
+                <a class="dropdown-item" (click)="restrictPatient(model.ID)" *ngIf="model && model.IsRestricted">Un-restrict this Patient</a>
+                <a *ngIf="model && model.PatientID" class="dropdown-item" (click)="combineAcct()">Combine Existing Accounts</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="card">
+        <div class="sidebar-toggle d-block d-lg-none"><i class="ft-menu font-large-1"></i></div>
+        <div class="card-content">
+          <div class="card-body">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-combine-existing-acct-modal #combineUserModal></app-combine-existing-acct-modal>
+<app-future-appointment #futureModal=""></app-future-appointment>
+<app-browser-call-twillio #browserCall></app-browser-call-twillio>
+<app-health-data-patient #healthDataModal></app-health-data-patient>
+<app-patient-blocked-list-modal #blockedListModal=""></app-patient-blocked-list-modal>

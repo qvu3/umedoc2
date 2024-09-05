@@ -1,0 +1,87 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-body profile-header">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row justify-content-end">
+              <div class="col-sm-4 col-4 text-center">
+                <img [src]="model.ProviderUser.ProfilePicture" width="100" height="100" style="border-radius:50px;">
+              </div>
+              <div class="col-sm-4 col-4">
+                <div *ngIf="model.ProviderDegree && model.ProviderDegree.ImagePath">
+                  <img [src]="model.ProviderDegree.ImagePath" style="width:60px;" />
+                </div>
+                <div *ngIf="model.NumberOfAppointmentLike">
+                  <label><strong> {{model.NumberOfAppointmentLike}} </strong></label>
+                  <i class="font-medium-4 icon-line-height la la-star ic" style="color: #ffc800;"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 text-center pt-1">
+              <h4 class="font-large-1 text-bold-600" style="color: #016670;">
+                {{model.ProviderUser.FirstName}} {{model.ProviderUser.LastName}}
+              </h4>
+            </div>
+            <div class="text-center">
+              <div class="badge badge-info">
+                {{model.ProviderRole.RoleName}}
+              </div>
+            </div>
+            <form>
+              <h4 class="form-section pt-1"><i class="ft-user"></i> Provider Info</h4>
+              <div class="col-md-12" *ngIf="model.ProviderLicenses">
+                <label><strong>Qualified or Licensed to Practice in the following States:</strong></label>
+                <ul class="row">
+                  <li class="col-md-3 pl-0" *ngFor="let item of model.ProviderLicenses"> {{item.LicenseState}} </li>
+                </ul>
+              </div>
+              <div class="col-md-12" *ngIf="model.YearsInPractice">
+                <label><strong>HealthCare Experience:</strong></label>
+                <p class="pl-3"> {{model.YearsInPractice}} Years </p>
+
+              </div>
+              <div class="col-md-12" *ngIf="model.SpecialtyAssignments && model.SpecialtyAssignments.length>0">
+                <label><strong>Specialities:</strong></label>
+                <p *ngFor="let spec of model.SpecialtyAssignments" class="pl-3">
+                  {{spec.ProviderSpecialty.SpecialtyName}}
+                </p>
+              </div>
+
+              <div class="col-md-12" *ngIf="model.ProviderLanguages && model.ProviderLanguages.length > 0">
+                <label><strong>Languages:</strong></label>
+                <p *ngFor="let item of model.ProviderLanguages" class="pl-3">
+                  {{item.Language}}
+                </p>
+              </div>
+
+              <div class="col-md-12" *ngIf="model.Educations && model.Educations.length>0">
+                <label><strong>Education:</strong></label>
+                <p *ngFor="let edu of model.Educations" class="pl-3">
+                  {{edu.DegreeTitle}}, {{edu.University}} - {{edu.GraduatedOn}}
+                </p>
+              </div>
+              <div class="col-md-12" *ngIf="model.SelfDescription">
+                <label><strong>Self Description:</strong></label>
+                <p class="pl-1 pr-1" style="white-space: pre-wrap;">{{model.SelfDescription}}</p>
+              </div>
+              <div class="col-md-12" *ngIf="sliders && sliders.length >0">
+                <label><strong>Badges:</strong></label>
+                <ng-image-slider [images]="sliders" [imageSize]="{width:'205px', height:205}" [animationSpeed]="5"
+                  [showArrow]="true" [infinite]="true" [autoSlide]="true"> </ng-image-slider>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <div class="text-center pt-1 pb-1">
+          <button type="button" class="btn btn-min-width btn-green" (click)="hide()">Close</button>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

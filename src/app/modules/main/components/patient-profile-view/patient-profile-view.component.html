@@ -1,0 +1,457 @@
+<div class="content-body">
+  <section>
+    <div class="row">
+      <div class="col-lg-6 col-md-12" *ngIf="!hideDemographic">
+        <div class="card" style="min-height: 400px">
+          <div class="card-header">
+            <h4>Demographic</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 d-flex justify-content-around">
+                <div class="patient-img-name text-center">
+                  <img style="width :150px;height:150px;" width="100px" height="100px"
+                    *ngIf="model.PatientUser.ProfilePicture" src="{{ model.PatientUser.ProfilePicture }}" alt=""
+                    class="card-img-top mb-1 patient-img img-fluid rounded-circle" />
+                  <img *ngIf="!model.PatientUser.ProfilePicture"
+                    src="https://umedoc-prod.s3.amazonaws.com/RandomFiles/umedoc-defaultavatar.png"
+                    style="width :150px;height:150px;" alt="" width="100px" height="100px"
+                    class="card-img-top mb-1 patient-img img-fluid rounded-circle" />
+                  <h2 class="text-bold-500 text-info">
+                    {{ model.PatientUser.FirstName }}
+                    {{ model.PatientUser.LastName }}
+                  </h2>
+                  <p *ngIf="model.BlockedType" span class='badge badge-danger'>
+                    {{model.BlockedType}} List
+                  </p>
+                  <p *ngIf="model.MatchedPatient" span class='badge badge-warning'>
+                    {{model.MatchedPatient}}
+                  </p>
+
+                </div>
+              </div>
+              <div class="col-lg-8 col-md-8 d-flex justify-content-around">
+                <div class="patient-info">
+                  <ul class="list-unstyled">
+                    <li>
+                      <div class="patient-info-heading-left">Date of Birth:</div>
+                      {{transformDob(model.PatientUser.DOB)}} {{calAgePatient()}}
+                    </li>
+                    <li>
+                      <div class="patient-info-heading-left">Email: </div> {{model.PatientUser.Email}}
+                    </li>
+                    <li>
+                      <div class="patient-info-heading-left">Cell Phone:</div> {{model.PatientUser.CellPhone}}
+                    </li>
+                    <li>
+                      <div class="patient-info-heading-left">Gender:</div> {{model.PatientUser.Gender}}
+                    </li>
+                    <li>
+                      <div class="patient-info-heading-left">Address:</div> {{model.PatientUser.Address1}}
+                      {{model.PatientUser.Address2}} {{model.PatientUser.City}}, {{model.PatientUser.State}}
+                      {{model.PatientUser.ZipCode}}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12" *ngIf="!hidePreferPhamacy">
+        <div class="card bg-gradient-y-info" style="height: 90%;">
+          <div class="card-header pb-0">
+            <div class="row">
+              <div class="col-8">
+                <h4 class="card-title text-white">Preferred Pharmacy</h4>
+              </div>
+              <div class="col-4 text-right">
+                <a class="btn btn-sm btn-icon round bg-teal white" style="-webkit-appearance: none;" type="button"
+                  (click)="updatePreferedPharmacy()"> Update </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body pt-1">
+            <div class="row">
+              <div class="col-md-6 d-flex">
+                <app-view-marker [address]="getAddressMarker()" style="width: 100%; height: 140px;">
+                </app-view-marker>
+              </div>
+              <div class="col-md-6 d-flex">
+                <ul class="list-unstyled text-white"  style="background-color: #0000003d;">
+                  <li *ngIf="model.PreferredPharmacy"><span class="patient-info-heading">Pharmacy:</span>
+                    {{model.PreferredPharmacy}}
+                  </li>
+                  <li *ngIf="!model.PreferredPharmacy"><span class="patient-info-heading">Pharmacy:</span>
+                    N/A
+                  </li>
+                  <li *ngIf="model.PreferredPharmacyPhoneNumber"><span class="patient-info-heading">Contact:</span>
+                    {{model.PreferredPharmacyPhoneNumber}}
+                  </li>
+                  <li *ngIf="!model.PreferredPharmacyPhoneNumber"><span class="patient-info-heading">Contact:</span>
+                    N/A
+                  </li>
+                  <li *ngIf="model.PreferredPharmacyAddress"><span class="patient-info-heading">Address:</span>
+                    {{model.PreferredPharmacyAddress}}, {{model.PreferredPharmacyCity}},
+                    {{model.PreferredPharmacyState}} {{model.PreferredPharmacyZipCode}}
+                  </li>
+                  <li *ngIf="!model.PreferredPharmacyAddress"><span class="patient-info-heading">Address:</span>
+                    N/A
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="!hidePrizm">
+      <div class="col-12">
+        <app-prizm-info [appointmentId]="appointmentID"></app-prizm-info>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="!hideInsuranceInfo || !hideCreditCard">
+      <div class="col-lg-6 col-md-6" *ngIf="currentUser.Role && currentUser.Role != 'Patient' && !hideInsuranceInfo">
+        <div class="card" style="height: 90%;">
+          <div class="card-header">
+            <div class="heading-elements">
+              <div class="row text-left" style="margin-bottom: 10px;">
+                <h5 class="card-title">Insurance Info</h5>
+              </div>
+              <div class="row text-center">
+                <select class="form-control col-md-4 mr-1" (change)="ChangeDeclineInsurance($event)" name="Decline">
+                  <option value="">Decline Insurance </option>
+                  <option value="InvalidInsurance">Invalid Insurance</option>
+                  <option value="OutOfNetwork">Out of Network</option>
+                </select>
+
+                <button *ngIf="model.DeletedPatientInsurances !=null && model.DeletedPatientInsurances.length > 0"
+                  type="button" class="btn btn-sm btn-warning mr-1" (click)="setShowDeletedInsurance()">
+                  {{isShowDeletedInsurance ? 'Hide Deleted Insurance': 'View Deleted Insurance'}}
+                </button>
+
+                <button type="button" class="btn  btn-sm btn-medical-white" (click)="addInsurance()"> Add
+                  Insurance</button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="card-body" style="margin-top: 50px;" *ngIf="isShowDeletedInsurance">
+            <hr style="border-top: 1px solid rgba(0, 0, 0, 0.5)">
+            <h5 class="card-title">Deleted Insurance Info</h5>
+            <ul *ngFor="let item of model.DeletedPatientInsurances" class="list-unstyled patient-info-card">
+              <li>
+                <span class="patient-info-heading-left">Insurance Name: </span>
+                {{item.InsuranceName}}
+              </li>
+              <li>
+                <span class="patient-info-heading-left">Insurance Member ID: </span>
+                {{item.BeneficiaryNumber}}
+              </li>
+              <li>
+                <span class="patient-info-heading-left">Group Number: </span>
+                {{item.GroupNumber}}
+              </li>
+              <li *ngIf="item.DontKnowCopay ===true">
+                <span class="patient-info-heading-left">Copay: </span>
+                Don't know
+              </li>
+
+              <li
+                *ngIf="item.DontKnowCopay === undefined || item.DontKnowCopay === null || item.DontKnowCopay ===false">
+                <span class="patient-info-heading-left">Copay: </span>
+                ${{item.PatientCopay}}
+              </li>
+
+              <li *ngIf="item.IsHMOPlan">
+                <span class="patient-info-heading-left">I have HMO plan</span>
+              </li>
+
+              <li *ngIf="!item.IsHMOPlan">
+                <span class="patient-info-heading-left">I don't have HMO plan</span>
+              </li>
+
+              <li>
+                <span class="patient-info-heading-left">Deleted Time: </span>
+                {{item.DeletedDate | date :'MM/dd/yyyy HH:mm:ss'}}
+              </li>
+
+              <li *ngIf="item.IsDependent">
+                <span class="patient-info-heading-left">Subscriber </span>
+                {{item.SubscriberDescription}}
+              </li>
+
+              <div class="row">
+                <div *ngIf="item.FrontImageUrlView" class="col-md-2 col-sm-12 text-center">
+                  <a [href]="item.FrontImageUrlView" data-lightbox="Insurance Front">
+                    <img style="max-width: 50px!important;height: 50px!important;" class="img-fluid img-thumbnail"
+                      [src]="item.FrontImageUrlView" alt="">
+                  </a>
+                </div>
+                <div *ngIf="item.BackImageUrlView" class="col-md-2 col-sm-12 text-center">
+                  <a [href]="item.BackImageUrlView" data-lightbox="Insurance Back">
+                    <img style="max-width: 50px!important;height: 50px!important;" class="img-fluid img-thumbnail"
+                      [src]="item.BackImageUrlView" alt="">
+                  </a>
+                </div>
+              </div>
+              <hr style="border-top: 1px solid rgba(0, 0, 0, 0.5)">
+            </ul>
+          </div>
+
+          <div class="card-body" style="margin-top: 50px;"
+            *ngIf="model.PatientInsurances !=null && model.PatientInsurances.length > 0">
+            <hr style="border-top: 1px solid rgba(0, 0, 0, 0.5)">
+            <h5 class="card-title">Insurance Info</h5>
+            <ul *ngFor="let item of model.PatientInsurances" class="list-unstyled patient-info-card">
+              <li>
+                <span class="patient-info-heading-left">Insurance Name: </span>
+                {{item.InsuranceName}}
+              </li>
+              <li>
+                <span class="patient-info-heading-left">Insurance Member ID: </span>
+                {{item.BeneficiaryNumber}}
+              </li>
+              <li>
+                <span class="patient-info-heading-left">Group Number: </span>
+                {{item.GroupNumber}}
+              </li>
+              <li *ngIf="item.DontKnowCopay ===true">
+                <span class="patient-info-heading-left">Copay: </span>
+                Don't know
+              </li>
+
+              <li
+                *ngIf="item.DontKnowCopay === undefined || item.DontKnowCopay === null || item.DontKnowCopay ===false">
+                <span class="patient-info-heading-left">Copay: </span>
+                ${{item.PatientCopay}}
+              </li>
+
+              <li *ngIf="item.IsHMOPlan">
+                <span class="patient-info-heading-left">I have HMO plan</span>
+              </li>
+
+              <li *ngIf="!item.IsHMOPlan">
+                <span class="patient-info-heading-left">I don't have HMO plan</span>
+              </li>
+
+              <li *ngIf="item.IsDependent">
+                <span class="patient-info-heading-left">Subscriber: </span>
+                {{item.SubscriberDescription}}
+              </li>
+
+              <div class="row">
+                <div *ngIf="item.FrontImageUrlView" class="col-md-2 col-sm-12 text-center">
+                  <a [href]="item.FrontImageUrlView" data-lightbox="Insurance Front">
+                    <img style="max-width: 50px!important;height: 50px!important;" class="img-fluid img-thumbnail"
+                      [src]="item.FrontImageUrlView" alt="">
+                  </a>
+                </div>
+                <div *ngIf="item.BackImageUrlView" class="col-md-2 col-sm-12 text-center">
+                  <a [href]="item.BackImageUrlView" data-lightbox="Insurance Back">
+                    <img style="max-width: 50px!important;height: 50px!important;" class="img-fluid img-thumbnail"
+                      [src]="item.BackImageUrlView" alt="">
+                  </a>
+                </div>
+              </div>
+              <li>
+                <div class="text-center" style="padding-top:20px;">
+                  <button type="button" class="btn btn-sm btn-info mr-1"
+                    (click)="changeInsurance(item.ID)">Update</button>
+                  <button type="button" class="btn btn-sm btn-danger"
+                    (click)="removeItemInsurance(item.ID)">Remove</button>
+                </div>
+              </li>
+              <hr style="border-top: 1px solid rgba(0, 0, 0, 0.5)">
+            </ul>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6" *ngIf="!hideCreditCard">
+        <div class="card" style="height: 90%;">
+          <div class="card-header">
+            <h5 class="card-title">Credit Card</h5>
+            <div class="heading-elements">
+            </div>
+          </div>
+          <div class="card-body" *ngIf="model && model.CardInfo">
+            <table style="width: 100%;" id="cardInfo">
+              <tr>
+                <td class="form-label" style="width: 25%;text-align: center;">
+                  Card Number
+                </td>
+                <td class="form-label" style="width: 20%;text-align: center;">
+                  Exp. Date
+                </td>
+                <td class="form-label" style="width: 20%;text-align: center;">
+                  Zip Code
+                </td>
+
+              </tr>
+              <tr>
+                <td class="form-payment-control" style="text-align: right;width: 25%;">
+                  {{model.CardInfo.CardNumber}}
+                </td>
+                <td class="form-payment-control" style="text-align: center;width: 20%;">
+                  {{model.CardInfo.ExpiredMonth}}/{{model.CardInfo.ExpiredYear}}
+                </td>
+                <td class="form-payment-control" style="text-align: center;width: 20%;">
+                  {{model.CardInfo.State}}
+                </td>
+              </tr>
+            </table>
+            <div class="mt-2">
+              <app-crypto-info-view [appointmentId]="appointmentID" *ngIf="appointmentID"></app-crypto-info-view>
+            </div>
+          </div>
+
+          <div class="card-body" *ngIf="!model ||  !model.CardInfo">
+            <span>N/A</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-3 col-lg-6 col-md-12" *ngIf="!hideEmergencyContact">
+        <div class="card bg-gradient-y-success" style="height: 90%;">
+          <div class="card-header">
+            <h5 class="card-title text-white">Emergency Contact</h5>
+          </div>
+          <div class="card-body">
+            <ul class="list-unstyled text-white patient-info-card">
+              <li *ngIf="model.EmergencyContactName"><span class="patient-info-heading">Name: </span>
+                {{model.EmergencyContactName}}
+              </li>
+              <li *ngIf="!model.EmergencyContactName"><span class="patient-info-heading">Name: </span>
+                N/A
+              </li>
+
+              <li *ngIf="model.EmergencyContactPhoneNumber"><span class="patient-info-heading">Contact: </span>
+                {{model.EmergencyContactPhoneNumber}}
+              </li>
+              <li *ngIf="!model.EmergencyContactPhoneNumber"><span class="patient-info-heading">Contact: </span>
+                N/A
+              </li>
+
+              <li *ngIf="model.PrimaryCare"><span class="patient-info-heading">Primary Care: </span>
+                {{model.PrimaryCare}}
+              </li>
+              <li *ngIf="!model.PrimaryCare"><span class="patient-info-heading">Primary Care: </span>
+                N/A
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-6 col-md-12" *ngIf="!hideAllergies">
+        <div class="card bg-gradient-y-warning" style="height: 90%;">
+          <div class="card-header">
+            <h5 class="card-title text-white">Allergies</h5>
+          </div>
+          <div class="card-body">
+            <ul *ngIf="
+                model.Allergies
+              " class="text-white" style="margin: 0; padding-left: 0;">
+              <ng-template ngFor let-item [ngForOf]="model.Allergies">
+                <li *ngIf="item.Name" style="list-style: inside;">
+                  {{ item.Name }}
+                </li>
+              </ng-template>
+            </ul>
+
+            <ul *ngIf="
+                !model.Allergies
+              " class="text-white" style="margin: 0; padding-left: 0;">
+              <li style="list-style: inside;">
+                N/A
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-6 col-md-12" *ngIf="!hideMedicalCondition">
+        <div class="card bg-gradient-y-danger" style="height: 90%;">
+          <div class="card-header">
+            <h5 class="card-title text-white">Medical Conditions</h5>
+          </div>
+          <div class="card-body">
+            <ul *ngIf="model.PatientMedicalConditionAssignments && model.PatientMedicalConditionAssignments.length>0"
+              class="text-white" style="margin: 0; padding-left: 0;">
+              <ng-template ngFor let-item [ngForOf]="model.PatientMedicalConditionAssignments">
+                <li *ngIf="item.PatientMedicalCondition.MedicalConditionName.trim()!= 'Others'"
+                  style="list-style: inside;">
+                  {{item.PatientMedicalCondition.MedicalConditionName}}
+                </li>
+              </ng-template>
+              <li
+                *ngIf="checkExistOtherMedicalConditionName(model.PatientMedicalConditionAssignments,'PatientMedicalCondition')">
+                <span style="font-weight: 900; display: inline-block;">Others:</span>
+                {{model.MedicalConditionsOthers}}
+              </li>
+            </ul>
+
+            <ul
+              *ngIf="!model.PatientMedicalConditionAssignments || (model.PatientMedicalConditionAssignments && model.PatientMedicalConditionAssignments.length==0)"
+              class="text-white" style="margin: 0; padding-left: 0;">
+              <li style="list-style: inside;">
+                N/A
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-lg-6 col-md-12" *ngIf="!hideMedication">
+        <div class="card bg-gradient-y-primary" style="height: 90%;">
+          <div class="card-header">
+            <h5 class="card-title text-white">Medications</h5>
+          </div>
+          <div class="card-body">
+            <ul *ngIf="model.PatientMedicationAssignments && model.PatientMedicationAssignments.length>0"
+              class="text-white" style="margin: 0; padding-left: 0;">
+              <ng-template ngFor let-item [ngForOf]="model.PatientMedicationAssignments">
+                <li *ngIf="item.PatientMedication.MedicationName.trim() != 'Others'" style="list-style: inside;">
+                  {{item.PatientMedication.MedicationName}}
+                </li>
+              </ng-template>
+              <li *ngIf="checkExistOtherMedicationName(model.PatientMedicationAssignments,'PatientMedication')">
+                <span style="font-weight: 900; display: inline-block;">Others:</span> {{model.MedicationOthers}}
+              </li>
+            </ul>
+
+            <ul
+              *ngIf="!model.PatientMedicationAssignments || (model.PatientMedicationAssignments && model.PatientMedicationAssignments.length==0)"
+              class="text-white" style="margin: 0; padding-left: 0;">
+              <li style="list-style: inside;">
+                N/A
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2" *ngIf="model && model.PatientID && currentUser?.Role != 'Patient' && !hidePverifyInsurance">
+      <div class="col-lg-12">
+        <app-pverify-insurance-list [patientId]="model.PatientID"></app-pverify-insurance-list>
+      </div>
+    </div>
+    <div class="row" *ngIf="isShowEditButton && !hidePverifyInsurance">
+      <div class="col-md-12 form-actions text-center">
+        <button type="button" (click)="editPatientInfo(model.PatientID)" class="btn btn-green btn-min-width">
+          Edit Patient Info</button>
+      </div>
+    </div>
+  </section>
+</div>
+<app-perfer-pharmacy-search #pharamcySearch="" (onClosed)="closePerfer($event)"></app-perfer-pharmacy-search>
+<app-insurance-update #insuranceUpdateModal (closeModal)="onCloseInsurance($event)"></app-insurance-update>
+<!-- END: Content-->

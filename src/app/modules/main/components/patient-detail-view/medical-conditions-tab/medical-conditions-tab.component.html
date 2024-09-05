@@ -1,0 +1,45 @@
+<div class="row m-t-40">
+    <div class="col-md-12">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+
+
+            <fieldset class="fieldset-user">
+
+                <h4 class="form-section"><i class="la la-medkit"></i> Medical Conditions</h4>
+
+                <div class="form-group row clearfix" id="groupMedicalConditions">
+
+                    <div class="row col-md-12 ">
+                        <div class="col-md-4" *ngFor="let item of listMedicalConditions">
+                            <div class="col-md-12 mx-auto">
+                                <fieldset>
+                                    <input class="icheckbox_flat-green checked" name="checkbox"
+                                        (click)="changeMedicationCondition(item.ID)" type="checkbox"
+                                        [checked]="item.IsChecked" [value]="item.ID">
+                                    <label>&nbsp;&nbsp;{{item.MedicalConditionName}}</label>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" *ngIf="checkOtherRequired(listMedicalConditions)">
+                        <textarea type="text" class="form-control" name="MedicalConditionsOthers"
+                            [(ngModel)]="model.MedicalConditionsOthers" #MedicalConditionsOthers="ngModel"
+                            [required]="checkOtherRequired(listMedicalConditions)"></textarea>
+                        <div *ngIf="MedicalConditionsOthers.errors && MedicalConditionsOthers.errors.required"
+                            class="error-message">
+                            Required.</div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <div class="col-md-12 form-actions text-center">
+                <button type="button" class="btn btn-medical-white btn-min-width btn-lg mr-1" (click)="cancel()">
+                    <i class="ft-x"></i> Cancel</button>
+                <button type="submit" class="btn btn-green btn-min-width btn-lg" [disabled]="IsSubmitting">
+                    <i class="la la-check-square-o"></i> Save</button>
+            </div>
+
+        </form>
+    </div>
+</div>

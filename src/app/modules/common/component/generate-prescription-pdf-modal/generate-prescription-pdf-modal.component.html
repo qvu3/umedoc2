@@ -1,0 +1,70 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Prescription Generate PDF</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 m-0 p-0">
+                    <div class="table-responsive">
+                        <table class="table" style="width: 100%" id="precriptionsTable">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Medication</th>
+                                    <th>Effective Date</th>
+                                    <th>Prescriber</th>
+                                    <th>Pharmacy</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="!results || results.length ==0">
+                                    <td colspan="6" class="text-center"> No prior medications found</td>
+                                </tr>
+                                <tr *ngFor="let item of results">
+                                    <td>
+                                        <fieldset>
+                                            <input class="icheckbox_flat-green checked" type="checkbox" (click)="selectPrescription(item)" />
+                                            <label></label>
+                                        </fieldset>
+                                    </td>
+                                    <td>
+                                        <p class="primary text-bold-600">{{item.GenericProductName}} - {{item.Route}}</p>
+
+                                        <p>Directions: {{item.Directions}}</p>
+                                    </td>
+                                    <td>
+                                        {{transformEffectiveDate(item.EffectiveDate)}}
+                                    </td>
+
+                                    <td>
+                                        {{item.PrescriberName}}
+                                    </td>
+                                    <td>
+                                        <p>{{item.Pharmacy ? item.Pharmacy.StoreName : ''}}</p>
+                                        <p>{{item.Pharmacy ?
+                                            (item.Pharmacy.Address1 + ' '+
+                                            (item.Pharmacy.Adderss2 ? item.Pharmacy.Adderss2:'') + ', '+
+                                            item.Pharmacy.City + ', '+ item.Pharmacy.State + ' '+ item.Pharmacy.ZipCode)
+                                            :''}}</p>
+                                        <p>{{item.Pharmacy ? item.Pharmacy.PrimaryPhone : ''}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="badge badge-info">{{getStatus(item.Status)}}</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn  btn-green" [disabled]="Submitting || !results" (click)="generatePDF()">Generate PDF</button>
+                <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

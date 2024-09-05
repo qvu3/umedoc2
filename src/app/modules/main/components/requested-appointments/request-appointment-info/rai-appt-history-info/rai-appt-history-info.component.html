@@ -1,0 +1,6 @@
+<div class="row">
+    <div class="col-md-12" *ngIf="model && model.PatientID">
+        <app-appointment-history-info [isPatientView]="false" [patientID]="model.PatientID" [isShowRefresh]="true">
+        </app-appointment-history-info>
+    </div>
+</div>

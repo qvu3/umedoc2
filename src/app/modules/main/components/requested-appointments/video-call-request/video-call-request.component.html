@@ -1,0 +1,19 @@
+<div bsModal #childModal="bs-modal"  [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-body"> 
+        <div class="row" *ngIf="id && urlTokbox">
+          <div class="col-md-12 embed-responsive embed-responsive-16by9">
+            <iframe  class="embed-responsive-item" [src]="urlTokbox" width="99%" height="100%" scrolling="no"  allow="microphone; camera">
+            </iframe>
+          </div>
+        </div> 
+      </div>
+      <div class="modal-footer">
+        <div class="col-md-12 text-right">
+          <button type="button" class="btn btn-medical-white" (click)="hide()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

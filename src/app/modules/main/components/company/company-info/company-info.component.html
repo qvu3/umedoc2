@@ -1,0 +1,155 @@
+<form class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+  <div class="form-group row clearfix">
+    <div class="col-md-12">
+      <app-crop-image-view [typeUpload]="'logo'"  [link]="'/api/Utility/S3UploadImage'"
+        [ModelID]="model.ID" name="CompanyPicture" [(ngModel)]="model.CompanyPicture" 
+        #CompanyPicture="ngModel">
+      </app-crop-image-view>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group row clearfix">
+        <div class="col-sm-6" [ngClass]="{ 'has-error': f.submitted && !CompanyName.valid }">
+          <label class="col-sm-12 control-label">Company Name</label>
+          <div class="col-sm-12">
+            <input type="text" class="form-control" placeholder="Company Name" name="CompanyName"
+              [(ngModel)]="model.CompanyName" #CompanyName="ngModel" required />
+            <div *ngIf="
+                f.submitted && CompanyName.errors && CompanyName.errors.required
+              " class="col-md-12 error-message">
+              This field is required.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row clearfix" [ngClass]="{ 'has-error': f.submitted && !Email.valid }">
+        <div class="col-sm-6">
+          <label class="col-sm-12 control-label">Email</label>
+          <div class="col-sm-12">
+            <input type="text" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" class="form-control"
+              placeholder="Email" name="Email" [(ngModel)]="model.Email" #Email="ngModel" required />
+            <div *ngIf="f.submitted && Email.errors && Email.errors.required" class="error-message">
+              This field is required.
+            </div>
+            <div *ngIf="
+                f.submitted &&
+                Email.errors &&
+                !Email.errors.required &&
+                Email.errors.pattern
+              " class="error-message">
+              Email invalid.
+            </div>
+          </div>
+          <span class="material-input"></span>
+        </div>
+        <div class="col-sm-3" [ngClass]="{
+            'has-error': f.submitted && (!PhoneNumber.valid || !FaxNumber.valid)
+          }">
+          <label class="col-sm-12 control-label">Phone</label>
+          <div class="col-sm-12">
+            <input type="text" class="form-control" pattern="^\(\d{3}\)\s\d{3}-\d{4}$" [textMask]="{ mask: maskPhone }"
+              placeholder="Phone Number" name="Phone Number" [(ngModel)]="model.PhoneNumber" #PhoneNumber="ngModel" />
+            <div *ngIf="
+                f.submitted && PhoneNumber.errors && PhoneNumber.errors.pattern
+              " class="error-message">
+              Invalid value
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <label class="col-sm-12 control-label">Fax</label>
+          <div class="col-sm-12">
+            <input type="text" pattern="^\(\d{3}\)\s\d{3}-\d{4}$" [textMask]="{ mask: maskPhone }" class="form-control"
+              name="FaxNumber" placeholder="Fax Number" [(ngModel)]="model.FaxNumber" #FaxNumber="ngModel" />
+            <div *ngIf="
+                f.submitted && FaxNumber.errors && FaxNumber.errors.pattern
+              " class="error-message">
+              Invalid value
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row clearfix" [ngClass]="{ 'has-error': f.submitted && !Address1.valid }">
+        <div class="col-sm-6">
+          <label class="col-sm-12 control-label">Address 1</label>
+          <div class="col-sm-12">
+            <input type="text" class="form-control" placeholder="Address 1" name="Address1" [(ngModel)]="model.Address1"
+              #Address1="ngModel" required />
+            <div *ngIf="f.submitted && Address1.errors && Address1.errors.required" class="error-message">
+              This field is required.
+            </div>
+          </div>
+          <span class="material-input"></span>
+        </div>
+        <div class="col-sm-6">
+          <label class="col-sm-12 control-label">Address 2</label>
+          <div class="col-sm-12">
+            <input type="text" class="form-control" placeholder="Address2" name="Address 2" [(ngModel)]="model.Address2"
+              #Address2="ngModel" />
+          </div>
+          <span class="material-input"></span>
+        </div>
+      </div>
+      <div class="form-group row clearfix" [ngClass]="{
+          'has-error':
+            f.submitted && (!City.valid || !State.valid || !ZipCode.valid)
+        }">
+        <div class="col-sm-6">
+          <label class="col-sm-12 control-label">City</label>
+          <div class="col-sm-12">
+            <input type="text" class="form-control" placeholder="City" name="City" [(ngModel)]="model.City"
+              #City="ngModel" required />
+            <div *ngIf="f.submitted && City.errors && City.errors.required" class="error-message">
+              Required.
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <label class="col-sm-12 control-label">State</label>
+          <div class="col-sm-12">
+            <select name="State" class="form-control m-input" [(ngModel)]="model.State" #State="ngModel" required>
+              <option value="">Select</option>
+              <option value="{{ item.value }}" *ngFor="let item of us_statelist">{{ item.name }}</option>
+            </select>
+            <div *ngIf="f.submitted && State.errors && State.errors.required" class="error-message">
+              Required.
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <label class="col-sm-12 control-label">ZipCode</label>
+          <div class="col-sm-12">
+            <input type="text" [textMask]="{ mask: maskZipCode }" class="form-control" name="ZipCode"
+              [(ngModel)]="model.ZipCode" placeholder="ZipCode" #ZipCode="ngModel" required />
+            <div *ngIf="f.submitted && ZipCode.errors && ZipCode.errors.required" class="error-message">
+              Required.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-group row clearfix">
+        <div class="col-sm-6">
+          <div class="form-group row col-sm-12">
+            <div class="col-md-12 mx-auto">
+              <fieldset>
+                <input class="icheckbox_flat-green checked" type="checkbox" [(ngModel)]="model.IsInactived"
+                  name="IsInactived" />
+                <label for="IsInactived">&nbsp;&nbsp;Inactived</label>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group form-actions col-md-12 text-center">
+      <button type="submit" class="btn btn-green btn-lg btn-min-width mr-1" [disabled]="Submitting">
+        Save
+      </button>
+      <a (click)="cancel()" class="btn btn-medical-white btn-lg btn-min-width">Cancel</a>
+    </div>
+  </div>
+</form>

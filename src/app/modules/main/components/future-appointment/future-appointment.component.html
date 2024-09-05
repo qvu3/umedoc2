@@ -1,0 +1,117 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Future Appointment Visit</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="col-sm-12 control-label">Choose State:</label>
+                            <div class="col-sm-12">
+                                <select name="State" class="form-control m-input" [(ngModel)]="model.State" #State="ngModel" (change)="changeState($event)">
+                                    <option value="" disabled>Select</option>
+                                    <option value="{{item.value}}" *ngFor="let item of us_statelist">{{item.name}}
+                                    </option>
+                                </select>
+
+                                <div *ngIf="f.submitted && State.errors && State.errors.required" class="error-message">
+                                    Please choose state.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="col-sm-12 control-label">Appointment Type:</label>
+                            <div class="col-sm-12">
+                                <select name="IsOnDemand" class="form-control m-input" [(ngModel)]="model.IsOnDemand" #IsOnDemand="ngModel" (change)="changeState($event)">
+                                    <option [ngValue]="true">On Demand</option>
+                                    <option [ngValue]="false">Schedule</option>
+                                </select>
+
+                                <div *ngIf="f.submitted && IsOnDemand.errors && IsOnDemand.errors.required" class="error-message">
+                                    Please choose Appointment Type.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="col-sm-12 control-label">Choose Category</label>
+                            <div class="col-sm-12">
+                                <select name="ApptCategoryID" class="form-control m-input" [(ngModel)]="model.ApptCategoryID" #ApptCategoryID="ngModel" (change)="changeApptCategory($event)">
+                                    <option value="" disabled>Select</option>
+                                    <option value="{{item.ID}}" *ngFor="let item of categoryList">{{item.Name}}</option>
+                                </select>
+
+                                <div *ngIf="f.submitted && ApptCategoryID.errors && ApptCategoryID.errors.required" class="error-message">
+                                    Please choose category.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label class="col-sm-12 control-label">Choose Provider:</label>
+                            <div class="col-sm-12">
+                                <ng-select2 name="ProviderID" [(ngModel)]="model.ProviderID" #ProviderID="ngModel" [data]="providers" [value]="model.ProviderID" required="" [options]="optionsProvider"
+                                    (valueChanged)="changeProvider($event)">
+                                </ng-select2>
+
+                                <div *ngIf="f.submitted && ProviderID.errors && ProviderID.errors.required" class="error-message">
+                                    Please choose provider.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12" *ngIf="model && provider && model.ProviderID == provider?.ProviderID && !model.IsOnDemand">
+                            <app-schedule-provider-appointment #scheduler [isFU]="true" [showSmallCalendar]="true" [provider]="provider" [appointment]="model">
+                            </app-schedule-provider-appointment>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center mt-2" *ngIf="model && provider && model.AppointmentTime && model.ProviderID">
+                            <strong>
+                                <h4><strong>Selected
+                                        Provider:</strong>
+                                    <span class="text-bold-600" style="color: #016670;">
+                                        {{provider.ProviderUser.FirstName}}
+                                        {{provider.ProviderUser.LastName}}
+                                    </span>
+                                </h4>
+                                <h4 *ngIf="model.AppointmentTime">Appointment Time:
+                                    {{model.AppointmentTime | date:'MM/dd/yyyy hh:mm a'}} </h4>
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center mt-1" style="padding-bottom: 25px;" *ngIf="model && provider && model.AppointmentTime && model.ProviderID">
+                        <fieldset>
+                            <div class="d-inline-block custom-control custom-radio mr-2">
+                                <input type="radio" class="custom-control-input" [disabled]="!canChangePaidByInsurance()" (change)="selectPaidByInsurance(true)" name="PaidByInsurance" [(ngModel)]="model.PaidByInsurance" [value]="true"
+                                    id="colorRadio3">
+                                <label style="font-size: 16px;" class="custom-control-label" for="colorRadio3">Pay with
+                                    Insurance</label>
+                            </div>
+                            <div class="d-inline-block custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="PaidByInsurance" [disabled]="!canChangePaidByInsurance()" id="colorRadio4" [(ngModel)]="model.PaidByInsurance" (change)="selectPaidByInsurance(false)"
+                                    [value]="false">
+                                <label style="font-size: 16px;" class="custom-control-label" for="colorRadio4">Pay
+                                    without Insurance
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green" [disabled]="(!model.AppointmentTime && !model.IsOnDemand) || (model.IsOnDemand && (!model.ProviderID || !model.ApptCategoryCode)) || Submitting">Create F/u Visit</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

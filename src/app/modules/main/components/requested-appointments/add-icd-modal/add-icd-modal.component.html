@@ -1,0 +1,58 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Billing Codes</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">ICD Code</label>
+                        <div class="col-sm-12">
+                            <ng-select2 name="ICDCodes" #ICDCodes="ngModel" [(ngModel)]="model.ICDCodes"
+                                [options]="optionsICD" multiple="multiple"></ng-select2>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">CPT Code</label>
+                        <div class="col-sm-12">
+                            <ng-select2 name="CPTCode" #CPTCode="ngModel" [(ngModel)]="model.CPTCode"
+                                [options]="optionsCPT"></ng-select2>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Modifier</label>
+                        <div class="col-sm-12">
+                            <ng-select2 name="Modifier" #Modifier="ngModel" [(ngModel)]="model.Modifier"
+                                [options]="optionsModifier"></ng-select2>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Place Of Service</label>
+                        <div class="col-sm-12">
+                            <ng-select2 name="PlaceOfService" #PlaceOfService="ngModel"
+                                [(ngModel)]="model.PlaceOfService" [options]="optionsPlace"></ng-select2>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Time In Minutes</label>
+                        <div class="col-sm-12">
+                            <input class="form-control" type="number" pattern="^\d*$" name="TimeInMinutes" #TimeInMinutes="ngModel"
+                                [(ngModel)]="model.TimeInMinutes">
+                            <div class="error-message" *ngIf="f.submitted && TimeInMinutes.errors?.pattern">
+                                <p>Time in Minutes is integer in minutes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-min-width btn-green mr-1">Preview</button>
+                    <button type="button" class="btn btn-min-width btn-medical-white" (click)="cancel()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

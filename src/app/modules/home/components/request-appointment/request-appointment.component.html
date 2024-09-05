@@ -1,0 +1,70 @@
+<div class="content-header row mb-1">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title">Request Appointment</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a>
+          </li>
+          <li class="breadcrumb-item">Appointment
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+<div class="content-body">
+  <div class="row">
+    <div class="col-12">
+      <div class="card" [appActionCardButton]="'Request-Appointment'">
+        <div class="card-header">
+          <h4 class="card-title title-h1">Request Appointment</h4>
+          <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+          <div class="heading-elements">
+            <ul class="list-inline mb-0">
+              <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+              <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-content show" style="min-height:65vh;">
+          <div class="row">
+            <div class="col-md-12" style="padding: 2.5rem;">
+              <aw-wizard [navBarLayout]="'large-empty-symbols'" #wizard>
+                <aw-wizard-step stepTitle="" [navigationSymbol]="{ symbol: '1' }">
+                  <div class="col-md-12">
+                    <app-pre-check [model]="appointmentModel.PreCheckModel"></app-pre-check>
+                  </div>
+                  <button type="button" class="btn btn-green btn-lg btn-min-width pull-right" [disabled]="
+                  !(
+                    appointmentModel.PreCheckModel.State
+                  &&  appointmentModel.PreCheckModel.IsThan14Age 
+                  &&  appointmentModel.PreCheckModel.IsCalled911)" awNextStep (finalize)="scrollToTop();">Next</button>
+                </aw-wizard-step> 
+
+                <aw-wizard-step stepTitle="" [navigationSymbol]="{ symbol: '2' }">
+                  <app-appointment-wizard *ngIf="wizard.currentStepIndex == 1"  [model]="appointmentModel" (onSaveChange)="saveAppWizard($event)"></app-appointment-wizard>
+                </aw-wizard-step>
+
+                <aw-wizard-step *ngIf="!appointmentModel.IsOnDemand" stepTitle="" [navigationSymbol]="{ symbol: '3' }">
+                  <app-available-provider *ngIf="wizard.currentStepIndex == 2" #availableProvider [model]="appointmentModel"></app-available-provider>
+                </aw-wizard-step>
+
+                <aw-wizard-step *ngIf="!appointmentModel.IsOnDemand" stepTitle="" [navigationSymbol]="{ symbol: '4' }">
+                  <app-payment-appointment *ngIf="wizard.currentStepIndex == 3" [model]="appointmentModel"></app-payment-appointment>
+                </aw-wizard-step>
+
+                <aw-wizard-step *ngIf="appointmentModel.IsOnDemand" stepTitle="" [navigationSymbol]="{ symbol: '3' }">
+                  <app-payment-appointment *ngIf="wizard.currentStepIndex == 2" [model]="appointmentModel"></app-payment-appointment>
+                </aw-wizard-step>
+
+              </aw-wizard>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="content-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card" [appActionCardButton]="'Requested-Appointments1'" style="min-height: 73vh;">
+                <div class="card-header">
+                    <h1 class="card-title title-h1">Task List</h1>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a (click)="refreshGrid()" href="javascript:void(0)"><i class="la la-refresh"></i>
+                                    Refresh</a>
+                            <li><a (click)="addTask()" href="javascript:void(0)"><i class="la la-plus"></i> Add New</a>
+                            </li>
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- <h6 class="text-muted text-bold-500 my-1">TABS</h6> -->
+                                <div class="list-group list-group-messages">
+                                    <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+                                        [routerLink]="['provider-task-to-do']">
+                                        <i class="la la-list mr-1"></i>
+                                        <span>To-do</span>
+                                    </a>
+                                    <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+                                        [routerLink]="['provider-task-completed']">
+                                        <i class="la la-check-circle mr-1"></i>
+                                        <span>Completed</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <router-outlet></router-outlet>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-provider-task-info #providerTaskInfoModal></app-provider-task-info>

@@ -1,0 +1,285 @@
+<div class="row" *ngIf="model">
+    <div class="{{checkIsPatientRole()? 'col-md-12 p-0':'col-md-8 pr-0'}}">
+        <a *ngIf="checkIsPatientRole()" (click)="backToTickets()" class="text-info mb-3">Back to List</a>
+        <div class="card">
+            <div class="card-content collapse show">
+                <div class="col-md-12 card-body" style="padding-left: 0px; padding-right: 0px;">
+                    <div #contentMessageContainer class="list-group" *ngIf="model"
+                        style="height: 50vh; overflow-y: auto;">
+                        <ng-template ngFor let-item [ngForOf]="model.Messages">
+                            <div *ngIf="!isAdminSite" style="display:flex">
+                                <div class="list-group-item list-group-item-action d-flex flex-column align-items-start"
+                                    *ngIf="(item.IsBot  || item.UserID != currentUserId)">
+                                    <div class="d-flex">
+                                        <div class="avatar m-0 mr-50" *ngIf="!item.IsBot">
+                                            <img [src]="item.User?.ProfilePicture | defaultImg"
+                                                style="width: 50px; max-width: 50px;" alt="sidebar user image">
+                                        </div>
+                                        <div class="avatar m-0 mr-50" *ngIf="item.IsBot">
+                                            <img src="/assets/images/bot-avatar.jpeg"
+                                                style="width: 50px; max-width: 50px;" alt="sidebar user image">
+                                        </div>
+                                        <div class="flex-column align-items-start">
+                                            <h5 class="ml-2 text-bold-500" style="color: #016670;" *ngIf="!item.IsBot">
+                                                {{item.User.FirstName}}
+                                                {{item.User.LastName}}</h5>
+                                            <h5 class="ml-2 text-bold-500" style="color: #e7359d;" *ngIf="item.IsBot">
+                                                Umebot</h5>
+                                            <small class="ml-2" style="padding-top: 2px;">{{item.CreatedOn | date:
+                                                'MM/dd/yyyy
+                                                hh:mm a'}}</small>
+                                        </div>
+                                        <div class="mr-50" *ngIf="item.CanDelete">
+                                            <a href="javascript:void(0)" class="text-danger"
+                                                (click)="deleteMessage(item.ID)"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </div>
+                                    <span class="badge badge-danger mb-2" *ngIf="item.IsPrivate">Private Message</span>
+                                    <p class="mb-0 mt-1" style="white-space: pre-wrap;"
+                                        *ngIf="item.Message">{{item.Message}}</p>
+                                    <div class="pull-right mt-2 mb-0" *ngIf="item.FileUrl" style="cursor: pointer;">
+                                        <div class="alert bg-cyan alert-icon-right alert-dismissible mb-2" role="alert">
+                                            <span class="alert-icon"><i class="la la-photo"></i></span>
+                                            <a href="javascript:void(0)" (click)="viewFile(item.FileUrl)"
+                                                class="alert-link">View File</a>
+                                        </div>
+                                    </div>
+                                    <div
+                                        *ngIf="item && item.IsBot && item.Message ===  'Please choose the request type below:'">
+                                        <button type="button" [disabled]="model.Type && model.Type"
+                                            [class]="model.Type && model.Type == '1' ? 'btn btn-xs btn-info mr-1' : 'btn btn-xs btn-outline-info mr-1'"
+                                            (click)="sendTypeTicket(1)"> Medical Questions</button>
+                                        <button type="button" [disabled]="model.Type && model.Type"
+                                            [class]="model.Type && model.Type == '2' ? 'btn btn-xs btn-success mr-1' : 'btn btn-xs btn-outline-success mr-1'"
+                                            (click)="sendTypeTicket(2)"> Refill</button>
+                                        <button type="button" [disabled]="model.Type && model.Type"
+                                            [class]="model.Type && model.Type == '3' ? 'btn btn-xs btn-danger mr-1' : 'btn btn-xs btn-outline-danger mr-1'"
+                                            (click)="sendTypeTicket(3)"> Billing</button>
+                                        <button type="button" [disabled]="model.Type && model.Type"
+                                            [class]="model.Type && model.Type == '4' ? 'btn btn-xs btn-warning mr-1' : 'btn btn-xs btn-outline-warning'"
+                                            (click)="sendTypeTicket(4)"> FAQs</button>
+                                    </div>
+                                </div>
+                                <div class="list-group-item  d-flex  list-group-item-action flex-column align-items-end"
+                                    *ngIf="!item.IsBot && item.UserID == currentUserId">
+                                    <div class="d-flex pull-right">
+                                        <div class="mr-50" *ngIf="item.CanDelete">
+                                            <a href="javascript:void(0)" class="text-danger"
+                                                (click)="deleteMessage(item.ID)"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                        <div class="flex-column align-items-end">
+                                            <h5 class="mr-1 text-bold-500" *ngIf="!item.IsBot"
+                                                style="text-align: right; color: #016670 !important;">
+                                                {{item.User.FirstName}} {{item.User.LastName}}</h5>
+                                            <small class="mr-1 pull-right" style="padding-top: 2px; text-align: right;">
+                                                {{item.CreatedOn | date: 'MM/dd/yyyy hh:mm a'}}</small><br>
+                                            <span class="badge badge-danger pull-right mr-1"
+                                                *ngIf="item.IsPrivate">Private Message</span>
+                                        </div>
+
+                                        <div class="avatar m-0 mr-1" *ngIf="!item.IsBot">
+                                            <img [src]="item.User?.ProfilePicture | defaultImg"
+                                                style="width: 50px; max-width: 50px;" alt="sidebar user image">
+                                        </div>
+                                    </div>
+                                    <p class="pull-right mt-2 mb-0" *ngIf="item.Message"
+                                        style="width:100%; text-align: right; font-size: 16px;white-space: pre-wrap;">
+                                        {{item.Message}}</p>
+                                    <div class="pull-right mt-2 mb-0" *ngIf="item.FileUrl" style="cursor: pointer;">
+                                        <div class="alert bg-cyan alert-icon-right alert-dismissible mb-2" role="alert">
+                                            <span class="alert-icon"><i class="la la-photo"></i></span>
+                                            <a href="javascript:void(0)" (click)="viewFile(item.FileUrl)"
+                                                class="alert-link">View File</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="isAdminSite" style="display:flex">
+                                <div class="list-group-item  d-flex  list-group-item-action flex-column align-items-start"
+                                    *ngIf="(!item.IsBot && item.UserID != currentUserId)">
+                                    <div class="d-flex">
+                                        <div class="avatar m-0 mr-50" *ngIf="!item.IsBot">
+                                            <img [src]="item.User?.ProfilePicture | defaultImg"
+                                                style="width: 50px; max-width: 50px;" alt="sidebar user image">
+                                        </div>
+
+                                        <div class="flex-column align-items-start">
+                                            <h5 class="ml-2 text-bold-500" style="color: #016670;" *ngIf="!item.IsBot">
+                                                {{item.User.FirstName}}
+                                                {{item.User.LastName}}</h5>
+                                            <small class="ml-2" style="padding-top: 2px;">{{item.CreatedOn | date:
+                                                'MM/dd/yyyy
+                                                hh:mm a'}}</small>
+                                        </div>
+                                        <div class="mr-50" *ngIf="item.CanDelete">
+                                            <a href="javascript:void(0)" class="text-danger"
+                                                (click)="deleteMessage(item.ID)"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </div>
+                                    <span class="badge badge-danger mb-2" *ngIf="item.IsPrivate">Private Message</span>
+                                    <p class="mb-0 mt-1" style="white-space: pre-wrap;"
+                                        *ngIf="item.Message">{{item.Message}}</p>
+                                    <div class="mb-0 mt-1" *ngIf="item.FileUrl" style="cursor: pointer;">
+                                        <div class="alert bg-cyan alert-icon-right alert-dismissible mb-2" role="alert">
+                                            <span class="alert-icon"><i class="la la-photo"></i></span>
+                                            <a href="javascript:void(0)" (click)="viewFile(item.FileUrl)"
+                                                class="alert-link">View File</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item list-group-item-action  d-flex  flex-column align-items-end"
+                                    *ngIf="item.IsBot || item.UserID == currentUserId">
+                                    <div class="d-flex pull-right">
+                                        <div class="mr-50" *ngIf="item.CanDelete">
+                                            <a href="javascript:void(0)" class="text-danger"
+                                                (click)="deleteMessage(item.ID)"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                        <div class="flex-column align-items-end">
+                                            <h5 class="mr-1 text-bold-500" *ngIf="!item.IsBot"
+                                                style="text-align: right; color: #016670 !important;">
+                                                {{item.User.FirstName}} {{item.User.LastName}}</h5>
+                                            <h5 class="mr-1 text-bold-500" style="text-align: right; color: #e7359d;"
+                                                *ngIf="item.IsBot">
+                                                Umebot</h5>
+                                            <small class="mr-1 pull-right" style="padding-top: 2px; text-align: right;">
+                                                {{item.CreatedOn | date: 'MM/dd/yyyy hh:mm a'}}</small><br>
+                                            <span class="badge badge-danger pull-right mr-1"
+                                                *ngIf="item.IsPrivate">Private Message</span>
+                                        </div>
+
+                                        <div class="avatar m-0 mr-1" *ngIf="!item.IsBot">
+                                            <img [src]="item.User?.ProfilePicture | defaultImg"
+                                                style="width: 50px; max-width: 50px;" alt="sidebar user image">
+                                        </div>
+                                        <div class="avatar m-0 mr-1" *ngIf="item.IsBot">
+                                            <img src="/assets/images/bot-avatar.jpeg"
+                                                style="width: 50px; max-width: 50px;" alt="sidebar user image">
+                                        </div>
+                                    </div>
+                                    <p class="pull-right mt-2 mb-0" *ngIf="item.Message"
+                                        style="width:100%; text-align: right; font-size: 16px;white-space: pre-wrap;">
+                                        {{item.Message}}</p>
+                                    <div class="pull-right mt-2 mb-0" *ngIf="item.FileUrl" style="cursor: pointer;">
+                                        <div class="alert bg-cyan alert-icon-right alert-dismissible mb-2" role="alert">
+                                            <span class="alert-icon"><i class="la la-photo"></i></span>
+                                            <a href="javascript:void(0)" (click)="viewFile(item.FileUrl)"
+                                                class="alert-link">View File</a>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right mt-2 mb-0"
+                                        *ngIf="item && item.IsBot && item.Message ===  'Please choose the request type below:'">
+                                        <button type="button" [disabled]="model.Type && model.Type"
+                                            [class]="model.Type && model.Type == '1' ? 'btn btn-xs btn-info mr-1' : 'btn btn-xs btn-outline-info mr-1'"
+                                            (click)="sendTypeTicket(1)"> Medical Questions</button>
+                                        <button type="button" [disabled]="model.Type && model.Type"
+                                            [class]="model.Type && model.Type == '2' ? 'btn btn-xs btn-success mr-1' : 'btn btn-xs btn-outline-success mr-1'"
+                                            (click)="sendTypeTicket(2)"> Refill</button>
+                                        <button type="button" [disabled]="model.Type && model.Type"
+                                            [class]="model.Type && model.Type == '3' ? 'btn btn-xs btn-danger mr-1' : 'btn btn-xs btn-outline-danger mr-1'"
+                                            (click)="sendTypeTicket(3)"> Billing</button>
+                                        <button type="button" [disabled]="model.Type && model.Type"
+                                            [class]="model.Type && model.Type == '4' ? 'btn btn-xs btn-warning mr-1' : 'btn btn-xs btn-outline-warning'"
+                                            (click)="sendTypeTicket(4)"> FAQs</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+                <div class="col-md-12 card-body mb-3">
+                    <div class="form-group">
+                        <textarea name="message" #Content="ngModel" [(ngModel)]="message" class="form-control"
+                            (keyup)="onKeyUpMessage($event)"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="fancy-radio pull-left" *ngIf="!checkIsPatientRole()">
+                            <input type="checkbox" name="isPrivate" style="width:20px; height:20px;"
+                                [(ngModel)]="isPrivate">
+                            <span class="label-checkbox"> Private Message (Patient cannot see it)</span>
+                        </label>
+
+                        <button type="button" class="btn btn-green pull-right" (click)="send()"><i
+                                class="fa fa-send"></i> Send</button>
+                        <label class="btn btn-medical-white pull-right ml-1" appFileUpload=""
+                            [typeUpload]="'ticket_message_file'" (onCallback)="uploaded($event)" [fileType]="1"
+                            (onStart)="uploadStatus($event)" (onErrorCallback)="errorUploaded($event)" [link]="link"><i
+                                class="fa fa-paperclip"></i>
+                            <input type="file" class="sr-only" name="file" accept="*/*">
+                            Send File</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" *ngIf="!checkIsPatientRole()">
+        <div class="card">
+            <div class="card-content collapse show">
+                <div class="card-body card-dashboard">
+                    <div class="col-md-12" *ngIf="model && model.Patient">
+                        <div class="row form-group">
+                            <label class="col-md-5">Name:</label>
+                            <div class="col-md-7">
+                                <label>{{model.Patient.FirstName}} {{model.Patient.LastName}}</label>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-5">Email:</label>
+                            <div class="col-md-7">
+                                <label>{{model.Patient.Email}}</label>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-5">Created On:</label>
+                            <div class="col-md-7">
+                                <label>{{model.CreatedOn | date : 'MM/dd/yyyy hh:mm a'}}</label>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-5">Status:</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="StatusID" [(ngModel)]="model.Status"
+                                    #Status="ngModel">
+                                    <option value="1">Open</option>
+                                    <option value="2">Waiting for Umedoc Response</option>
+                                    <option value="3">Waiting for Patient Response</option>
+                                    <option value="4">Closed</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-5">Priority:</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="Priority" [(ngModel)]="model.Priority"
+                                    #PriorityID="ngModel">
+                                    <option value="1">Lowest</option>
+                                    <option value="2">Low</option>
+                                    <option value="3">Medium</option>
+                                    <option value="4">High</option>
+                                    <option value="5">Highest</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-5">Ticket Type:</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="Type" [(ngModel)]="model.Type" #TypeID="ngModel">
+                                    <option value="1">Medical Questions</option>
+                                    <option value="2">Medicine Refill</option>
+                                    <option value="3">Billing</option>
+                                    <option value="4">Others</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-12 text-center mt-2">
+                                <button type="button" class="btn btn-green" (click)="save()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

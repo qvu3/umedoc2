@@ -1,0 +1,24 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Group Appt Documents</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table row-grouping display" [isFilter]="false" [isLengthChange]="false"
+                        appPagingTable="" [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs"
+                        [serverLink]="serverLink" [aaSorting]="aaSorting" [compRef]="compRef"
+                        (tableEvent)="catchTable($event)" style="width: 100%">
+                    </table>
+                </div>
+                <div class="modal-footer" style="justify-content: center;">
+                    <button type="button" class="btn btn-min-width btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </form>
+    </div>
+    <!-- /.modal-dialog -->
+</div>

@@ -1,0 +1,61 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{model.ID ? 'Edit Provider Service':'Add Provider Service'}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>
+                            License In State:
+                        </label>
+                        <select type="text" class="form-control" name="ProviderLicenseID" [disabled]="currentUser.Role == 'Provider'"
+                            [(ngModel)]="model.ProviderLicenseID" #ProviderLicenseID="ngModel" required>
+                            <option *ngFor="let item of licenses" [value]="item.ID">{{item.LicenseState | stateName}}
+                            </option>
+                        </select>
+                        <div *ngIf="
+                            f.submitted && ProviderLicenseID.errors && ProviderLicenseID.errors.required
+                          " class="col-md-12 error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Service Name:
+                        </label>
+                        <select type="text" class="form-control" name="ApptCategoryID" [disabled]="model.ID"
+                            [(ngModel)]="model.ApptCategoryID" #ApptCategoryID="ngModel" required>
+                            <option *ngFor="let item of categoryList" [value]="item.ID">{{item.Name}}</option>
+                        </select>
+                        <div *ngIf="
+                            f.submitted && ApptCategoryID.errors && ApptCategoryID.errors.required
+                          " class="col-md-12 error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Price:
+                        </label>
+                        <input type="number" class="form-control" name="Price" min="0" step="1"
+                            [(ngModel)]="model.Price" #Price="ngModel" required>
+                        <div *ngIf="
+                            f.submitted && Price.errors && Price.errors.required
+                          " class="col-md-12 error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green">Save</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

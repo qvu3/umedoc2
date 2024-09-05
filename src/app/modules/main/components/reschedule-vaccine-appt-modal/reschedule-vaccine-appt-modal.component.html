@@ -1,0 +1,87 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog modal-xl">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Reschedule Vaccine Appointment</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row mt-5">
+                        <div class="col-md-12 text-right mt-1 mb-2">
+                            <button type="button" class="btn btn-success btn-sm" (click)="getSlots()"><i
+                                    class="la la-refresh"></i> Refresh</button>
+                        </div>
+                        <div class="col-md-12 text-center mt-2 mb-4">
+                            <h3 class="text-bold-600">{{'Please choose a date below:' | translate}}</h3>
+                        </div>
+                        <div class="row col-12 justify-content-center mb-1" style="padding-right:0;">
+                            <div class="col-md-2 text-center">
+                                <div class="dp-inline" appDateTimeInlinePicker="" [needCount]="false"
+                                    (onChange)="changeDate($event)"></div>
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12" style="padding:0; margin:0;">
+                            <div class="col-md-12 text-center mt-3" *ngIf="!slot">
+                                <h4>Sorry, we don't have any available slot on this date. Please select another date on
+                                    calendar above!</h4>
+                            </div>
+                            <div class="col-md-12" *ngIf="slot">
+                                <div class="col-md-12 text-center">
+                                    <h4 class="text-bold-600">{{'Please choose a time slot below:' | translate}}</h4>
+                                </div>
+                                <h4>Timezone: {{getCurrentTimezoneInfo()}}</h4>
+                                <h4 class="blue mb-2" style=" font-weight: bold;">
+                                    {{slot.AppointmentDate | date: 'MMM, dd yyyy'}}</h4>
+                                <h4 class="ml-1 mb-1" *ngIf="slot.MorningSlots?.length > 0">{{'Morning' | translate}}
+                                </h4>
+                                <div class="col-md-12" *ngIf="slot.MorningSlots?.length > 0">
+                                    <ng-template ngFor let-item [ngForOf]="slot.MorningSlots">
+                                        <button type="button" (click)="selectSlot(item)"
+                                            class="btn btn-medical-white square btn-min-width mr-1 mb-1"
+                                            *ngIf="item.ID != this.model.SlotID">{{item.StartTime | date: 'hh:mm
+                                            a'}}</button>
+                                        <button type="button" (click)="selectSlot(item)"
+                                            class="btn btn-danger square btn-min-width mr-1 mb-1"
+                                            *ngIf="item.ID == this.model.SlotID">{{item.StartTime | date: 'hh:mm
+                                            a'}}</button>
+                                    </ng-template>
+                                </div>
+                                <h4 class="ml-1 mb-1" *ngIf="slot.EveningSlots?.length > 0">{{'Afternoon/Evening' |
+                                    translate}}
+                                </h4>
+                                <div class="col-md-12" *ngIf="slot.EveningSlots?.length > 0">
+                                    <ng-template ngFor let-item [ngForOf]="slot.EveningSlots">
+                                        <button type="button" (click)="selectSlot(item)"
+                                            class="btn btn-medical-white square btn-min-width mr-1 mb-1"
+                                            *ngIf="item.ID != this.model.SlotID">{{item.StartTime | date: 'hh:mm
+                                            a'}}</button>
+                                        <button type="button" (click)="selectSlot(item)"
+                                            class="btn btn-danger square btn-min-width mr-1 mb-1"
+                                            *ngIf="item.ID == this.model.SlotID">{{item.StartTime | date: 'hh:mm
+                                            a'}}</button>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center mt-2" *ngIf="model.SlotID">
+                            <strong>
+                                <h5 *ngIf="model.ApptTime">{{'Appointment Time' | translate}}
+                                    {{model.ApptTime | date:'MM/dd/yyyy hh:mm a'}} </h5>
+                            </strong>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green"
+                        [disabled]="!model.SlotID">Submit</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

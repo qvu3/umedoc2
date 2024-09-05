@@ -1,0 +1,5 @@
+@media (min-width: 768px) {
+  .d-md-login {
+    display: none !important;
+  }
+}

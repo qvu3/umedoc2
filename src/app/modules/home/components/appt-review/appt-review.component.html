@@ -1,0 +1,63 @@
+<div class="block-header">
+    <div class="row" style="padding-top: 55px!important;">
+    </div>
+</div>
+<div class="row clearfix">
+    <div class="col-md-12">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="card">
+                <div class="header text-center" style="margin-top:20px;">
+                </div>
+                <div class="body">
+                    <div *ngIf="saveRating == 0" class="col-md-12 text-center">
+                        <h2 class="text-info text-bold-500">Please rate your Appointment!</h2>
+                        <rating class="mt-5" style="font-size:30px" name="rating" #Rating="ngModel"
+                            [(ngModel)]="model.Rating" [max]="5">
+                        </rating>
+                    </div>
+                    <div *ngIf="saveRating > 0 && saveRating < 5 && !saveReview" class="col-md-12 text-center">
+                        <h3 class="text-info text-bold-500">
+                            Please explain what can make us better!
+                        </h3>
+                        <div class="row mt-1">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                                <textarea #Review="ngModel" name="review" [(ngModel)]="model.Review"
+                                    class="form-control mt-1" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="saveRating >= 5" class="row mt-2">
+
+                        <h3 class="col-md-12 text-center text-info text-bold-500 mt-2">
+                            Thank you for your feedback! <br>
+                            Please also rate us on Google & Facebook!
+                        </h3>
+
+                        <div class="col-md-6 text-center mt-2">
+                            <img alt="Google" src="../../../../../assets/Google.png" width="200" data-atf="1">
+                            <div class="col-md-12"></div><button class="btn btn-green mt-1" type="button"
+                                (click)="rateOnGoogle()">Rate Us on Google</button>
+                        </div>
+
+                        <div class="col-md-6 text-center">
+                            <img alt="Facebook" src="../../../../../assets/Facebook-Logo.png" width="200" data-atf="1">
+                            <div class="col-md-12"> <button class="btn btn-green mb-3" type="button"
+                                    (click)="rateOnFacebook()">Rate Us on Facebook</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="(saveRating < 5 && saveReview)" class="text-center row col-md-12 mt-2 mb-4">
+                        <h3 class="col-md-12 text-bold-500 text-info mb-1"> Thank you for your feedback! </h3>
+                    </div>
+
+                    <div *ngIf="saveRating == 0 || (saveRating <= 4  && !saveReview)"
+                        class="col-md-12 text-center mt-5 mb-5"><button [disabled]="!(model.Rating || saveReview)"
+                            class="col-md-1 btn btn-lg btn-outline btn-info" type="submit">Submit</button></div>
+                </div>
+            </div>
+        </form>
+    </div>

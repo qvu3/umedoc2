@@ -1,0 +1,38 @@
+.h-500{ 
+   height: 100%;
+}
+.h-400{ 
+    height: 70%;
+ }
+.search-map{
+    position: absolute;
+    top: 35px; 
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.container-search-map{
+    padding: 5px;
+    background-color: #646e75;
+    /* border-bottom:0.5px solid #dddddd; */
+}
+
+.container-map-result{
+    position: absolute;
+    left:5px; 
+    bottom:1%;
+}
+ 
+.btn-small{
+    font-size: 12px;
+    padding: .1rem .1rem;
+}
+.list-item{
+    position: relative;
+    display: block; 
+    border-bottom: 1px solid #dddddd;
+    padding:10px 0px;
+}
+.no-padding{
+    padding:0px;
+}

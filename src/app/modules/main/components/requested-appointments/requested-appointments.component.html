@@ -1,0 +1,74 @@
+<div class="content-body">
+  <div class="row">
+    <div class="col-12">
+      <div class="card" [appActionCardButton]="'Requested-Appointments1'" style="min-height: 73vh;">
+        <div class="card-header">
+          <h1 class="card-title title-h1">Waiting Room</h1>
+          <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+          <div class="heading-elements">
+            <ul class="list-inline mb-0">
+              <li>
+                <div class="col-md-12 text-right">
+                  <button type="button" (click)="RefreshTable()" class="btn btn-sm btn-medical-white round">
+                    Refresh
+                  </button>
+                </div>
+              </li>
+
+              <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+              <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-content collapse show">
+          <div class="col-md-12 card-body card-dashboard">
+            <form class="col-md-12">
+              <div class="row col-md-12 border border-light rounded py-2 mb-2">
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-verified">Provider</label>
+                  <fieldset class="form-group">
+                    <select class="form-control" (change)="RefreshTable()" name="Provider"
+                      [(ngModel)]="criteria.ProviderID" #Provider="ngModel">
+                      <option [value]="item.ProviderID" *ngFor="let item  of  provides_List">{{item.ProviderName}}
+                      </option>
+                    </select>
+
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-role">Patient Name</label>
+                  <fieldset class="form-group">
+                    <input type="search" class="form-control" (change)="RefreshTable()" name="PatientName"
+                      [(ngModel)]="criteria.PatientName" placeholder="Patient Name" #PatientName="ngModel" />
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-status">Appointment Type</label>
+                  <fieldset class="form-group">
+                    <select id="appointment-type-list" (change)="RefreshTable()" class="form-control"
+                      name="AppointmentGroup" [(ngModel)]="criteria.IsOnDemand" #AppointmentGroup="ngModel">
+                      <option value="">All</option>
+                      <option [value]="true">On Demand</option>
+                      <option [value]="false">Scheduling</option>
+                    </select>
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
+                  <button (click)="RefreshTable()" class="btn btn-block btn-green">Search</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-body card-dashboard">
+            <table
+              class="table table-white-space table-bordered row-grouping display no-wrap icheck table-middle dataTable"
+              [isFilter]="false" [isLengthChange]="false" appPagingTable="" [aoColumns]="aoColumns"
+              [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting" [compRef]="compRef"
+              (tableEvent)="catchTable($event)" style="width: 100%" [isRowReorder]="true" [indexColReorder]="0">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

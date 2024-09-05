@@ -1,0 +1,8 @@
+<div class="card-content collapse show">
+    <div class="card-body card-dashboard">
+        <table class="table row-grouping display " [isFilter]="true" [isLengthChange]="true" appPagingTable=""
+            [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting"
+            [compRef]="compRef" (tableEvent)="catchTable($event)" style="width: 100%">
+        </table>
+    </div>
+</div>

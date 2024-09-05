@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="row col-md-12 ml-0 mr-0 mb-3">
+    <div class="col-md-6">
+      <label>From Date: </label>
+      <app-date-time-picker name="FromDate" #FromDate="ngModel" [hasTime]="false" [isMaxCurrentDate]="false" [(ngModel)]="from">
+      </app-date-time-picker>
+    </div>
+    <div class="col-md-6">
+      <label>To Date: </label>
+      <app-date-time-picker name="ToDate" #ToDate="ngModel" [hasTime]="false" [(ngModel)]="to" [isMaxCurrentDate]="false">
+      </app-date-time-picker>
+    </div>
+    <div class="col-md-12 text-center mt-1">
+      <button class="btn round btn-green btn-min-width" type="button" (click)="search()">Apply</button>
+    </div>
+  </div>
+  <div class="col-md-6">
+      <canvas #barStacked style="min-height:50vh; max-height:50vh;"></canvas>
+  </div>
+</div>

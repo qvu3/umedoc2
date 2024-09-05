@@ -1,0 +1,46 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{model.ID ? 'Edit Provider Group':'Add Provider Group'}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>
+                            Name:
+                        </label>
+                        <input type="text" class="form-control" placeholder="Enter Group Name" name="Name"
+                            [(ngModel)]="model.Name" #Name="ngModel" required>
+                        <div *ngIf="
+                            f.submitted && Name.errors && Name.errors.required
+                          " class="col-md-12 error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="model.ID">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-success btn-sm" [disabled]="checkIsAdding()" (click)="addAssign()"><i
+                                    class="la la-plus"></i> Assign New Provider</button>
+                        </div>
+                        <div class="col-md-12 " *ngIf="assignedList && assignedList.length>0" style="height: 350px; overflow-y: auto;">
+                            <hr>
+                            <ng-template ngFor let-item [ngForOf]="assignedList">
+                                <app-provider-group-assignment-element [model]="item" [isAdd]="!item.ID"
+                                    (onCancelled)="getAssignedList()" (onDeleted)="getAssignedList()"
+                                    (onSaved)="getAssignedList()"></app-provider-group-assignment-element>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green">Save</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

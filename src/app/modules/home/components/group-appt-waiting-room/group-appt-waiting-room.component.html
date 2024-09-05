@@ -1,0 +1,63 @@
+<div class="row clearfix">
+  <div class="col-md-12">
+    <div class="card" style="min-height: 80vh;">
+      <div class="card-content">
+        <div class="col-md-12 text-center pt-5 pb-5" *ngIf="
+              model &&  model.Status == 'Scheduled'" role="alert">
+          <h3 class="text-bold-500">
+            The Group Session will start at {{model.StartTime | date: 'MM/dd/yyyy hh:mm a'}}
+          </h3>
+        </div>
+        <div class="row" *ngIf="
+              model && 
+              model.Status == 'InSession'
+            ">
+          <div class="col-md-12 text-center">
+            <div class="form-group">
+
+              <div class="form-group row text-center" *ngIf="model && model.Status == 'InSession'">
+                <div class="col-md-12 text-center" style="top:270px;" *ngIf="!token">
+                  <button type="button" class="btn btn-lg round btn-green white" style="width:200px;"
+                    (click)="joinVideoCall()">
+                    Click Here to Join</button>
+                </div>
+                <div class="col-md-12" *ngIf="token && token.length>0">
+                  <app-group-app-video-call #videoCall [groupAppt]="model" (onClosed)="onClosed($event)"
+                    [isProvider]="false" [token]="token">
+                  </app-group-app-video-call>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="model &&  (model.Status == 'Cancelled' || model.Status == 'Completed') ">
+          <div class="col-md-12 text-center">
+            <div class="pt-5" *ngIf="model.Status == 'Completed'">
+              <h2 class="text-info text-bold-600 pb-2">
+                This Group Session has been Completed!
+              </h2>
+
+            </div>
+            <div class="pt-5" *ngIf="model.Status == 'Cancelled'">
+              <h2 class="text-danger text-bold-600 pb-2">
+                This Group Session has been Cancelled!
+              </h2>
+            </div>
+            <div class="mt-5 ">
+              <h3 class="text-bold-600">
+                {{'Keeping your information safe and secure:' | translate}}
+              </h3>
+              <h4>
+                {{'Please remember to log out of your Umedoc account if you are on a shared or public device, and do not
+                let others sign into their accounts through your device.' | translate}}
+              </h4>
+            </div>
+            <div class="mt-5 mb-3">
+              <a [routerLink]="['/patient-profile']" class="btn btn-green"><i class="fa fa-home"></i> {{'Go back home' |
+                translate}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

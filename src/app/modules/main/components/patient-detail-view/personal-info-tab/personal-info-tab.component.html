@@ -1,0 +1,170 @@
+<div class="row m-t-40">
+  <div class="col-md-12">
+    <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+      <fieldset class="fieldset-user">
+        <div class="form-group row clearfix">
+          <div class="col-md-12">
+            <app-crop-image-view [typeUpload]="'user'" style="border-radius:50px;" [link]="'/api/Utility/S3UploadImage'"
+              [ModelID]="model.ID" name="ProfilePicture" [(ngModel)]="model.PatientUser.ProfilePicture"
+              #ProfilePicture="ngModel" [autoSave]="true" [userId]="model.PatientUser.Id">
+            </app-crop-image-view>
+          </div>
+        </div>
+
+        <h4 class="form-section"><i class="la la-user"></i> Personal Info</h4>
+
+        <div class="form-group row clearfix" id="groupPersonalInfo"
+          [ngClass]="{ 'has-error': (!Email.valid || !CellPhone.valid) }">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="Email">
+                Email:
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input readonly="readonly" class="form-control required" placeholder="Email" name="Email"
+                [(ngModel)]="model.PatientUser.Email" #Email="ngModel" required type="text" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                Cell Phone:
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input class="form-control required" [textMask]="{mask:maskPhone}"
+                pattern="^\(([2346789][0-9]{2}|[23456789][012346789][0-9]|[23456789][0-9][012346789])\)\s?([012346789][0-9]{2}|[0123456789][012346789][0-9]|[0123456789][0-9][012346789])-[0-9]{4}$"
+                placeholder="Cell Phone" name="CellPhone" [(ngModel)]="model.PatientUser.CellPhone" #CellPhone="ngModel"
+                required type="text" />
+              <div *ngIf="CellPhone.errors && CellPhone.errors.required" class="error-message">Required
+              </div>
+              <div *ngIf="CellPhone.errors && !CellPhone.errors.required && CellPhone.errors.pattern"
+                class="error-message">Invalid value
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group row clearfix">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                Prefix:
+              </label>
+              <select class="form-control" name="Prefix" #Prefix="ngModel" [(ngModel)]="model.PatientUser.Prefix">
+                <option value="">None</option>
+                <option *ngFor="let item of prefixes" [value]="item">{{item}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                First Name:
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input type="text" class="form-control" placeholder="First Name" name="FirstName"
+                [(ngModel)]="model.PatientUser.FirstName" #FirstName="ngModel" required maxlength="35" />
+              <div *ngIf="FirstName.errors && FirstName.errors.required" class="error-message">Required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                Middle Name:
+              </label>
+              <input type="text" class="form-control" placeholder="Middle Name" name="MiddleName"
+                [(ngModel)]="model.PatientUser.MiddleName" #MiddleName="ngModel" maxlength="35" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="lastName">
+                Last Name:
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input type="text" class="form-control" name="LastName" [(ngModel)]="model.PatientUser.LastName"
+                placeholder="Last Name" #LastName="ngModel" required maxlength="35" />
+              <div *ngIf="f.submitted && LastName.errors && LastName.errors.required" class="error-message">Required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="lastName">
+                Suffix:
+              </label>
+              <select class="form-control" name="Suffix" #Suffix="ngModel" [(ngModel)]="model.PatientUser.Suffix">
+                <option value="">None</option>
+                <option *ngFor="let item of suffixes" [value]="item">{{item}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row clearfix" [ngClass]="{ 'has-error': (!DOB.valid || !Gender.valid) }">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                Date of Birth:
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <app-date-time-picker [placeholder]="'Date of Birth'" name="DOB" [isDisabled]="false" [hasTime]="false"
+                [(ngModel)]="model.PatientUser.DOB" #DOB="ngModel" required>
+              </app-date-time-picker>
+              <div *ngIf="DOB.errors && DOB.errors.required" class="error-message">
+                Required</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                Gender:
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <select class="form-control" name="Gender" [(ngModel)]="model.PatientUser.Gender" #Gender="ngModel"
+                required>
+                <option value="" disabled>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+              <div *ngIf="f.submitted && Gender.errors && Gender.errors.required" class="error-message">
+                Required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row clearfix">
+          <div class="col-md-6">
+            <fieldset>
+              <input class="icheckbox_flat-green checked" 
+              name="IsInactive" type="checkbox" #IsInactive="ngModel"
+                [(ngModel)]="model.PatientUser.IsInactived">
+              <label>&nbsp;&nbsp; Suspended (or Inactived)</label>
+            </fieldset>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="col-md-12 form-actions text-center">
+        <button type="button" class="btn btn-medical-white btn-min-width btn-lg mr-1" (click)="cancel()">
+          <i class="ft-x"></i> Cancel</button>
+        <button type="submit" class="btn btn-green btn-min-width btn-lg" [disabled]="IsSubmitting">
+          <i class="la la-check-square-o"></i> Save</button>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="subscriberContainer">
+  <div #subscriberDiv></div>
+</div>
+<div class="container-control">
+  <button
+    *ngIf="!isForceOffCamera"
+    title="Toggle Camera"
+    (click)="turnOnOffVideo()"
+    class="btn btn-lg btn-round btn-secondary mr-1"
+    style="background-image: url('../../../../../assets/images/ico/icon-video.png');
+      background-repeat: no-repeat; background-position: center; height:48px; width:48px;
+      border-color:white !important;"
+  ></button>
+
+  <button
+    *ngIf="isForceOffCamera"
+    title="Toggle Camera"
+    (click)="turnOnOffVideo()"
+    class="btn btn-lg btn-round btn-secondary mr-1"
+    style="background-image: url('../../../../../assets/images/ico/icon-no-video.png');
+      background-repeat: no-repeat; background-position: center; height:48px; width:48px;
+      border-color:white !important;"
+  ></button>
+
+  <button
+    *ngIf="!isForceOffAudio &&  isAudioOn"
+    title="Toggle Mic"
+    (click)="turnOnOffAudio()"
+    class="btn btn-lg btn-round btn-secondary mr-1"
+    style="background-image: url('../../../../../assets/images/ico/icon-mic.png');
+  background-repeat: no-repeat; background-position: center; height:48px; width:48px;
+  border-color:white !important;"
+  ></button>
+  <button
+    *ngIf="isForceOffAudio || !isAudioOn"
+    title="Toggle Mic"
+    (click)="turnOnOffAudio()"
+    class="btn btn-lg btn-round btn-secondary mr-1"
+    style="background-image: url('../../../../../assets/images/ico/icon-muted-mic.png');
+  background-repeat: no-repeat; background-position: center; height:48px; width:48px;
+  border-color:white !important;"
+  ></button>
+
+  <!--   <button
+    class="btn-control ml-2"
+    (click)="turnOnOffVideo()"
+    *ngIf="!isForceOffCamera"
+  >
+    <span class="la la-stack">
+      <i class="la la-video-camera"></i>
+      <i
+        class="la la-remove la-stack-2x"
+        style="color:#dc1e1e"
+        *ngIf="!isCameraOn"
+      ></i>
+    </span>
+  </button>
+  <button
+    class="btn-control"
+    (click)="turnOnOffAudio()"
+    *ngIf="!isForceOffAudio"
+  >
+    <span class="la la-stack">
+      <i class="la la-microphone"></i>
+      <i
+        class="la la-remove la-stack-2x"
+        style="color:#dc1e1e"
+        *ngIf="!isAudioOn"
+      ></i>
+    </span>
+  </button> -->
+</div>

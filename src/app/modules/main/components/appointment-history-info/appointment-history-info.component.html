@@ -1,0 +1,87 @@
+<section id="timeline" class="timeline-left timeline-wrapper">
+    <ul class="timeline">
+        <li class="timeline-line"></li>
+        <li class="timeline-group">
+            <a href="javascript:void(0)" class="btn btn-green"><i class="ft-calendar"></i> Today</a>
+            <a href="javascript:void(0)" *ngIf="isShowRefresh" class="btn btn-medical-white pull-right"
+                (click)="getHistoryAppointment()"><i class="la la-refresh"> Refresh</i></a>
+        </li>
+    </ul>
+    <ng-template ngFor let-item [ngForOf]="list">
+        <ul class="timeline">
+            <li class="timeline-line"></li>
+            <li class="timeline-item">
+                <div class="timeline-badge" *ngIf="item.ProfilePicture">
+                    <img [src]="item.ProfilePicture" width="40" height="40" class="circle"
+                        style="border-radius: 50px;" />
+                </div>
+                <div class="timeline-badge" *ngIf="!item.ProfilePicture">
+                    <img src="https://via.placeholder.com/40x40.png" width="40" height="40" class="circle"
+                        style="border-radius: 50px;" />
+                </div>
+                <div class="timeline-card card border-grey border-lighten-2"
+                    style="box-shadow: 0 5px 15px 5px rgba(126, 136, 154, 0.87);">
+                    <div class="card-header">
+                        <h4 class="card-title text-info text-bold-500" *ngIf="item.ProviderUser">
+                            {{item.ProviderUserName}}
+                        </h4>
+                        <p class="card-subtitle text-muted pt-1">
+                            <span class="font-small-3">{{item.AppointmentTime ?  datePipe.transform(item.AppointmentTime, 'MM/dd/yyyy hh:mm a') : ''}}</span><br>
+                            <span *ngIf="item.StatusName==='Requested'" class="badge badge-danger mr-1">
+                                {{item.StatusName}}</span>
+                            <span *ngIf="item.StatusName==='InSession'" class="badge badge-warning mr-1">
+                                {{item.StatusName}}</span>
+                            <span *ngIf="item.StatusName==='Completed'" class="badge badge-success mr-1">
+                                {{item.StatusName}}</span>
+                            <span *ngIf="item.StatusName==='Cancelled'" class="badge badge-secondary mr-1">
+                                {{item.StatusName}}</span>
+                            <span class="badge badge-info" *ngIf="item.TextReasons"> {{item.TextReasons}} </span>
+                        </p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body" style="border-top: 1px solid #EEEEEE;">
+
+                            <div class="row">
+                                <div class="col-lg-12 col-12" *ngIf="item.CancelReason">
+                                    <label><strong>Reason: </strong>{{item.CancelReason}}</label>
+                                </div>
+                                <div class="col-lg-12 col-12">
+                                    <h5 class="text-bold-500">Note(s)</h5>
+                                    <div class="media pt-1" *ngFor="let note of item.Notes">
+                                        <div class="media-left pr-1">
+                                            <a href="javascript:void(0)">
+                                                <span class="avatar avatar-online" *ngIf="note.ProfilePicture">
+                                                    <img [src]="note.ProfilePicture" alt="avatar"></span>
+                                                <span class="avatar avatar-online" *ngIf="!note.ProfilePicture"><img
+                                                        src="https://via.placeholder.com/40x40.png" alt="avatar"></span>
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h5 class="text-bold-500 text-info mb-0" *ngIf="note.ProviderUserName"
+                                                style="display: inline;">
+                                                {{note.ProviderUserName}}
+                                            </h5>
+                                            <span class="font-small-3">{{note.CreatedOn | date : 'MM/dd/yyyy hh:mm a'}}
+                                            </span>
+                                            <p>
+                                                Subjective: {{note.Subjective}}
+                                            </p>
+                                            <p>
+                                                Plan: {{note.Plan}}
+                                            </p>
+                                            <p>
+                                                FollowUp: {{note.FollowUp}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </ng-template>
+
+</section>

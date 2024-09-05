@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-md-12">
+        <app-patient-profile-view [appointmentID]="id" [isShowEditButton]="false" [hideInsuranceInfo]="true" [hideCreditCard]="true" [hidePverifyInsurance]="true" [hidePrizm]="true">
+        </app-patient-profile-view>
+    </div>
+    <div class="col-lg-4 col-md-12">
+        <div class="card" style="height: 90%;">
+            <div class="card-header">
+                <h4>
+                    Encounter Details
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="card-body">
+                    <ul class="list-unstyled patient-info-card">
+                        <li>
+                            <span class="patient-info-heading">Reason: </span>
+                            <span class="info">{{model.ApptCategoryName}} </span> <span>
+                                {{ model.GenerateReasonAssignment }} </span>
+                        </li>
+                        <li>
+                            <span class="patient-info-heading">Description: </span>
+                            <span>{{ model.Description }} </span>
+                        </li>
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">Weight: </span>
+                            <span class="info">{{model.WeightLossPrecheck.Weight}} (lbs)</span>
+                        </li>
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">Height: </span>
+                            <span>{{ convertToFeets( model.WeightLossPrecheck.Height)}} </span>
+                        </li>
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">BMI: </span>
+                            <span>{{calculateBMI(model.WeightLossPrecheck.Weight , model.WeightLossPrecheck.Height)}} </span>
+                        </li>
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">Blood Pressure: </span>
+                            <span>{{ model.WeightLossPrecheck.BloodPressure? "Yes": "No" }} </span>
+                        </li>
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">Cancer: </span>
+                            <span>{{ model.WeightLossPrecheck.Cancer? "Yes": "No" }} </span>
+                        </li>
+
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">Kidney Disease: </span>
+                            <span>{{ model.WeightLossPrecheck.KidneyDisease? "Yes": "No" }} </span>
+                        </li>
+
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">Pancreatitis: </span>
+                            <span>{{ model.WeightLossPrecheck.Pancreatitis? "Yes": "No" }} </span>
+                        </li>
+
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">SemaglutideAllergy: </span>
+                            <span>{{ model.WeightLossPrecheck.SemaglutideAllergy? "Yes": "No" }} </span>
+                        </li>
+
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">Pregnant: </span>
+                            <span>{{ model.WeightLossPrecheck.Pregnant? "Yes": "No" }} </span>
+                        </li>
+
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">Diabetic: </span>
+                            <span>{{ model.WeightLossPrecheck.Diabetic? "Yes": "No" }} </span>
+                        </li>
+
+                        <li *ngIf="model.WeightLossPrecheck">
+                            <span class="patient-info-heading">Suicide: </span>
+                            <span>{{ model.WeightLossPrecheck.Suicide? "Yes": "No" }} </span>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12">
+        <app-health-data-card [patientId]="model.PatientID"></app-health-data-card>
+    </div>
+    <div class="col-lg-4 col-md-12">
+        <div class="card" style="height: 90%;">
+            <div class="card-header">
+                <h4>Patient Uploaded Images</h4>
+            </div>
+            <div class="card-body">
+                <div class="row col-md-12">
+                    <div appImgGallery="" [source]="model.AppointmentImageList" class="col-sm-12 list-unstyled row clearfix" style="padding-top: 15px;left: 50px;" *ngIf="model.AppointmentImageList && model.AppointmentImageList.length > 0">
+                        <ng-template ngFor let-item [ngForOf]="model.AppointmentImageList">
+                            <div class="col-lg-1 col-md-6 col-sm-12 m-b-30">
+                                <a href="{{item.ImageName}}">
+                                    <img style="max-width: 60px!important;height: 60px!important;" class="img-fluid img-thumbnail" [src]="item.ImageName" alt="">
+                                </a>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="{{model && model.ApptCategory?.Code == 'travel_medicine' ? 'col-md-6':'col-md-12'}}" style="height: 100vh;"
+        *ngIf="model && model.JFSubmissionID && model.ApptCategory && (model.ApptCategory?.Code == 'travel_medicine'||model.ApptCategory?.Code == 'covid_screening')">
+        <app-submission-jf-patient [submissionId]="model.JFSubmissionID"></app-submission-jf-patient>
+    </div>
+    <div class="col-md-6" *ngIf="model && model.ApptCategory?.Code == 'travel_medicine'" style="height: 100vh;">
+        <app-cdc-country-info></app-cdc-country-info>
+    </div>
+</div>

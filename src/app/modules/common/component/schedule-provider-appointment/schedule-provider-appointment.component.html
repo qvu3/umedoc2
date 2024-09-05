@@ -1,0 +1,63 @@
+<div class="card mt-1 mb-2">
+    <div class="card-body">
+        <div class="row mt-2 mb-2 justify-content-center" *ngIf="showSmallCalendar">
+            <div class="col-md-2 text-center">
+                <div class="dp-inline" appDateTimeInlinePicker="" [state]="appointment.State"
+                    [gender]="provider.ProviderUser.Gender" [code]="appointment.ApptCategoryCode"
+                    (onChange)="changeDate($event)" [providerId]="provider.ProviderID" [isCountSlot]="true"></div>
+            </div>
+        </div>
+        <div class="row mt-2 mb-2" *ngIf="!showSmallCalendar">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-outline-primary" (click)="hideAppointment()"
+                    *ngIf="!appointment.IsOnDemand && appointment.ProviderID">Hide Calendar <i
+                        class="la la-angle-down"></i></button>
+            </div>
+            <div class="col-md-12 text-center">
+                <h4>
+                    Please choose your available Date with slots on the calendar below.
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="padding:0;" *ngIf="!showSmallCalendar">
+                <div #scheduler></div>
+            </div>
+            <div class="col-md-12"
+                *ngIf="provider.ProviderID && slot">
+                <div class="col-md-12 text-center">
+                    <h4 class="text-bold-600">{{'Please choose a time slot below:' | translate}}</h4>
+                </div>
+                <h4>Timezone: {{getCurrentTimezoneInfo()}}</h4>
+                <h4 class="blue mb-2" style=" font-weight: bold;">
+                    {{slot.AppointmentDate| date: 'MMM, dd yyyy'}}</h4>
+                <h4 class="ml-1 mb-1" *ngIf="slot.MorningSlots?.length > 0">{{'Morning' | translate}}</h4>
+                <div class="col-md-12" *ngIf="slot.MorningSlots?.length > 0">
+                    <ng-template ngFor let-item [ngForOf]="slot.MorningSlots">
+                        <button type="button" (click)="selectSlot(item)"
+                            class="btn btn-medical-white square btn-min-width mr-1 mb-1"
+                            *ngIf="item.ID != this.appointment.AppointmentSlotID">{{item.StartTime | date: 'hh:mm
+                            a'}}</button>
+                        <button type="button" (click)="selectSlot(item)"
+                            class="btn btn-danger square btn-min-width mr-1 mb-1"
+                            *ngIf="item.ID == this.appointment.AppointmentSlotID">{{item.StartTime | date: 'hh:mm
+                            a'}}</button>
+                    </ng-template>
+                </div>
+                <h4 class="ml-1 mb-1" *ngIf="slot.EveningSlots?.length > 0">{{'Afternoon/Evening' | translate}}</h4>
+                <div class="col-md-12" *ngIf="slot.EveningSlots?.length > 0">
+                    <ng-template ngFor let-item [ngForOf]="slot.EveningSlots">
+                        <button type="button" (click)="selectSlot(item)"
+                            class="btn btn-medical-white square btn-min-width mr-1 mb-1"
+                            *ngIf="item.ID != this.appointment.AppointmentSlotID">{{item.StartTime | date: 'hh:mm
+                            a'}}</button>
+                        <button type="button" (click)="selectSlot(item)"
+                            class="btn btn-danger square btn-min-width mr-1 mb-1"
+                            *ngIf="item.ID == this.appointment.AppointmentSlotID">{{item.StartTime | date: 'hh:mm
+                            a'}}</button>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

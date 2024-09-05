@@ -1,0 +1,49 @@
+<div class="form_login" style="height: 100%;">
+  <div class="container">
+    <div class="inner">
+
+      <div class="site_logo">
+        <a href="https://umedoc.com"><img class="img-fluid" src="/assets/image/site-logo.png"></a>
+      </div>
+
+      <div class="form_wider">
+        <h4>Login as provider</h4>
+        <form (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+          <div class="row">
+            <div class="col-md-12 text-left">
+              <div *ngIf="f.submitted && isError" class=" alert alert-danger border-0 mb-2 " role="alert">
+                {{errorMessage}}
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Your Email" name="Username" #Username="ngModel"
+                  [(ngModel)]="model.Email" required>
+                <div *ngIf="f.submitted && Username.errors && Username.errors.required"
+                  class="error-message  text-left">
+                  Please enter your email.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Enter Password" name="Password"
+                  #Password="ngModel" [(ngModel)]="model.Password" required>
+                <div *ngIf="f.submitted && Password.errors && Password.errors.required" class="error-message text-left">
+                  Please enter your Password.
+                </div>
+                <a [routerLink]="['/','auth','forgot-password']">Forgot</a>
+              </div>
+            </div>
+            <div class="col-md-12 text-center">
+              <div class="form-group">
+                <button class="btn btn_login" type="submit" [disabled]="Submitting">
+                  {{Submitting?'Please Wait...':'Login'}}</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,36 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cancel Appointment</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="col-sm-12 control-label">Reason for Cancellation</label>
+                        <div class="col-sm-12">
+                            <textarea class="form-control" name="CancelReason" #CancelReason="ngModel"
+                                [(ngModel)]="content"> </textarea>
+                        </div>
+                    </div>
+                    <div *ngIf="!isCancelCompletedAppt" class="form-group">
+                        <fieldset class="ml-1">
+                            <input class="icheckbox_flat-green checked" name="IsNoShow" type="checkbox"
+                                 #IsNoShow="ngModel"
+                                [(ngModel)]="isNoShow">
+                            <label>&nbsp;&nbsp;No Show (If checked, system will charge $14.99 no-show fee).</label>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-min-width btn-green mr-1">Submit</button>
+                    <button type="button" class="btn btn-min-width btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

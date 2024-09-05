@@ -1,0 +1,23 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Lab Order Preview</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 p-3" style="max-height:80vh;overflow: auto">
+                        <div [innerHTML]="model.Content"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="isSubmitted" type="button" class="btn btn-min-width btn-outline-primary"
+                    (click)="generatePDF()">Save</button>
+                <button type="button" class="btn btn-min-width btn-outline-info" (click)="hide()">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>

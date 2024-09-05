@@ -1,0 +1,56 @@
+<form
+  class="form-horizontal"
+  (ngSubmit)="f.form.valid && save()"
+  #f="ngForm"
+  novalidate
+>
+  <div class="card" style="min-height: 80vh">
+    <div class="card-body">
+      <div class="text-center mt-1 mb-5">
+        <h1 class="title-h1 text-bold-600">
+          {{ "CHOOSE COUNTRIES" | translate }}
+        </h1>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <div class="form-group text-center">
+            <label>Choose all countries your are going to visit:</label>
+            <ng-select2
+              name="Countries"
+              [(ngModel)]="model.Countries"
+              #Countries="ngModel"
+              required
+              [data]="countries"
+              [options]="ddlCountriesOption"
+            >
+            </ng-select2>
+            <div
+              *ngIf="
+                f.submitted && Countries.errors && Countries.errors.required
+              "
+              class="col-md-12 error-message"
+            >
+              This field is required.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button
+        type="button"
+        class="btn btn-outline-info btn-lg btn-min-width pull-left"
+        (click)="prev()" 
+      >
+        {{ "Previous" | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-info btn-lg btn-min-width pull-right"
+        [disabled]="!f.form.valid"
+      >
+        {{ "Next" | translate }}
+      </button>
+    </div>
+  </div>
+</form>

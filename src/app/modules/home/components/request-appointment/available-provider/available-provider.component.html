@@ -1,0 +1,40 @@
+<div class="text-center mt-1 mb-2">
+  <h2 class="text-bold-600">CHOOSE PROVIDER</h2>
+</div>
+
+<div class="row mt-2 mb-3">
+  <div class="col-sm-12 text-right">
+    <button class="btn btn-success btn-md round" type="button" (click)="getProviderAvailable(!model.IsOnDemand)">
+      <i class="icon-refresh"></i> Refresh
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 text-center mt-2 mb-3">
+    <h4 class="mb-1">
+      Please select a Provider below:
+    </h4> 
+  </div>
+  <div class="col-md-12">
+    <form class="form-horizontal" (ngSubmit)="f.form.valid && check()" #f="ngForm" novalidate>
+      <div class="content-body">
+        <div id="doctors-list">
+          <div *ngIf="isShowAvailableProvider" app-select-provider [listProvider]="listProvider" [appointment]="model" (onSelected)="selectDoctor($event)" (onViewProfile)="viewProfile($event)" [isSearching]="isSearching">
+          </div>
+          <div class="col-sm-12 form-actions row m-0 p-0">
+            <div class="col-md-6 col-sm-12 text-center text-md-left pt-1">
+              <button type="button" class="btn btn-medical-white btn-min-width btn-lg"  (finalize)="resetProviderSelected();scrollToTop();"
+                awPreviousStep>Previous</button>
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-md-right pt-1">
+              <button type="submit" class="btn btn-green btn-min-width btn-lg"
+                [disabled]="!f.form.valid || !model || !model.ProviderID || (!model.IsOnDemand && (!model.AppointmentSlotID || !model.AppointmentTime))" (finalize)="scrollToTop()"
+                awNextStep>Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<app-provider-profile #modal=""></app-provider-profile>

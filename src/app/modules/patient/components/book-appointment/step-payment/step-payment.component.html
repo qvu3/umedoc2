@@ -1,0 +1,225 @@
+<form class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+    <div class="card">
+        <div class="card-body">
+            <section class="checkout">
+                <div class="checkout-payment">
+                    <h1 class="checkout-payment-title">Payment</h1>
+                    <div class="checkout-payment-switch">
+                        <input id="toggle-on" class="toggle toggle-left" type="radio" [disabled]="!canChangePaidByInsurance()" (change)="selectPaidByInsurance(true)" name="PaidByInsurance" [(ngModel)]="model.PaidByInsurance"
+                            [value]="true" />
+                        <label for="toggle-on" class="checkout-payment-switch-btn">{{'Pay with insurance' | translate}}</label>
+                        <input id="toggle-off" class="toggle toggle-right" type="radio" name="PaidByInsurance" [disabled]="!canChangePaidByInsurance()" [(ngModel)]="model.PaidByInsurance" (change)="selectPaidByInsurance(false)"
+                            [value]="false" />
+                        <label for="toggle-off" class="checkout-payment-switch-btn">{{'Pay without insurance' | translate}}</label>
+                    </div>
+                    <div class="checkout-payment-item" *ngIf="model.isAddInsurance!= null">
+                        <div class="checkout-payment-header">
+                            <h3 class="checkout-payment-header-title">Checkout</h3>
+                            <h3 class="checkout-payment-header-subtitle">Amount</h3>
+                        </div>
+                        <div class="checkout-payment-body">
+                            <p class="checkout-payment-body-item-date">{{currentDate | date: 'MM/dd/yyyy hh:mm a'}}</p>
+                            <div class="checkout-payment-body-item">
+                                <ul class="checkout-payment-body-item-list">
+                                    <li class="checkout-payment-body-item-list-item">
+                                        {{'Telemedicine Visit' | translate}}
+                                    </li>
+                                    <li class="checkout-payment-body-item-list-item">
+                                        {{model.IsOnDemand ? 'On Demand' : 'Scheduled Appointment' |
+                                        translate}}
+                                    </li>
+                                </ul>
+
+                                <p class="checkout-payment-body-item-subtitle">${{calculateAppointmentPrice()}}</p>
+                            </div>
+                            <div class="checkout-payment-body-item" *ngIf="isTravelMedicine">
+                                <ul class="checkout-payment-body-item-list">
+                                    <li class="checkout-payment-body-item-list-item">Travel to {{model.Countries.length}} countries</li>
+                                </ul>
+                                <p class="checkout-payment-body-item-subtitle"></p>
+                            </div>
+                            <div class="checkout-payment-body-item" *ngIf="companyModel.PortalFee!=null && companyModel.PortalFee > 0 && !isValidPatientSubscription">
+                                <ul class="checkout-payment-body-item-list">
+                                    <li class="checkout-payment-body-item-list-item">Portal Fee</li>
+                                </ul>
+                                <p class="checkout-payment-body-item-subtitle" *ngIf="companyModel.PortalFee!=null && companyModel.PortalFee > 0">${{companyModel.PortalFee}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkout-payment-summary" *ngIf="model.isAddInsurance!= null">
+                        <h3 class="checkout-payment-summary-title">Summary</h3>
+
+                        <div class="checkout-payment-summary-item">
+                            <p class="checkout-payment-summary-item-title">Total</p>
+                            <p class="checkout-payment-summary-item-subtitle">${{caculateTotalFianlAppointmentPrice()}}</p>
+                        </div>
+                        <div class="checkout-payment-summary">
+                            <div class="checkout-payment-summary-promo" *ngIf="!isShowCoupon" (click)="isShowCoupon = true">Use a Promo Code</div>
+                            <div class="checkout-payment-summary-input" *ngIf="isShowCoupon">
+                                <input type="text" placeholder="Coupon Code (Optional)" name="ByPassPaymentCode" [(ngModel)]="model.ByPassPaymentCode" #ByPassPaymentCode="ngModel" />
+                                <div *ngIf="!isClickApply || isDiscountCodeError">
+                                    <button type="button" (click)="funcCheckCode()" class="checkout-payment-summary-apply-btn">Apply</button>
+                                </div>
+                            </div>
+                            <div *ngIf="isClickApply && !isDiscountCodeError">
+                                <p style="color:green">Your code is applied</p>
+                            </div>
+                            <div *ngIf="isClickApply && !IsChecking && isDiscountCodeError" class="error-message">Invalid
+                                Code.
+                                Please try again with another code.</div>
+                            <div *ngIf="isClickApply && IsChecking && isDiscountCodeError" class="error-message">
+                                Checking...
+                            </div>
+
+                        </div>
+                        <div class="row p-1 mb-1" *ngIf="isTravelMedicine">
+                            <h5>
+                                <i style="font-size: 22px;" class="fa fa-exclamation-circle warning"></i>
+                                <span class="text-bold-500 ml-1">Note: </span>Insurance not acceptable for pre-travel
+                                health consultations. Payment is due at time of appointment.
+                            </h5>
+                        </div>
+                        <div *ngIf="model && model.PatientID && model.PaidByInsurance">
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <h3 class="checkout-payment-summary-title">{{'Insurance' |
+                                            translate}}</h3>
+                                        <div class="text-center">
+                                            <p class="text-bold-700">
+                                                <i style="font-size: 17px;" class="fa fa-id-card"></i>
+                                                {{'Please add your insurance by clicking button below.' |
+                                                translate}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <app-pverify-insurance-list [patientId]="model.PatientID" [showHistory]="false" (onChangeInsurance)="changeInsurance($event)">
+                                        </app-pverify-insurance-list>
+                                    </div>
+                                    <div *ngIf="isUseDontknowCopay">
+                                        <i class="fa fa-id-card-o" style="font-size: 20px;"></i>
+                                        <span> An amount of ${{dontKnowCopayParam.value}} will be held on your
+                                            credit card while we verify your copay insurance amount.</span>
+                                    </div>
+                                    <div>
+                                        <i style="font-size: 22px;" class="fa fa-info-circle warning"></i>
+                                        <span class="text-bold-600"> {{'Willfully entering of false insurance
+                                            and payment information is not permitted and will be prosecuted to
+                                            the maximal extent of the law.' | translate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-info" *ngIf="model.isAddInsurance!= null">
+                    <div *ngIf="showPreAuthMessage" class="my-1">
+                        <i class="fa fa-info-circle danger" style="font-size: 22px; margin-right: 5px;"></i>
+                        Your insurance requires the pre-authorization. You have 2 options:
+                        <br>1. If you want to see the provider now, you can pay out of pocket for the tele-visit and get reimbursement from your insurance.
+                        <br>2. Or, you can <a href="https://forms.gle/2evFTo9pv9GJH3C78" target="_blank">CLICK HERE</a> and fill the form.
+                        We will take care of the pre-authorization for you (This process may take up to 5-7 business days).
+                    </div>
+                    <div class="checkout-info-wrapper">
+                        <h2 class="checkout-info-title">Payment Information</h2>
+                        <div class="mb-2" *ngIf="model.IsOnDemand">
+                            <div>
+                                <input type="radio" name="PayByCrypto" #PayByCrypto="ngModel" [value]="false" style="width:20px; height:20px;" [(ngModel)]="model.PayByCrypto" required>
+                                <span class="label-checkbox" style="margin-left:5px">
+                                    Pay with Credit Card
+                                </span>
+                            </div>
+                            <div>
+                                <input type="radio" name="PayByCrypto" #PayByCrypto="ngModel" [value]="true" style="width:20px; height:20px;" [(ngModel)]="model.PayByCrypto" required>
+                                <span class="label-checkbox" style="margin-left:5px">
+                                    Pay with Crypto
+                                </span>
+                            </div>
+                        </div>
+                        <div class="checkout-info-content">
+                            <div *ngIf="(isDiscountCodeError)">
+                                <p class="checkout-info-text-question" *ngIf="!model.PayByCrypto">
+                                    Why do I have to include my credit card?
+                                    <i class="fas fa-question-circle"></i>
+                                </p>
+                                <p class="checkout-info-text-note">
+                                    <span class="checkout-info-text-note-title">Note: </span>
+                                    If you don't have insurance or your insurance is not valid, we
+                                    will charge your credit card instead. Based on the various
+                                    insurance policy, we need to bill co-pay, in case not covered by
+                                    insurance 100%.
+                                </p>
+                                <div class="checkout-info-card" *ngIf="!model.PayByCrypto">
+                                    <div *ngIf="IsShowStripePayment || IsChangeCardInfo">
+                                        <p *ngIf="!patientModel.CardID" class="text-center danger">
+                                            {{'Please
+                                            add your credit/debit card below.' | translate}}</p>
+                                        <div class="col-md-12 text-center">
+                                            <button type="button" class="checkout-info-card-edit-btn" (click)="addCardInfo()"> Add Credit/Debit
+                                                Card</button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="!IsShowStripePayment && !IsChangeCardInfo">
+                                        <div class="checkout-info-card-fields">
+                                            <div class="checkout-info-card-item">
+                                                <label for="card-number" class="checkout-info-card-item-label">Card Number</label>
+                                                <input type="text" id="card-number" readonly [value]="cardInfo.CardNumber" />
+                                            </div>
+                                            <div class="checkout-info-card-item">
+                                                <label for="expiration-date" class="checkout-info-card-item-label">Expiration Date</label>
+                                                <input type="text" id="expiration-date" readonly value="{{cardInfo.ExpiredMonth}}/{{cardInfo.ExpiredYear}}" />
+                                            </div>
+                                        </div>
+                                        <button class="checkout-info-card-edit-btn" (click)="addCardInfo()">
+                                            Edit Card <i class="fa fa-credit-card"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkout-info-card-agreement" style="flex-direction:column">
+                                <div style="display:flex; flex-direction:row">
+                                    <input type="checkbox" id="agreement" [(ngModel)]="model.IsReadAndAgreedTreatment" name="IsReadAndAgreedTreatment" class="mr-1" />
+                                    <label for="agreement" class="checkout-info-card-agreement-label">{{"I've read
+                                        and agree to the" | translate}}<a target="_blank" href='{{selectTreatmentConsent()}}'><i>
+                                                Treatment
+                                                Consent</i></a> and <a target="_blank" href='{{selectBillingConsent()}}'><i>
+                                                Billing
+                                                Consent</i></a>.</label>
+                                </div>
+                                <div *ngIf="!model.IsReadAndAgreedTreatment" class="error-message" style="display:block">
+                                    Please Read and Agree to the Treatment Consent.
+                                </div>
+                            </div>
+                            <p class="checkout-info-submit-text">
+                                By clicking the "Submit" button, you accept and authorize services
+                                performed by the medical provider as well as charging for these
+                                applicable services to your financial institution.
+                            </p>
+                            <p class="checkout-info-secure-text">
+                                <i class="fas fa-lock"></i> Your payment and health information is
+                                secure and protected.
+                            </p>
+
+                        </div>
+                        <div class="mt-2">
+                            <button type="button" class="checkout-info-card-edit-btn" (click)="prev()">{{'Previous' | translate}}</button>
+
+                            <button type="submit" *ngIf="(isClickApply && !isDiscountCodeError)" [disabled]="IsSubmitting || !model.IsReadAndAgreedTreatment" class="checkout-info-submit-btn">Submit</button>
+
+                            <button type="button" (click)="paymentSubmitted()" *ngIf="(isDiscountCodeError) && IsShowStripePayment" [disabled]="!IsShowStripePayment" class="checkout-info-submit-btn">Submit
+                                Appointment</button>
+
+                            <button type="button" (click)="paymentSave()" *ngIf="(isDiscountCodeError) && !IsShowStripePayment" [disabled]="!model.IsReadAndAgreedTreatment || cardInfo.IsShowStripePayment"
+                                class="checkout-info-submit-btn">{{'Submit' |
+                                translate}}</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+</form>
+
+<app-card-info #cardInfoModal (closeModal)="getPatientProfileEntity()"></app-card-info>

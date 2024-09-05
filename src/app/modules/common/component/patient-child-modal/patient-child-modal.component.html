@@ -1,0 +1,87 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{model.ID ? 'Edit Child':'Add Child'}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName">
+                                {{'Legal First Name' | translate}}
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" placeholder="First Name" name="FirstName"
+                                [(ngModel)]="model.PatientUser.FirstName" #FirstName="ngModel" required
+                                maxlength="35" />
+                            <div *ngIf="f.submitted && FirstName.errors && FirstName.errors.required" class="error-message">Required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName">
+                                {{'Legal Last Name' | translate}}
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" name="LastName"
+                                [(ngModel)]="model.PatientUser.LastName" placeholder="Last Name" #LastName="ngModel"
+                                required maxlength="35" />
+                            <div *ngIf="f.submitted && LastName.errors && LastName.errors.required"
+                                class="error-message">Required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName">
+                                {{'Date of Birth:' | translate}}
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <app-date-time-picker [placeholder]="'Date of Birth'" name="DOB" [isDisabled]="false"
+                                [hasTime]="false" [(ngModel)]="model.PatientUser.DOB" #DOB="ngModel" required>
+                            </app-date-time-picker>
+                            <div *ngIf="f.submitted && DOB.errors && DOB.errors.required" class="error-message">
+                                Required</div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName">
+                                {{'Gender:' | translate}}
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <select class="form-control" name="Gender" [(ngModel)]="model.PatientUser.Gender"
+                                #Gender="ngModel" required>
+                                <option value="" disabled>{{'Select Gender' | translate}}</option>
+                                <option value="Male">{{'Male' | translate}}</option>
+                                <option value="Female">{{'Female' | translate}}</option>
+                            </select>
+                            <div *ngIf="f.submitted && Gender.errors && Gender.errors.required" class="error-message">
+                                Required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green">Save</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

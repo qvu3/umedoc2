@@ -1,0 +1,46 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Share Link Document</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="FireUrl">
+                            Url:
+                        </label>
+                        <input type="text" class="form-control" placeholder="Enter your share link" name="FireUrl"
+                            [(ngModel)]="model.FireUrl" #FireUrl="ngModel" required />
+                        <div *ngIf="
+                            f.submitted && FireUrl.errors && FireUrl.errors.required
+                          " class="col-md-12 error-message">
+                            This field is required.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="FileName">
+                            File Name:
+                        </label>
+                        <input type="text" class="form-control" placeholder="Enter your file name" name="FileName"
+                            [(ngModel)]="model.FileName" #FileName="ngModel" required />
+                        <div *ngIf="
+                            f.submitted && FileName.errors && FileName.errors.required
+                          " class="col-md-12 error-message">
+                            This field is required.
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green">Save</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

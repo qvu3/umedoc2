@@ -1,0 +1,11 @@
+.fc-event, .fc-event-dot {
+    background: transparent !important;
+} 
+
+.fc-event { 
+    border: none !important;
+}
+
+.time-content{
+    
+}

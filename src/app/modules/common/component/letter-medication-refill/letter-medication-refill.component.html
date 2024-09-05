@@ -1,0 +1,24 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="col-md-12 text-start">
+                    <p>Dear Valued Umedoc Patient,</p>
+                    <p>We want to ensure that you have a smooth and hassle-free experience with your medication refill and avoid any interruptions in your treatment. Therefore, we kindly remind you to check with your
+                        pharmacy beforehand to ensure that your
+                        medications are in stock.</p>
+                    <p>We understand that medication availability can vary for many reasons, and we appreciate your assistance in providing us with the pharmacy information where your medication is available if needed.
+                    </p>
+                    <p>Thank you for your cooperation, and we are always here to support you in managing your healthcare needs.</p>
+                    <p>Best Regard,</p>
+                    <p>Umedoc Team</p>
+                </div>
+            </div>
+            <div class="modal-footer flex justify-center">
+                <button type="button" class="btn  btn-medical-white" (click)="hide()">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

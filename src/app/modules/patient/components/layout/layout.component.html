@@ -1,0 +1,82 @@
+<div appInitMenu="" id="patient-layout">
+    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow navbar-static-top navbar-light navbar-brand-center">
+        <div class="navbar-wrapper">
+            <div class="navbar-header">
+                <ul class="nav navbar-nav flex-row">
+                    <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1" hidden></i></a></li>
+                    <li class="nav-item">
+                        <a class="navbar-brand" [routerLink]="['/']" style="padding: 10px 0;">
+                            <img class="brand-logo" alt="Prime logo" style="width:auto;" src="assets/image/site-logo.png">
+                        </a>
+                    </li>
+                    <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="la la-ellipsis-v"></i></a></li>
+                </ul>
+            </div>
+            <div class="navbar-container content">
+                <div class="collapse navbar-collapse" id="navbar-mobile">
+                    <ul class="nav navbar-nav mr-auto float-left">
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand" href="javascript:void(0)"><i class="ficon ft-maximize"></i></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav float-right">
+                        <li *ngIf="currentUser && currentUser.Role && currentUser.Role=='Patient'">
+                            <div class="col-md-12 text-right" style="margin-top: 20px;">
+                                <button type="button" [routerLink]="['/','patient-profile']" class="btn btn-sm btn-medical-white round">
+                                    Dashboard
+                                </button>
+                            </div>
+                        </li>
+                        <li *ngIf="currentUser && currentUser.Role && currentUser.Role!='Patient'">
+                            <div class="col-md-12 text-right" style="margin-top: 20px;">
+                                <button type="button" [routerLink]="['/','management', 'dashboard']" class="btn btn-sm btn-medical-white round">
+                                    Dashboard
+                                </button>
+                            </div>
+                        </li>
+
+                        <li class="dropdown dropdown-user nav-item" *ngIf="currentUser">
+                            <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                                <span class="avatar"><img [src]="currentUser.ProfilePicture" alt="avatar">
+                                    <i class="la la-angle-down pl-1" style="font-size: 0.8rem;"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a *ngIf="currentUser.Role && currentUser.Role != 'Patient'" class="dropdown-item" [routerLink]="['/','management','my-profile']"><i class="ft-user"></i> My
+                                    Profile</a>
+                                <a *ngIf="currentUser.Role && currentUser.Role == 'Patient'" class="dropdown-item" [routerLink]="['/','patient-profile']"><i class="ft-user"></i> My
+                                    Profile</a>
+                                <a class="dropdown-item" (click)="changepassword()"><i class="ft-lock"></i> Change
+                                    Password</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" (click)="signOut()"><i class="ft-power"></i> Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <router-outlet></router-outlet>
+                <app-change-password #changePassModal></app-change-password>
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+    <!-- BEGIN: Footer-->
+    <div class="copyright margin_out">
+        <footer>
+            <div class="container">
+                <div class="copyright-content">
+                    <span>Copyright © {{currentYear}} <a class="text-bold-800 grey darken-2" href="https://umedoc.com/" target="_blank">
+                            Umedoc</a> - All Right Reserved</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- END: Footer-->
+</div>

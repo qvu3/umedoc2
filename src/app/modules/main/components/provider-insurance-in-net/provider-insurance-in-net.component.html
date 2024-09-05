@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-12 text-right">
+        <button type="button" class="btn btn-green" (click)="AddItem()">Add Provider Insurance</button>
+    </div>
+    <div class="col-md-12">
+        <table class="table row-grouping display" [isFilter]="false" [isLengthChange]="false" appPagingTable=""
+            [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting"
+            [compRef]="compRef" (tableEvent)="catchTable($event)" style="width: 100%">
+        </table>
+    </div>
+</div>
+<app-edit-provider-insurance-in-net #modal="" (onClosed)="RefreshTable()"></app-edit-provider-insurance-in-net>

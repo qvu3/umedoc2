@@ -1,0 +1,68 @@
+.StripeElement {
+  margin: 1rem 0rem;
+  background-color: white;
+  padding: 8px 12px;
+  border: 1px solid !important;
+  color: #9398a9 !important;
+  box-shadow: 0 3px 3px 0 #8193a9;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+  min-width: 100%;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+#card-errors{
+  color: red;
+}
+
+* {
+	font-family: "Helvetica Neue", Helvetica;
+	font-size: 15px;
+	font-variant: normal;
+	padding: 0;
+	margin: 0;
+  }
+  
+  html {
+	height: 100%;
+  }
+  
+  body {
+	background: #E6EBF1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100%;
+  }
+  
+  form {
+	width: 100%;
+	margin: 20px 0;
+  }
+    
+  .field {
+	background: transparent;
+	font-weight: 300;
+	border: 0;
+	color: #31325F;
+	outline: none;
+	flex: 1;
+	padding-right: 10px;
+	padding-left: 10px;
+	cursor: text;
+  }
+  
+  .field::-webkit-input-placeholder { color: #CFD7E0; }
+  .field::-moz-placeholder { color: #CFD7E0; }
+  

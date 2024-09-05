@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-md-12 text-right mb-2"> 
+        <label class="btn btn-medical-white" style="margin-top:8px;" title="Upload New File"
+            [groupApptID]="groupApptID" appFileUpload="" [typeUpload]="'group_appt_storage'"
+            (onCallback)="uploaded($event)" [fileType]="1" (onUploadStatus)="uploadStatus($event)"
+            [link]="'/api/GroupApptDocuments/S3UploadGroupApptStorage'">
+            <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file"
+                accept="*/*">
+            <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+            <span>{{isUploading?'Uploading...':'Upload New File' | translate}}</span>
+        </label>
+    </div>
+</div>
+<table class="table row-grouping display" [isFilter]="false" [isLengthChange]="false" appPagingTable=""
+    [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting"
+    [compRef]="compRef" (tableEvent)="catchTable($event)" style="width: 100%">
+</table>

@@ -1,0 +1,61 @@
+<div class="row mt-2" appInitAppChat style="height:85vh;">
+    <div class="sidebar-left">
+        <div class="sidebar">
+            <!-- app chat sidebar start -->
+            <div class="chat-sidebar card">
+                <span class="chat-sidebar-close">
+                    <i class="ft-x"></i>
+                </span>
+                <div class="chat-sidebar-search">
+                    <div class="d-flex align-items-center">
+                        <div class="chat-sidebar-profile-toggle">
+                            <div class="avatar">
+                                <img [src]="currentUser.ProfilePicture| defaultImg" class="cursor-pointer"
+                                    alt="user_avatar" height="36" width="36">
+                            </div>
+                        </div>
+                        <fieldset class="form-group position-relative has-icon-left mx-75 mb-0">
+                            <input type="text" class="form-control round" id="chat-search" placeholder="Search">
+                            <div class="form-control-position">
+                                <i class="ft-search text-dark"></i>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="chat-sidebar-list-wrapper ps ps--active-y">
+                    <h6 class="px-2 pt-2 pb-25 mb-0" *ngIf="rooms && rooms.length>0">ROOMS<i
+                            class="ft-plus float-right cursor-pointer"></i></h6>
+                    <ul class="chat-sidebar-list">
+                        <li *ngFor="let room of rooms">
+                            <div app-contact-channel [room]="room" [isPatient]="true"></div>
+                        </li>
+                       
+                    </ul>
+                    <div *ngIf="!rooms || rooms.length ==0" class="col-md-12 text-center mt-2">
+                        <button class="btn btn-medical-white" type="button" (click)="createRoom()">
+                            Click here to chat with supporter
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- app chat sidebar ends -->
+
+        </div>
+    </div>
+    <div class="content-right">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <!-- app chat overlay -->
+                <div class="chat-overlay"></div>
+                <!-- app chat window start -->
+                <section class="chat-window-wrapper">
+                    <router-outlet></router-outlet>
+                </section>
+                <!-- app chat window ends -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,1 +1,26 @@
-<p>message-show-chat works!</p>
+<div class="chat-avatar">
+    <a class="avatar m-0">
+        <img [src]="item?.ProfilePicture| chatAvatar: item?.IsProvider" alt="avatar" height="36" width="36">
+    </a>
+</div>
+<div class="chat-body">
+    <div class="chat-message" *ngIf="!item.IsFile">
+        <p>{{item.Content}}</p>
+        <span class="{{isLeft?'chat-time-left':'chat-time-right'}}" style="font-size: 10px;"><strong
+                *ngIf="item.Sender">{{item.Sender}}</strong> {{item.SentDate | date:
+            'MM-dd-yy
+            hh:mm a'}} <span class="la la-spinner spinner text-white" *ngIf="item?.isSending"></span></span>
+    </div>
+    <div class="chat-message " *ngIf="item.IsFile" >
+        <span class="cursor-pointer" [class]="getMineType()" *ngIf="!item.MineType.includes('image/')" (click)="getLink()"></span>
+        <a [href]="thumbnail | defaultPicture" [attr.data-lightbox]="item.Content"  *ngIf="item.MineType.includes('image/')" style="text-align:center;">
+            <img [src]="thumbnail| defaultPicture" class="cursor-pointer" style="width:100px;height:70px;"/>
+        </a>
+        <span style="display:block;text-align:center;" *ngIf="item.Content">{{item.Content}}</span>
+        <span style="display:block;text-align:center;">{{item.isSending? 'Your file is uploading...' :'Click on to open file'}}</span>
+        <span class="{{isLeft?'chat-time-left':'chat-time-right'}}" style="font-size: 10px;"><strong
+                *ngIf="item.Sender">{{item.Sender}}</strong> {{item.SentDate | date:
+            'MM-dd-yy
+            hh:mm a'}} <span class="la la-spinner spinner text-white" *ngIf="item?.isSending"></span></span>
+    </div>
+</div>

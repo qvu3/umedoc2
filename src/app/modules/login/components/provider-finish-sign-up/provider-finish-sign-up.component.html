@@ -1,0 +1,189 @@
+<div class="form_login form_register" style="height:100%;">
+    <div class="container">
+      <div class="inner">
+  
+        <div class="site_logo">
+          <a href="https://umedoc.com"><img class="img-fluid" src="/assets/image/site-logo.png" style="height:70px"></a>
+        </div>
+  
+        <div class="form_wider mb-5">
+          <h4>Complete Your Profile</h4>
+          <form (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="row">
+              <div class="col-md-12 text-left">
+                <div *ngIf="f.submitted && isError" class=" alert alert-danger border-0 mb-2" role="alert">
+                  {{errorMessage}}
+                </div>
+              </div>
+              <div class="col-md-12 text-center mb-2">
+                <h5>Please fill up the form below to complete your profile:</h5>
+              </div>
+              <!-- <div class="col-md-6 col-sm-6" *ngIf="currentStep==1">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  Prefix (Optional):
+                </label>
+                <select class="form-control" name="Prefix" #Prefix="ngModel" [(ngModel)]="model.Prefix">
+                  <option value="">Prefix</option>
+                  <option *ngFor="let item of prefixes" [value]="item">{{item}}</option>
+                </select>
+              </div> -->
+              <!-- <div class="col-md-6 col-sm-6" *ngIf="currentStep==1">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  First Name:
+                  <span class="danger">
+                    *
+                  </span>
+                </label>
+                <input type="text" class="form-control" placeholder="First Name*" name="FirstName" #FirstName="ngModel"
+                  [(ngModel)]="model.FirstName" required maxlength="35">
+                <div *ngIf="f.submitted && FirstName.errors && FirstName.errors.required" class="error-message text-left">
+                  Please enter your first name.
+                </div>
+              </div> -->
+              <!-- <div class="col-md-6 col-sm-6" *ngIf="currentStep==1">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  Middle Name (Optional):
+                </label>
+                <input type="text" class="form-control" placeholder="Middle Name" name="MiddleName"
+                  #MiddleName="ngModel" [(ngModel)]="model.MiddleName" maxlength="35">
+              </div> -->
+              <!-- <div class="col-md-6 col-sm-6" *ngIf="currentStep==1">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  Last Name:
+                  <span class="danger">
+                    *
+                  </span>
+                </label>
+                <input type="text" class="form-control" placeholder="Last Name*" name="LastName" #LastName="ngModel"
+                  [(ngModel)]="model.LastName" required maxlength="35">
+                <div *ngIf="f.submitted && LastName.errors && LastName.errors.required" class="error-message">
+                  Please enter your last name.
+                </div>
+              </div> -->
+  
+              <!-- <div class="col-md-6 col-sm-6" *ngIf="currentStep==1">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  Suffix (Optional):
+                </label>
+                <select class="form-control" name="Suffix" #Suffix="ngModel" [(ngModel)]="model.Suffix">
+                  <option value="">Suffix</option>
+                  <option *ngFor="let item of suffixes" [value]="item">{{item}}</option>
+                </select>
+              </div> -->
+              <div class="col-md-6 col-sm-6" *ngIf="currentStep==1">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  Gender:
+                  <span class="danger">
+                    *
+                  </span>
+                </label>
+                <select class="form-control" name="Gender" [(ngModel)]="model.Gender" #Gender="ngModel" required>
+                  <option value="">Select Gender*</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                <div *ngIf="f.submitted && Gender.errors && Gender.errors.required" class="error-message  text-left">
+                  Please select gender.
+                </div>
+              </div>
+  
+              <div class="col-md-6 col-sm-6" *ngIf="currentStep==1">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  Date of Birth:
+                  <span class="danger">
+                    *
+                  </span>
+                </label>
+                <app-date-time-picker [hasTime]="false" [placeholder]="'Date of Birth*'" name="DOB" #DOB="ngModel"
+                  [(ngModel)]="model.DOB" required></app-date-time-picker>
+                <div *ngIf="f.submitted && DOB.errors && DOB.errors.required" class="error-message  text-left">
+                  Please enter your birthday.
+                </div>
+              </div>
+  
+              <div class="col-md-12 text-center mb-5" *ngIf="currentStep==1">
+                <button class="btn btn-min-width btn-green" type="submit">Continue</button>
+              </div>
+  
+              <div class="col-md-6 col-sm-6" *ngIf="currentStep==2">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  Address 1:
+                  <span class="danger">
+                    *
+                  </span>
+                </label>
+                <input type="text" class="form-control" placeholder="Address 1" name="Address1" #Address1="ngModel"
+                  [(ngModel)]="model.Address1" required maxlength="35">
+                <div *ngIf="f.submitted && Address1.errors && Address1.errors.required" class="error-message  text-left">
+                  Please enter your address 1.
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6" *ngIf="currentStep==2">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  Address 2 (Optional):
+                </label>
+                <input type="text" class="form-control" placeholder="Address 2" name="Address2"
+                  #Address2="ngModel" [(ngModel)]="model.Address2" maxlength="35">
+                <div *ngIf="f.submitted && Address2.errors && Address2.errors.required" class="error-message  text-left">
+                  Please enter your address 2.
+                </div>
+              </div>
+  
+              <div class="col-md-6 col-sm-6" *ngIf="currentStep==2">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  City:
+                  <span class="danger">
+                    *
+                  </span>
+                </label>
+                <input type="text" class="form-control" placeholder="City*" name="City" #City="ngModel"
+                  [(ngModel)]="model.City" required maxlength="35">
+  
+                <div *ngIf="f.submitted && City.errors && City.errors.required" class="error-message  text-left">
+                  Please enter your City.
+                </div>
+              </div>
+  
+              <div class="col-md-3 col-sm-3" *ngIf="currentStep==2">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  State:
+                  <span class="danger">
+                    *
+                  </span>
+                </label>
+                <select name="State" class="form-control m-input" [(ngModel)]="model.State" #State="ngModel" required>
+                  <option value="" disabled selected>Select State*</option>
+                  <option value="{{item.value}}" *ngFor="let item of us_statelist">{{item.name}}</option>
+                </select>
+                <div *ngIf="f.submitted && State.errors && State.errors.required" class="error-message  text-left">
+                  Required
+                </div>
+              </div>
+  
+              <div class="col-md-3 col-sm-3 pl-0" *ngIf="currentStep==2">
+                <label for="Prefix" class="form-label" style="float: left;">
+                  Zip Code:
+                  <span class="danger">
+                    *
+                  </span>
+                </label>
+                <input type="text" class="form-control" [textMask]="{mask: maskZipCode}" placeholder="Zip Code*"
+                  pattern="^\d{5}$" name="ZipCode" #ZipCode="ngModel" [(ngModel)]="model.ZipCode" required>
+  
+                <div *ngIf="f.submitted && ZipCode.errors && ZipCode.errors.required" class="error-message  text-left">
+                  Please enter Zip Code
+                </div>
+                <div *ngIf="f.submitted && ZipCode.errors && !ZipCode.errors.required && ZipCode.errors.pattern"
+                  class="error-message">Invalid Zip Code
+                </div>
+              </div>
+              <div class="col-md-12 text-center mb-5" *ngIf="currentStep==2">
+                <button class="btn btn-medical-white btn-min-width" type="button" (click)="currentStep=1">Back</button>
+                <button class="btn btn-green btn-min-width" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

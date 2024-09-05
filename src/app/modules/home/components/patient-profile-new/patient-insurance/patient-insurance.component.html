@@ -1,0 +1,199 @@
+<div class="" style="margin-top: 50px !important; ">
+    <div class="row"
+        *ngIf="currentUser.Role && currentUser.Role != 'Patient' && deletePatientInsurances!=null && deletePatientInsurances.length > 0">
+        <div class="col-lg-12 col-md-12 text-right mb-2">
+            <button type="button" (click)="showDeletedInsurance()" class="btn btn-warning xl">
+                {{isShowDeletedInsurance ? 'Hide Deleted Insurances': 'View Deleted Insurances'}} </button>
+        </div>
+
+        <div class="col-lg-12 col-md-12 text-right mb-2" *ngIf="isShowDeletedInsurance">
+            <div class="row" *ngFor="let item of deletePatientInsurances">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card border-success">
+                        <div class="card-header text-left">
+                            <h5 class="card-title" style="color: #016670;">Deleted Insurance</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-10 col-md-10 d-flex">
+                                    <div class="patient-info text-left">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <div class="patient-info-heading-left">Insurance Name:
+                                                    {{item.InsuranceName}}</div>
+                                            </li>
+                                            <li>
+                                                <div class="patient-info-heading-left">Insurance Member ID:
+                                                    {{item.BeneficiaryNumber}} </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="patient-info-heading-left">Group Number:
+                                                    {{item.GroupNumber}} </div>
+                                            </li>
+
+                                            <li>
+                                                <span class="patient-info-heading-left">Deleted Time: </span>
+                                                {{item.DeletedDate | date :'MM/dd/yyyy HH:mm:ss'}}
+                                            </li>
+
+                                            <li *ngIf="item.IsHMOPlan">
+                                                <span class="patient-info-heading-left">I have HMO plan</span>
+                                            </li>
+
+                                            <li *ngIf="!item.IsHMOPlan">
+                                                <span class="patient-info-heading-left">I don't have HMO plan</span>
+                                            </li>
+
+                                            <li>
+                                                <div *ngIf="item.DontKnowCopay ===true"
+                                                    class="patient-info-heading-left">
+                                                    Copay: Don't know</div>
+
+                                                <div *ngIf="item.DontKnowCopay === undefined || item.DontKnowCopay === null || item.DontKnowCopay ===false"
+                                                    class="patient-info-heading-left">
+                                                    Copay:
+                                                    ${{item.PatientCopay}}</div>
+
+                                                <div class="row">
+                                                    <div *ngIf="item.FrontImageUrlView && item.FrontImageUrlView !=''"
+                                                        class="col-md-3 col-sm-12 text-center">
+                                                        <a [href]="item.FrontImageUrlView"
+                                                            data-lightbox="Insurance Front">
+                                                            <img style="max-width: 50px!important;height: 50px!important;"
+                                                                class="img-fluid img-thumbnail"
+                                                                [src]="item.FrontImageUrlView" alt="">
+                                                        </a>
+                                                    </div>
+
+                                                    <div *ngIf="item.BackImageUrlView && item.BackImageUrlView !=''"
+                                                        class="col-md-3 col-sm-12 text-center">
+                                                        <a [href]="item.BackImageUrlView"
+                                                            data-lightbox="Insurance Back">
+                                                            <img style="max-width: 50px!important;height: 50px!important;"
+                                                                class="img-fluid img-thumbnail"
+                                                                [src]="item.BackImageUrlView" alt="">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li *ngIf="item.IsDependent">
+                                                <div class="patient-info-heading-left">Subscriber:
+                                                    {{item.SubscriberDescription}}
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- <div class="row" *ngIf="currentUser.Role && currentUser.Role != 'Patient'">
+        <div class="col-lg-12 col-md-12 text-center mb-2">
+            <button type="button" (click)="addInsurance()" class="btn btn-green xl">Add Insurance</button>
+        </div>
+    </div> -->
+    <div class="row" *ngFor="let item of models">
+        <div class="col-lg-12 col-md-12" *ngIf="currentUser.Role && currentUser.Role != 'Patient'">
+            <div class="card border-success">
+                <div class="card-header">
+                    <h5 class="card-title" style="color: #016670;">Insurance</h5>
+                    <div class="heading-elements">
+                        <a class="btn btn-sm btn-icon round bg-teal white" (click)="changeInsurance(item.ID)"
+                            id="btnUpdateProfile" type="button">
+                            <i class="la la-edit white"></i> Update
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-10 col-md-10 d-flex">
+                            <div class="patient-info">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <div class="patient-info-heading-left">Insurance Name:
+                                            {{item.InsuranceName}}</div>
+                                    </li>
+                                    <li>
+                                        <div class="patient-info-heading-left">Insurance Member ID:
+                                            {{item.BeneficiaryNumber}} </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="patient-info-heading-left">Group Number:
+                                            {{item.GroupNumber}} </div>
+                                    </li>
+
+                                    <li *ngIf="item.IsHMOPlan">
+                                        <span class="patient-info-heading-left">I have HMO plan</span>
+                                    </li>
+
+                                    <li *ngIf="!item.IsHMOPlan">
+                                        <span class="patient-info-heading-left">I don't have HMO plan</span>
+                                    </li>
+                                    <li *ngIf="item.IsDependent">
+                                        <div class="patient-info-heading-left">Subscriber:
+                                            {{item.SubscriberDescription}}
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div *ngIf="item.DontKnowCopay ===true" class="patient-info-heading-left">
+                                            Copay: Don't know</div>
+
+                                        <div *ngIf="item.DontKnowCopay === undefined || item.DontKnowCopay === null || item.DontKnowCopay ===false"
+                                            class="patient-info-heading-left">
+                                            Copay:
+                                            ${{item.PatientCopay}}</div>
+
+                                        <div class="row">
+                                            <div *ngIf="item.FrontImageUrlView && item.FrontImageUrlView !=''"
+                                                class="col-md-3 col-sm-12 text-center">
+                                                <a [href]="item.FrontImageUrlView" data-lightbox="Insurance Front">
+                                                    <img style="max-width: 50px!important;height: 50px!important;"
+                                                        class="img-fluid img-thumbnail" [src]="item.FrontImageUrlView"
+                                                        alt="">
+                                                </a>
+                                            </div>
+
+                                            <div *ngIf="item.BackImageUrlView && item.BackImageUrlView !=''"
+                                                class="col-md-3 col-sm-12 text-center">
+                                                <a [href]="item.BackImageUrlView" data-lightbox="Insurance Back">
+                                                    <img style="max-width: 50px!important;height: 50px!important;"
+                                                        class="img-fluid img-thumbnail" [src]="item.BackImageUrlView"
+                                                        alt="">
+                                                </a>
+                                            </div>
+
+                                            <div class="col-md-4 text-right" style="margin-top:20px;">
+                                                <button type="button" class="btn btn-danger btn-sm m-t-5"
+                                                    (click)="removeItemInsurance(item.ID)"> Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" *ngIf="patientId">
+        <div class="col-lg-12">
+            <app-pverify-insurance-list [patientId]="patientId"></app-pverify-insurance-list>
+        </div>
+    </div>
+</div>
+<app-insurance-update #insuranceUpdateModal (closeModal)="onCloseInsurance($event)"></app-insurance-update>

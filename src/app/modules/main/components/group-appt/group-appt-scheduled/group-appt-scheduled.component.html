@@ -1,0 +1,89 @@
+<div class="row">
+    <ng-template ngFor let-provider [ngForOf]="modelList">
+        <div class="col-lg-4 col-sm-6">
+            <div class="card border"
+                style="border: 1px solid #016670 !important;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h1 style="color: #016670">
+                                {{provider?.GroupApptCategory?.CategoryName}}
+                            </h1>
+                            <h5>Start at: {{provider.StartTime |
+                                date:
+                                'MM/dd/yyyy hh:mm a'}}
+                            </h5>
+                            <h5>Duration: {{provider.Duration}}
+                                minutes
+                            </h5>
+                            <h5>Price: {{provider.Price | currency}}
+                            </h5>
+                            <div *ngIf="provider.Status == 'Scheduled'"
+                                class="badge badge-danger">
+                                {{provider.Status}}
+                            </div>
+                            <div *ngIf="provider.Status == 'InSession'"
+                                class="badge"
+                                style="background-color: #ff9149">
+                                {{provider.Status}}
+                            </div>
+
+                            <div *ngIf="provider.Status == 'Cancelled'"
+                                class="badge" class="badge badge-primary">
+                                {{provider.Status}}
+                            </div>
+
+                            <div *ngIf="provider.Status == 'Completed'"
+                                class="badge"
+                                style="background-color:green">
+                                {{provider.Status}}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row  mt-2">
+                        <div class="col-md-4">
+                            <b>Providers:</b>
+                        </div>
+                        <div class="col-md-8 text-right">
+                            <span><img width="30px" height="30px"
+                                    src="{{provider.Provider.ProfilePicture | defaultImg}}"
+                                    alt="" class="rounded-circle"
+                                    style="margin-right: 0.2rem">
+                                {{provider.Provider.FirstName}}
+                                {{provider.Provider.LastName}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mt-1">
+                            <b>Patients:</b>
+                        </div>
+                        <div class="col-md-8 text-right"
+                            *ngIf="provider.GroupApptPatients && provider.GroupApptPatients.length">
+                            <p class="mt-1"
+                                *ngFor="let patient of provider.GroupApptPatients,let i=index">
+                                <img width="30px" height="30px"
+                                    src="{{patient.PatientUser?.ProfilePicture | defaultImg}}"
+                                    alt="" class="rounded-circle"
+                                    style="margin-right: 0.2rem">
+                                {{patient.PatientUser?.FirstName}}
+                                {{patient.PatientUser?.LastName}}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-12 text-center">
+                            <button type="button"
+                                (click)="viewDetail(provider.ID)"
+                                class="btn btn-green btn-min-width">View
+                                Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

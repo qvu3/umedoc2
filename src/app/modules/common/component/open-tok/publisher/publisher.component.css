@@ -1,0 +1,20 @@
+.container-publisher{
+    position: absolute;
+    width: 20vw;
+    height: 12vw;
+    bottom: 15px;
+    left: 30px;
+    z-index: 1000;
+} 
+ 
+
+.container-control{
+    position: absolute;
+    bottom: 15px;
+    right: 20%;
+    z-index: 1000;
+}
+
+.la-stack-2x{
+    font-size: 2rem;
+}

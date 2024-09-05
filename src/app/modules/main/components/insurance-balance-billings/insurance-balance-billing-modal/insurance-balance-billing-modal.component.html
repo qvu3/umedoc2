@@ -1,0 +1,62 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{this.model.ID? 'Edit' : 'Add'}} Insurance Balance Billing</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="col-sm-12 control-label">Amount</label>
+                            <div class="col-sm-12">
+                                <input type="number" name="Amount" class="form-control m-input"
+                                    [(ngModel)]="model.Amount" #Amount="ngModel" required />
+
+                                <div *ngIf="f.submitted && Amount.errors && Amount.errors.required"
+                                    class="error-message">
+                                    Please enter amount.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-12 control-label">File</label>
+                            <div class="col-sm-12">
+                                <input type="hidden" name="DocumentUrl" [(ngModel)]="model.DocumentUrl"
+                                    #DocumentUrl="ngModel" required />
+                                <label class="btn btn-medical-white" style="margin-top:8px;"
+                                    title="Upload the Insurance Balance Billing" appFileUpload=""
+                                    [typeUpload]="'appointment_image'" (onCallback)="uploaded($event)" [fileType]="1"
+                                    (onUploadStatus)="uploadStatus($event)"
+                                    [link]="'/api/Utility/S3UploadPrivateBillingInsurance/'" [appointmentID]=" model.AppointmentID">
+                                    <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file"
+                                        accept="pdf/*">
+                                    <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                                    <span>{{isUploading?'Uploading...':'Upload the Insurance Balance Billing'}}</span>
+                                </label>
+
+                                <div *ngIf="model.DocumentUrl">
+                                    <span class="la la-file text-success" style="font-size:30px;">Your file is uploaded</span>
+                                </div>
+                                <div *ngIf="f.submitted && DocumentUrl.errors && DocumentUrl.errors.required"
+                                    class="error-message">
+                                    Please upload Insurance Balance Billing PDF file.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green">Save</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

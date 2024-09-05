@@ -1,0 +1,60 @@
+<div class="content-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card" [appActionCardButton]="'Mangement-Insurance List'" style="min-height: 65vh;">
+                <div class="card-header">
+                    <h4 class="card-title title-h1">
+                        Insurance List</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="reload" (click)="RefreshTable()"><i class="ft-rotate-cw"></i></a></li>
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-content collapse show">
+                    <div class="col-md-12 card-body card-dashboard">
+                        <form class="col-md-12">
+                            <div class="row col-md-12 border border-light rounded py-2 mb-2">
+
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <label for="users-list-role">Insurance Name</label>
+                                    <fieldset class="form-group">
+                                        <input type="search" class="form-control" (change)="RefreshTable()"
+                                            name="PayerName" [(ngModel)]="criteria.PayerName" placeholder="Payer Name"
+                                            #PayerName="ngModel" />
+                                    </fieldset>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <label for="users-list-status">Charge Full</label>
+                                    <fieldset class="form-group">
+                                        <select id="appointment-type-list" (change)="RefreshTable()"
+                                            class="form-control" name="ChargeFullAmount"
+                                            [(ngModel)]="criteria.ChargeFullAmount" #ChargeFullAmount="ngModel">
+                                            <option [value]=null>All</option>
+                                            <option [value]="false">No</option>
+                                            <option [value]="true">Yes</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
+                                    <button (click)="RefreshTable()" class="btn btn-block btn-green">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-body card-dashboard">
+                        <table class="table row-grouping display " [isFilter]="true" [isLengthChange]="true"
+                            appPagingTable="" [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs"
+                            [serverLink]="serverLink" [aaSorting]="aaSorting" [compRef]="compRef"
+                            (tableEvent)="catchTable($event)" style="width: 100%">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-add-pverify-payer-list-modal #addModal (closeModal)="RefreshTable()"></app-add-pverify-payer-list-modal>

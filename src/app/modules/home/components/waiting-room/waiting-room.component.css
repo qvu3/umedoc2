@@ -1,0 +1,4 @@
+
+::ng-deep .ng-image-fullscreen-view{
+        z-index: 9999 !important;
+    } 

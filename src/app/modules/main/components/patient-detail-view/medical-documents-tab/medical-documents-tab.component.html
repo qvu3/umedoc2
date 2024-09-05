@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="card-content collapse show">
+        <div class="card-body card-dashboard">
+            <div class="row">
+                <div class="col-md-12 text-right mb-2">
+                    <a *ngIf="currentUser && currentUser.Role && currentUser.Role != 'Patient' "
+                        class="btn btn-green mr-2" (click)="shareDocumentUrl()"
+                        id="btnShareLinkDocument" type="button">
+                        <i class="la la-add white"></i> Add Shareable Link
+                    </a>
+                    <label class="btn btn-medical-white" style="margin-top:8px;" title="Add Image"
+                        [patientID]="patientId" appFileUpload="" [typeUpload]="'patient_storage'"
+                        (onCallback)="uploaded($event)" [fileType]="1" (onUploadStatus)="uploadStatus($event)"
+                        [link]="'/api/PatientStorage/S3UploadPatientStorage'">
+                        <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file"
+                            accept="*/*">
+                        <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                        <span>{{isUploading?'Uploading...':'Add Document'}}</span>
+                    </label>
+                </div>
+            </div>
+            <table class="table row-grouping display" [isFilter]="false" [isLengthChange]="false" appPagingTable=""
+                [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting"
+                [compRef]="compRef" (tableEvent)="catchTable($event)" style="width: 100%">
+            </table>
+        </div>
+    </div>
+</div>
+<app-share-link-modal #shareLinkModal (closeModal)="RefreshTable()"></app-share-link-modal>

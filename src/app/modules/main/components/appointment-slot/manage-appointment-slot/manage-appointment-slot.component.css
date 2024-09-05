@@ -1,0 +1,8 @@
+.fc-event, .fc-event-dot {
+    background: transparent !important;
+} 
+
+.fc-time-grid .fc-slats #td {
+    height: 5.5em!important;
+    border-bottom: 0;
+  }

@@ -1,0 +1,166 @@
+
+<div class="content-header row">
+  <div class="content-header-left col-md-5 col-6 mb-2">
+    <h3 class="content-header-title">Welcome {{ model.PatientUser.FirstName }}
+      {{ model.PatientUser.LastName }},</h3>
+  </div>
+  <div class="content-header-right col-md-7 col-6">
+    <div class="float-md-right">
+      <button class="btn btn-green px-2" [routerLink]="['/edit-patient-profile']" id="btnUpdateProfile" type="button">
+        Update Profile
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="content-body patinents_profile_b patient-profile-detail_b">
+  <section>
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="card border-info text-white text-center" style="height: 94%;background-color: #3390a2 !important;">
+          <div class="card-content">
+            <img src="../../../../../assets/images/backgrounds/bg-26.jpg" class="float-left mt-3" alt="Telemed"
+              style="height: 190px;">
+            <div class="card-body pt-2">
+              <h3 class="mt-3 text-white">See a medical provider now for an urgent concern!</h3>
+              <h5 class="text-white">Mon-Sun 8AM-6PM</h5>
+              <h3 class="mt-2 text-white">Urgent Care / On Demand</h3>
+              <button class="btn px-2 mt-2 redButtonGlowing" (click)="goToDemand()" id="btnNewAppointment" type="button"
+                style="height:75px; width:250px;font-size: 1.5rem;">
+                <i class="la la-stethoscope"></i> SEE MEDICAL PROVIDER NOW
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12">
+        <div class="card border-info text-white text-center" style="height: 94%;background-color: #377292 !important;">
+          <div class="card-content">
+            <img src="../../../../../assets/images/backgrounds/bg-27.png" class="float-left mt-5 pt-3" alt="Telemed"
+              style="width: 200px;">
+            <div class="card-body pt-2">
+              <h3 class="mt-3 text-white">Schedule a future visit with a medical provider!</h3>
+              <h3 class="mt-3 text-white">Routine Visit / Primary Care</h3>
+              <button class="btn px-2 mt-2 whiteButtonGlowing" [routerLink]="['/request-appointment']"
+                [queryParams]="{schedule:1}" id="btnNewAppointment" type="button"
+                style="height:75px; width:250px;font-size: 1.5rem;">
+                <i class="la la-calendar"></i> SCHEDULE AN APPOINTMENT
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="card border-primary">
+          <div class="card-header">
+            <h5 class="card-title" style="color: #016670;">Preferred Pharmacy</h5>
+            <div class="heading-elements">
+              <button class="btn btn-sm btn-icon round bg-teal white" id="btnUpdateProfile"
+                (click)="updatePreferedPharmacy()" type="button">
+                <i class="la la-edit white"></i> Update
+              </button>
+            </div>
+          </div>
+          <div class="card-body" style="padding-top:0;">
+            <div class="row personal_detail pharmacy">
+              <div class="col-lg-6">
+                <app-view-marker [address]="getAddressMarker()" style="width: 100%; height: 140px;">
+                </app-view-marker>
+              </div>
+              <div class="col-lg-6 middle_heading">
+                <h5 style="color: #016670;">{{ model.PreferredPharmacy ? model.PreferredPharmacy : 'N/A'}}</h5>
+                <div class="detail_view">
+                  <ul class="list-unstyled">
+                    <li *ngIf="model.PreferredPharmacyAddress">
+                      <div>{{ model.PreferredPharmacyAddress }}, {{model.PreferredPharmacyCity}},
+                        {{model.PreferredPharmacyState}} {{model.PreferredPharmacyZipCode}}</div>
+                    </li>
+                    <li *ngIf="!model.PreferredPharmacyAddress">
+                      <div></div>
+                    </li>
+                    <li *ngIf="model.PreferredPharmacyPhoneNumber">
+                      <div>Phone#: {{ model.PreferredPharmacyPhoneNumber }}</div>
+                    </li>
+                    <li *ngIf="!model.PreferredPharmacyPhoneNumber">
+                      <div></div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12">
+        <div class="card border-success" style="height: 90%;">
+          <div class="card-header">
+            <h5 class="card-title" style="color: #016670;">Credit Card</h5>
+            <div class="heading-elements">
+              <button class="btn btn-sm btn-icon round bg-teal white" (click)="changeCreditCard()" id="btnUpdateProfile"
+                type="button">
+                <i class="la la-edit white"></i> Update
+              </button>
+            </div>
+          </div>
+          <div class="card-body" *ngIf="model && model.CardInfo">
+            <table style="width: 100%;" id="cardInfo">
+              <tr>
+                <td class="form-label" style="width: 25%;text-align: center;">
+                  Card Number
+                </td>
+                <td class="form-label" style="width: 20%;text-align: center;">
+                  Exp. Date
+                </td>
+              </tr>
+              <tr>
+                <td class="form-payment-control" style="text-align: right;width: 25%;">
+                  {{model.CardInfo.CardNumber}}
+                </td>
+                <td class="form-payment-control" style="text-align: center;width: 20%;">
+                  {{model.CardInfo.ExpiredMonth}}/{{model.CardInfo.ExpiredYear}}
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="card-body" *ngIf="!model ||  !model.CardInfo">
+            <span>N/A</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card" [appActionCardButton]="'Appointment-History'">
+          <div class="card-header">
+            <h1 class="card-title" style="color:#016670">Appointment History</h1>
+            <div class="heading-elements">
+              <a class="btn btn-sm btn-icon round bg-teal white" data-action="collapse" type="button"
+                style="-webkit-appearance: none;">
+                Show/Hide
+              </a>
+            </div>
+          </div>
+          <div class="card-content collapse">
+            <app-patient-history-appointment #patientHistory></app-patient-history-appointment>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="model && model.DS_PatientID">
+      <div class="col-12">
+        <app-patient-prescription [patientId]="model.DS_PatientID"></app-patient-prescription>
+      </div>
+    </div>
+  </section>
+</div>
+
+<app-card-info #cardInfoModal (closeModal)="getEntity()"></app-card-info>
+<app-perfer-pharmacy-search #pharamcySearch="" (onClosed)="closePerfer($event)"></app-perfer-pharmacy-search>
+<!-- END: Content-->

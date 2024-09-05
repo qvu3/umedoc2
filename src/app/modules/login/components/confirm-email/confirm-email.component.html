@@ -1,0 +1,36 @@
+<div class="form_login form_register form_forgot_password" style="height:100%;">
+  <div class="container">
+    <div class="inner">
+
+      <div class="site_logo">
+        <a href="https://umedoc.com"><img class="img-fluid" src="/assets/image/site-logo.png"></a>
+      </div>
+
+      <div class="form_wider">
+        <h4>Confirm Email</h4>
+        <form>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <h2 class="text-info pb-1">We emailed a confirmation link to your email.</h2>
+              <h3 class="text-info pb-2">Please click the link in that email to activate your account.</h3>
+              <div>*Make sure to check spam box in case it got filtered!</div> 
+              <br>
+              <div>*It may take up to 5 minutes to receive the email from us! Please be patient!</div>
+              <br>
+              <div>*If you don't receive any email, please click the button Re-send confirmation Email below!</div>
+             
+            </div>
+            <div class="col-md-12 text-center form-group">
+              <button class="btn btn_login" [routerLink]="['/','auth','sign-in']"> Back to
+                Login</button>
+            </div>
+            <div class="col-md-12 text-center form-group">
+              <button class="btn btn_login" type="button" (click)="resend()"> Re-Send
+                Email</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> 

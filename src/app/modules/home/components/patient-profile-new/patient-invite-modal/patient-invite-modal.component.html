@@ -1,0 +1,66 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && sendInvite()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Invite User</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !YourFriendName.valid }">
+                        <label class="col-sm-4 control-label">Your Friend's Name</label>
+                        <div class="col-sm-12">
+
+                            <input type="text" class="form-control" placeholder="Invite Email" name="YourFriendName"
+                                #YourFriendName="ngModel" [(ngModel)]="model.YourFriendName" required>
+                            <div *ngIf="f.submitted && YourFriendName.errors && YourFriendName.errors.required"
+                                class="error-message">
+                                Please enter your friend's name.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !Email.valid }">
+                        <label class="col-sm-4 control-label">Your Friend's Email</label>
+                        <div class="col-sm-12">
+
+                            <input type="text" class="form-control" placeholder="Invite Email"
+                                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" name="Email" #Email="ngModel"
+                                [(ngModel)]="model.Email" [required]="!model.YourFriendCellPhone">
+                            <div *ngIf="f.submitted && Email.errors && Email.errors.required" class="error-message">
+                                Please enter invite email.
+                            </div>
+                            <div *ngIf="f.submitted && Email.errors && !Email.errors.required && Email.errors.pattern"
+                                class="error-message">
+                                Invite email invalid.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !YourFriendCellPhone.valid }">
+                        <label class="col-sm-12 control-label">Your Friend's Cell Phone Number</label>
+                        <div class="col-sm-12">
+
+                            <input type="text" [textMask]="{mask: maskPhone}" class="form-control"
+                                placeholder="Cell Phone Number"
+                                pattern="^\(([2346789][0-9]{2}|[23456789][012346789][0-9]|[23456789][0-9][012346789])\)\s?([012346789][0-9]{2}|[0123456789][012346789][0-9]|[0123456789][0-9][012346789])-[0-9]{4}$"
+                                name="YourFriendCellPhone" #YourFriendCellPhone="ngModel"
+                                [(ngModel)]="model.YourFriendCellPhone">
+                            <div *ngIf="f.submitted && YourFriendCellPhone.errors  && YourFriendCellPhone.errors.pattern"
+                                class="error-message">
+                                Your friend's cell phone number invalid.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                    <button type="submit" class="btn  btn-green" [disabled]="Submitting">Invite</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

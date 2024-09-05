@@ -1,0 +1,12 @@
+<div class="row" *ngIf="id">
+    <div class="col-md-12">
+        <app-payment-appointment-info [appointmentId]="id"></app-payment-appointment-info>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <legend class="legend-user">All Payment History</legend>
+    <div class="col-md-12">
+        <app-payment-history-info [appointmentId]="id"></app-payment-history-info>
+    </div>
+</div>

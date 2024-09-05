@@ -1,0 +1,102 @@
+.toggle-switch {
+    height: 36px;
+    width: 62px;
+    display: inline-block;
+    position: relative;
+    input {
+      display: none;
+      &:checked + .slider {
+        border-radius: 15px;
+        background-color: #337cf7;
+      }
+      &:checked + .slider::after {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+    }
+    .slider {
+      position: absolute;
+      border-radius: 15px;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #2ea990;
+      transition: 2s;
+      &::after {
+        position: absolute;
+        content: '';
+        height: 28px;
+        width: 28px;
+        border-radius: 50px;
+        background-color: white;
+        left: 4px;
+        bottom: 4px;
+        transition: 2s;
+      }
+    }
+  }
+
+.onDemand{
+  color: #337cf7;
+}
+
+.scheduling
+{
+  color: #025440;
+}
+
+.outer {
+  width: 100%;
+  /* height: 35px; */
+  white-space: nowrap;
+  position: relative;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* .outer img {
+  width: 30px;  
+  float: none;
+  height: 30px;
+  margin: 0 0.25%;
+  display: inline-block;
+  zoom: 1;
+} */
+
+.glow-button {
+  -webkit-animation: glowing 1500ms infinite;
+  -moz-animation: glowing 1500ms infinite;
+  -o-animation: glowing 1500ms infinite;
+  animation: glowing 1500ms infinite;
+}
+
+@-webkit-keyframes glowing {
+  0% { background-color: #02aa86; -webkit-box-shadow: 0 0 3px #02aa86; }
+  50% { background-color: #02aa86; -webkit-box-shadow: 0 0 40px #02aa86; }
+  100% { background-color: #02aa86; -webkit-box-shadow: 0 0 3px #02aa86; }
+}
+
+@-moz-keyframes glowing {
+  0% { background-color: #02aa86; -moz-box-shadow: 0 0 3px #02aa86; }
+  50% { background-color: #02aa86; -moz-box-shadow: 0 0 40px #02aa86; }
+  100% { background-color: #02aa86; -moz-box-shadow: 0 0 3px #02aa86; }
+}
+
+@-o-keyframes glowing {
+  0% { background-color: #02aa86; box-shadow: 0 0 3px #02aa86; }
+  50% { background-color: #02aa86; box-shadow: 0 0 40px #02aa86; }
+  100% { background-color: #02aa86; box-shadow: 0 0 3px #02aa86; }
+}
+
+@keyframes glowing {
+  0% { background-color: #02aa86; box-shadow: 0 0 3px #02aa86; }
+  50% { background-color: #02aa86; box-shadow: 0 0 40px #02aa86; }
+  100% { background-color: #02aa86; box-shadow: 0 0 3px #02aa86; }
+}

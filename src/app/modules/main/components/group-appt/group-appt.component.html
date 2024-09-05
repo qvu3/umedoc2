@@ -1,0 +1,60 @@
+<div class="content-header row mb-1">
+    <div class="content-header-left col-md-6 col-12 mb-2">
+        <h3 class="content-header-title">Mangement Group Appt</h3>
+        <div class="row breadcrumbs-top">
+            <div class="breadcrumb-wrapper col-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a [routerLink]="['/management']">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">Manage Group Appt
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right col-md-6 col-12">
+    </div>
+</div>
+<div class="content-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card" [appActionCardButton]="'Mangement-Group-Appts'" style="min-height: 65vh;">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" (click)="addGroupAppt()" class="btn btn-medical-white round"
+                                style="margin:0;">Add New Group Appt</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <!-- Nav tabs -->
+                    <div class="default-tab ">
+                        <ul class="nav nav-tabs justify-content-start" style="padding-top:-20p;" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#Schedules">
+                                    <strong>Schedules</strong>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#Completed">
+                                    <strong>Completed</strong> </a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content mt-4">
+                            <div class="tab-pane fade show active" id="Schedules" role="tabpanel">
+                                <app-group-appt-scheduled></app-group-appt-scheduled>
+                            </div>
+                            <div class="tab-pane fade" id="Completed" role="tabpanel">
+                                <app-group-appt-completed></app-group-appt-completed>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-group-appt-item #groupApptItem></app-group-appt-item>

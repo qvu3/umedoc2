@@ -1,0 +1,93 @@
+<!-- BEGIN: Header-->
+
+<div class="navbar-header">
+    <ul class="nav navbar-nav flex-row">
+        <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
+        <li class="nav-item">
+            <a class="navbar-brand" [routerLink]="['/']" style="padding: 10px 0;">
+                <img class="brand-logo" alt="prime logo" style="width:auto;" src="assets/image/site-logo.png">
+            </a>
+        </li>
+        <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="la la-ellipsis-v"></i></a></li>
+    </ul>
+</div>
+<div class="navbar-container content">
+    <div class="collapse navbar-collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav mr-auto float-left">
+            <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand" href="javascript:void(0)"><i class="ficon ft-maximize"></i></a></li>
+        </ul>
+        <ul class="nav navbar-nav float-right">
+            <li class="dropdown dropdown-notification nav-item mr-1" *ngIf="currentUser && (currentUser.Role=='Special_Admin' || currentUser.Role=='Company_Admin') " title="Chat with Patients">
+                <a class="nav-link nav-link-label" [routerLink]="['/', 'app-chat', 'messages']" target="blank">
+                    <i class="ficon ft-message-square"></i><span *ngIf="TotalMessageUnRead>0" class="badge badge-pill badge-danger badge-up badge-glow">{{TotalMessageUnRead}}</span>
+                </a>
+            </li>
+            <li class="dropdown dropdown-notification nav-item mr-1" *ngIf="currentUser" title="Provider Guideline">
+                <a class="nav-link nav-link-label" href="/help-desk" target="blank">
+                    <i class="fitcon ft-help-circle text-primary"></i>
+                </a>
+            </li>
+            <li class="dropdown dropdown-notification nav-item mr-1" *ngIf="currentUser && currentUser.Role=='Provider' && doseTotalNotification" title="eRx Notifications">
+                <a class="nav-link nav-link-label" href="/dose/notifications" target="blank">
+                    <i class="ficon ft-bell"></i><span class="badge badge-pill badge-danger badge-up badge-glow">{{doseTotalNotification}}</span>
+                </a>
+            </li>
+            <li *ngIf="currentUser && currentUser.Role=='Provider'" title="On Demand Switch">
+
+                <div *ngIf="!IsVerified" class="custom-switch mt-1" style="position: relative;">
+                    <input disabled="disabled" type="checkbox" class="custom-control-input switch" value="false" style="z-index: 2;top:5px;left:1px;font-size: 37px;width:100%;">
+                    <label class="custom-control-label" style="padding-top:5px;">
+                        <p>Off</p>
+                    </label>
+                </div>
+                <div *ngIf="IsVerified" class="custom-switch mt-1" style="position: relative;">
+                    <input type="checkbox" class="custom-control-input switch" (click)="changeAvailable($event)" name="IsAvailable" [(ngModel)]="IsAvailable" style="z-index: 2;top:5px;left:1px;font-size: 37px;width:100%;">
+                    <label class="custom-control-label" style="padding-top:5px;">
+                        <p class="text-bold-500" *ngIf="IsAvailable">Primary ON</p>
+                        <p *ngIf="!IsAvailable">Primary Off</p>
+                    </label>
+                </div>
+
+                <div *ngIf="!IsVerified" class="custom-switch" style="position: relative;">
+                    <input disabled="disabled" type="checkbox" class="custom-control-input switch" value="false" style="z-index: 2;top:5px;left:1px;font-size: 37px;width:100%;">
+                    <label class="custom-control-label" style="padding-top:5px;">
+                        <p>Off</p>
+                    </label>
+                </div>
+
+                <div *ngIf="IsVerified" class="custom-switch" style="position: relative;">
+                    <input id="backupToggle" type="checkbox" class="custom-control-input switch" (click)="changeBackupAvailable($event)" name="IsBackupAvailable" [(ngModel)]="IsBackupAvailable"
+                        style="z-index: 2;top:5px;left:1px;font-size: 37px;width:100%;">
+                    <label class="custom-control-label" style="padding-top:5px;">
+                        <p class="text-bold-500" *ngIf="IsBackupAvailable">Backup ON</p>
+                        <p *ngIf="!IsBackupAvailable">Backup Off</p>
+                    </label>
+                </div>
+            </li>
+
+            <li class="dropdown dropdown-user nav-item" *ngIf="currentUser">
+                <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                    <span class="mr-1 user-name text-bold-700">{{currentUser.FullName}}</span>
+                    <span class="avatar avatar-online" *ngIf="IsAvailable">
+                        <img [src]="currentUser.ProfilePicture" alt="avatar"><i></i>
+                    </span>
+                    <span class="avatar avatar-away" *ngIf="!IsAvailable">
+                        <img [src]="currentUser.ProfilePicture" alt="avatar"><i></i>
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a *ngIf="currentUser && currentUser.Role && currentUser.Role!='Patient'" class="dropdown-item" [routerLink]="['/management/my-profile']"><i class="ft-user"></i> My
+                        Profile</a>
+                    <a *ngIf="currentUser && currentUser.Role && currentUser.Role=='Patient'" class="dropdown-item" [routerLink]="['/home/patient-profile']"><i class="ft-user"></i> My
+                        Profile</a>
+
+                    <a *ngIf="currentUser && currentUser.Role && currentUser.Role == 'Provider'" class="dropdown-item" [routerLink]="['/management/my-appointment-slot']"><i class="ft-user"></i> My
+                        Appointment Slot</a>
+
+                    <a class="dropdown-item" (click)="changepassword()"><i class="ft-lock"></i> Change Password</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" (click)="signOut()"><i class="ft-power"></i> Logout</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

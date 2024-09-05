@@ -1,0 +1,214 @@
+<!-- BEGIN: Main Menu-->
+<ul *ngIf="currentUser && currentUser.Role != 'Patient'  && currentUser.IsVerified " class="nav navbar-nav mr-auto"
+  id="main-menu-navigation" data-menu="menu-navigation">
+  <li class="nav-item">
+    <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'dashboard']">
+      <i class="la la-home"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
+
+  <li class="nav-item active">
+    <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'requested-appointments']">
+      <i class="icon-list mr-1"></i>
+      <span>Waiting Room</span> <span class="ml-1 badge badge-pill badge-danger" *ngIf="totalAppt">{{totalAppt}}</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'completed-appointments']">
+      <i class="la la-check mr-1"></i>
+      <span>Completed Appts</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'patient-requests']">
+      <i class="la la-check mr-1"></i>
+      <span>Pt Request</span>  <span class="badge badge-pill badge-danger" *ngIf="totalPatientRequestToDo">{{totalPatientRequestToDo}}</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'tickets']">
+      <i class="la la-ticket mr-1"></i>
+      <span>Umecare</span> <span class="badge badge-pill badge-danger" *ngIf="totalTicketWaiting">{{totalTicketWaiting}}</span>
+    </a>
+  </li>
+  <li class="nav-item" *ngIf="
+  currentUser.Role == 'Special_Admin' ||
+  currentUser.Role == 'Company_Admin'
+">
+    <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'manage-patients']">
+      <i class="la la-users mr-1"></i>
+      <span>Patient List</span>
+    </a>
+  </li>
+
+  <li *ngIf="
+      currentUser.Role == 'Special_Admin' || currentUser.Role == 'Company_Admin'
+    " class="dropdown nav-item" data-menu="dropdown">
+    <a class="dropdown-toggle nav-link" href="javascript:void(0)" data-toggle="dropdown">
+      <i class="la la-cog"></i>
+      <span>Settings</span>
+    </a>
+    <ul class="dropdown-menu">
+      <li class="nav-item" data-menu="" *ngIf="
+          currentUser.Role == 'Special_Admin' ||
+          currentUser.Role == 'Company_Admin'
+        ">
+        <a class="dropdown-toggle nav-link" id="companySettingMenu" (click)="clickTab('CompanyInfo')" data-toggle="">
+          <i class="la la-hospital-o mr-1"></i>
+          <span>Company Settings</span>
+        </a>
+      </li>
+
+      <li class="nav-item" data-menu="" *ngIf="
+          currentUser.Role == 'Special_Admin' ||
+          currentUser.Role == 'Company_Admin'
+        ">
+        <a class="dropdown-toggle nav-link" (click)="hightMenu()" [routerLink]="['/', 'management', 'manage-staffs']"
+          data-toggle="">
+          <i class="la la-user-md mr-1"></i>
+          <span>Manage Staffs</span>
+        </a>
+      </li>
+      <li class="nav-item" data-menu="" *ngIf="
+      currentUser.Role == 'Special_Admin' ||
+      currentUser.Role == 'Company_Admin'
+    ">
+        <a class="dropdown-toggle nav-link" (click)="hightMenu()"
+          [routerLink]="['/', 'management', 'manage-vaccine-appt-slots']" data-toggle="">
+          <i class="la la-user-md mr-1"></i>
+          <span>Manage Vaccine Appt Slot</span>
+        </a>
+      </li>
+
+      <li class="nav-item" data-menu="" *ngIf="
+          currentUser.Role == 'Special_Admin' ||
+          currentUser.Role == 'Company_Admin'
+        ">
+        <a class="dropdown-toggle nav-link" (click)="hightMenu()"
+          [routerLink]="['/', 'management', 'manage-insurance-balance-billings']" data-toggle="">
+          <i class="la la-money mr-1"></i>
+          <span>Manage Patient Statements</span>
+        </a>
+      </li>
+
+      <li class="nav-item" data-menu="" *ngIf="
+          currentUser.Role == 'Special_Admin' ||
+          currentUser.Role == 'Company_Admin'
+        ">
+        <a class="dropdown-toggle nav-link" (click)="hightMenu()"
+          [routerLink]="['/', 'management', 'management-patient-payment-history']" data-toggle="">
+          <i class="la la-history mr-1"></i>
+          <span>Patient CC Payment History</span>
+        </a>
+      </li>
+
+
+      <li class="nav-item" data-menu="" *ngIf="
+      currentUser.Role == 'Special_Admin' ||
+      currentUser.Role == 'Company_Admin'
+    ">
+        <a class="dropdown-toggle nav-link" (click)="hightMenu()" [routerLink]="['/', 'management', 'provider-groups']"
+          data-toggle="">
+          <i class="la la-users mr-1"></i>
+          <span>Manage Group</span>
+        </a>
+      </li>
+      <li class="nav-item" data-menu="" *ngIf="
+          currentUser.Role == 'Special_Admin' ||
+          currentUser.Role == 'Company_Admin'
+        ">
+        <a class="dropdown-toggle nav-link" (click)="hightMenu()"
+          [routerLink]="['/', 'management', 'appointment-reasons']" data-toggle="">
+          <i class="la la-medkit mr-1"></i>
+          <span>Manage Reasons</span>
+        </a>
+      </li>
+      <li class="nav-item" data-menu="" *ngIf="
+          currentUser.Role == 'Special_Admin' ||
+          currentUser.Role == 'Company_Admin'
+        ">
+        <a class="dropdown-toggle nav-link" (click)="hightMenu()" [routerLink]="['/', 'management', 'sms-history']"
+          data-toggle="">
+          <i class="la la-comments mr-1"></i>
+          <span>SMS History</span>
+        </a>
+      </li>
+
+      <li class="nav-item" data-menu="" *ngIf="
+      currentUser.Role == 'Special_Admin' ||
+      currentUser.Role == 'Company_Admin'">
+        <a class="dropdown-toggle nav-link" (click)="hightMenu()" [routerLink]="['/', 'management', 'view-reviews']"
+          data-toggle="">
+          <i class="la la-comments mr-1"></i>
+          <span>View Reviews</span>
+        </a>
+      </li>
+
+      <li class="nav-item" data-menu=""
+        *ngIf="currentUser.Role == 'Special_Admin' || currentUser.Role == 'Company_Admin' ">
+        <a class="dropdown-toggle nav-link" (click)="hightMenu()"
+          [routerLink]="['/', 'management', 'restricted-patient-logs']" data-toggle="">
+          <i class="la la-lock mr-1"></i>
+          <span>Restricted Patient Logs</span>
+        </a>
+      </li>
+
+      <li class="nav-item" data-menu=""
+      *ngIf="currentUser.Role == 'Special_Admin' || currentUser.Role == 'Company_Admin' ">
+      <a class="dropdown-toggle nav-link" (click)="hightMenu()"
+        [routerLink]="['/', 'management', 'insurance-list']" data-toggle="">
+        <i class="la la-lock mr-1"></i>
+        <span>Insurance List</span>
+      </a>
+    </li>
+
+      <li class="nav-item" data-menu="" *ngIf="
+      currentUser.Role == 'Special_Admin' ||
+      currentUser.Role == 'Company_Admin'
+    ">
+        <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'search-dosespot-pharmacy']"
+          data-toggle="">
+          <i class="la la-search mr-1"></i>
+          <span>Search DoseSpot Pharmacy</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="currentUser.Role == 'Special_Admin' || currentUser.Role == 'Company_Admin'">
+        <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'vaccine-appts']">
+          <i class="la la-medkit mr-1"></i>
+          <span>Vaccine Appts</span>
+        </a>
+      </li>
+
+      <li class="nav-item" data-menu="" *ngIf="
+      currentUser.Role == 'Special_Admin' ||
+      currentUser.Role == 'Company_Admin'
+    ">
+    <a class="dropdown-toggle nav-link" (click)="hightMenu()" [routerLink]="['/', 'management', 'generate-excel-report']"
+      data-toggle="">
+      <i class="la la-list-alt mr-1"></i>
+      <span>Generate Excel Report</span>
+    </a>
+  </li>
+  <li class="nav-item" data-menu="" *ngIf="
+  currentUser.Role == 'Special_Admin' ||
+  currentUser.Role == 'Company_Admin' ||
+  currentUser.Role == 'Provider'
+  ">
+    <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'group-appt']" data-toggle="">
+      <i class="la la-cubes mr-1"></i>
+      <span>Group Appt</span>
+    </a>
+  </li>
+    </ul>
+  </li>
+
+  <li class="nav-item">
+    <a class="dropdown-toggle nav-link" [routerLink]="['/', 'management', 'provider-task-list']">
+      <i class="la la-tasks"></i>
+      <span>Task List</span> <span class="ml-1 badge badge-pill badge-danger"
+        *ngIf="totalTaskAssignee">{{totalTaskAssignee}}</span>
+    </a>
+  </li>
+</ul>
+<!-- END: Main Menu-->

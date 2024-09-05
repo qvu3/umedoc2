@@ -1,0 +1,109 @@
+<div bsModal #childModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false }" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate> -->
+        <form #checkout="ngForm" name="form" (ngSubmit)="checkout.form.valid && onSubmit(checkout)" class="checkout">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{'Change Credit Card Info' | translate}}</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>
+                                    {{'Card Number:' | translate}}
+                                    <span class="danger">
+                                        *
+                                    </span>
+                                </label>
+                                <input type="text" class="form-control" placeholder="{{'Enter your card number' | translate}}"
+                                    [textMask]="{mask:maskCardNumber}" name="CardNumber" [(ngModel)]="model.CardNumber"
+                                    #CardNumber="ngModel" required />
+                                <div *ngIf="checkout.submitted &&  CardNumber.errors && CardNumber.errors.required"
+                                    class="error-message">
+                                    Please enter card number.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    CVV:
+                                    <span class="danger">
+                                        *
+                                    </span>
+                                </label>
+                                <input type="text" class="form-control" placeholder="{{'Enter your CVV' | translate}}" name="CVV"
+                                    [textMask]="{mask:maskCVV}" [(ngModel)]="model.CVV" #CVV="ngModel" required />
+                                <div *ngIf="checkout.submitted &&  CVV.errors && CVV.errors.required"
+                                    class="error-message">
+                                    Please enter CVV.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    {{'Expired Month:' | translate}}
+                                    <span class="danger">
+                                        *
+                                    </span>
+                                </label>
+                                <input type="text" class="form-control" placeholder="{{'Enter your expired month' | translate}}"
+                                    [textMask]="{mask:maskExp}" name="ExpiredMonth" [(ngModel)]="model.ExpiredMonth"
+                                    #ExpiredMonth="ngModel" required />
+                                <div *ngIf="checkout.submitted &&  ExpiredMonth.errors && ExpiredMonth.errors.required"
+                                    class="error-message">
+                                    Please enter expried month
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    {{'Expired Year:' | translate}}
+                                    <span class="danger">
+                                        *
+                                    </span>
+                                </label>
+                                <input type="text" class="form-control" placeholder="{{'Enter your expired year' | translate}}"
+                                    [textMask]="{mask:maskExp}" name="ExpiredYear" [(ngModel)]="model.ExpiredYear"
+                                    #ExpiredYear="ngModel" required />
+                                <div *ngIf="checkout.submitted &&  ExpiredYear.errors && ExpiredYear.errors.required"
+                                    class="error-message">
+                                    Please enter expried year
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" class="error-message" *ngIf="isError">
+                        <p class="error-message">{{error}}</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="table-responsive group">
+                                <div name="card-info" id="card-info" class="field" #cardInfo></div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-min-width btn-green">
+                        {{'Save' | translate}}
+                    </button>
+                    <button type="button" class="btn btn-min-width btn-medical-white" (click)="hide()">
+                        {{'Cancel' | translate}}
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

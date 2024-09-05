@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-chat-container',
-  standalone: true,
-  imports: [],
   templateUrl: './chat-container.component.html',
-  styleUrl: './chat-container.component.css'
+  styleUrls: ['./chat-container.component.css']
 })
-export class ChatContainerComponent {
+export class ChatContainerComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
 
 }

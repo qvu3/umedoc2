@@ -1,0 +1,73 @@
+<div class="text-center mt-1 mb-2">
+  <h2 class="text-bold-600">APPOINTMENT INFO</h2>
+</div>
+<form class="form-horizontal" (ngSubmit)="f.form.valid && check()" #f="ngForm" novalidate>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="form-group col-md-12 clearfix">
+          <div class="row col-md-12 clearfix">
+            <label>Please select reason(s) for visit:</label>
+          </div>
+          <div class="row col-md-12 clearfix ">
+            <div class="col-md-3" *ngFor="let item of reasons">
+              <div class="col-md-12 mx-auto">
+                <fieldset>
+                  <input class="icheckbox_flat-green checked" name="checkbox" (click)="changeAppointmentReason(item.ID)"
+                    type="checkbox" [checked]="item.IsChecked" [value]="item.ID">
+                  <label>&nbsp;&nbsp;{{item.ReasonName}}</label>
+                </fieldset>
+              </div>
+            </div>
+            <div *ngIf="f.submitted && !f.form.valid && !isReasonRequired" class="col-md-12 error-message">
+              Please select reason(s) for visit</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <label>Please describe in more detail the reason for your visit:</label>
+        <textarea class="form-control" name="Description" placeholder="Optional" [(ngModel)]="model.Description"
+          #Description="ngModel" rows="4" cols="50">
+        </textarea>
+      </div>
+      <div class="row text-center" *ngIf="model.AppointmentImageList && model.AppointmentImageList.length < 10">
+        <div class="col-md-12 mt-2 mb-2">
+          <label class="btn btn-medical-white" style="margin-top:8px;" title="Add Image" appFileUpload=""
+            [typeUpload]="'appointment_image'" (onCallback)="uploaded($event)" [fileType]="0"
+            (onUploadStatus)="uploadStatus($event)" [link]="'/api/Utility/S3UploadPrivateImage'">
+            <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file" accept="image/*">
+            <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+            <span>{{isUploading?'Uploading...':'Add Images (Optional)'}}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="list-unstyled row clearfix mt-2"
+        *ngIf="model.AppointmentImageList && model.AppointmentImageList.length > 0">
+        <ng-template ngFor let-item [ngForOf]="model.AppointmentImageList">
+          <div class="col-lg-1 col-md-6 col-sm-12 m-b-30 text-center">
+            <a href="javascript:void(0)">
+              <img style="max-width: 100px!important;height: 100px!important;" class="img-fluid img-thumbnail"
+                [src]="item.ImageName" alt="">
+            </a>
+            <div class="pt-1 pb-1">
+              <button type="button" class="btn btn-medical-white btn-sm m-t-5" (click)="removeAttach(item)">
+                <i class="fa fa-trash"></i>Delete</button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div class="col-sm-12 form-actions row m-0 p-0">
+        <div class="col-md-6 col-sm-12 text-center text-md-left pt-1">
+          <button type="button" class="btn btn-medical-white btn-lg btn-min-width"
+            (finalize)="scrollToTop()" awPreviousStep>Previous</button>
+        </div>
+        <div class="col-md-6 col-sm-12 text-center text-md-right pt-1">
+          <button type="submit" class="btn btn-green btn-lg btn-min-width"
+            [disabled]="!f.form.valid || isReasonRequired" (finalize)="scrollToTop();" awNextStep>Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

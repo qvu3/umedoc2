@@ -1,0 +1,50 @@
+<div class="container-publisher">
+  <div #publisherDiv></div>
+</div>
+<div class="container-control">
+  <button
+    class="btn btn-float btn-lg btn-round btn-danger mr-1"
+    title="Leave Room"
+    (click)="leaveRoom()"
+  >
+    <i class="la la-sign-out"></i>
+  </button> 
+
+  <button
+    *ngIf="isAudioOn"
+    title="Toggle Mic"
+    (click)="turnOnOffAudio()"
+    class="btn btn-lg btn-round btn-secondary mr-1"
+    style="background-image: url('../../../../../assets/images/ico/icon-mic.png');
+  background-repeat: no-repeat; background-position: center; height:48px; width:48px;
+  border-color:white !important;"
+  ></button>
+  <button
+    *ngIf="!isAudioOn"
+    title="Toggle Mic"
+    (click)="turnOnOffAudio()"
+    class="btn btn-lg btn-round btn-secondary mr-1"
+    style="background-image: url('../../../../../assets/images/ico/icon-muted-mic.png');
+  background-repeat: no-repeat; background-position: center; height:48px; width:48px;
+  border-color:white !important;"
+  ></button>
+
+  <button
+    *ngIf="isCameraOn"
+    title="Toggle Camera"
+    (click)="turnOnOffVideo()"
+    class="btn btn-lg btn-round btn-secondary mr-1"
+    style="background-image: url('../../../../../assets/images/ico/icon-video.png');
+  background-repeat: no-repeat; background-position: center; height:48px; width:48px;
+  border-color:white !important;"
+  ></button>
+  <button
+    *ngIf="!isCameraOn"
+    title="Toggle Camera"
+    (click)="turnOnOffVideo()"
+    class="btn btn-lg btn-round btn-secondary mr-1"
+    style="background-image: url('../../../../../assets/images/ico/icon-no-video.png');
+  background-repeat: no-repeat; background-position: center; height:48px; width:48px;
+  border-color:white !important;"
+  ></button>
+</div>

@@ -1,0 +1,64 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Call Patient</h6>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12 text-center">
+          <i class="fa fa-microphone fa-3x text-danger" style="
+          padding: 10px 17px;
+          border: 1px solid;
+          border-radius: 50px;
+      "></i>
+        </div>
+        <div class="col-md-12 text-center">
+          <label *ngIf="status">Status: {{status}}</label>
+        </div>
+        <div class="row clearfix m-t-20">
+          <div class="col-md-2">
+            <i class="icon-microphone" style="font-size:35px"></i>
+          </div>
+          <div class="col-md-10 ">
+            <div class="progress m-t-10 h-10">
+              <div class="progress-bar l-turquoise" role="progressbar" [attr.aria-valuenow]="inputVolumeBarWidth*100"
+                aria-valuemin="0" aria-valuemax="100" [style.width.%]="((inputVolumeBarWidth*100))">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row clearfix m-t-20">
+          <div class="col-md-2">
+            <i class="icon-volume-1" style="font-size:35px"></i>
+          </div>
+          <div class="col-md-10">
+            <div class="progress m-t-10  h-10">
+              <div class="progress-bar l-turquoise" role="progressbar" [attr.aria-valuenow]="outputVolumeBarWidth*100"
+                aria-valuemin="0" aria-valuemax="100" [style.width.%]="((outputVolumeBarWidth*100))">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-min-width btn-danger" *ngIf="isReady && !isCalling"
+          (click)="call()">Call</button>
+        <button type="button" class="btn btn-min-width btn-warning" *ngIf="isReady && isCalling" (click)="hangup()">Hang
+          Up</button>
+        <button type="button" class="btn btn-min-width btn-outline-info" (click)="hide()">Cancel</button>
+        <button type="button" class="btn btn-min-width btn-info" (click)="tempHide()">Collapse</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div *ngIf="isTempHide" class="temp-show" (click)="activeShow()">
+  <i class="fa fa-microphone icon-spinner fa-3x text-danger" style="
+  padding: 10px 17px;
+  border: 1px solid;
+  border-radius: 50px;
+"></i>
+</div>

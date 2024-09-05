@@ -1,0 +1,299 @@
+<form class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+    <div class="card">
+        <div class="card-body">
+            <div class="text-center mt-1 mb-2">
+                <h1 class="title-h1 text-bold-600">{{'PAYMENT' | translate}}</h1>
+            </div>
+            <section>
+                <div class="row ">
+                    <div class="col-md-12 text-center">
+                        <div class="col-md-12">
+                            <div class="col-md-12 text-center mt-4">
+                                <div class="col-md-12">
+                                    <fieldset>
+                                        <div class="d-inline-block custom-control custom-radio mr-2">
+                                            <input type="radio" class="custom-control-input" [disabled]="!canChangePaidByInsurance()" (change)="selectPaidByInsurance(true)" name="PaidByInsurance" [(ngModel)]="model.PaidByInsurance"
+                                                [value]="true" id="colorRadio3">
+                                            <label class="custom-control-label" for="colorRadio3" style="font-size:16px">{{'Pay with Insurance' | translate}}</label>
+                                        </div>
+                                        <div class="d-inline-block custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" name="PaidByInsurance" [disabled]="!canChangePaidByInsurance()" id="colorRadio4" [(ngModel)]="model.PaidByInsurance"
+                                                (change)="selectPaidByInsurance(false)" [value]="false">
+                                            <label class="custom-control-label" for="colorRadio4" style="font-size:16px">{{'Pay without insurance' | translate}}</label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body mt-5" *ngIf="model.isAddInsurance!= null" style="padding: 0.5rem;">
+                    <!-- Invoice Items Details -->
+                    <div class="pt-2">
+                        <div class="row mb-2">
+                            <div class="table-responsive col-sm-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>{{'Check Out' | translate}}</th>
+                                            <th class="text-right">{{'Amount' | translate}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p class="text-bold-600">{{'Telemedicine Visit' | translate}}</p>
+                                                <p class="text-bold-600">
+                                                    {{model.IsOnDemand ? 'On Demand' : 'Scheduled Appointment' |
+                                                    translate}}</p>
+                                                <p class="text-bold-600" *ngIf="!model.IsOnDemand">
+                                                    {{model.AppointmentTime | date: 'MM/dd/yyyy hh:mm a'}}</p>
+                                            </td>
+                                            <td class="text-right" style="padding: 0.75rem !important;">
+                                                <p>${{calculateAppointmentPrice()}}</p>
+                                                <p>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="isTravelMedicine">
+                                            <td colspan="4">
+                                                Travel to {{model.Countries.length}} countries
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="companyModel.PortalFee!=null && companyModel.PortalFee > 0 && !isValidPatientSubscription">
+                                            <td>
+                                                <p class="text-bold-600" *ngIf="companyModel.PortalFee!=null && companyModel.PortalFee > 0">
+                                                    Portal Fee
+                                                </p>
+                                            </td>
+                                            <td class="text-right" style="padding: 0.75rem !important;">
+                                                <p *ngIf="companyModel.PortalFee!=null && companyModel.PortalFee > 0">
+                                                    ${{companyModel.PortalFee}}</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="row p-1 mb-1" *ngIf="isTravelMedicine">
+                                    <h5 class="ml-1">
+                                        <i style="font-size: 22px;" class="fa fa-exclamation-circle warning"></i>
+                                        <span class="text-bold-500 ml-1">Note: </span>Insurance not acceptable for pre-travel
+                                        health consultations. Payment is due at time of appointment.
+                                    </h5>
+                                </div>
+                                <div *ngIf="model && model.PatientID && model.PaidByInsurance">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                <p class="lead text-bold-500" style="font-size: 1.5rem;">{{'Insurance' |
+                                                    translate}}</p>
+                                                <hr style="border-top: 1px solid rgba(0, 0, 0, 0.5)">
+                                                <div class="text-center">
+                                                    <p class="text-bold-700">
+                                                        <i style="font-size: 17px;" class="fa fa-id-card"></i>
+                                                        {{'Please add your insurance by clicking button below.' |
+                                                        translate}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <app-pverify-insurance-list [patientId]="model.PatientID" [showHistory]="false" (onChangeInsurance)="changeInsurance($event)">
+                                                </app-pverify-insurance-list>
+                                            </div>
+                                            <div *ngIf="isUseDontknowCopay">
+                                                <i class="fa fa-id-card-o" style="font-size: 20px;"></i>
+                                                <span> An amount of ${{dontKnowCopayParam.value}} will be held on your
+                                                    credit card while we verify your copay insurance amount.</span>
+                                            </div>
+                                            <div>
+                                                <i style="font-size: 22px;" class="fa fa-info-circle warning"></i>
+                                                <span class="text-bold-600"> {{'Willfully entering of false insurance
+                                                    and payment information is not permitted and will be prosecuted to
+                                                    the maximal extent of the law.' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-sm-12" style="padding:0;">
+                                <p class="lead text-bold-500" style="font-size: 1.5rem;">{{'Total due now' | translate}}
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-bold-600">Total</td>
+                                                <td class="text-bold-600 text-right">
+                                                    ${{caculateTotalFianlAppointmentPrice()}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-bold-600">{{'Special Code (Optional)' | translate}}</td>
+                                                <td class="text-right">
+                                                    <div class="mb-1">
+                                                        <button class="btn btn-sm" type="button" (click)="setExpandSpecialCode()">
+                                                            <i *ngIf="!isExpandedSpecialCode" class="la la-plus-circle success"></i>
+                                                            <i *ngIf="isExpandedSpecialCode" class="la la-minus-circle success"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div *ngIf="isExpandedSpecialCode">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" placeholder="Enter your special code" name="ByPassPaymentCode" [(ngModel)]="model.ByPassPaymentCode" #ByPassPaymentCode="ngModel">
+                                                            <div class="input-group-append" *ngIf="isClickApply && !isDiscountCodeError">
+                                                                <span class="input-group-text">
+                                                                    <i class="icon-check text-success" style="font-size: 20px; "></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="isClickApply && !IsChecking && isDiscountCodeError" class="error-message">Invalid
+                                                            Code.
+                                                            Please try again with another code.</div>
+                                                        <div *ngIf="isClickApply && IsChecking && isDiscountCodeError" class="error-message">
+                                                            Checking...
+                                                        </div>
+
+                                                        <div class="pt-1">
+                                                            <button type="button" (click)="funcCheckCode()" class="btn btn-medical-white round pull-right">Apply</button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div *ngIf="showPreAuthMessage" class="my-1">
+                                        <i class="fa fa-info-circle danger" style="font-size: 22px; margin-right: 5px;"></i>
+                                        Your insurance requires the pre-authorization. You have 2 options:
+                                        <br>1. If you want to see the provider now, you can pay out of pocket for the tele-visit and get reimbursement from your insurance.
+                                        <br>2. Or, you can <a href="https://forms.gle/2evFTo9pv9GJH3C78" target="_blank">CLICK HERE</a> and fill the form.
+                                        We will take care of the pre-authorization for you (This process may take up to 5-7 business days).
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive mt-3" *ngIf="(isDiscountCodeError)">
+                                    <p class="lead text-bold-500" style="font-size: 1.5rem;">{{'Payment Info' |
+                                        translate}}</p>
+                                    <hr style="border-top: 1px solid rgba(0, 0, 0, 0.5)">
+                                    <div class="mb-2" *ngIf="model.IsOnDemand">
+                                        <div>
+                                            <input type="radio" name="PayByCrypto" #PayByCrypto="ngModel" [value]="false" style="width:20px; height:20px;" [(ngModel)]="model.PayByCrypto" required>
+                                            <span class="label-checkbox" style="margin-left:5px">
+                                                Pay with Credit Card
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="PayByCrypto" #PayByCrypto="ngModel" [value]="true" style="width:20px; height:20px;" [(ngModel)]="model.PayByCrypto" required>
+                                            <span class="label-checkbox" style="margin-left:5px">
+                                                Pay with Crypto
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12" *ngIf="!model.PayByCrypto">
+                                        <i style="font-size: 22px;" class="fa fa-question-circle info"></i>
+                                        <span class="text-bold-600"> {{'Why do I have to include my credit card?' |
+                                            translate}}</span>
+                                        <table class="table-responsive mt-1">
+                                            <tbody>
+                                                <tr *ngIf="IsShowStripePayment || IsChangeCardInfo">
+                                                    <td colspan="2">
+                                                        <p><strong>{{'Note' | translate}}</strong> {{"If you do not have
+                                                            Insurance or your Insurance is not valid, we will charge
+                                                            your
+                                                            credit card instead." | translate}}</p>
+                                                        <p>{{'Based on the various insurance policy, we need to bill
+                                                            copay,
+                                                            in case not covered by insurance 100%.' | translate}}</p>
+                                                        <p *ngIf="!patientModel.CardID" class="text-center danger">
+                                                            {{'Please
+                                                            add your credit/debit card below.' | translate}}</p>
+                                                        <div class="col-md-12 text-center">
+                                                            <button type="button" class="btn btn-green ml-1" (click)="addCardInfo()"> Add Credit/Debit
+                                                                Card</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="!IsShowStripePayment && !IsChangeCardInfo">
+                                                    <td colspan="2">
+                                                        <p><strong>{{'Note' | translate}}</strong> {{"If you do not have
+                                                            Insurance or your Insurance is not valid, we will charge
+                                                            your
+                                                            credit card instead." | translate}}</p>
+                                                        <p>{{'Based on the various insurance policy, we need to bill
+                                                            copay,
+                                                            in case not covered by insurance 100%.' | translate}}</p>
+                                                        <table style="width: 100%;" id="cardInfo">
+                                                            <tr>
+                                                                <td class="form-label" style="width: 25%;text-align: center;">
+                                                                    Card Number
+                                                                </td>
+                                                                <td class="form-label" style="width: 20%;text-align: center;">
+                                                                    Exp. Date
+                                                                </td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="form-payment-control" style="text-align: right;width: 25%;">
+                                                                    {{cardInfo.CardNumber}}
+                                                                </td>
+                                                                <td class="form-payment-control" style="text-align: center;width: 20%;">
+                                                                    {{cardInfo.ExpiredMonth}}/{{cardInfo.ExpiredYear}}
+                                                                </td>
+                                                                <td class="form-payment-control" style="text-align: center;width: 35%;">
+                                                                    <button class="btn btn-green round" (click)="addCardInfo()" title="Change Card"><i class='la la-edit'> Change Card</i></button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="col-md-12 pl-2 mt-1 mb-1">
+                                        <div class="custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" [(ngModel)]="model.IsReadAndAgreedTreatment" name="IsReadAndAgreedTreatment" required id="customCheckTreatment" />
+                                            <label class="custom-control-label" for="customCheckTreatment">{{"I've read
+                                                and agree to the" | translate}}<a target="_blank" href='{{selectTreatmentConsent()}}'><i>
+                                                        Treatment
+                                                        Consent</i></a> and <a target="_blank" href='{{selectBillingConsent()}}'><i>
+                                                        Billing
+                                                        Consent</i></a>.</label>
+                                            <div *ngIf="!model.IsReadAndAgreedTreatment" class="error-message">
+                                                Please Read and Agree to the Treatment Consent.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>{{'By clicking Submit Appointment below, you accept and authorize services
+                                        performed by the medical provider as well as charging for these applicable
+                                        services to your financial institution.' | translate}}</p>
+                                </div>
+                                <div>
+                                    <i style="font-size: 22px;" class="fa fa-lock text-bold-600"></i>
+                                    <span class="text-bold-600"> {{'Your payment and health information is secure and
+                                        protected.' | translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <div class="card-footer text-right">
+            <button type="button" class="btn btn-outline-info btn-lg btn-min-width pull-left " (click)="prev()">{{'Previous' | translate}}</button>
+
+            <button type="submit" *ngIf="(isClickApply && !isDiscountCodeError)" [disabled]="IsSubmitting || !model.IsReadAndAgreedTreatment" class="btn btn-green btn-min-width btn-lg">Submit</button>
+
+            <button type="button" (click)="paymentSubmitted()" *ngIf="(isDiscountCodeError) && IsShowStripePayment" [disabled]="!IsShowStripePayment" class="btn btn-green btn-min-width btn-lg">Submit Appointment</button>
+
+            <button type="button" (click)="paymentSave()" *ngIf="(isDiscountCodeError) && !IsShowStripePayment" [disabled]="!model.IsReadAndAgreedTreatment || cardInfo.IsShowStripePayment"
+                class="btn btn-green btn-min-width btn-lg">{{'Submit' | translate}}</button>
+        </div>
+    </div>
+</form>
+
+<app-card-info #cardInfoModal (closeModal)="getPatientProfileEntity()"></app-card-info>

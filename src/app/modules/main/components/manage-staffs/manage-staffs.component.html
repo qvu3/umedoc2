@@ -1,0 +1,48 @@
+<div class="content-header row mb-1">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title">Mangement Staffs</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/management']">Management</a>
+          </li>
+          <li class="breadcrumb-item">Management Staffs
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+<div class="content-body">
+  <div class="row">
+    <div class="col-12">
+      <div class="card" [appActionCardButton]="'Management-Staffs'" style="min-height: 65vh;">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-12 text-right">
+              <button type="button" [routerLink]="['/','management','provider-view-calendar']"
+              class="btn btn-green round mr-1">View Calendar</button>
+              <button type="button" [routerLink]="['/','management','provider-appointment-slots']"
+              class="btn btn-green round mr-1">View Schedule</button>
+              <button type="button" [routerLink]="['/','management','add-staff-profile']"
+                class="btn btn-medical-white round">Add Staff</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-content collapse show">
+          <div class="card-body card-dashboard">
+            <table
+              class="table row-grouping display "
+              [isFilter]="true" [isLengthChange]="true" appPagingTable="" [aoColumns]="aoColumns"
+              [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting" [compRef]="compRef"
+              (tableEvent)="catchTable($event)" style="width: 100%">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

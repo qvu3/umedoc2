@@ -1,0 +1,122 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add New Group Appt</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Group Appt Category
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <select name="GroupApptCategoryID" #GroupApptCategoryID="ngModel"
+                                class="form-control m-input" [(ngModel)]="model.GroupApptCategoryID" required>
+                                <option value="">Select</option>
+                                <option value="{{item.ID}}" *ngFor="let item of categories">{{item.CategoryName}}
+                                </option>
+                            </select>
+                            <div *ngIf="f.submitted && GroupApptCategoryID.errors && GroupApptCategoryID.errors.required"
+                                class="error-message">Required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Provider
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <select [disabled]="isProviderUser" name="ProviderID" #ProviderID="ngModel"
+                                class="form-control m-input" [(ngModel)]="model.ProviderID" required>
+                                <option value="">Select</option>
+                                <option value="{{item.Id}}" *ngFor="let item of providers">{{item.FirstName}}
+                                    {{item.LastName}}</option>
+                            </select>
+                            <div *ngIf="f.submitted && ProviderID.errors && ProviderID.errors.required"
+                                class="error-message">Required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Start Time
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-12 px-0">
+                                <app-date-time-picker class="row col-md-12" [placeholder]="'StartTime'" name="StartTime"
+                                    [isDisabled]="false" [isMaxCurrentDate]="false" [hasTime]="true"
+                                    [(ngModel)]="model.StartTime" #StartTime="ngModel" required>
+                                </app-date-time-picker>
+                            </div>
+
+                            <div *ngIf="f.submitted && StartTime.errors && StartTime.errors.required"
+                                class="error-message">Required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Duration (minutes)
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="number" min="1" step="1" class="form-control" name="Duration"
+                                [(ngModel)]="model.Duration" #Duration="ngModel" required />
+                            <div *ngIf="f.submitted && Duration.errors && Duration.errors.required"
+                                class="row error-message col-md-12">
+                                Required.
+                            </div>
+                            <div *ngIf="f.submitted && Duration.errors && !Duration.errors.required 
+                          && Duration.errors.min" class="row error-message col-md-12">
+                                Data Invalid.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Price
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="number" min="0" step="0.1" class="form-control" name="Price"
+                                [(ngModel)]="model.Price" #Price="ngModel" required />
+                            <div *ngIf="f.submitted && Price.errors && Price.errors.required"
+                                class="row error-message col-md-12">
+                                Required.
+                            </div>
+                            <div *ngIf="f.submitted && Price.errors && !Price.errors.required 
+                          && Price.errors.min" class="row error-message col-md-12">
+                                Data Invalid.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green" [disabled]="Submitting">Save</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

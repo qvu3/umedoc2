@@ -1,0 +1,11 @@
+.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    border-color: #20A576;
+    background-color: #20A576;
+}
+
+#backupToggle.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    border-color: #ff9e19;
+    background-color: #ff9e19;
+}

@@ -1,0 +1,4 @@
+<app-patient-prescription-new *ngIf="patientId" [isGetRouter]="true" [patientId]="patientId">
+</app-patient-prescription-new>
+
+<app-appointment-prescription-document *ngIf="appointmentId && patientId" [patientId]="patientId" [appointmentId]="appointmentId"></app-appointment-prescription-document>

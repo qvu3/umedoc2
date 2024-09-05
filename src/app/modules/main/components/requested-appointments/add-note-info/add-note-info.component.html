@@ -1,0 +1,64 @@
+<div style="margin: 10px -25px 10px -20px;">
+    <form name="form" class="col-md-12 form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="ml-1 text-bold-600" style="font-size: 16px;">Note</h4>
+                <span *ngIf="totalNote >0" class="text-success pull-right mr-1">{{totalNote}} note(s) added</span>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12 form-group" [ngClass]="{ 'has-error': f.submitted && !Subjective.valid }">
+                    <label class="form-label">Subjective</label>
+                    <div class="col-sm-12 px-0">
+                        <textarea rows="5" class="form-control" name="Subjective" [(ngModel)]="model.Subjective"
+                            #Subjective="ngModel" required></textarea>
+                        <div *ngIf="
+                    f.submitted && Subjective.errors && Subjective.errors.required
+                  " class="error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-12 form-group" [ngClass]="{ 'has-error': f.submitted && !Plan.valid }">
+                    <label class="form-label">Plan</label>
+                    <div class="col-sm-12 px-0">
+                        <textarea rows="5" class="form-control" name="Plan" [(ngModel)]="model.Plan" #Plan="ngModel"
+                            required></textarea>
+                        <div *ngIf="f.submitted && Plan.errors && Plan.errors.required" class="error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-12 form-group" [ngClass]="{ 'has-error': f.submitted && !FollowUp.valid }">
+                    <label class="form-label">Follow Up (Patient can see it)</label>
+                    <div class="col-sm-12 px-0">
+                        <textarea rows="5" class="form-control" name="FollowUp" [(ngModel)]="model.FollowUp"
+                            #FollowUp="ngModel" required></textarea>
+                        <div *ngIf="
+                    f.submitted && FollowUp.errors && FollowUp.errors.required
+                  " class="error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 d-flex justify-content-center">
+            <button type="button" class="btn btn-min-width btn-medical-white" (click)="setDraftNote()" *ngIf="draftNote">
+                Load Draft Note
+            </button>
+            <button type="submit" class="btn btn-min-width btn-green" [disabled]="Submitting">
+                Save Note
+            </button>
+        </div>
+    </form>
+</div>
+
+<app-add-icd-modal #icdModal (onSaved)="savedICDModal($event)" (onCancel)="cancelICDModal($event)"></app-add-icd-modal>
+<app-preview-pdf #pdfViewer (onClosed)="cancelGeneratePDF($event)" (onSaved)="savedPDF($event)"></app-preview-pdf>

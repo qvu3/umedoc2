@@ -1,0 +1,246 @@
+<form class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+    <div class="card" *ngIf="model">
+        <div class="card-body">
+            <div class="text-center">
+                <h1 class="title-h1 text-bold-600">{{'CHOOSE PROVIDER' | translate}}</h1>
+            </div>
+            <div class="row mt-1">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>{{'State:' | translate}}</label>
+                        <div>
+                            <select class="form-control" placeholder="State" required="" name="State" [(ngModel)]="model.State" #State="ngModel" (change)="getProviders()">
+                                <option *ngFor="let state of states" [value]="state.value">{{state.name}}</option>
+                            </select>
+                            <div class="error-message" *ngIf="f.submitted && State.errors?.required">
+                                <p>This field is required.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>{{'Preferred Provider Gender:' | translate}}</label>
+                        <div>
+                            <select class="form-control" placeholder="Gender" name="Gender" [(ngModel)]="model.Gender" #Gender="ngModel" (change)="getProviders()">
+                                <option value="">Any</option>
+                                <option value="Female">{{'Female' | translate}}</option>
+                                <option value="Male">{{'Male' | translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Preferred Language:</label>
+                        <div>
+                            <select class="form-control" placeholder="Language" name="Language" [(ngModel)]="model.Language" #Language="ngModel" (change)="getProviders()">
+                                <option value="">Any</option>
+                                <option value="English">English</option>
+                                <option value="Spanish">Spanish</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-md-12 text-center mb-1" *ngIf="!isTravelMedicine  && !isMedicationRefill">
+                    <div class="col-12 text-center">
+                        <div class="text-bold-500" style="font-size: 1.32rem; padding-right:0;">
+                            {{'You can toggle Scheduling or On Demand below:' | translate}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12 text-center" style="padding-right:0;" *ngIf="!isTravelMedicine && !isMedicationRefill">
+                    <div class="col-md-5 col-4 text-right" style="padding: 0;">
+                        <h5 class="mt-1" [ngClass]="{'scheduling text-uppercase text-bold-700':!model.IsOnDemand}">
+                            {{'Scheduling' | translate}}
+                        </h5>
+                    </div>
+                    <div class="col-md-2 col-4 text-center" style="padding: 0;" *ngIf="!isMedicationRefill">
+                        <label class="toggle-switch">
+                            <input type="checkbox" name="IsOnDemand" #IsOnDemand="ngModel" [(ngModel)]="model.IsOnDemand" (change)="checkIsExitPlan()">
+                            <div class="slider"></div>
+                        </label>
+                    </div>
+                    <div class="col-md-5 col-4 text-left" style="padding: 0;">
+                        <h5 class="mt-1" [ngClass]="{'onDemand text-uppercase text-bold-700':model.IsOnDemand}">
+                            {{'ON DEMAND' | translate}}
+                        </h5>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button type="button" class="btn btn-success btn-sm" (click)="getProviders()"><i class="la la-refresh"></i> Refresh</button>
+                </div>
+                <div class="col-md-12 text-center" *ngIf="!model.IsOnDemand">
+                    <h3 class="text-bold-600">{{'Please choose a date below:' | translate}}</h3>
+                </div>
+                <div class="row col-12 justify-content-center mb-1" *ngIf="!model.IsOnDemand" style="padding-right:0;">
+                    <div class="col-md-2 text-center">
+                        <div class="dp-inline" appDateTimeInlinePicker="" [state]="model.State" [gender]="model.Gender" [code]="model.ApptCategoryCode" [language]="model.Language" (onChange)="changeDate($event)"></div>
+                    </div>
+                </div>
+                <div class="col-md-12" *ngIf="model.IsOnDemand && (!providers || (providers && providers.length ==0))">
+                    <div class="alert alert-danger mb-2 text-center">
+                        <strong>
+                            No provider is available for On Demand<br>
+                            Please toggle to Scheduling above and schedule a future visit!<br>
+                            Or contact our Support at (239) 345-8001.
+                        </strong>
+                    </div>
+                </div>
+                <div class="col-md-12" *ngIf="!model.IsOnDemand && (!providers || (providers && providers.length ==0))">
+                    <div class="alert alert-danger mb-2 text-center">
+                        <strong>
+                            All provider's schedule has been occupied this date.<br>
+                            Please choose another date to schedule visit!<br>
+                            Or contact our Support at (239) 345-8001.
+                        </strong>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center" *ngIf="providers && providers.length > 0">
+                    <h3 class="text-bold-600">{{'Please select a provider below:' | translate}}</h3>
+                </div>
+                <div class="row col-lg-12" style="padding:0; margin:0;">
+                    <ng-template ngFor let-provider [ngForOf]="providers">
+                        <div class="col-xl-3 col-lg-4 col-md-6" (click)="selectDoctor(provider)">
+                            <div class="card border border-info card-provider" [ngClass]="{'active':provider.ProviderID == model.ProviderID}">
+                                <div class="row justify-content-end mt-1">
+                                    <div class="col-4 text-center">
+                                        <img [src]="provider.ProfilePicture | defaultImg" alt="ProfileImage" width="70" style="border-radius:50px;">
+                                    </div>
+                                    <div class="col-4">
+                                        <div *ngIf="provider.ProviderDegreeImagePath">
+                                            <img [src]="provider.ProviderDegreeImagePath" style="width:40px;" />
+                                        </div>
+                                        <div *ngIf="provider.NumberOfAppointmentLike">
+                                            <label><strong> {{provider.NumberOfAppointmentLike}} </strong></label>
+                                            <i class="font-medium-4 icon-line-height la la-star ic" style="color: #ffc800;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center mt-1" *ngIf="provider.Badges && provider.Badges.length >0">
+                                    <div class="col-md-12 text-center">
+                                        <div class="outer">
+                                            <ng-template ngFor let-item [ngForOf]="provider.Badges">
+                                                <img class="img-thumbnail" [src]="item" style="width: 40px;height:40px;padding:0;margin-left:1px;">
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body" style="padding-top:0rem; padding-bottom: 5px;">
+                                    <h3 *ngIf="provider" class="card-title mb-1 text-center" style="color: #016670; font-size: 18px;">
+                                        {{provider.ProviderName}}</h3>
+                                    <div *ngIf="provider && provider.ProviderRoleName" class="text-center">
+                                        <div class="badge badge-info" style="font-size: 14px;">
+                                            {{provider.ProviderRoleName}}
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div *ngIf="getInOutNetworkStatus(provider) == 'In-Network with your insurance'" class="badge badge-success mt-1 mr-1">
+                                            {{getInOutNetworkStatus(provider)}}
+                                        </div>
+                                        <div *ngIf="getInOutNetworkStatus(provider) == 'Out-Network with your insurance'" class="badge badge-danger mt-1 mr-1">
+                                            {{getInOutNetworkStatus(provider)}}
+                                        </div>
+                                        <div *ngIf="getInOutNetworkStatus(provider) == 'In-Network with your insurance' || getInOutNetworkStatus(provider) == 'Out-Network with your insurance'"></div>
+                                        <div *ngIf="provider.TakeMedicare" class="badge mt-1 mr-1" style="background-color:#59b197;">
+                                            Accept Medicare
+                                        </div>
+                                        <div *ngIf="!provider.TakeMedicare" class="badge mt-1 mr-1" style="background-color:#ff8c1e;">
+                                            Don't accept Medicare
+                                        </div>
+                                        <div *ngIf="provider.TakeMedicaid" class="badge mt-1" style="background-color:#59b197;">
+                                            Accept Medicaid <br>
+                                        </div>
+                                        <div *ngIf="!provider.TakeMedicaid" class="badge mt-1" style="background-color:#ff8c1e;">
+                                            Don't accept Medicaid <br>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div *ngIf="provider.TakeInsurance" class="badge mt-1" style="background-color:#59b197;">
+                                            Accept Commercial Insurances <br>
+                                        </div>
+                                        <div *ngIf="!provider.TakeInsurance" class="badge" style="background-color:#ff8c1e;">
+                                            Don't accept Commercial Insurances <br>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-1">
+                                        <div class="badge badge-success" *ngIf="provider.CountNumberOfPatientWaiting < 1">
+                                            Available
+                                        </div>
+                                        <div class="badge badge-danger" *ngIf="provider.CountNumberOfPatientWaiting >= 1">
+                                            Patient Waiting: {{provider.CountNumberOfPatientWaiting}}
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-1">
+                                        <span>Self-pay rate: </span><span style="font-size:1.5rem; color:#565656">${{provider.Price}}</span> <br>
+                                        <span>(for patient without insurance)</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer mx-auto" style="padding:10px;">
+                                    <a (click)="viewProfile(provider.ProviderID)" class="btn btn-green round btn-md">
+                                        View Full Profile</a>
+
+                                    <i *ngIf="provider.ProviderID == model.ProviderID" class="la la-check-circle text-success" style="font-size:40px;position: absolute;bottom: 0;right: 0;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="model.ProviderID && slot && provider.ProviderID == selectedProvider.ProviderID">
+                            <div class="col-md-12 text-center">
+                                <h4 class="text-bold-600">{{'Please choose a time slot below:' | translate}}</h4>
+                            </div>
+                            <h4>Timezone: {{getCurrentTimezoneInfo()}}</h4>
+                            <h4 class="blue mb-2" style=" font-weight: bold;">
+                                {{slot.AppointmentDate | date: 'MMM, dd yyyy'}}</h4>
+                            <h4 class="ml-1 mb-1" *ngIf="slot.MorningSlots?.length > 0">{{'Morning' | translate}}</h4>
+                            <div class="col-md-12" *ngIf="slot.MorningSlots?.length > 0">
+                                <ng-template ngFor let-item [ngForOf]="slot.MorningSlots">
+                                    <button type="button" (click)="selectSlot(item)" class="btn btn-medical-white square btn-min-width mr-1 mb-1" *ngIf="item.ID != this.model.AppointmentSlotID">{{item.StartTime | date: 'hh:mm
+                                        a'}}</button>
+                                    <button type="button" (click)="selectSlot(item)" class="btn btn-danger square btn-min-width mr-1 mb-1" *ngIf="item.ID == this.model.AppointmentSlotID">{{item.StartTime | date: 'hh:mm
+                                        a'}}</button>
+                                </ng-template>
+                            </div>
+                            <h4 class="ml-1 mb-1" *ngIf="slot.EveningSlots?.length > 0">{{'Afternoon/Evening' | translate}}</h4>
+                            <div class="col-md-12" *ngIf="slot.EveningSlots?.length > 0">
+                                <ng-template ngFor let-item [ngForOf]="slot.EveningSlots">
+                                    <button type="button" (click)="selectSlot(item)" class="btn btn-medical-white square btn-min-width mr-1 mb-1" *ngIf="item.ID != this.model.AppointmentSlotID">{{item.StartTime | date: 'hh:mm
+                                        a'}}</button>
+                                    <button type="button" (click)="selectSlot(item)" class="btn btn-danger square btn-min-width mr-1 mb-1" *ngIf="item.ID == this.model.AppointmentSlotID">{{item.StartTime | date: 'hh:mm
+                                        a'}}</button>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+                <div class="col-md-12 text-center" *ngIf="model.ProviderID && selectedProvider" style="padding: 10px;">
+                    <strong>
+                        <h5 *ngIf="model.IsOnDemand && model.ProviderID"><strong>{{'Selected Provider' | translate}}</strong>
+                            <span class="text-bold-600" style="color: #016670;">
+                                {{selectedProvider?.ProviderName}}
+                            </span>
+                        </h5>
+                        <h5 *ngIf="!model.IsOnDemand && model.AppointmentTime"><strong>{{'Selected Provider' | translate}}</strong>
+                            <span class="text-bold-600" style="color: #016670;">
+                                {{selectedProvider?.ProviderName}}
+                            </span>
+                        </h5>
+                        <h5 *ngIf="model.IsOnDemand && model.ProviderID">{{'Appointment Time' | translate}}: On Demand </h5>
+                        <h5 *ngIf="!model.IsOnDemand && model.AppointmentTime">{{'Appointment Time' | translate}}
+                            {{model.AppointmentTime | date:'MM/dd/yyyy hh:mm a'}} </h5>
+                    </strong>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-outline-info btn-lg btn-min-width pull-left " (click)="prev()">{{'Previous' | translate}}</button>
+            <button type="submit" class="btn btn-info btn-lg btn-min-width pull-right" [ngClass]="{'glow-button' : model.ProviderID && (model.IsOnDemand || model.AppointmentSlotID)}"
+                [disabled]="!f.form.valid || !model.ProviderID || (!model.IsOnDemand && !model.AppointmentSlotID)">{{'Next' | translate}}</button>
+        </div>
+    </div>
+</form>
+<app-provider-profile #modal=""></app-provider-profile>

@@ -1,0 +1,76 @@
+<form class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+    <div class="card" style="min-height: 80vh;">
+        <div class="card-body">
+            <div class="text-center mt-1 mb-2">
+                <h1 class="title-h1 text-bold-600">{{'Insurance' | translate}}</h1>
+            </div>
+            <div class="row ">
+                <div class="col-md-12 text-center">
+                    <div class="col-md-12">
+                        <div class="col-md-12 text-center mt-4">
+                            <div class="col-md-12 text-bold-600" style="font-size: 18px;">
+                                <p style="color: black;">{{'Do you have Medicare Insurance?' | translate}}</p>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <fieldset>
+                                    <div class="d-inline-block custom-control custom-radio mr-2">
+                                        <input type="radio" class="custom-control-input"
+                                            (click)="selectUseInsurance(true)" name="isAddInsurance"
+                                            [(ngModel)]="model.isAddInsurance" [value]="true" id="colorRadio3">
+                                        <label class="custom-control-label" for="colorRadio3"
+                                            style="font-size:16px">{{'Yes' | translate}}</label>
+                                    </div>
+
+
+                                    <div class="d-inline-block custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="isAddInsurance"
+                                            id="colorRadio4" [(ngModel)]="model.isAddInsurance"
+                                            (click)="selectUseInsurance(false)" [value]="false">
+                                        <label class="custom-control-label" for="colorRadio4"
+                                            style="font-size:16px">{{'No' | translate}} - Self Pay</label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-12 mt-2 text-bold-300 text-center mt-4">
+                                <button type="button" (click)="addInsurance()" class="btn btn-green">{{'Add
+                                    Primary Insurance' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row mt-2" *ngIf="model && model.isAddInsurance !=null && model.isAddInsurance">
+                        <div class="col-lg-12">
+                            <div class="text-center">
+                                <p class="text-bold-700">
+                                    <i style="font-size: 17px;" class="fa fa-id-card"></i>
+                                    {{'Please add your insurance by clicking button below.' | translate}}
+                                </p>
+                            </div>
+                            <app-pverify-insurance-list [showButtonInsuranceType]="false" [patientId]="model.PatientID"
+                                [showHistory]="false">
+                            </app-pverify-insurance-list>
+                        </div>
+                    </div>
+                    <div class="text-center" *ngIf="model && model.isAddInsurance !=null && model.isAddInsurance">
+                        <i style="font-size: 22px;" class="fa fa-info-circle warning"></i>
+                        <span class="text-bold-600">{{'Willfully entering of false insurance and payment information is
+                            not permitted and will be prosecuted to the maximal extent of the law.' | translate}}</span>
+                    </div>
+                    <div>
+                        <i style="font-size: 22px;" class="fa fa-info-circle warning"></i>
+                        <span class="text-bold-600"> In Network Insurances: FL Medicaid, FL Medicare & Cigna. For all other Insurances please verify with your Insurance Company for Coverage & Out of Network Benefits
+                            *Sunshine, Staywell, Aetna, Humana etc. will need Prior Authorization but is not guarantee Approval/ Coverage, If denied you will be responsible for the visit*</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-info btn-lg btn-min-width pull-right"
+                [disabled]="!f.form.valid || !validateInsurance()">{{'Next' | translate}}</button>
+        </div>
+    </div>
+</form>
+<app-pverify-insurance-modal #modal (onClosed)="getByPatient()"></app-pverify-insurance-modal>

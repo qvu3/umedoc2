@@ -1,0 +1,150 @@
+<div class="row">
+  <div class="col-md-12 text-center" *ngIf="!model">
+    <h4>Not found any transaction for this appointment</h4>
+  </div>
+  <div class="col-md-12">
+    <fieldset class="fieldset-user" *ngIf="model">
+      <legend class="legend-user">Stripe Payment Info</legend>
+      <div class="form-group row clearfix">
+        <div class="col-sm-4 clearfix">
+          <label class="col-sm-12 control-label">Payment ID</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.PaymentID}}</p>
+          </div>
+        </div>
+        <div class="col-sm-4 clearfix">
+          <label class="col-sm-4 control-label">Currency</label>
+          <div class="col-sm-8">
+            <p class="form-control-static">{{model.Currency}}</p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <label class="col-sm-12 control-label">Payment Amount</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.AmountPlace |currency}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row clearfix">
+
+        <div class="col-sm-4 clearfix">
+          <label class="col-sm-12 control-label">Payment Method</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.PaymentMethod}}</p>
+          </div>
+
+        </div>
+        <div class="col-sm-4">
+          <label class="col-sm-12 control-label">Description</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.Description}}</p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <label class="col-sm-12 control-label">Created Time</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.Created | date: 'MM/dd/yyyy HH:mm'}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row clearfix">
+        <div class="col-sm-4 clearfix">
+          <label class="col-sm-12 control-label">Payment Status</label>
+          <div class="col-sm-12">
+            <p *ngIf="model && model.CaptureID && model.Status =='succeeded'" class="form-control-static">
+              {{model.Status}}</p>
+            <p *ngIf="model && !model.CaptureID && model.Status =='requires_capture'" class="form-control-static"
+              style="color: red;font-weight: 500;">
+              REQUIRES_CAPTURE</p>
+            <p *ngIf="model && !model.CaptureID && model.Status =='canceled'" class="form-control-static"
+              style="color: red;font-weight: 500;">
+              CANCELED</p>
+
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <label class="col-sm-12 control-label">Customer ID</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.Customer}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row clearfix">
+        <div class="col-sm-12 clearfix">
+          <label class="col-sm-12 control-label">Receipt Url</label>
+          <div class="col-sm-12">
+            <a class="form-control-static" target="_blank" href="{{model.ReceiptUrl}}">{{model.ReceiptUrl}}</a>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="fieldset-user" *ngIf="model && model.StripeRefund">
+      <hr />
+      <legend class="legend-user">Stripe Refund Info</legend>
+      <div class="form-group row clearfix">
+        <div class="col-sm-4 clearfix">
+          <label class="col-sm-12 control-label">Refund ID</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.StripeRefund.RefundID}}</p>
+          </div>
+        </div>
+        <div class="col-sm-4 clearfix">
+          <label class="col-sm-12 control-label">Refund Amount</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.StripeRefund.AmountPlace | currency}}</p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <label class="col-sm-12 control-label">Payment ID</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.StripeRefund.Charge}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row clearfix">
+        <div class="col-sm-4 clearfix">
+          <label class="col-sm-12 control-label">Created Time</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.StripeRefund.Created | date: 'MM/dd/yyyy HH:mm'}}</p>
+          </div>
+        </div>
+        <div class="col-sm-4 clearfix">
+          <label class="col-sm-12 control-label">Currency</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.StripeRefund.Currency}}</p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <label class="col-sm-12 control-label">Refund Status</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.StripeRefund.Status}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row clearfix">
+        <div class="col-sm-12 clearfix">
+          <label class="col-sm-12 control-label">Reason</label>
+          <div class="col-sm-12">
+            <p class="form-control-static">{{model.StripeRefund.Reason}}</p>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="col-md-12 text-center m-t-10">
+    <button *ngIf="model && model.CaptureID && model.Status =='succeeded' && !model.StripeRefund" type="button"
+      class="btn btn-medical-white mr-1" (click)="refund()">
+      Refund</button>
+
+    <button *ngIf="model && !model.CaptureID && model.Status =='requires_capture'" type="button"
+      class="btn btn-green mr-1" (click)="captureFund()">
+      Capture Fund</button>
+    <button *ngIf="model && !model.CaptureID && model.Status =='requires_capture'" type="button"
+      class="btn btn-outline-info mr-1" (click)="cancelTheHold()">
+      Cancel the Hold</button>
+  </div>
+</div>
+<app-refund-payment #modal (onClose)="getEntity()"></app-refund-payment>
+<app-charge-payment-modal #chargeModal (onClose)="getEntity()"></app-charge-payment-modal>
+<app-capture-funds-modal #captureModal (onClose)="getEntity()"></app-capture-funds-modal>

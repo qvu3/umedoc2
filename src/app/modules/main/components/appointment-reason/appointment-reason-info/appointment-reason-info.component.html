@@ -1,0 +1,40 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog" style="top: 1vh !important;">
+  <form #f="ngForm" (ngSubmit)="f.form.valid && save()" novalidate>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="col-sm-12 control-label">Reason Name</label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" placeholder="Reason Name" name="ReasonName"
+                    [(ngModel)]="model.ReasonName" #ReasonName="ngModel" required />
+                  <div *ngIf="
+                          f.submitted && ReasonName.errors && ReasonName.errors.required
+                        " class="col-md-12 error-message">
+                    This field is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12 mx-auto">
+                  <fieldset>
+                    <input class="icheckbox_flat-green checked" type="checkbox" [(ngModel)]="model.IsInactived"
+                      name="IsInactived" />
+                    <label for="IsInactived">&nbsp;&nbsp;Inactived</label>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-green">Save</button>
+          <button type="button" class="btn btn-medical-white" (click)="hide()">Close</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

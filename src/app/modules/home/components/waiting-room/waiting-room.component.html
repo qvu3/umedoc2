@@ -1,0 +1,303 @@
+<div class="row clearfix">
+  <div class="col-md-12">
+    <div class="card" style="min-height: 80vh;">
+      <div class="card-content">
+
+        <div class="col-md-12" *ngIf="
+        model &&
+        model.AppointmentStatus &&
+        model.AppointmentStatus.StatusName == 'Requested'
+      ">
+          <div class="col-md-12 text-center pt-4 pb-1" role="alert">
+            <h3 class="text-bold-500" style="font-size: 30px;">
+              {{'Welcome to your video session!' | translate}}
+            </h3>
+            <br>
+            <h4 *ngIf="totalAppt && model.IsOnDemand" class="text-danger text-bold-500" style="font-size: 24px;">Number of Patient ahead of you : {{totalAppt}}</h4>
+            <br>
+            <h4 class="text-bold-500" style="color: red;" *ngIf="!model.IsOnDemand && !overDate()">Please come back to
+              this screen at
+              your Appointment time
+              {{model.AppointmentTime | date:'MM/dd/yyyy hh:mm a'}}.</h4>
+            <h2 class="text-bold-500 text-info" *ngIf="!model.IsOnDemand && overDate()">
+              {{'Please do not exit this screen, a Medical Provider will be with you shortly!' | translate}}
+            </h2>
+
+          </div>
+          <div class="col-md-12 text-center pt-1">
+            <h2 class="text-bold-500 text-info mb-3" *ngIf="model.IsOnDemand">
+              {{'Please do not exit this screen, a Medical Provider will be with you shortly!' | translate}}
+            </h2>
+            <video width="300" [muted]="'muted'" autoplay loop>
+              <source src="../../../../../assets/waiting-room-video.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <div class="col-md-12 text-center mt-2 mb-3" *ngIf="checkOver5Min()">
+              <h4 class="mb-1">If you want to switch to another provider, please click the button below.</h4>
+              <button type="button" class="btn btn-sm btn-info round" (click)="changeProvider()">Change
+                Provider</button>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row" *ngIf="
+            model &&
+            model.AppointmentStatus &&
+            model.AppointmentStatus.StatusName == 'InSession'
+          ">
+          <div class="col-md-12 text-center">
+            <div class="form-group">
+              <div class="row justify-content-end pt-5">
+                <div class="col-sm-2 col-4 text-center">
+                  <img *ngIf="
+                      model.ProviderUser && model.ProviderUser.ProfilePicture
+                    " [src]="model.ProviderUser.ProfilePicture" width="100" style="border-radius:50px;" />
+                  <img *ngIf="!model.ProviderUser.ProfilePicture"
+                    src="https://umedoc-prod.s3.amazonaws.com/RandomFiles/umedoc-defaultavatar.png" width="100"
+                    style="border-radius:50px;" />
+                </div>
+                <div class="col-sm-5 col-4 text-center text-sm-left">
+                  <div *ngIf="
+                      model.ProviderProfile &&
+                      model.ProviderProfile.ProviderDegree &&
+                      model.ProviderProfile.ProviderDegree.ImagePath
+                    ">
+                    <img [src]="model.ProviderProfile.ProviderDegree.ImagePath" style="width:60px;" />
+                  </div>
+                  <div *ngIf="model.ProviderProfile">
+                    <label><strong>{{ model.ProviderProfile.NumberOfAppointmentLike }}
+                      </strong></label>
+                    <i class="font-medium-4 icon-line-height la la-star ic" style="color: #ffc800;"></i>
+                  </div>
+                </div>
+              </div>
+
+              <h2 class="text-bold-600">
+                <a (click)="viewProfile(model.ProviderID)">
+                  {{ model.ProviderUser.FirstName }}
+                  {{ model.ProviderUser.LastName }}</a>
+              </h2>
+              <div class="text-center" *ngIf="model.ProviderProfile">
+                <div class="badge badge-info">
+                  {{ model.ProviderProfile.ProviderRole.RoleName }}
+                </div>
+              </div>
+              <h3 class="text-danger pt-5 pb-1 text-bold-500" *ngIf="!token">
+                Your medical provider is ready to see you!
+              </h3>
+
+              <div class="form-group row text-center"
+                *ngIf="model && model.AppointmentStatus && model.AppointmentStatus.StatusName == 'InSession'">
+                <div class="col-md-12 text-center" *ngIf="!token">
+                  <button type="button" class="btn btn-lg round btn-green white" style="width:200px;"
+                    (click)="joinVideoCall()">
+                    Click Here to Join</button>
+                </div>
+                <div class="col-md-12" *ngIf="token && token.length>0">
+                  <app-video-call-frame #videoCall [appointment]="model" (onClosed)="onClosed($event)" [token]="token"
+                    [isProvider]="false">
+                  </app-video-call-frame>
+                </div>
+              </div>
+              <h4 class="text-info text-bold-600 mt-3" *ngIf="model.Liked">
+                Thank you for your feedback!
+              </h4>
+              <div *ngIf="!model.Liked" class="mt-3">
+                <h4 class="text-primary text-bold-500 pb-2">
+                  {{'Click the thumb below if you liked your visit!' | translate}}
+                </h4>
+                <button type="button" class="btn btn-sm btn-medical-white btn-min-width round" href="javascript:void(0)"
+                  (click)="setLiked()">
+                  <i class="font-medium-4 icon-line-height la la-thumbs-up ic">
+                    {{'Like' | translate}}</i>
+                </button>
+              </div>
+              <div class="col-md-12 text-center mt-3 mb-5">
+                <h4 _ngcontent-serverapp-c6="" class="text-primary text-bold-500 mb-3">
+                  {{'Your opinion makes us better' | translate}}</h4>
+                <div _ngcontent-serverapp-c6="" class="col-md-12 text-center"><a _ngcontent-serverapp-c6=""
+                    class="btn round btn-medical-white white" href="https://g.page/umedoc2020/review?rc"
+                    target="_blank"> {{'Tell what you like about us' | translate}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="row" *ngIf="
+            model &&
+            model.AppointmentStatus &&
+            (model.AppointmentStatus.StatusName == 'Completed')
+          ">
+          <div class="col-md-12 text-center">
+            <div class="pt-5">
+              <h2 class="text-info text-bold-600 pb-2">
+                {{'Your Appointment is over!' | translate}}
+              </h2>
+              <h3>
+                {{
+                model.Liked
+                ? "Thank you for your feedback!"
+                : 'Rate your Medical Provider.' | translate
+                }}
+              </h3>
+
+
+              <div *ngIf="!model.Liked" class="mt-3">
+                <h4>{{'Click the thumb if you liked your visit!' | translate}}</h4>
+                <div class="mt-1">
+                  <button type="button" class="btn btn-sm btn-outline-info btn-min-width round"
+                    href="javascript:void(0)" (click)="setLiked()">
+                    <i class="font-medium-4 icon-line-height la la-thumbs-up ic">
+                      {{'Like' | translate}}</i>
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-12 text-center mt-5">
+                <h4 _ngcontent-serverapp-c6="" class="text-primary text-bold-500">
+                  {{'Your opinion makes us better' | translate}} </h4>
+                <div _ngcontent-serverapp-c6="" class="col-md-12 text-center mt-1"><a _ngcontent-serverapp-c6=""
+                    class="btn round btn-medical-white white" href="https://g.page/umedoc2020/review?rc"
+                    target="_blank"> {{'Tell what you like about us' | translate}}</a>
+                </div>
+              </div>
+            </div>
+
+            <div class='mt-5' *ngIf="!(pverifyInsurance && pverifyInsurance.FrontImageUrlView)">
+              <h4 class="text-primary">We need your Insurance Images to verify your Insurance!</h4>
+              <h4 class="text-primary">Please add them by clicking the button below.</h4>
+              <button class="btn btn-info btn-min-width round mt-1" (click)="uploadInsuranceImage()">
+                {{'Upload Insurance Images' | translate}}</button>
+            </div>
+            <div class="mt-5 ">
+              <h3 class="text-bold-600">
+                {{'Keeping your information safe and secure:' | translate}}
+              </h3>
+              <h4>
+                {{'Please remember to log out of your Umedoc account if you are on a shared or public device, and do not
+                let others sign into their accounts through your device.' | translate}}
+              </h4>
+            </div>
+            <div class="mt-5 mb-3">
+              <a [routerLink]="['/patient-profile']" class="btn btn-green"><i class="fa fa-home"></i> {{'Go back home' |
+                translate}}</a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row" *ngIf="
+            model &&
+            model.AppointmentStatus &&
+            (model.AppointmentStatus.StatusName == 'Cancelled')
+          ">
+          <div class="col-md-12 text-center">
+
+
+            <div class="pt-5">
+              <h2 class="text-danger text-bold-600 pb-2">
+                Your appointment has been cancelled!
+              </h2>
+            </div>
+
+            <div class='mt-5' *ngIf="!(pverifyInsurance && pverifyInsurance.FrontImageUrlView)">
+              <h4 class="text-primary">We need your Insurance Images to verify your Insurance!</h4>
+              <h4 class="text-primary">Please add them by clicking the button below.</h4>
+              <button class="btn btn-info btn-min-width round mt-1" (click)="uploadInsuranceImage()">
+                {{'Upload Insurance Images' | translate}}</button>
+            </div>
+            <div class="mt-5 ">
+              <h3 class="text-bold-600">
+                {{'Keeping your information safe and secure:' | translate}}
+              </h3>
+              <h4>
+                {{'Please remember to log out of your Umedoc account if you are on a shared or public device, and do not
+                let others sign into their accounts through your device.' | translate}}
+              </h4>
+            </div>
+            <div class="mt-5 mb-3">
+              <a [routerLink]="['/patient-profile']" class="btn btn-green"><i class="fa fa-home"></i> {{'Go back home' |
+                translate}}</a>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div *ngIf="!isShowDiscoverFrom" class="row justify-content-center mt-5 mb-3">
+          <form class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="form-group" style="border: 1px solid #e2e0e0; padding: 30px;">
+              <h3 class="text-bold-500">
+                How did you discover Umedoc?
+              </h3>
+
+              <div class="text-left">
+                <input type="radio" name="DiscoverFrom" #DiscoverFrom="ngModel"
+                  [(ngModel)]="model.PatientProfile.DiscoverFrom" style="position: absolute; width:20px; height:20px;"
+                  value="Google Search" required>
+                <h5 class="mt-2" style="margin-left:2rem;"> Google Search</h5>
+
+                <input class="mt-1" type="radio" name="DiscoverFrom" #DiscoverFrom="ngModel"
+                  [(ngModel)]="model.PatientProfile.DiscoverFrom" style="position: absolute; width:20px; height:20px;"
+                  value="Bing Search" required>
+                <h5 class="mt-2" style="margin-left:2rem;">Bing Search</h5>
+
+                <input class="mt-1" type="radio" name="DiscoverFrom" #DiscoverFrom="ngModel"
+                  [(ngModel)]="model.PatientProfile.DiscoverFrom" style="position: absolute; width:20px; height:20px;"
+                  value="Socical Media" required>
+                <h5 class="mt-2" style="margin-left:2rem;">Social Media</h5>
+
+                <input class="mt-1" type="radio" name="DiscoverFrom" #DiscoverFrom="ngModel"
+                  [(ngModel)]="model.PatientProfile.DiscoverFrom" style="position: absolute; width:20px; height:20px;"
+                  value="Blog or publication" required>
+                <h5 class="mt-2" style="margin-left:2rem;">Blog or publication</h5>
+
+                <input class="mt-1" type="radio" name="DiscoverFrom" #DiscoverFrom="ngModel"
+                  [(ngModel)]="model.PatientProfile.DiscoverFrom" style="position: absolute; width:20px; height:20px;"
+                  value="Recomended by friends or family" required>
+                <h5 class="mt-2" style="margin-left:2rem;">Recomended by friends or family</h5>
+
+                <input class="mt-1" type="radio" name="DiscoverFrom" #DiscoverFrom="ngModel"
+                  [(ngModel)]="model.PatientProfile.DiscoverFrom" style="position: absolute; width:20px; height:20px;"
+                  value="Other" required>
+                <h5 class="row mt-2" style="margin-left:2rem;">Other
+
+                  <input class="col-6 mx-2 form-control-xl" type="text" name="OtherDiscoverFrom"
+                    #OtherDiscoverFrom="ngModel" [(ngModel)]="model.PatientProfile.OtherDiscoverFrom"
+                    [required]="model.PatientProfile.DiscoverFrom && model.PatientProfile.DiscoverFrom ==='Other'">
+                  <div *ngIf="f.submitted && OtherDiscoverFrom.errors && OtherDiscoverFrom.errors.required"
+                    class="error-message">
+                    Required.
+                  </div>
+                </h5>
+                <div *ngIf="f.submitted && DiscoverFrom.errors && DiscoverFrom.errors.required" class="error-message">
+                  Required.
+                </div>
+              </div>
+              <div class="mt-3 col-md-12 text-center">
+                <button type="submit" class="btn btn-green  mr-1">
+                  Save
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="sliders && sliders.length >0">
+  </div>
+
+  <app-pverify-upload-image #modalImage (onClosed)="getEntity(id)"></app-pverify-upload-image>
+  <app-change-provider-backup #changeProviderModal="" (onClosed)="getEntity(id)"
+    (onViewProfileProvider)="viewProfile($event)"></app-change-provider-backup>
+  <app-provider-profile #modal=""></app-provider-profile>
+</div>

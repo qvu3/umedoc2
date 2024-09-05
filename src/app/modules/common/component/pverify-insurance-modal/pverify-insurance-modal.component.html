@@ -1,0 +1,181 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{model.ID ? 'Edit Insurance':'Add Insurance'}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf="!IsMedicarePartAAndB" class="form-group">
+                        <label>
+                            Insurance Name:
+                            <span class="danger">
+                                *
+                            </span>
+                        </label>
+                        <ng-select2 name="PayerCode" [(ngModel)]="model.PayerCode" #PayerCode="ngModel" required
+                            [data]="payers" [options]="optionsInsurance">
+
+                        </ng-select2>
+                        <div *ngIf="
+                            f.submitted && PayerCode.errors && PayerCode.errors.required
+                          " class="col-md-12 error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div *ngIf="IsMedicarePartAAndB" class="form-group">
+                        <label>
+                            Insurance Name:
+                            <span class="danger">
+                                *
+                            </span>
+                        </label>
+
+                        <select disabled="disabled" name="PayerCode" class="form-control m-input"
+                            [(ngModel)]="model.PayerCode" #PayerCode="ngModel" required>
+                            <option value="{{item.id}}" *ngFor="let item of payersMedicarePartAAndB">{{item.text}}
+                            </option>
+                        </select>
+
+                        <div *ngIf="
+                            f.submitted && PayerCode.errors && PayerCode.errors.required
+                          " class="col-md-12 error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">
+                            Member ID:
+                            <span class="danger">
+                                *
+                            </span>
+                        </label>
+                        <input type="text" class="form-control" placeholder="MemberID" name="MemberID"
+                            [(ngModel)]="model.MemberID" #MemberID="ngModel" required maxlength="35" />
+                        <div *ngIf="f.submitted && MemberID.errors && MemberID.errors.required" class="error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="strong">I'm </label>
+                        <div class="col-md-6">
+                            <label class="fancy-radio">
+                                <input type="radio" name="IsSubscriberPatient" style="width:20px; height:20px;"
+                                    [value]="true" [(ngModel)]="model.IsSubscriberPatient">
+                                <span class="label-checkbox"> Subscriber</span>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fancy-radio">
+                                <input type="radio" name="IsSubscriberPatient"
+                                    style="margin-top: 20px; width:20px; height:20px;" [value]="false"
+                                    [(ngModel)]="model.IsSubscriberPatient">
+                                <span class="label-checkbox"> Dependent</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="!model?.IsSubscriberPatient">
+                        <label for="lastName">
+                            Subscriber First Name:
+                            <span class="danger">
+                                *
+                            </span>
+                        </label>
+                        <input type="text" class="form-control" placeholder="Subscriber First Name"
+                            name="SubscriberFirstName" [(ngModel)]="model.SubscriberFirstName"
+                            #SubscriberFirstName="ngModel" required maxlength="35" />
+                        <div *ngIf="f.submitted && SubscriberFirstName.errors && SubscriberFirstName.errors.required"
+                            class="error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="!model?.IsSubscriberPatient">
+                        <label for="lastName">
+                            Subscriber Last Name:
+                            <span class="danger">
+                                *
+                            </span>
+                        </label>
+                        <input type="text" class="form-control" placeholder="Subscriber Last Name"
+                            name="SubscriberLastName" [(ngModel)]="model.SubscriberLastName"
+                            #SubscriberLastName="ngModel" required maxlength="35" />
+                        <div *ngIf="f.submitted && SubscriberLastName.errors && SubscriberLastName.errors.required"
+                            class="error-message">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="!model?.IsSubscriberPatient">
+                        <label for="lastName">
+                            Subscriber DOB:
+                            <span class="danger">
+                                *
+                            </span>
+                        </label>
+                        <app-date-time-picker [hasTime]="false" [placeholder]="'Date of Birth*'" name="SubscriberDOB"
+                            #SubscriberDOB="ngModel" [(ngModel)]="model.SubscriberDOB" required></app-date-time-picker>
+                        <div *ngIf="f.submitted && SubscriberDOB.errors && SubscriberDOB.errors.required"
+                            class="error-message  text-left">
+                            Please enter your birthday.
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-6 text-center">
+                            <label class="btn btn-medical-white" style="margin-top:8px; cursor: pointer;"
+                                title="Upload Front Image of your Insurance Card" appFileUpload=""
+                                [typeUpload]="'appointment_image'" (onCallback)="uploadedFront($event)" [fileType]="0"
+                                (onUploadStatus)="uploadStatus($event)"
+                                [link]="'/api/Utility/S3UploadPrivatePatienInsurance'">
+                                <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file"
+                                    accept="image/*">
+                                <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                                <span>{{isUploading?'Uploading...':'Upload Front Image of your Insurance Card'}}</span>
+                            </label>
+                            <div *ngIf="model.FrontImageUrlView" class="col-lg-1 col-md-6 col-sm-12 m-b-30 text-center">
+                                <a href="javascript:void(0)">
+                                    <img style="max-width: 100px!important;height: 100px!important;"
+                                        class="img-fluid img-thumbnail" [src]="model.FrontImageUrlView" alt="">
+                                </a>
+                                <div class="pt-1 pb-1 text-center">
+                                    <button type="button" class="btn btn-danger btn-sm m-t-5"
+                                        (click)="removeAttachFront(model)">
+                                        <i class="fa fa-trash"></i> Remove</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 text-center">
+                            <label class="btn btn-medical-white" style="margin-top:8px; cursor: pointer;"
+                                title="Upload Back Image of your Insurance Card" appFileUpload=""
+                                [typeUpload]="'appointment_image'" (onCallback)="uploadedBack($event)" [fileType]="0"
+                                (onUploadStatus)="uploadStatus($event)"
+                                [link]="'/api/Utility/S3UploadPrivatePatienInsurance'">
+                                <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file"
+                                    accept="image/*">
+                                <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                                <span>{{isUploading?'Uploading...':'Upload Back Image of your Insurance Card'}}</span>
+                            </label>
+                            <div *ngIf="model.BackImageUrlView" class="col-lg-1 col-md-6 col-sm-12 m-b-30 text-center">
+                                <a href="javascript:void(0)">
+                                    <img style="max-width: 100px!important;height: 100px!important;"
+                                        class="img-fluid img-thumbnail" [src]="model.BackImageUrlView" alt="">
+                                </a>
+                                <div class="pt-1 pb-1 text-center">
+                                    <button type="button" class="btn btn-danger btn-sm m-t-5"
+                                        (click)="removeAttachBack(model)">
+                                        <i class="fa fa-trash"></i> Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green">Save</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

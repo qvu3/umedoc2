@@ -1,0 +1,54 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog">
+    <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>Refund</h5>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="fancy-radio">
+                <label>
+                  <input type="radio" name="IsPartial" #IsPartial="ngModel" [(ngModel)]="model.IsPartial"
+                    [value]="false" style="width:20px; height:20px;">
+                  <span class="label-checkbox"> Full Amount</span>
+                </label>
+              </div>
+              <div class="fancy-radio">
+                <label>
+                  <input type="radio" name="IsPartial" #IsPartial="ngModel" [(ngModel)]="model.IsPartial" [value]="true"
+                    style="width:20px; height:20px;">
+                  <span class="label-checkbox"> Partial Capture</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="model.IsPartial">
+            <label class="col-sm-4 control-label">Partial Amount</label>
+            <div class="col-sm-12">
+              <input type="text" pattern="^\d+(\.\d{1,10})?$" class="form-control" name="Amount"
+                [(ngModel)]="model.Amount" #Amount="ngModel" [gt]="0" [lte]="model.Total" [required]="model.IsPartial" />
+              <div *ngIf="f.submitted && Amount.errors && Amount.errors.required" class="error-message">
+                This field is required.</div>
+              <div *ngIf="f.submitted && Amount.errors && !Amount.errors.required && Amount.errors.pattern"
+                class="error-message">
+                Invalid value.</div>
+              <div
+                *ngIf="f.submitted && Amount.errors && !Amount.errors.required && !Amount.errors.pattern && (Amount.errors?.lte || Amount.errors?.gt)"
+                class="error-message">
+                Partial refund must be less than or equal {{model.Total}} and great than 0.</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn  btn-green" [disabled]="Submitting">Refund Now</button>
+          <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+        </div>
+      </div>
+    </form>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

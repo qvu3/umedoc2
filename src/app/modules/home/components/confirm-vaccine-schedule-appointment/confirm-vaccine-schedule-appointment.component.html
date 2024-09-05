@@ -1,0 +1,36 @@
+<div class="card" *ngIf="model">
+    <div class="card-body">
+        <div class="text-center mt-1 mb-2">
+            <h1 class="title-h1 text-bold-600">{{'Covid Vaccine Appointment Confirmation' | translate}}</h1>
+        </div>
+        <div class="row clearfix" *ngIf="model.Patient"> 
+            <div class="col-md-12 ml-2 mt-2">
+                <p><strong>Location:</strong> 3594 Broadway Ave, Suite 100, Fort Myers, FL 33901</p>
+                <p><strong>Time: {{model.ApptTime | date : 'MM/dd/yyyy hh:mm a'}}</strong></p>
+            </div>
+            <div class="col-md-12 ml-2 mt-2">
+                <p><strong>Patient Info:</strong></p>
+                <p>{{model.Patient.FirstName}} {{model.Patient.LastName}} - {{transformDob(model.Patient.DOB)}}
+                </p>
+                <p>{{model.Patient.Email}}</p>
+                <p>{{model.Patient.CellPhone}}</p>
+            </div>
+            <div class="col-md-12 ml-2 mt-2">
+                <p><strong>Note:</strong></p>
+                <p>- Arrive 10 minutes prior to your appoitment time.</p>
+                <p>- Walk-Thru.</p>
+                <p>- Persons 18+, The Johnson & Johnson Vaccine will be given.</p>
+                <p>- Face masks must be worn while waiting.</p>
+                <p>- Bring with you your ID or proof of Florida residensy (if needed)</p>
+            </div>
+            <div class="col-md-12 text-center mt-4">
+                <a routerLink="['/']" class="btn btn-outline-primary"> Go Back to Dashboard</a>
+            </div>
+            <div class="col-md-12 text-center mt-3">
+                <p>Customer Support</p>
+                <p>904-990-4001</p>
+                <p>support@umedoc.com</p>
+            </div>
+        </div>
+    </div>
+</div>

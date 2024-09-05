@@ -1,0 +1,75 @@
+<div class="content-header row mb-1">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title">Company Settings</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/management']">Management</a>
+          </li>
+          <li class="breadcrumb-item">Company Settings</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app-content content mt-1">
+  <div class="sidebar-left">
+    <div class="sidebar">
+      <div class="sidebar-content sidebar-todo">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="text-muted text-bold-500 my-1">TABS</h6>
+            <div class="list-group list-group-messages">
+              <a class="list-group-item list-group-item-action border-0" data-toggle="tab" href="#CompanyInfo"
+                [ngClass]="{ 'active show': activeTab === 'CompanyInfo' }" (click)="clickTab('CompanyInfo')">
+                <i class="icon-home mr-1"></i>
+                <span>Company Info</span>
+              </a>
+              <a class="list-group-item list-group-item-action border-0" data-toggle="tab" href="#CompanySetting"
+                [ngClass]="{ 'active show': activeTab === 'CompanySetting' }" (click)="clickTab('CompanySetting')">
+                <i class="icon-screen-desktop mr-1"></i>
+                <span>Company Settings</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-right">
+    <div class="content-wrapper">
+      <div class="content-body">
+        <div class="content-overlay"></div>
+        <!-- Modal -->
+
+        <div class="card todo-details rounded-0">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="tab-content px-1">
+                <div class="tab-pane active show" id="CompanyInfo" [ngClass]="{
+                    'active show': activeTab === 'CompanyInfo' || !activeTab
+                  }">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <app-company-info [model]="model"></app-company-info>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="CompanySetting" [ngClass]="{ 'active show': activeTab === 'CompanySetting' }">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <app-company-setting [model]="model"></app-company-setting>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

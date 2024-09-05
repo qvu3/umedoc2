@@ -1,0 +1,26 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog modal-xl">
+        <form name="form" class="form-horizontal" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Insurance Balance Billing Viewer</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" style="max-height:80vh;overflow: auto;"
+                            *ngIf="model && model.DocumentUrl">
+                            <pdf-viewer [src]="model.DocumentUrl" [render-text]="true" [zoom]="1.3"></pdf-viewer>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

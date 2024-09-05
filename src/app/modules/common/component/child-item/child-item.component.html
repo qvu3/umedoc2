@@ -1,0 +1,41 @@
+<div class="row" *ngIf="model">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 text-right mb-2">
+                        <button class="btn btn-sm btn-icon round bg-teal white mb-1" id="btnUpdateProfile"
+                            (click)="editChild()" type="button">
+                            <i class="la la-edit white"></i> {{'Update Child Info' | translate}}
+                        </button>
+                        <button class="btn btn-sm btn-icon round btn-danger white mb-1 ml-1" id="btnUpdateProfile1"
+                            (click)="deleteChild()" type="button">
+                            <i class="la la-trash white"></i> {{'Remove Child' | translate}}
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="ml-1 font-weight-bold">Child Name: </label>
+                        <label class="ml-1">{{model.PatientUser.FirstName + ' ' + model.PatientUser.LastName}}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="ml-1 font-weight-bold">DOB: </label>
+                        <label class="ml-1">{{transformDob(model.PatientUser.DOB)}}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="ml-1 font-weight-bold">Gender: </label>
+                        <label class="ml-1">{{model.PatientUser.Gender}}</label>
+                    </div>
+                </div>
+                <div class="row mt-3" *ngIf="model.PatientID">
+                    <div class="col-lg-12">
+                        <app-pverify-insurance-list [patientId]="model.PatientID"></app-pverify-insurance-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-patient-child-modal #editModal (onClosed)="closeModal()"></app-patient-child-modal>

@@ -1,0 +1,59 @@
+<div
+  bsModal
+  #childModal="bs-modal"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <form
+      name="form"
+      class="form-horizontal"
+      (ngSubmit)="f.form.valid && save()"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Umecare Agreement</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-12 mt-2">
+            <div class="form-group">
+              <div>
+                <fieldset>
+                  <input
+                    class="icheckbox_flat-green checked"
+                    name="IsAgreementField"
+                    type="checkbox"
+                    #IsAgreementField="ngModel"
+                    required
+                    [(ngModel)]="isAgreement"
+                  />
+                  <label
+                    >&nbsp;I've read and agreed to
+                    <a href="https://umedoc-prod.s3.amazonaws.com/RandomFiles/UmecareAgreement.pdf" target="_blank">Umecare Agreement</a>.</label
+                  >
+                </fieldset>
+                <span
+                  class="error-message"
+                  *ngIf="f.submitted && IsAgreementField?.errors?.required"
+                  >Please read and agreed our privacy</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-green" [disabled]="!f.form.valid">Submit</button>
+          <button type="button" class="btn btn-medical-white" (click)="hide()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

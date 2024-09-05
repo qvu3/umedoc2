@@ -1,0 +1,43 @@
+<div class="row m-t-40">
+    <div class="col-md-12">
+        <form name="form" class="form-horizontal"
+            (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <fieldset class="fieldset-user">
+                <h4 class="form-section"><i class="la la-medkit"></i> Allergies</h4>
+
+                <div class="form-group row clearfix" id="groupMedicalInfo"> 
+                    <div class="row col-md-12" *ngFor="let item  of model.Allergies , let i=index">
+                        <div class="form-group mb-1 col-md-5">
+                            <app-select-allergy name="Alligeries_{{i}}" [(ngModel)]="item.Name" #Alligeries="ngModel"
+                                [index]="i" (onValueChanged)="changeValueAllergy($event)" [data]="item" required>
+                            </app-select-allergy>
+                            <div *ngIf="f.submitted && Alligeries.errors && Alligeries.errors.required"
+                                class="row error-message col-md-12">
+                                Required.
+                            </div>
+                            <div *ngIf="checkExistAllergy(item.Name)" class="row error-message col-md-12">
+                                Allergy is existed.
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3 text-center">
+                            <button type="button" class="btn btn-danger" (click)="deleteAlligery(i)"> <i
+                                    class="ft-x"></i>
+                                Delete</button>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 text-right">
+                        <button type="button" class="btn btn-green ml-2" (click)="addAllergy()">Add Allergy</button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="col-md-12 form-actions text-center">
+                <button type="button" class="btn btn-medical-white btn-min-width btn-lg mr-1" (click)="cancel()">
+                    <i class="ft-x"></i> Cancel</button>
+                <button type="submit" class="btn btn-green btn-min-width btn-lg" [disabled]="IsSubmitting">
+                    <i class="la la-check-square-o"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>

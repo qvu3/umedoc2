@@ -1,0 +1,50 @@
+<div
+  bsModal
+  #childModal="bs-modal"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Delivery Status SMS</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered dataTable">
+              <thead>
+                <tr>
+                  <td>Status</td>
+                  <td>Updated On</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of model">
+                  <td>
+                      <strong>{{ item.Status }}</strong>
+                  </td>
+                  <td>
+                    {{ item.UpdatedOn | date: "MM/dd/yyyy hh:mm a" }}
+                  </td>
+                </tr>
+                <tr *ngIf="!model || model.length == 0">
+                  <td colspan="2" class="text-center">No data not found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-medical-white" (click)="hide()">
+          Close
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

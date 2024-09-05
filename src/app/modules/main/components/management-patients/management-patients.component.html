@@ -1,0 +1,101 @@
+<div class="content-body">
+  <div class="row">
+    <div class="col-12">
+      <div class="card" [appActionCardButton]="'Mangement-Patients'" style="min-height: 65vh;">
+        <div class="card-header">
+          <h4 class="card-title title-h1">
+            Manage Patients</h4>
+          <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+          <div class="heading-elements">
+            <ul class="list-inline mb-0">
+              <li><a (click)="AddPatient()"><i class="ft-plus"></i></a></li>
+              <li><a data-action="reload" (click)="RefreshTable()"><i class="ft-rotate-cw"></i></a></li>
+              <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+              <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-content collapse show">
+          <div class="col-md-12 card-body card-dashboard">
+            <form class="col-md-12">
+              <div class="row col-md-12 border border-light rounded py-2 mb-2">
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-role">Patient Name</label>
+                  <fieldset class="form-group">
+                    <input type="search" class="form-control" (change)="RefreshTable()" name="Name"
+                      [(ngModel)]="criteria.Name" placeholder="Patient Name" #Name="ngModel" />
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-role">Phone Number</label>
+                  <fieldset class="form-group">
+                    <input type="search" class="form-control" (change)="RefreshTable()" name="PhoneNumber"
+                      [(ngModel)]="criteria.PhoneNumber" [textMask]="{mask:maskPhone}" #PhoneNumber="ngModel" />
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-role">Email</label>
+                  <fieldset class="form-group">
+                    <input type="search" class="form-control" (change)="RefreshTable()" name="Email"
+                      [(ngModel)]="criteria.Email" placeholder="Email" #Email="ngModel" />
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-role">DOB</label>
+                  <fieldset class="form-group">
+                    <app-date-time-picker [hasTime]="false" [placeholder]="'Date of Birth*'" name="DOB" #DOB="ngModel"
+                      [(ngModel)]="criteria.DOB"></app-date-time-picker>
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-status">Status</label>
+                  <fieldset class="form-group">
+                    <select id="appointment-type-list" (change)="RefreshTable()" class="form-control"
+                      name="AppointmentGroup" [(ngModel)]="criteria.Inactive" #AppointmentGroup="ngModel">
+                      <option [value]="">All</option>
+                      <option [value]="false">Active</option>
+                      <option [value]="true">Inactive</option>
+                    </select>
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-role">Ref ID</label>
+                  <fieldset class="form-group">
+                    <input type="text" pattern="^\d*$" class="form-control" (change)="RefreshTable()" name="RefID"
+                      [(ngModel)]="criteria.RefID" placeholder="RefID" #RefID="ngModel" />
+                    <div class="error-message" *ngIf="RefID.errors?.pattern">
+                      Please enter ID as a number.
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                  <label for="users-list-status">Subcriptions</label>
+                  <fieldset class="form-group">
+                    <select id="appointment-type-list" (change)="RefreshTable()" class="form-control"
+                      name="IsSubscription" [(ngModel)]="criteria.IsSubscription" #IsSubscription="ngModel">
+                      <option value="">All</option>
+                      <option [value]="true">Yes</option>
+                      <option [value]="false">No</option>
+                    </select>
+                  </fieldset>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
+                  <button (click)="RefreshTable()" class="btn btn-block btn-green">Search</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-body card-dashboard">
+            <table class="table row-grouping display" [isFilter]="false" [isLengthChange]="false" appPagingTable=""
+              [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting"
+              [compRef]="compRef" (tableEvent)="catchTable($event)" style="width: 100%">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-reset-password #resetModal (closeModal)="RefreshTable()"></app-reset-password>
+<app-add-patient-modal #addPatient (closeModal)="RefreshTable()"></app-add-patient-modal>

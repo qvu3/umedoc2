@@ -1,0 +1,30 @@
+<div class="content-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card" [appActionCardButton]="'Completed-Appointments'" style="min-height: 65vh;">
+                <div class="card-header">
+                    <h1 class="card-title title-h1">Insurance Balance Billing</h1>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="reload" (click)="RefreshTable()"><i class="ft-rotate-cw"></i></a></li>
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-content collapse show">
+                    <div class="card-body card-dashboard">
+                        <table class="table row-grouping display" [isFilter]="false" [isLengthChange]="false"
+                            appPagingTable="" [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs"
+                            [serverLink]="serverLink" [aaSorting]="aaSorting" [compRef]="compRef"
+                            (tableEvent)="catchTable($event)" style="width: 100%">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-insurance-balance-billing-modal #modal (onClosed)="RefreshTable()"></app-insurance-balance-billing-modal>
+<app-insurance-balance-billing-viewer #modalViewer></app-insurance-balance-billing-viewer>

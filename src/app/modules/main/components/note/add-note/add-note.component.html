@@ -1,0 +1,71 @@
+<div bsModal #childModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false }" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+      <div class="modal-content">
+        <div class="modal-header" *ngIf="!isClinicalNoteModal">
+          <h4 class="modal-title">Log New Communication</h4>
+        </div>
+
+        <div class="modal-header" *ngIf="isClinicalNoteModal">
+          <h4 class="modal-title">Add Clinical Note</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !Subjective.valid }">
+            <label>Subjective</label>
+            <div class="col-sm-12">
+              <textarea rows="3" class="form-control" name="Subjective" [(ngModel)]="model.Subjective" #Subjective="ngModel" required></textarea>
+              <div *ngIf="
+                  f.submitted && Subjective.errors && Subjective.errors.required
+                " class="error-message">
+                This field is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !Plan.valid }">
+            <label>Plan</label>
+            <div class="col-sm-12">
+              <textarea rows="3" class="form-control" name="Plan" [(ngModel)]="model.Plan" #Plan="ngModel" required></textarea>
+              <div *ngIf="f.submitted && Plan.errors && Plan.errors.required" class="error-message">
+                This field is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !FollowUp.valid }">
+            <label>Follow Up (Patient can see it)</label>
+            <div class="col-sm-12">
+              <textarea rows="3" class="form-control" name="FollowUp" [(ngModel)]="model.FollowUp" #FollowUp="ngModel" required></textarea>
+              <div *ngIf="
+                  f.submitted && FollowUp.errors && FollowUp.errors.required
+                " class="error-message">
+                This field is required.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-min-width btn-medical-white" (click)="setDraftNote()" *ngIf="draftNote">
+            Load Draft Note
+          </button>
+          <button type="submit" class="btn btn-min-width btn-green" [disabled]="Submitting">
+            {{ !isClinicalNoteModal ? "Save" : "Continue" }}
+          </button>
+          <button type="button" class="btn btn-min-width btn-medical-white" (click)="hide()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<app-add-icd-modal #icdModal (onSaved)="savedICDModal($event)"></app-add-icd-modal>
+<app-preview-pdf #pdfViewer (onSaved)="hide();"></app-preview-pdf>

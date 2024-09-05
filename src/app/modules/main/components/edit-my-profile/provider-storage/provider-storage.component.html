@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title title-h1">
+            Storage
+        </h1>
+        <div class="heading-elements">
+            <ul class="list-inline mb-0">
+                <li>
+                    <div class="col-md-12 text-right">
+                        <button *ngIf="currentUser && currentUser.Role && currentUser.Role != 'Patient' "
+                            class="btn btn-green mr-2" (click)="shareDocumentUrl()" id="btnShareLinkDocument" type="button">
+                            <i class="la la-add white"></i> Add Shareable Link
+                        </button>
+                        <label class="btn btn-medical-white" style="margin-top:8px;" title="Add Image"
+                            [providerID]="providerId" appFileUpload="" [typeUpload]="'provider_storage'"
+                            (onCallback)="uploaded($event)" [fileType]="1" (onUploadStatus)="uploadStatus($event)"
+                            [link]="'/api/ProviderStorage/S3UploadProviderStorage'">
+                            <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file"
+                                accept="*/*">
+                            <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                            <span>{{isUploading?'Uploading...':'Add Document'}}</span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-content collapse show">
+        <div class="card-body card-dashboard">
+            <div class="mb-2">
+                <h3>
+                    Please upload the following documents (if you have them):
+                </h3>
+                <ul>
+                    <li>Current CV (showing current pratice first on employment list)</li>
+                    <li>All of your Medical Licenses and Certifications</li>
+                    <li>DEA</li>
+                    <li>Photo ID (driver license, etc.)</li>
+                    <li>Social Security Card</li>
+                    <li>Graduate school diploma</li>
+                    <li>Proof of Malpractice Insurance</li>
+                    <li>ACLS</li>
+                    <li>BLS</li>
+                </ul>
+                <div>After that, please notify us at: info@umedoc.com</div>
+                <div>We will review your documents and then get back to you asap.</div>
+            </div>
+            <table class="table row-grouping display" [isFilter]="false" [isLengthChange]="false" appPagingTable=""
+                [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting"
+                [compRef]="compRef" (tableEvent)="catchTable($event)" style="width: 100%">
+            </table>
+        </div>
+    </div>
+</div>
+<app-share-link-modal [isProvider]="true" #shareLinkModal (closeModal)="RefreshTable()"></app-share-link-modal>

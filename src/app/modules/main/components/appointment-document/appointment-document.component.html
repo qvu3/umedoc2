@@ -1,0 +1,11 @@
+<div>
+  <table class="table row-grouping display"
+    [isFilter]="false" [isLengthChange]="false" appPagingTable="" [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs"
+    [serverLink]="serverLink" [aaSorting]="aaSorting" [compRef]="compRef" (tableEvent)="catchTable($event)"
+    style="width: 100%">
+  </table>
+</div>
+
+<app-document-viewer #appDocView></app-document-viewer>
+<app-fax-document-company #faxDoc [appointmentId]="appointmentId" (onClosed)="closeFax($event)">
+</app-fax-document-company>

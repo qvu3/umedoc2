@@ -1,0 +1,14 @@
+<div class="card" style="height: 90%;">
+    <div class="card-header">
+        <h4>Apple Healthkit Data</h4>
+    </div>
+    <div class="card-body">
+        <div class="card-body">
+            <ul class="list-unstyled patient-info-card">
+                <li *ngFor="let item of list">
+                    <span class="patient-info-heading"><b>{{item.DataType}}:</b> {{ item.Value }} (Updated at {{ item.To | date:'MM/dd/yyyy hh:mm a'}})</span> 
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

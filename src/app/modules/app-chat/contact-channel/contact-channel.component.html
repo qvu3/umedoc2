@@ -1,1 +1,6 @@
-<p>contact-channel works!</p>
+<div class="d-flex align-items-center" (click)="selectRoom()">
+    <div class="chat-sidebar-name" style="display: contents;">
+        <h6 class="mb-0">#{{room.Name}}</h6>
+        <span class="badge badge-danger" *ngIf="totalUnread>0">{{totalUnread}}</span>
+    </div>
+</div>

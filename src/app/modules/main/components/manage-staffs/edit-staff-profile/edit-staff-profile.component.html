@@ -1,0 +1,63 @@
+<div class="content-header row mb-1">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title">My Profile</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/management']">Management</a>
+          </li>
+          <li class="breadcrumb-item">Edit My Profile
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+<div class="content-body">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="text-muted text-bold-500 my-1">TABS</h6>
+          <div class="list-group list-group-messages">
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+              [routerLink]="['personal-info']">
+              <i class="icon-home mr-1"></i>
+              <span>Personal Info</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+              [routerLink]="['address']">
+              <i class="icon-list mr-1"></i>
+              <span>Address</span>
+            </a>
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+              [routerLink]="['medical-profile']">
+              <i class="icon-bell mr-1"></i>
+              <span>Medical Profile</span> </a>
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+              [routerLink]="['provider-storages']">
+              <i class="icon-docs mr-1"></i>
+              <span>Storages</span> </a>
+            <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+              [routerLink]="['licenses-services']">
+              <i class="la la-gears mr-1"></i>
+              <span>Licenses & Services</span> </a>
+              <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+              [routerLink]="['login-histories']">
+              <i class="la la-gears mr-1"></i>
+              <span>Login History</span> </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-body">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

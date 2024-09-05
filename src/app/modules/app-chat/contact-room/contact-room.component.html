@@ -1,1 +1,10 @@
-<p>contact-room works!</p>
+<div class="d-flex align-items-center" (click)="selectContact(user)">
+    <div class="avatar m-0 mr-50">
+        <img [src]="user.ProfilePicture | defaultImg" height="36" width="36" alt="sidebar user image">
+        <span class="avatar-status-away"></span>
+    </div>
+    <div class="chat-sidebar-name">
+        <h6 class="mb-0">{{user.Name}} <span class="badge badge-danger" *ngIf="totalUnread>0">{{totalUnread}}</span>
+        </h6>
+    </div>
+</div>

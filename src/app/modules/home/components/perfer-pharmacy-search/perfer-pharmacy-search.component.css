@@ -1,0 +1,10 @@
+
+.modal-sp-lg
+{
+  max-width:98% !important;
+  height: 90%;
+}
+
+.modal{
+  z-index: 9999 !important;   
+}

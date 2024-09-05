@@ -1,0 +1,408 @@
+<div class="row m-t-40">
+  <div class="col-md-12">
+    <form name="form" class="form-horizontal"
+      (ngSubmit)="(!f.form.valid && scrollToErrorField(f))  || (f.form.valid && save())" #f="ngForm" novalidate>
+      <fieldset class="fieldset-user">
+        <div class="form-group row clearfix">
+          <div class="col-md-12">
+            <app-crop-image-view [typeUpload]="'user'" style="border-radius:50px;" [link]="'/api/Utility/S3UploadImage'"
+              [ModelID]="model.ID" name="ProfilePicture" [(ngModel)]="model.PatientUser.ProfilePicture"
+              #ProfilePicture="ngModel" [autoSave]="true" [userId]="model.PatientUser.Id">
+            </app-crop-image-view>
+          </div>
+        </div>
+
+        <h4 class="form-section"><i class="la la-user"></i> {{'Personal Info' | translate}}</h4>
+
+        <div class="form-group row clearfix" id="groupPersonalInfo"
+          [ngClass]="{ 'has-error': (!Email.valid || !CellPhone.valid) }">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="Email">
+                {{'Email:' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label> 
+                <input class="form-control required"  type="text" name="Email"
+                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #Email="ngModel"
+                [(ngModel)]="model.PatientUser.Email" required>
+
+                <div *ngIf="Email.errors && Email.errors.required" class="error-message">Required
+                </div>
+                <div *ngIf="Email.errors && !Email.errors.required && Email.errors.pattern"
+                  class="error-message">Invalid value
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Cell Phone:' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input class="form-control required" [textMask]="{mask:maskPhone}"
+                pattern="^\(([2346789][0-9]{2}|[23456789][012346789][0-9]|[23456789][0-9][012346789])\)\s?([012346789][0-9]{2}|[0123456789][012346789][0-9]|[0123456789][0-9][012346789])-[0-9]{4}$"
+                placeholder="Cell Phone" name="CellPhone" [(ngModel)]="model.PatientUser.CellPhone" #CellPhone="ngModel"
+                required type="text" />
+              <div *ngIf="CellPhone.errors && CellPhone.errors.required" class="error-message">Required
+              </div>
+              <div *ngIf="CellPhone.errors && !CellPhone.errors.required && CellPhone.errors.pattern"
+                class="error-message">Invalid value
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group row clearfix">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                Prefix:
+              </label>
+              <select class="form-control" name="Prefix" #Prefix="ngModel" [(ngModel)]="model.PatientUser.Prefix">
+                <option value="">None</option>
+                <option *ngFor="let item of prefixes" [value]="item">{{item}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Legal First Name *' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input type="text" class="form-control" placeholder="First Name" name="FirstName"
+                [(ngModel)]="model.PatientUser.FirstName" #FirstName="ngModel" required maxlength="35" />
+              <div *ngIf="FirstName.errors && FirstName.errors.required" class="error-message">Required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                Middle Name:
+              </label>
+              <input type="text" class="form-control" placeholder="Middle Name" name="MiddleName"
+                [(ngModel)]="model.PatientUser.MiddleName" #MiddleName="ngModel" maxlength="35" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Legal Last Name *' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input type="text" class="form-control" name="LastName" [(ngModel)]="model.PatientUser.LastName"
+                placeholder="Last Name" #LastName="ngModel" required maxlength="35" />
+              <div *ngIf="f.submitted && LastName.errors && LastName.errors.required" class="error-message">Required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="lastName">
+                Suffix:
+              </label>
+              <select class="form-control" name="Suffix" #Suffix="ngModel" [(ngModel)]="model.PatientUser.Suffix">
+                <option value="">None</option>
+                <option *ngFor="let item of suffixes" [value]="item">{{item}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row clearfix" [ngClass]="{ 'has-error': (!DOB.valid || !Gender.valid) }">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Date of Birth:' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <app-date-time-picker [placeholder]="'Date of Birth'" name="DOB" [isDisabled]="false" [hasTime]="false"
+                [(ngModel)]="model.PatientUser.DOB" #DOB="ngModel" required>
+              </app-date-time-picker>
+              <div *ngIf="DOB.errors && DOB.errors.required" class="error-message">
+                Required</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Gender:' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <select class="form-control" name="Gender" [(ngModel)]="model.PatientUser.Gender" #Gender="ngModel"
+                required>
+                <option value="" disabled>{{'Select Gender' | translate}}</option>
+                <option value="Male">{{'Male' | translate}}</option>
+                <option value="Female">{{'Female' | translate}}</option>
+              </select>
+              <div *ngIf="f.submitted && Gender.errors && Gender.errors.required" class="error-message">
+                Required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h4 class="form-section"><i class="la la-globe"></i> {{'Address' | translate}}</h4>
+
+        <div class="form-group row clearfix" [ngClass]="{ 'has-error': !Address1.valid }">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Address 1:' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input type="text" class="form-control" placeholder="Address1" name="Address1"
+                [(ngModel)]="model.PatientUser.Address1" #Address1="ngModel" required maxlength="35" />
+              <div *ngIf="Address1.errors && Address1.errors.required" class="error-message">Required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Address 2:' | translate}}
+              </label>
+              <input type="text" class="form-control" placeholder="Address2" name="Address2"
+                [(ngModel)]="model.PatientUser.Address2" #Address2="ngModel" maxlength="35" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row clearfix"
+          [ngClass]="{ 'has-error': (!City.valid || !State.valid || !ZipCode.valid) }">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'City:' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input type="text" class="form-control" placeholder="City" name="City"
+                [(ngModel)]="model.PatientUser.City" #City="ngModel" required />
+              <div *ngIf="City.errors && City.errors.required" class="error-message">Required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="lastName">
+                {{'State:' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <select name="State" class="form-control m-input" [(ngModel)]="model.PatientUser.State" #State="ngModel"
+                required>
+                <option value="" disabled>Select</option>
+                <option value="{{item.value}}" *ngFor="let item of us_statelist">{{item.name}}</option>
+              </select>
+              <div *ngIf="State.errors && State.errors.required" class="error-message">Required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Zip Code:' | translate}}
+                <span class="danger">
+                  *
+                </span>
+              </label>
+              <input type="text" [textMask]="{mask: maskZipCode}" class="form-control" name="ZipCode"
+                [(ngModel)]="model.PatientUser.ZipCode" placeholder="Zip" #ZipCode="ngModel" required />
+              <div *ngIf="ZipCode.errors && ZipCode.errors.required" class="error-message">Required
+              </div>
+              <div *ngIf="ZipCode.errors && !ZipCode.errors.required && ZipCode.errors.pattern" class="error-message">
+                Invalid value
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+       
+      <fieldset class="fieldset-user">
+        <h4 class="form-section"><i class="la la-support"></i> {{'Emergency Contact' | translate}}</h4>
+        <div class="form-group row clearfix" id="groupEmergencyContact">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Emergency Contact Name:' | translate}}
+              </label>
+              <input type="text" class="form-control" name="EmergencyContactName"
+                [(ngModel)]="model.EmergencyContactName" #EmergencyContactName="ngModel" />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Emergency Contact Phone Number:' | translate}}
+              </label>
+              <input type="text" class="form-control" [textMask]="{mask:maskPhone}"
+                pattern="^\(([2346789][0-9]{2}|[23456789][012346789][0-9]|[23456789][0-9][012346789])\)\s?([012346789][0-9]{2}|[0123456789][012346789][0-9]|[0123456789][0-9][012346789])-[0-9]{4}$"
+                name="EmergencyContactPhoneNumber" [(ngModel)]="model.EmergencyContactPhoneNumber"
+                #EmergencyContactPhoneNumber="ngModel" />
+              <div *ngIf="EmergencyContactPhoneNumber.errors  && EmergencyContactPhoneNumber.errors.pattern"
+                class="error-message">Invalid
+                Phone Ex:(999) 999-9999
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row clearfix">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">
+                {{'Primary Care Provider:' | translate}}
+              </label>
+              <input type="text" class="form-control" name="PrimaryCare" [(ngModel)]="model.PrimaryCare"
+                #PrimaryCare="ngModel" />
+            </div>
+          </div>
+        </div>
+
+        <h4 class="form-section"><i class="la la-medkit"></i> {{'Medical Info' | translate}}</h4>
+
+        <div class="form-group row clearfix" id="groupMedicalInfo">
+          <div class="col-md-12">
+            <label>{{'Allergies' | translate}}</label>
+          </div>
+          <div class="row col-md-12" *ngFor="let item  of model.Allergies , let i=index">
+            <div class="form-group mb-1 col-md-5">
+              <app-select-allergy name="Alligeries_{{i}}" [(ngModel)]="item.Name" #Alligeries="ngModel" [index]="i"
+                (onValueChanged)="changeValueAllergy($event)" [data]="item" required>
+              </app-select-allergy>
+              <div *ngIf="f.submitted && Alligeries.errors && Alligeries.errors.required"
+                class="row error-message col-md-12">
+                Required.
+              </div>
+              <div *ngIf="checkExistAllergy(item.Name)" class="row error-message col-md-12">
+                Allergy is existed.
+              </div>
+            </div>
+
+            <div class="form-group col-md-3 text-center">
+              <button type="button" class="btn btn-danger" (click)="deleteAlligery(i)"> <i class="ft-x"></i>
+                Delete</button>
+            </div>
+          </div>
+          <div class="row col-md-12 text-right">
+            <button type="button" class="btn btn-green ml-2" (click)="addAllergy()">Add Allergy</button>
+          </div>
+        </div>
+
+        <div class="form-group row clearfix" id="groupMedicalConditions">
+          <div class="col-md-12">
+            <label>{{'Medical Conditions' | translate}}</label>
+          </div>
+          <div class="row col-md-12 ">
+            <div class="col-md-4" *ngFor="let item of listMedicalConditions">
+              <!-- <label class="fancy-checkbox">
+                <input type="checkbox" name="checkbox" [value]="item.ID" (click)="changeMedicationCondition(item.ID)"
+                  [checked]="item.IsChecked">
+                <span>&nbsp;{{item.MedicalConditionName}}</span>
+              </label> -->
+              <div class="col-md-12 mx-auto">
+                <fieldset>
+                  <input class="icheckbox_flat-green checked" name="checkbox"
+                    (click)="changeMedicationCondition(item.ID)" type="checkbox" [checked]="item.IsChecked"
+                    [value]="item.ID">
+                  <label>&nbsp;&nbsp;{{item.MedicalConditionName}}</label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="checkOtherRequired(listMedicalConditions)">
+            <textarea type="text" class="form-control" name="MedicalConditionsOthers"
+              [(ngModel)]="model.MedicalConditionsOthers" #MedicalConditionsOthers="ngModel"
+              [required]="checkOtherRequired(listMedicalConditions)"></textarea>
+            <div *ngIf="MedicalConditionsOthers.errors && MedicalConditionsOthers.errors.required"
+              class="error-message">
+              Required.</div>
+          </div>
+        </div>
+        <div class="form-group row clearfix" id="groupMedications">
+          <div class="col-md-12">
+            <label>{{'Medications' | translate}}</label>
+          </div>
+          <div class="row col-md-12">
+            <div class="col-md-6" *ngFor="let item of listMedications">
+              <div class="col-md-12 mx-auto">
+                <fieldset>
+                  <input class="icheckbox_flat-green checked" name="checkbox" (click)="changeMedication(item.ID)"
+                    type="checkbox" [checked]="item.IsChecked" [value]="item.ID">
+                  <label>&nbsp;&nbsp;{{item.MedicationName}}</label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="checkOtherRequired(listMedications)">
+            <textarea type="text" class="form-control" name="MedicationOthers" [(ngModel)]="model.MedicationOthers"
+              #MedicationOthers="ngModel" [required]="checkOtherRequired(listMedications)"></textarea>
+            <div *ngIf=" MedicationOthers.errors && MedicationOthers.errors.required" class="error-message">Required.
+            </div>
+          </div>
+        </div>
+
+        <h4 class="form-section"><i class="la la-hospital-o"></i> {{'Preferred Pharmacy' | translate}}</h4>
+
+        <div class="form-group row clearfix" id="groupPreferredPharmacy">
+          <div class="row col-md-12">
+            <div class="col-md-4" *ngIf="model.PreferredPharmacy">
+              <app-view-marker [address]="getAddressMarker()"></app-view-marker>
+            </div>
+            <div class="col-md-8">
+              <h5 *ngIf="model.PreferredPharmacy" class="text-bold-600" style="color:#016670">
+                {{model.PreferredPharmacy}}</h5>
+              <p *ngIf="model.PreferredPharmacy">{{model.PreferredPharmacyAddress}}, {{model.PreferredPharmacyCity}},
+                {{model.PreferredPharmacyState}} {{model.PreferredPharmacyZipCode}}</p>
+              <p *ngIf="model.PreferredPharmacyPhoneNumber">Phone#: {{model.PreferredPharmacyPhoneNumber}}</p>
+              <button type="button" class="btn btn-medical-white"
+                (click)="showPerferPharmacy()">{{model.PreferredPharmacy ? 'Change Pharmacy' : 'Add Preffered Pharmacy' | translate}}</button>
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+      <div class="col-md-12 text-center m-b-40" *ngIf="!hideUser">
+      </div>
+      <div class="col-md-12 form-actions text-center" *ngIf="hideUser">
+        <button type="button" class="btn btn-medical-white btn-min-width btn-lg mr-1" (click)="cancel()">
+          <i class="ft-x"></i> {{'Cancel' | translate}}</button>
+        <button type="submit" class="btn btn-green btn-min-width btn-lg" [disabled]="IsSubmitting">
+          <i class="la la-check-square-o"></i> {{'Save' | translate}}</button>
+      </div>
+      <div class="col-sm-12 form-actions row m-0 p-0" *ngIf="!hideUser">
+        <div class="col-md-6 col-sm-12 text-center text-md-left pt-1">
+          <button type="button" class="btn btn-medical-white btn-lg btn-min-width" (finalize)="scrollToTop()"
+            awPreviousStep>Back</button>
+        </div>
+        <div class="col-md-6 col-sm-12 text-center text-md-right pt-1">
+          <button type="submit" class="btn btn-green btn-lg btn-min-width" (finalize)="scrollToTop();"
+            [disabled]="!f.form.valid" awNextStep>Save & Continue</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<app-perfer-pharmacy-search #modal="" (onClosed)="closePerfer($event)"></app-perfer-pharmacy-search>

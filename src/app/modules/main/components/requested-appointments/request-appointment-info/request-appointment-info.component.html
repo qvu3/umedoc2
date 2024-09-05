@@ -1,0 +1,163 @@
+<div class="content-header row">
+    <div class="content-header-left col-4">
+        <div class="row breadcrumbs-top">
+            <div class="breadcrumb-wrapper col-12">
+                <ol class="breadcrumb">
+                    <div class="btn-group mr-1 mb-1">
+                        <button type="button" class="btn btn-danger dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions </button><span
+                            *ngIf="inviteUserCall && inviteUserCall !=''" class="ml-3 mt-1"
+                            style="color: red; font-size: 16px;">{{inviteUserCall}}</span>
+                        <div class="dropdown-menu" x-placement="bottom-start"
+                            style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <a class="dropdown-item" (click)="addFutureAppt()">Add F/ u Visit</a>
+                            <a class="dropdown-item" (click)="viewParticipants()">View Participants</a>
+                            <a class="dropdown-item" (click)="executeFaxDocument()">Fax Note</a>
+                            <a class="dropdown-item" (click)="changeProvider()">Change Provider</a>
+                            <a class="dropdown-item" (click)="callClient()" *ngIf="model && model.PatientProfile
+                            && model.PatientProfile.PatientUser">Call Patient</a>
+                            <a class="dropdown-item" (click)="showHealthData()" *ngIf="model && model.PatientID">View
+                                Health Kit</a>
+                            <a class="dropdown-item" (click)="addPatientBlockList()"
+                                *ngIf="model && model.PatientID">Block/Watch</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="writeWorkRelease()">Write Work Release</a>
+                            <a class="dropdown-item" (click)="writeLabOrder()">Write Lab Order</a>
+                            <a class="dropdown-item" (click)="writeReferral()"> Write Referral</a>
+
+                            <a *ngIf="!model.IsOnDemand" class="dropdown-item" (click)="reschedule()">Reschedule</a>
+
+                            <a class="dropdown-item" (click)="inviteGuestToVideo()">Invite guest to Video Session</a>
+                        </div>
+                    </div>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right col-8 text-right">
+        <ul class="list-inline mb-0">
+            <li>
+                <div>
+                    <button [disabled]="isCompletedAppointment" class="btn btn-green mb-1"
+                        (click)="completedAppointment()" type="button">
+                        End Visit
+                    </button>
+                    <button [disabled]="isCancelledAppointment" class="btn btn-warning ml-1 mb-1"
+                        (click)="cancelledAppointment()" type="button">
+                        Cancel Visit
+                    </button>
+                    <a *ngIf="model.ProviderProfile && model.ProviderProfile.DS_UserID && model.PatientProfile && model.PatientProfile.DS_PatientID"
+                        [routerLink]="['/dose/e-script',model.PatientProfile.DS_PatientID]" target="blank"
+                        class="btn btn-info mb-1 ml-1"> eRx
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content-body">
+    <div class="row">
+        <div class="col-sm-2" *ngIf="model && model.PatientUser">
+            <h5 class="text-bold-600" style="color: #3c9ff2;">{{getFullName()}}</h5>
+        </div>
+        <div class="col-sm-10" *ngIf="model && model.PatientUser">
+            <h5 class="text-bold-600" style="color: #3c9ff2;">DOB: {{model.PatientUser.DOB | date : 'MM/dd/yyyy'}} {{calAgePatient()}}</h5>
+        </div>
+        <div class="col-sm-9">
+            <div class="card" style="height: 600px; background-color: #6b6f81;">
+                <div class="card-body" style="padding: 0;">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 d-flex justify-content-around"
+                            *ngIf="model && model.AppointmentStatus && (model.AppointmentStatus.StatusName == 'Requested' || model.AppointmentStatus.StatusName == 'InSession')">
+                            <div class="col-md-12 text-center" *ngIf="!token" style="top:270px;">
+                                <button type="button" class="btn btn-lg round btn-info white" style="width:200px;"
+                                    (click)="getToken()"> Start Video Call</button>
+                            </div>
+                            <div class="col-md-12" *ngIf="token && token.length>0">
+                                <app-video-call-frame #videoCall [appointment]="model" (onChange)="onChange($event)"
+                                    (onClosed)="onClosed($event)" [isProvider]="true" [token]="token">
+                                </app-video-call-frame>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card" style="height: 600px;">
+                <div class="card-body" style="padding:0;">
+                    <!-- <div class="col-lg-12 col-md-12 d-flex justify-content-around"> -->
+                    <app-add-note-info #noteInfo [appointmentID]="id"></app-add-note-info>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <app-prizm-info [appointmentId]="id"></app-prizm-info>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="">
+                <div class="">
+                    <ul class="nav nav-tabs nav-linetriangle no-hover-bg">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" id="base-tab41" data-toggle="tab"
+                                aria-controls="tab41" [routerLink]="['personal-info-tab']" aria-expanded="true">Personal
+                                Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLink]="['appt-history-info-tab']" routerLinkActive="active"
+                                id="base-tab42" data-toggle="tab" aria-controls="tab42" href="#tab41"
+                                aria-expanded="false">Appt History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLink]="['medical-document-info-tab']" routerLinkActive="active"
+                                id="base-tab43" data-toggle="tab" aria-controls="tab43" href="#tab41"
+                                aria-expanded="false">Medical Documents</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="base-tab44" [routerLink]="['ex-history-info-tab']"
+                                routerLinkActive="active" data-toggle="tab" aria-controls="tab43" href="#tab41"
+                                aria-expanded="false">eRx History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLink]="['credit-card-insurance-info-tab']"
+                                routerLinkActive="active" id="base-tab45" data-toggle="tab" aria-controls="tab43"
+                                href="#tab41" aria-expanded="false">Credit Card & Insurance</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content px-1 pt-1">
+                        <div role="tabpanel" class="tab-pane active" id="tab41" aria-expanded="true"
+                            aria-labelledby="base-tab41">
+                            <router-outlet></router-outlet>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-fax-document-company #faxDoc [appointmentId]="id" (onClosed)="closeFax($event)">
+</app-fax-document-company>
+<!-- END: Content-->
+<app-change-provider #changeProviderModal (onClosed)="onCloseChangeProvider()"></app-change-provider>
+<app-future-appointment #futureModal=""></app-future-appointment>
+<app-reschedule-modal #rescheduleModal="" (onClosed)="getEntity()"></app-reschedule-modal>
+<app-participant-info #participantModal="" (onTurnCamMic)="turnCamMic($event)"
+    (onRefreshParticipantClient)="onRefreshParticipantClient($event)">
+</app-participant-info>
+<app-write-work-release #writeWorkReleaseModal=""></app-write-work-release>
+<app-browser-call-twillio #browserCall></app-browser-call-twillio>
+
+<app-health-data-patient #healthDataModal></app-health-data-patient>
+<app-invite-guest-to-video #inviteGuestToVideoModal></app-invite-guest-to-video>
+<app-cancel-reason-modal #cancelReasonModal (onCanceled)="onCanceled($event)" (onSaved)="cancelReasonCallback($event)">
+</app-cancel-reason-modal>
+<app-write-lab-order #writeLabOrderModal (OnClosedLabOrder)="OnClosedLabOrder($event)"></app-write-lab-order>
+<app-signature-provider #signatureModal="" (OnSaved)="signatureModalClosed($event)"></app-signature-provider>
+<!-- <app-write-lab-order-pdf #orderPdfViewer="" [model]="model"></app-write-lab-order-pdf> -->
+
+<app-write-referral #writeReferralModal (OnClosedReferral)="OnClosedReferral($event)"></app-write-referral>
+
+<app-write-lab-order-preview #orderPdfPreview=""></app-write-lab-order-preview>
+<app-patient-blocked-list-modal #blockedListModal=""></app-patient-blocked-list-modal>

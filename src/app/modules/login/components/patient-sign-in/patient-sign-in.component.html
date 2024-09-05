@@ -1,0 +1,100 @@
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <div class="col-lg-7 col-12 bg">
+      <form (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate style="height:100%;">
+        <table style="height: 100%; width: 100%;">
+          <tbody>
+            <tr class="text-center">
+              <td class="align-middle">
+                <div class="row px-lg-5 ">
+                  <div class="col-12 text-center mb-1">
+                    <div class="justify-content-center">
+                      <app-select-language></app-select-language>
+                    </div>
+                  </div>
+                  <div class="col-12 text-center">
+                    <h1 style="color: #0A93BD;font-weight: bold; font-size: 2.8rem;">{{'Returning User'|translate}}?
+                    </h1>
+                    <h4 class="mt-2" style="font-weight: bold;">{{'If you already registered, please login' |
+                      translate}}.</h4>
+                  </div>
+
+                  <div class="offset-lg-3 col-10 offset-1 col-lg-6 mt-2">
+                    <div class="text-center mb-1">
+                      <div *ngIf="f.submitted && isError" class="error-message text-left " role="alert">
+                        {{errorMessage}}
+                      </div>
+                    </div>
+                    <div class="input-container">
+                      <i class="fa fa-envelope icon "></i>
+                      <input type="text" class="input-field" autocomplete="off" placeholder="{{'Enter your Email'|translate}}" name="Username"
+                        #Username="ngModel" [(ngModel)]="model.Email" required>
+                    </div>
+                    <div *ngIf="f.submitted && Username.errors && Username.errors.required"
+                      class="error-message  text-left">
+                      Please enter your email.
+                    </div>
+                    <div class="input-container">
+                      <i class="fa fa-lock icon "></i>
+                      <input [type]="typePass" autocomplete="off" class="input-field" placeholder="{{'Enter Password'|translate}}" name="Password"
+                        #Password="ngModel" [(ngModel)]="model.Password" required>
+                    </div>
+                    <div *ngIf="f.submitted && Password.errors && Password.errors.required"
+                      class="error-message text-left">
+                      Please enter your Password.
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <fieldset style="display: inline-flex;">
+                      <input
+                        class="icheckbox_flat-green checked"
+                        name="IsRememberMe"
+                        type="checkbox"
+                        #IsRememberMe="ngModel"
+                        [(ngModel)]="isRemember"
+                      />
+                      <div> &nbsp;&nbsp; {{'Remember Me?'|translate}}</div>
+                    </fieldset>
+                    <h4 style="font-weight: bold;"><a [routerLink]="['/','auth','forgot-password']"></a></h4>
+                  </div>
+                  <div class="col-12">
+                    <h4 style="font-weight: bold;"><a [routerLink]="['/','auth','forgot-password']">{{'Forget your password?'|translate}}</a></h4>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <button style="background: #0A93BD;color: white;" class="btn btn-lg shadow-lg" type="submit"
+                      [disabled]="Submitting">
+                      {{Submitting?'PLEASE WAIT...':'LOGIN'|translate}}</button>
+                  </div>
+                  <div class="col-12 mt-4">
+                    <img class="mr-1" src="https://umedoc-prod.s3.amazonaws.com/RandomFiles/privacy.png" style="width: 70px;"
+                      alt="privacy">
+                    <img src="https://umedoc-prod.s3.amazonaws.com/RandomFiles/hipaa.png" style="width: 80px;" alt="hipaa">
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+    <div class="col-lg-5 col-12 bg2 pt-5">
+      <div class="row pt-5 mt-5 ">
+        <div class="col-12 text-center mt-lg-0">
+          <img src="/assets/logo_login.png" style="width: 300px;" alt="">
+        </div>
+        <div class="col-12 text-center pt-5">
+          <h1 class="mt-3" style="color: #0A93BD;font-size: 2.5rem; font-weight: bold;">{{'Hello, Friend!'|translate}}</h1>
+        </div>
+        <div class="col-md-12 text-center mt-3">
+          <h5 style="color: #0A93BD; font-size: 1.5rem; font-weight: bold;">{{"If you are new to Umedoc, Let's"|translate}} <br>
+            {{'start the registration with the button below.'|translate}}</h5>
+        </div>
+        <div class="col-12 mt-4 text-center">
+          <a [routerLink]="['/','auth','patient-sign-up']" style="background: #0A93BD;color: white;"
+            class="btn btn-lg shadow-lg">
+            {{'NEW PATIENT REGISTRATION'|translate}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

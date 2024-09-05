@@ -1,0 +1,35 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">List Type</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !BlockedType.valid }">
+                        <label class="col-sm-4 control-label">List Type</label>
+                        <div class="col-sm-12">
+                            <select class="form-control" name="BlockedType" #BlockedType="ngModel"
+                                [(ngModel)]="model.BlockedType">
+                                <option value="">None</option>
+                                <option value="Watch">Watch</option>
+                                <option value="Blocked">Blocked</option>
+                            </select>
+                            <div *ngIf="f.submitted && BlockedType.errors && BlockedType.errors.required"
+                                class="error-message">This field
+                                is required.</div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green" [disabled]="Submitting">Change</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

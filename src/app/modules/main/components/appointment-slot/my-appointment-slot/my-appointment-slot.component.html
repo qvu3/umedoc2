@@ -1,0 +1,39 @@
+<div class="content-header row mb-1">
+    <div class="content-header-left col-md-6 col-12 mb-2">
+        <h3 class="content-header-title">My Appointment Slot</h3>
+        <div class="row breadcrumbs-top">
+            <div class="breadcrumb-wrapper col-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a [routerLink]="['/management']">Management</a>
+                    </li>
+                    <li class="breadcrumb-item">My Appointment Slot
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right col-md-6 col-12">
+    </div>
+</div>
+<div class="content-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card" [appActionCardButton]="'My-Appointment-Slot'">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3 style="color:#016670; font-weight: 500;">Please click to add or delete appointment slots.</h3>
+                    </div>
+                </div>
+                <div class="card-content show">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div #scheduler></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

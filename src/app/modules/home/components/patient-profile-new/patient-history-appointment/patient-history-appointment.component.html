@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <!-- Nav tabs -->
+                <div class="default-tab ">
+                    <ul class="nav nav-tabs justify-content-start" style="padding-top:-20p;" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#Appointments"> Appointments
+                                <span style="margin-top:5px" class="badge badge-danger round ml-1"
+                                    *ngIf="totalAppt > 0"> {{totalAppt}}</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#GroupSession"> Group Session <span
+                                    style="margin-top:5px" class="badge badge-danger ml-1 round"
+                                    *ngIf="totalGroupAppt > 0">{{totalGroupAppt}}</span></a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="Appointments" role="tabpanel">
+                            <div class="mt-2">
+                                    <table class="table row-grouping display" [isFilter]="false"
+                                        [isLengthChange]="false" appPagingTable="" [aoColumns]="aoColumns"
+                                        [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting"
+                                        [compRef]="compRef" (tableEvent)="catchTable($event)" style="width: 100%">
+                                    </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="GroupSession" role="tabpanel">
+                            <app-patient-history-group-session></app-patient-history-group-session>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-reschedule-modal #rescheduleModal="" (onClosed)="RefreshTable()"></app-reschedule-modal>
+
+<app-patient-cancel-appointment-modal #cancelReasonModal (onSaved)="cancelReasonCallback($event)">
+</app-patient-cancel-appointment-modal>

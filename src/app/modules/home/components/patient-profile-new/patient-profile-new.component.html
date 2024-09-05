@@ -1,0 +1,314 @@
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+        <div class="row">
+            <div class="col-md-12" *ngIf="currentUser">
+                <h2 style="color:#3c9486">Welcome, {{currentUser.FirstName}} {{currentUser.LastName}}! We offer medical care, on demand or scheduled.</h2>
+                <h2 style="color:#3c9486">Choose a service below to get started.</h2>
+            </div>
+        </div>
+        <div class="form-group row clearfix text-center mt-2">
+            <div class="col-md-12 text-center mb-4" *ngIf="partnerName  == 'SHA' && !patient?.CardID">
+                <h3 class="text-danger">{{'Your credit card is missing, please click button below to add it:' | translate}}</h3>
+                <div class="row justify-content-center">
+                    <div class="col-md-5">
+                        <a (click)="gotoCreditCard()" href="javascript:void(0)" class="btn btn-warning col-md-5" style="width: 100%;">{{'Add Credit Card' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 text-center">
+                <h3>{{'Your State:' | translate}}</h3>
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                        <select name="State" class="form-control m-input" [(ngModel)]="currentState" (change)="changeState($event)">
+                            <option value="" disabled>Select</option>
+                            <option value="{{item.value}}" *ngFor="let item of us_statelist">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-2 text-center">
+                <h3>{{'Who is this visit for:' | translate}}</h3>
+                <div class="row justify-content-center">
+                    <div class="col-md-3" style="display:inline-flex; justify-content: space-between;">
+                        <select name="appointment_PatientID" class="form-control m-input" [(ngModel)]="appointmentPatientID" (change)="changePatient($event)">
+                            <option [value]="item.Id" *ngFor="let item of parents">{{item.FirstName}} {{item.LastName}}</option>
+                        </select>
+                        <a style="margin: 5px;" href="javascript:void(0)" (click)="addChild()"><i class="fa fa-plus fa-2x"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6" *ngIf="model && model.IsPrimaryCareUrgentCare">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>{{'See a Primary Care provider now or Schedule a future visit' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'16 years old and above' | translate}}
+                                </li>
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+                            <a (click)="Now('/booking/request-appointment/primary_care_urgent_care')" href="javascript:void(0)" class="btn btn-primary col-md-5 mr-1" style="width: 100%;">{{'Now' | translate}}</a>
+
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/primary_care_urgent_care']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Future' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/primary_care_1.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6" *ngIf="model && model.IsMedicationRefill">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>{{'See a medical provider for a Medication Refill' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'16 years old and above' | translate}}
+                                </li>
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/medication_refill']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Future' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/Group%2024.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6" *ngIf="model && model.IsWeightLossConsultation">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>{{'Weight Loss Program' | translate}}</h4>
+                            <h6>{{'Includes Wegovy TM, Diet Program by Licensed providers, and presonal trainer' | translate}}</h6>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/weight_loss_consultation']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Schedule Visit' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/weight_loss.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6" *ngIf="model && model.IsDiabeticManagement">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>{{'Diabetes Management' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+                            <a (click)="Now('/booking/request-appointment/diabetic_management')" href="javascript:void(0)" class="btn btn-primary col-md-5 mr-1" style="width: 100%;">{{'Now' | translate}}</a>
+
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/diabetic_management']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Future' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/diabetics_1.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6" *ngIf="model && model.IsSkinCare">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>{{'Prescription Based Skin Care' | translate}}</h4>
+                            <h6>{{'Get prescription for T-Retinion and more' | translate}}</h6>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/skin_care']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Schedule Visit' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/skin_care.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6" *ngIf="model.IsTravelMedicine">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="mb-2">{{'Pre-travel Consultation' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/travel_medicine']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Schedule Visit' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/Group%2037.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6" *ngIf="model && model.IsPediatric">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>{{'See a Pediatric provider now or Schedule a future visit' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'Under 16 years old' | translate}}
+                                </li>
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+                            <a (click)="Now('/booking/request-appointment/pediatric')" href="javascript:void(0)" class="btn btn-primary col-md-5 mr-1" style="width: 100%;">{{'Now' | translate}}</a>
+
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/pediatric']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Future' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/Group%2030.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6" *ngIf="model.IsPsychiatric">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>{{'See a Psychiatric provider now or Schedule a future visit' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+                            <a (click)="Now('/booking/request-appointment/Psychiatric')" href="javascript:void(0)" class="btn btn-primary col-md-5 mr-1" style="width: 100%;">{{'Now' | translate}}</a>
+
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/Psychiatric']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Future' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/Group%2035.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6" *ngIf="model.IsCovidScreening && companyInfo && companyInfo.IsVaccineEnabled">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="mb-2">{{'Covid Vaccine Screening' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+                            <a (click)="Now('/booking/request-appointment/covid_screening')" href="javascript:void(0)" class="btn btn-primary col-md-5 mr-1" style="width: 100%;">{{'Now' | translate}}</a>
+
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/covid_screening']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Future' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/Group%2038.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6" *ngIf="isAvailableGroupAppt">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="mb-2">{{'Group Session' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+
+                            <a (click)="ScheduleGroupAppt()" [routerLink]="['/group-session/appt-group-insurance']" class="btn btn-primary col-md-5 mt-5" style="width: 100%;">{{'Schedule' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/Group%2035.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-lg-6" *ngIf="model && model.IsFitness">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>{{'See a Fitness provider now or Schedule a future visit' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    {{'16 years old and above' | translate}}
+                                </li>
+                                <li class="text-muted fs-16">
+                                    {{'Mon-Sun' | translate}} / 8am-6pm
+                                </li>
+                            </ul>
+                            <a (click)="Now('/booking/request-appointment/fitness')" href="javascript:void(0)" class="btn btn-primary col-md-5 mr-1" style="width: 100%;">{{'Now' | translate}}</a>
+
+                            <a (click)="Future()" [routerLink]="['/booking/request-appointment/fitness']" class="btn btn-primary col-md-5" style="width: 100%;">{{'Future' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/Group%2035.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="col-lg-6" *ngIf="companyInfo && companyInfo.IsVaccineEnabled && checkAllowVaccinScheduleShow()">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>{{'Covid Vaccine Schedule (Johnson & Johnson)' | translate}}</h4>
+                            <ul class="list-unstyled pt-2">
+                                <li class="text-muted fs-16">
+                                    Location: 3592 Broadway, Fort Myers, FL 33901.
+                                </li>
+                                <li class="text-muted fs-16">
+                                    First Time Screening Visit is required.
+                                </li>
+                            </ul>
+
+                            <a (click)="ScheduleVaccine()" href="javascript:void(0)"
+                                class="btn btn-primary col-md-5" style="width: 100%;">{{'Schedule' | translate}}</a>
+                        </div>
+                        <div class="col-4 text-center" style="padding-left:0;">
+                            <img src="/assets/patient/imgs/Group%2037.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<app-patient-child-modal #modal (onClosed)="getListParent()"></app-patient-child-modal>

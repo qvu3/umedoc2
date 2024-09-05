@@ -1,0 +1,31 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog modal-lg">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && signature()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Write Work Release</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <h4>Content:</h4>
+                        <app-ckeditor-classic name="Content" [allowUploadImage]="false"
+                            #Content="ngModel" [(ngModel)]="model.Content" required>
+                        </app-ckeditor-classic>
+                        <div class="error-message" *ngIf="f.submitted && Content.errors && Content.errors.required">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-min-width btn-outline-primary">Sign</button>
+                        <button type="button" class="btn btn-min-width btn-outline-info"
+                            (click)="cancel()">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
+    </div>
+    <app-signature-patient #signatureModal="" (OnSaved)="onSaved($event)"></app-signature-patient>

@@ -1,0 +1,213 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog">
+    <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{this.model.ID ? 'Update Patient Insurance' : 'Add Patient Insurance'}}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="InsuranceName">
+              Insurance Name:
+              <span class="danger">
+                *
+              </span>
+            </label>
+            <ng-select2 name="InsuranceName" [(ngModel)]="model.InsuranceName" #InsuranceName="ngModel" required
+              [data]="InsuranceData" [options]="optionsInsurance"></ng-select2>
+            <div *ngIf="!model.IsNotOnTheList && f.submitted && InsuranceName.errors && InsuranceName.errors.required"
+              class="error-message">
+              Please enter insurance name.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row col-md-12 clearfix ">
+              <div>
+                <fieldset>
+                  <input class="icheckbox_flat-green checked" name="IsNotOnTheList" type="checkbox"
+                    (change)="onChangeIsNotOnTheList($event)" #IsNotOnTheList="ngModel"
+                    [(ngModel)]="model.IsNotOnTheList">
+                  <label>&nbsp;&nbsp;My Insurance is not in the list above</label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="model.IsNotOnTheList">
+            <label for="insurance name">
+              Type your Insurance bellow: <span class="danger">
+                *
+              </span>
+            </label>
+            <input type="text" class="form-control" placeholder="Enter your insurance name" name="InsuranceName"
+              [(ngModel)]="model.InsuranceName" #InsuranceName="ngModel" required />
+            <div *ngIf="f.submitted && InsuranceName.errors && InsuranceName.errors.required" class="error-message">
+              Please enter insurance name.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="Insurance Member ID">
+              Insurance Member ID:
+              <span class="danger">
+                *
+              </span>
+            </label>
+            <input type="text" class="form-control" placeholder="Enter your Insurance Member ID"
+              name="BeneficiaryNumber" [(ngModel)]="model.BeneficiaryNumber" #BeneficiaryNumber="ngModel" required
+              minlength="5" />
+            <div *ngIf="f.submitted &&  BeneficiaryNumber.errors && BeneficiaryNumber.errors.required"
+              class="error-message">
+              Please enter Insurance Member ID.
+            </div>
+            <div
+              *ngIf="f.submitted &&  BeneficiaryNumber.errors && !BeneficiaryNumber.errors.required && BeneficiaryNumber.errors.minlength"
+              class="error-message">
+              Please enter at least 5 characters.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row col-md-12 clearfix ">
+              <div>
+                <fieldset>
+                  <input class="icheckbox_flat-green checked" name="IsHMOPlan" type="checkbox" #IsHMOPlan="ngModel"
+                    [(ngModel)]="model.IsHMOPlan">
+                  <label>&nbsp;&nbsp;I have HMO plan</label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="Group Number">
+              Group Number:
+            </label>
+            <input type="text" class="form-control" placeholder="Enter your group number" name="GroupNumber"
+              [(ngModel)]="model.GroupNumber" #GroupNumber="ngModel" />
+          </div>
+
+          <div class="form-group col-md-12">
+            <fieldset>
+              <div class="row col-md-12 d-inline-block custom-control custom-radio mr-2">
+                <input type="radio" (change)="onChangeCopay($event)" class="custom-control-input"
+                  #DontKnowCopay="ngModel" name="copayRadio3" [(ngModel)]="model.DontKnowCopay" [value]="false"
+                  id="copayRadio3">
+                <label class="custom-control-label pb-1" for="copayRadio3">My copay is $ </label>
+                <input
+                  [disabled]="model.DontKnowCopay===true || model.DontKnowCopay===null || model.DontKnowCopay===undefined"
+                  type="number" min="0" step="1" placeholder="Enter your copay value"
+                  class="col-md-6 form-control-insurance-copay" name="PatientCopay" [(ngModel)]="model.PatientCopay"
+                  #PatientCopay="ngModel" [required]="model.DontKnowCopay===false" />
+              </div>
+              <div *ngIf="f.submitted &&  PatientCopay.errors && PatientCopay.errors.required" class="error-message">
+                Please enter your patient copay value.
+              </div>
+
+              <div class="row col-md-12 d-inline-block custom-control custom-radio mt-1">
+                <input type="radio" (change)="onChangeCopay($event)" class="custom-control-input" name="copayRadio4"
+                  id="copayRadio4" #DontKnowCopay="ngModel" [(ngModel)]="model.DontKnowCopay" [value]="true">
+                <label class="custom-control-label" for="copayRadio4">I don't know my copay (Our staff will contact you
+                  to verify your insurance)</label>
+              </div>
+              <div *ngIf="f.submitted && (model.DontKnowCopay === undefined || model.DontKnowCopay === null)"
+                class="error-message">
+                Please choose copay option.
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-6 text-center">
+              <label class="btn btn-medical-white" style="margin-top:8px; cursor: pointer;"
+                title="Upload Front Image of your Insurance Card" appFileUpload="" [typeUpload]="'appointment_image'"
+                (onCallback)="uploadedFront($event)" [fileType]="0" (onUploadStatus)="uploadStatus($event)"
+                [link]="'/api/Utility/S3UploadPrivatePatienInsurance'">
+                <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file" accept="image/*">
+                <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                <span>{{isUploading?'Uploading...':'Upload Front Image of your Insurance Card'}}</span>
+              </label>
+              <div *ngIf="model.FrontImageUrlView" class="col-lg-1 col-md-6 col-sm-12 m-b-30 text-center">
+                <a href="javascript:void(0)">
+                  <img style="max-width: 100px!important;height: 100px!important;" class="img-fluid img-thumbnail"
+                    [src]="model.FrontImageUrlView" alt="">
+                </a>
+                <div class="pt-1 pb-1 text-center">
+                  <button type="button" class="btn btn-danger btn-sm m-t-5" (click)="removeAttachFront(model)">
+                    <i class="fa fa-trash"></i> Remove</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 text-center">
+              <label class="btn btn-medical-white" style="margin-top:8px; cursor: pointer;"
+                title="Upload Back Image of your Insurance Card" appFileUpload="" [typeUpload]="'appointment_image'"
+                (onCallback)="uploadedBack($event)" [fileType]="0" (onUploadStatus)="uploadStatus($event)"
+                [link]="'/api/Utility/S3UploadPrivatePatienInsurance'">
+                <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file" accept="image/*">
+                <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                <span>{{isUploading?'Uploading...':'Upload Back Image of your Insurance Card'}}</span>
+              </label>
+              <div *ngIf="model.BackImageUrlView" class="col-lg-1 col-md-6 col-sm-12 m-b-30 text-center">
+                <a href="javascript:void(0)">
+                  <img style="max-width: 100px!important;height: 100px!important;" class="img-fluid img-thumbnail"
+                    [src]="model.BackImageUrlView" alt="">
+                </a>
+                <div class="pt-1 pb-1 text-center">
+                  <button type="button" class="btn btn-danger btn-sm m-t-5" (click)="removeAttachBack(model)">
+                    <i class="fa fa-trash"></i> Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row col-md-12 clearfix ">
+              <div>
+                <fieldset>
+                  <input class="icheckbox_flat-green checked" name="IsDependent" type="checkbox" #IsDependent="ngModel"
+                    [(ngModel)]="model.IsDependent">
+                  <label>&nbsp;&nbsp;Is Dependent</label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="model.IsDependent">
+            <label for="relationship to subscriber">
+              Relationship to Subscriber:
+            </label>
+            <input type="text" class="form-control" placeholder="Enter relationship to subscriber" name="Relationship"
+              [(ngModel)]="model.Relationship" #Relationship="ngModel" />
+          </div>
+
+          <div class="form-group" *ngIf="model.IsDependent">
+            <label for="Subscriber Name">
+              Subscriber Name:
+            </label>
+            <input type="text" class="form-control" placeholder="Enter subscriber name" name="SubscriberName"
+              [(ngModel)]="model.SubscriberName" #SubscriberName="ngModel" />
+          </div>
+
+          <div class="form-group" *ngIf="model.IsDependent">
+            <label for="Subscriber Date Of Birth">
+              Subscriber Date of Birth:
+            </label>
+            <app-date-time-picker [placeholder]="'Date of Birth'" name="SubscriberDOB" [isDisabled]="false"
+              [hasTime]="false" [(ngModel)]="model.SubscriberDOB" #SubscriberDOB="ngModel">
+            </app-date-time-picker>
+          </div>
+
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+          <button type="submit" class="btn btn-min-width btn-green" [disabled]="Submitting">{{this.model.ID ? 'Update' :
+            'Save'}}</button>
+          <button type="button" class="btn btn-min-width btn-medical-white" (click)="hide()">Cancel</button>
+        </div>
+      </div>
+    </form>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

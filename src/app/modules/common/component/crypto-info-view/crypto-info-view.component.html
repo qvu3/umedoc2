@@ -1,0 +1,14 @@
+<h5  *ngIf="model && model.Code">Crypto Info:</h5>
+
+<table id="cardInfo" style="width: 100%;"  *ngIf="model && model.Code">
+    <tr>
+        <td class="form-label" style="width: 40%;text-align: center;">Coinbase ChargeID</td>
+        <td class="form-label" style="width: 30%;text-align: center;">Crypto Type</td>
+        <td class="form-label" style="width: 30%;text-align: center;">Amount</td>
+    </tr>
+    <tr>
+        <td class="form-payment-control" style="width: 40%;text-align: center;">{{model.Code}}</td>
+        <td class="form-payment-control" style="width: 30%;text-align: center;">{{model.CryptoType}}</td>
+        <td class="form-payment-control" style="width: 30%;text-align: center;">{{model.Amount}}</td>
+    </tr>
+</table>   

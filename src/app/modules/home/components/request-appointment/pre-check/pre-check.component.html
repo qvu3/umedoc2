@@ -1,0 +1,62 @@
+<div class="text-center mt-1 mb-2">
+  <h2 class="text-bold-600">PRE-CHECK QUESTIONS</h2>
+</div>
+
+<form class="form-horizontal" (ngSubmit)="fAvailable.form.valid" #fAvailable="ngForm" novalidate>
+  <div class="row form-group clearfix">
+    <label class="col-md-12 control-label">1. What state are you currently located?</label>
+    <div class="col-md-3">
+      <select class="form-control" name="State" [(ngModel)]="model.State" #State="ngModel" required>
+        <option [value]="item.value" *ngFor="let item  of  states">{{item.name}}</option>
+      </select>
+      <div *ngIf="fAvailable.submitted && State.errors && State.errors.required" class="row error-message col-md-12">
+        Required.
+      </div>
+    </div> 
+  </div>
+  
+  <div class="row form-group clearfix">
+    <label class="col-md-12 control-label">2. Are you above the age of 16?</label>
+    <div class="col-md-3">
+      <label>
+        <input type="radio" name="IsThan14Age" #IsThan14Age="ngModel" [(ngModel)]="model.IsThan14Age"
+          style="width:20px; height:20px;" [value]="true" required>
+        <span class="label-checkbox"> Yes</span>
+      </label>
+    </div>
+    <div class="col-md-9">
+      <label>
+        <input type="radio" (change)="noCheckAge()" name="IsThan14Age" #IsThan14Age="ngModel"
+          [(ngModel)]="model.IsThan14Age" style="width:20px; height:20px;" [value]="false" required>
+        <span class="label-checkbox"> No</span>
+      </label>
+    </div>
+    <div *ngIf="fAvailable.submitted && IsThan14Age.errors && IsThan14Age.errors.required"
+      class="col-md-12 error-message">This
+      is required field.
+    </div>
+  </div>
+  <div class="row form-group clearfix">
+    <label class="col-md-12 control-label">3. Are you experiencing life threatening medical conditions?</label>
+    <div class="col-md-3">
+      <label>
+        <input type="radio" (change)="checkNoCall911()" name="IsCalled911" #IsCalled911="ngModel"
+          [(ngModel)]="model.IsCalled911" style="width:20px; height:20px;" [value]="false" required>
+        <span class="label-checkbox"> Yes</span>
+      </label>
+    </div>
+    <div class="col-md-9">
+      <label>
+        <input type="radio" (change)="checkNoCall911()" name="IsCalled911" #IsCalled911="ngModel"
+          [(ngModel)]="model.IsCalled911" style="width:20px; height:20px;" [value]="true" required>
+        <span class="label-checkbox"> No</span>
+      </label>
+    </div>
+    <div *ngIf="fAvailable.submitted && IsCalled911.errors && IsCalled911.errors.required"
+      class="col-md-12 error-message">This
+      is required field.
+    </div>
+  </div>
+</form>
+
+<app-device-check #deviceCheck></app-device-check>

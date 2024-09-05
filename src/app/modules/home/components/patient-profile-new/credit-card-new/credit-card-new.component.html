@@ -1,0 +1,75 @@
+<div class="" style="margin-top: 50px !important; ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card border-success">
+                <div class="card-header">
+                    <h5 class="card-title" style="color: #016670;">{{'Plans' | translate}}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="col-md-12 p-0">
+                        <app-billing-plan [patientID]="patientId"></app-billing-plan>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="card border-success">
+                <div class="card-header">
+                    <h5 class="card-title" style="color: #016670;">{{'Credit card' | translate}}</h5>
+                    <div class="heading-elements">
+                        <button class="btn btn-sm btn-icon round bg-teal white" (click)="changeCreditCard()"
+                            id="btnUpdateProfile" type="button">
+                            <i class="la la-edit white"></i> {{'Update' | translate}}
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" *ngIf="model && model.CardInfo" >
+
+                    <div class="creditcard">
+                        <div class="bank-name" title="BestBank">Credit Card</div>
+                        <div class="chip">
+                          <div class="side left"></div>
+                          <div class="side right"></div>
+                          <div class="vertical top"></div>
+                          <div class="vertical bottom"></div>
+                        </div>
+                        <div class="data">
+                          <div class="pan" title="{{model.CardInfo.CardNumber}}">{{model.CardInfo.CardNumber}}</div>
+                          <div class="exp-date-wrapper">
+                            <div class="left-label">EXPIRES END</div>
+                            <div class="exp-date">
+                              <div class="upper-labels">MONTH/YEAR</div>
+                              <div class="date" title="{{model.CardInfo.ExpiredMonth}}/{{model.CardInfo.ExpiredYear}}">{{model.CardInfo.ExpiredMonth}}/{{model.CardInfo.ExpiredYear}}</div>
+                            </div>
+                          </div>
+                          <div class="name-on-card" title="Umedoc Patient" style="margin-bottom:10px;">Umedoc Patient</div>
+                        </div>
+                      </div>
+                </div>
+                <div class="card-body" *ngIf="!model ||  !model.CardInfo">
+                    <span>{{'Please update your credit card by clicking the Update button.' | translate}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card border-success">
+                <div class="card-header">
+                    <h5 class="card-title" style="color: #016670;">{{'Payment History' | translate}}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="col-md-12 p-0">
+                        <app-patient-payment-history-info [patientID]="patientId"></app-patient-payment-history-info>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<app-card-info #cardInfoModal (closeModal)="closeCardInfo()"></app-card-info>

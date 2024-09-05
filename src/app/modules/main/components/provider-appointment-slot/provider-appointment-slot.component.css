@@ -1,0 +1,27 @@
+.fc-view-container { 
+    overflow-x: scroll; 
+}
+.fc-event, .fc-event-dot {
+    background: transparent !important;
+} 
+
+.fc-event { 
+    border: none !important;
+}
+
+.fc-axis {
+    height: 70px!important;
+}
+
+.fc-time{
+    height: 70px!important;
+}
+
+.fc-widget-content{
+    height: 70px!important;
+}
+
+.tooltip
+{
+opacity: 1;
+}

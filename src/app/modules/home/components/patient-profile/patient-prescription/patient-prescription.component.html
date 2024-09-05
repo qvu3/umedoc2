@@ -1,0 +1,65 @@
+<div class="card" [appActionCardButton]="'Patien-Prescriptions'">
+    <div class="card-header">
+        <h1 class="card-title" style="color: #016670;">Prescription History</h1>
+        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+        <div class="heading-elements">
+            <a class="btn btn-sm btn-icon round bg-teal white" data-action="collapse" type="button"
+                style="-webkit-appearance: none;">
+                Show/Hide
+            </a>
+        </div>
+    </div>
+    <div class="card-content collapse show">
+        <div class="col-md-12">
+            <table class="table" style="width: 100%" id="precriptionsTable">
+                <thead>
+                    <tr>
+                        <th>Medication</th>
+                        <th>Effective Date</th>
+                        <th>Dispense</th>
+                        <th>Refills</th>
+                        <th>Prescriber</th>
+                        <th>Pharmacy</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="!results || results.length ==0">
+                        <td colspan="7" class="text-center"> No prior medications found</td>
+                    </tr>
+                    <tr *ngFor="let item of results">
+                        <td>
+                            <p class="primary text-bold-600">{{item.GenericProductName}} - {{item.Route}}</p>
+
+                            <p>Directions: {{item.Directions}}</p>
+                        </td>
+                        <td>
+                            {{item.EffectiveDate | date :'MM/dd/yyyy'}}
+                        </td>
+                        <td>
+                            {{item.Quantity}} {{item.DispenseUnitType? item.DispenseUnitType.Name:''}}
+                        </td>
+                        <td>
+                            {{item.Refills}}
+                        </td>
+                        <td>
+                            {{item.PrescriberName}}
+                        </td>
+                        <td>
+                            <p>{{item.Pharmacy ? item.Pharmacy.StoreName : ''}}</p>
+                            <p>{{item.Pharmacy ? 
+                            (item.Pharmacy.Address1 + ' '+ 
+                            (item.Pharmacy.Adderss2 ? item.Pharmacy.Adderss2:'') + ', '+ 
+                            item.Pharmacy.City + ', '+ item.Pharmacy.State + ' '+ item.Pharmacy.ZipCode)
+                            :''}}</p>
+                            <p>{{item.Pharmacy ? item.Pharmacy.PrimaryPhone : ''}}</p>
+                        </td>
+                        <td>
+                            <p class="badge badge-info">{{getMedicalStatus(item.MedicationStatus)}}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

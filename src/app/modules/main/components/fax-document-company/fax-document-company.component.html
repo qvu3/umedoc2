@@ -1,0 +1,78 @@
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Document</label>
+            <div class="col-sm-12">
+              <select class="form-control" name="AppointmentDocumentID" #AppointmentDocumentID="ngModel"
+                [(ngModel)]="model.AppointmentDocumentID" required>
+                <option value="">-- Select Document --</option>
+                <option [value]="item.ID" *ngFor="let item of documents">{{item.FileName}}</option>
+              </select>
+              <div *ngIf="f.submitted && AppointmentDocumentID.errors && AppointmentDocumentID.errors.required"
+                class="error-message">This field is required.</div>
+            </div>
+          </div>
+
+          <!-- <div class="form-group">
+            <label class="col-sm-4 control-label">Fax Number</label>
+            <div class="col-sm-12">
+              <input type="text" [textMask]="{mask:maskPhone}" pattern="^\(\d{3}\)\s\d{3}-\d{4}$" class="form-control"
+                name="OtherNumber" [(ngModel)]="model.OtherNumber" #OtherNumber="ngModel" required />
+              <div *ngIf="f.submitted && OtherNumber.errors && OtherNumber.errors.required" class="error-message">
+                This field is required.</div>
+              <div *ngIf="f.submitted && OtherNumber.errors && !OtherNumber.errors.required && OtherNumber.errors.pattern"
+                class="error-message">
+                Invalid value.</div>
+            </div>
+          </div> -->
+
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="fancy-checkbox">
+                <label>
+                  <input type="checkbox" class="icheckbox_flat-green checked" name="IsFaxToCompany" #IsFaxToCompany="ngModel"
+                    [(ngModel)]="model.IsFaxToCompany">
+                  <span>&nbsp;&nbsp;Fax To {{CompanyName}}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-12">
+              <div class="fancy-checkbox">
+                <label>
+                  <input type="checkbox" class="icheckbox_flat-green checked" name="checkbox" name="IsFaxToOther" #IsFaxToOther="ngModel"
+                    [(ngModel)]="model.IsFaxToOther">
+                  <span>&nbsp;&nbsp;Fax to other number</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="model.IsFaxToOther">
+            <label class="col-sm-4 control-label">Fax Number</label>
+            <div class="col-sm-12">
+              <input type="text" pattern="^\(\d{3}\)\s\d{3}-\d{4}$" [textMask]="{mask: maskPhone}" class="form-control"
+                name="OtherNumber" [(ngModel)]="model.OtherNumber" #OtherNumber="ngModel"
+                [required]="model.IsFaxToOther" />
+              <div *ngIf="f.submitted && OtherNumber.errors && OtherNumber.errors.required" class="error-message">
+                This field is required.</div>
+              <div *ngIf="f.submitted && OtherNumber.errors && !OtherNumber.errors.required && OtherNumber.errors.pattern"
+                class="error-message">
+                Invalid value.</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-min-width btn-green">Fax</button>
+          <button type="button" class="btn btn-min-width btn-medical-white" (click)="hide()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

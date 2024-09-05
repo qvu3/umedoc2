@@ -1,0 +1,70 @@
+<div class="content-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card" [appActionCardButton]="'Mangement-Patients'" style="min-height: 65vh;">
+                <div class="card-header">
+                    <h4 class="card-title title-h1">
+                        Patient Payment History</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="reload" (click)="RefreshTable()"><i class="ft-rotate-cw"></i></a></li>
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-content collapse show">
+                    <div class="col-md-12 card-body card-dashboard">
+                        <form class="col-md-12" (ngSubmit)="f.form.valid && RefreshTable()" #f="ngForm">
+                            <div class="row col-md-12 border border-light rounded py-2 mb-2">
+
+                                <div class="col-12 col-sm-6 col-lg-6">
+                                    <label for="users-list-role">Patient</label>
+                                    <fieldset class="form-group">
+                                        <ng-select2 name="CustomerID" (valueChange)="ValueChange($event)" [(ngModel)]="criteria.CustomerID" #CustomerID="ngModel"
+                                        [data]="results" [options]="options">
+            
+                                    </ng-select2>
+                                    </fieldset>
+                                </div> 
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <label>From Date</label>
+                                    <fieldset class="form-group">
+                                        <app-date-time-picker [hasTime]="false" [isMaxCurrentDate]="false"  name="FromDate" #FromDate="ngModel"
+                                            [(ngModel)]="criteria.FromDate" required></app-date-time-picker>
+                                    </fieldset>
+                                    <div *ngIf="f.submitted && FromDate.errors && FromDate.errors.required"
+                                        class="error-message  text-left">
+                                        Required.
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <label>To Date</label>
+                                    <fieldset class="form-group">
+                                        <app-date-time-picker [hasTime]="false" [isMaxCurrentDate]="false"  name="ToDate" #ToDate="ngModel"
+                                            [(ngModel)]="criteria.ToDate" required></app-date-time-picker>
+                                    </fieldset>
+                                    <div *ngIf="f.submitted && ToDate.errors && ToDate.errors.required"
+                                        class="error-message  text-left">
+                                        Required.
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
+                                    <button type="submit" class="btn btn-block btn-green">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-body card-dashboard">
+                        <table class="table row-grouping display" [isFilter]="false" [isLengthChange]="false"
+                            appPagingTable="" [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs"
+                            [serverLink]="serverLink" [aaSorting]="aaSorting" [compRef]="compRef"
+                            (tableEvent)="catchTable($event)" style="width: 100%">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

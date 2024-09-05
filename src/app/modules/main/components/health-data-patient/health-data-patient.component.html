@@ -1,0 +1,41 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Health Data</h6>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="row col-md-12 ml-0 mr-0 mb-3">
+            <div class="col-md-6">
+              <label>From Date: </label>
+              <app-date-time-picker name="From" #From="ngModel" [hasTime]="false" [isMaxCurrentDate]="false"
+                [(ngModel)]="criteria.From">
+              </app-date-time-picker>
+            </div>
+            <div class="col-md-6">
+              <label>To Date: </label>
+              <app-date-time-picker name="To" #To="ngModel" [hasTime]="false" [(ngModel)]="criteria.To"
+                [isMaxCurrentDate]="false">
+              </app-date-time-picker>
+            </div>
+            <div class="col-md-12 text-center mt-1">
+              <button class="btn round btn-green btn-min-width" type="button"
+                (click)="search();">Apply</button>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <h4 class="mt-1 mb-2 text-center">Health Data</h4>
+            <canvas #columnStacked style="min-height:20vh; max-height:50vh;"></canvas>
+          </div> 
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-min-width btn-outline-info" (click)="hide()">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

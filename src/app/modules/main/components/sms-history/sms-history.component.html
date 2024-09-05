@@ -1,0 +1,30 @@
+<div class="content-body">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="text-muted text-bold-500 my-1">SMS History</h6>
+                    <div class="list-group list-group-messages">
+                        <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+                            [routerLink]="['incoming-sms']">
+                            <i class="la la-download mr-1"></i>
+                            <span>Incoming SMS</span>
+                        </a>
+                        <a class="list-group-item list-group-item-action border-0" routerLinkActive="active"
+                            [routerLink]="['outgoing-sms']">
+                            <i class="la la-upload mr-1"></i>
+                            <span>Outgoing SMS</span>
+                        </a>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

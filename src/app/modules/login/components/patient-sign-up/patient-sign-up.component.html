@@ -1,0 +1,190 @@
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <div class="col-lg-7 col-12 bg pt-sm-15 pt-lg-0 " style="height:auto;">
+      <form (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate style="height:100%;">
+        <table class="pt-5 pt-lg-0" style="height: 100%; width: 100%;">
+          <tbody class="py-5 pt-lg-0  my-5 mt-lg-5">
+            <tr class="text-center ">
+              <td class="align-middle">
+                <div class="row px-lg-5 py-lg-0 py-5 ">
+                  <div class="col-12 text-center mb-1">
+                    <div class="justify-content-center">
+                      <app-select-language></app-select-language>
+                    </div>
+                  </div>
+                  <div class="col-12 text-center">
+                    <h1 style="color: #0A93BD;font-size: 2.5rem;font-weight: 700;">{{'Patient Sign Up'|translate}}</h1>
+                    <h5 class="mt-3 text-bold-600">{{'Please fill up the form below to get instant access to Umedoc.'|translate}}</h5>
+                    <h5 class="text-info text-bold-600 mt-1 mb-1">Legal Name is required for Medication Prescription and Pharmacy Verification purpose.</h5>
+                  </div>
+                  <div class="col-12 text-left">
+                    <div *ngIf="f.submitted && isError" class="text-center error-message mb-2" role="alert">
+                      {{errorMessage}}
+                    </div>
+                  </div>
+                  <div class="offset-lg-1 col-10 offset-1 col-lg-10" joyrideStep="firstStep"
+                    [title]="'Sign Up Form'" [text]="'Please fill the form to get access Umedoc'">
+                    <div class="row">
+                      <div class="col-lg-6 col-12 px-1  text-left">
+                        <label for="Email" class="">{{'Legal First Name *'|translate}}</label>
+                        <div class="input-container">
+                          <input class="input-field " type="text " placeholder="{{'Legal First Name *'|translate}}" name="FirstName"
+                            #FirstName="ngModel" [(ngModel)]="model.FirstName" required maxlength="35">
+                        </div>
+                        <div *ngIf="f.submitted && FirstName.errors && FirstName.errors.required"
+                          class="error-message text-left">
+                          Please enter your first name.
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-12 px-1 text-left">
+                        <label for="Email" class="">{{'Legal Last Name *'|translate}}</label>
+                        <div class="input-container ">
+                          <input class="input-field " type="text " placeholder="{{'Legal Last Name *'|translate}}" name="LastName"
+                            #LastName="ngModel" [(ngModel)]="model.LastName" required maxlength="35">
+                        </div>
+                        <div *ngIf="f.submitted && LastName.errors && LastName.errors.required" class="error-message">
+                          Please enter your last name.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6 col-12 px-1  text-left">
+                        <label for="Email" class="">{{'Your Email *'|translate}}</label>
+                        <div class="input-container">
+                          <input class="input-field " type="text" placeholder="{{'Your Email *'|translate}}" name="Username"
+                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #Username="ngModel"
+                            [(ngModel)]="model.Email" required>
+                        </div>
+                        <div *ngIf="f.submitted && Username.errors && Username.errors.required" class="error-message">
+                          Please enter your email
+                        </div>
+                        <div
+                          *ngIf="f.submitted && Username.errors && !Username.errors.required && Username.errors.pattern"
+                          class="error-message">
+                          Invalid Email
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-12 px-1 text-left">
+                        <label for="Email" class="">{{'Cell Phone (for SMS alert) *'|translate}}</label>
+                        <div class="input-container ">
+                          <input class="input-field " type="text" [textMask]="{mask: maskPhone}"
+                            placeholder="{{'Cell Phone (for SMS alert) *'|translate}}"
+                            pattern="^\(([2346789][0-9]{2}|[23456789][012346789][0-9]|[23456789][0-9][012346789])\)\s?([012346789][0-9]{2}|[0123456789][012346789][0-9]|[0123456789][0-9][012346789])-[0-9]{4}$"
+                            name="CellPhone" #CellPhone="ngModel" [(ngModel)]="model.CellPhone" required>
+                        </div>
+                        <div *ngIf="f.submitted && CellPhone.errors && CellPhone.errors.required" class="error-message">
+                          Please enter your cell phone.
+                        </div>
+                        <div
+                          *ngIf="f.submitted && CellPhone.errors && !CellPhone.errors.required && CellPhone.errors.pattern"
+                          class="error-message">Invalid Cell Phone Number
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6 col-12 px-1  text-left">
+                        <label for="Email" class="">{{'Enter Password *'|translate}}</label>
+                        <div class="input-container">
+                          <input class="input-field " type="password" placeholder="{{'Enter Password *'|translate}}" name="Password"
+                            #Password="ngModel" [(ngModel)]="model.Password" minlength="8" required>
+                        </div>
+                        <div *ngIf="f.submitted && Password.errors && Password.errors.required" class="error-message">
+                          Please enter your Password.
+                        </div>
+                        <div
+                          *ngIf="f.submitted && Password.errors && !Password.errors.required && Password.errors.minlength"
+                          class="error-message">
+                          Password must be more than 8 characters.
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-12 px-1 text-left">
+                        <label for="Email" class="">{{'Re-Type Password *'|translate}}</label>
+                        <div class="input-container ">
+                          <input class="input-field " type="password" placeholder="{{'Re-Type Password *'|translate}}"
+                            name="SecondPassword" #SecondPassword="ngModel" [(ngModel)]="model.SecondPassword"
+                            minlength="8" [equalTo]="Password" required>
+                        </div>
+                        <div *ngIf="f.submitted && SecondPassword.errors && SecondPassword.errors.required"
+                          class="error-message">
+                          Please enter your Password.
+                        </div>
+                        <div
+                          *ngIf="f.submitted && SecondPassword.errors && !SecondPassword.errors.required && SecondPassword.errors.minlength"
+                          class="error-message">
+                          Password must be more than 8 characters.
+                        </div>
+                        <div
+                          *ngIf="f.submitted && SecondPassword.errors && !SecondPassword.errors.required && !SecondPassword.errors.minlength && SecondPassword.errors.equalTo"
+                          class="error-message">
+                          Password not match.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6 col-12 px-1  text-left">
+                        <div class="form-check">
+                          <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                            [(ngModel)]="model.IsReadAndAgreed" name="IsReadAndAgreed" required>
+                          <label class="form-check-label small" for="exampleCheck1">{{"I've read and agree to the"|translate}} <a
+                              target="blank" class="text-primary"
+                              href="https://umedoc-prod.s3.amazonaws.com/RandomFiles/SynapseTermsofConditions.pdf">Terms
+                              & Conditions.</a></label>
+                        </div>
+                        <div *ngIf="f.submitted && !model.IsReadAndAgreed" class="error-message text-center">
+                          Please Read and Agree to our Terms & Conditions.
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-12 px-1 text-left">
+                        <div class="form-check">
+                          <input type="checkbox" class="form-check-input" id="exampleCheck2"
+                            [(ngModel)]="model.IsReadAndAgreedTreatment" name="IsReadAndAgreedTreatment" required>
+                          <label class="form-check-label small" for="exampleCheck2">{{"I've read and agree to the"|translate}} <a
+                              class="text-primary" target="_blank"
+                              href='{{selectTreatmentConsent()}}'>Treatment
+                              Consent.</a></label>
+                        </div>
+                        <div *ngIf="f.submitted && !model.IsReadAndAgreedTreatment" class="error-message text-center">
+                          Please Read and Agree to the Treatment Consent.
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-12 mt-3 ">
+                    <button type="submit" style="background: #0A93BD;color: white; " [disabled]="Submitting"
+                      class="btn btn-lg shadow-lg " joyrideStep="secondStep" [title]="'Register'"
+                      [text]="'Click Register to Submit the form'">
+                      {{Submitting?'PLEASE WAIT...':'Register'|translate}} </button>
+                  </div>
+                  <div class="col-12 mt-4">
+                    <img class="mr-1" src="https://umedoc-prod.s3.amazonaws.com/RandomFiles/privacy.png" style="width: 70px;"
+                      alt="privacy">
+                    <img src="https://umedoc-prod.s3.amazonaws.com/RandomFiles/hipaa.png" style="width: 80px;" alt="hipaa">
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+    <div class="col-lg-5 col-12 pt-4 bg2">
+      <div class="row pt-5 mt-3">
+        <div class="col-12 text-center">
+          <img src="/assets/logo_login.png" style="width: 400px;" alt="">
+        </div>
+        <div class="col-12 text-center pt-5">
+          <h1 class="mt-1" style="color: #0A93BD;font-weight:700;font-size: 2.5rem;">{{"Welcome, Back!"|translate}}</h1>
+        </div>
+        <div class="col-12 text-center mt-3">
+          <h5 style="color: #0A93BD;font-weight: 700;">{{"To keep connected with us please"|translate}}<br> {{"login with your account info"|translate}}</h5>
+        </div>
+        <div class="col-12 mt-4 text-center">
+          <a style="background: #0A93BD;color: white;" class="btn btn-lg shadow-lg"
+            [routerLink]="['/auth/patient-sign-in']">{{"LOGIN"|translate}}</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

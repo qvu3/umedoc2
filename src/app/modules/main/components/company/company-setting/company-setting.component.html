@@ -1,0 +1,121 @@
+<form class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+  <div class="row clearfix form-group">
+    <div class="col-sm-6">
+      <label class="col-sm-12 control-label">Appointment Price</label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" pattern="^[0-9]+(\.[0-9]{1,2})?$" name="AppointmentPrice"
+          [(ngModel)]="model.AppointmentPrice" #AppointmentPrice="ngModel" required />
+        <div *ngIf="
+            f.submitted &&
+            AppointmentPrice.errors &&
+            AppointmentPrice.errors.required
+          " class="error-message">
+          This field is required.
+        </div>
+        <div *ngIf="
+            f.submitted &&
+            AppointmentPrice.errors &&
+            !AppointmentPrice.errors.required &&
+            AppointmentPrice.errors.pattern
+          " class="error-message">
+          Price invalid
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <label class="col-sm-12 control-label">ByPass Payment Code</label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" placeholder="By Pass Payment Code" name="ByPassPaymentCode"
+          [(ngModel)]="model.ByPassPaymentCode" #ByPassPaymentCode="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row clearfix">
+    <div class="col-sm-6">
+      <label class="col-sm-12 control-label">PayPal Client ID</label>
+      <div class="col-sm-12">
+        <app-encrypt-text-box [class]="'form-control'" placeholder="PayPal Client ID" name="PayPalClientID"
+          [(ngModel)]="model.PayPalClientID" #PayPalClientID="ngModel">
+        </app-encrypt-text-box>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <label class="col-sm-12 control-label">PayPal Secret Key</label>
+      <div class="col-sm-12">
+        <app-encrypt-text-box [class]="'form-control'" placeholder="PayPal Secret Key" name="PayPalSecret"
+          [(ngModel)]="model.PayPalSecretKey" #PayPalSecret="ngModel">
+        </app-encrypt-text-box>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix form-group">
+    <div class="col-sm-6">
+      <label class="col-sm-12 control-label">Domain URL</label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" placeholder="Domain URL" name="DomainURL" [(ngModel)]="model.DomainURL"
+          #DomainURL="ngModel" />
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <label class="col-sm-12 control-label">Portal Fee</label>
+      <div class="col-sm-12">
+        <input type="number" min="0" class="form-control" placeholder="Portal Fee" name="PortalFee"
+          [(ngModel)]="model.PortalFee" #PortalFee="ngModel" />
+        <div *ngIf="f.submitted && PortalFee.errors
+        && PortalFee.errors.min" class="row error-message col-md-12">
+          Value must be great than 0.
+        </div>
+      </div>
+    </div>
+     
+  </div>
+
+  <div class="row clearfix form-group">
+     
+     
+    <div class="col-sm-6">
+      <label class="col-sm-12 control-label">Don't Know Copay Price</label>
+      <div class="col-sm-12">
+        <input type="number" min="0" class="form-control" placeholder="Don't Know Copay Price" name="DontKnowCopayPrice"
+          [(ngModel)]="model.DontKnowCopayPrice" #DontKnowCopayPrice="ngModel" required />
+
+        <div *ngIf="f.submitted && DontKnowCopayPrice.errors && DontKnowCopayPrice.errors.required"
+          class="row error-message col-md-12">
+          Required.
+        </div>
+        <div *ngIf="f.submitted && DontKnowCopayPrice.errors && !DontKnowCopayPrice.errors.required 
+        && DontKnowCopayPrice.errors.min" class="row error-message col-md-12">
+          Value must be great than 0.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <label class="col-sm-12 control-label">Subscription Trial Days</label>
+      <div class="col-sm-12">
+        <input type="number" min="0" class="form-control" placeholder="Don't Know Copay Price" name="SubscriptionTrialDays"
+          [(ngModel)]="model.SubscriptionTrialDays" #SubscriptionTrialDays="ngModel" required />
+
+        <div *ngIf="f.submitted && SubscriptionTrialDays.errors && SubscriptionTrialDays.errors.required"
+          class="row error-message col-md-12">
+          Required.
+        </div>
+        <div *ngIf="f.submitted && SubscriptionTrialDays.errors && !SubscriptionTrialDays.errors.required 
+        && SubscriptionTrialDays.errors.min" class="row error-message col-md-12">
+          Value must be great than 0.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group form-actions col-md-12 text-center">
+      <button type="submit" class="btn btn-green btn-lg btn-min-width mr-1" [disabled]="Submitting">
+        Save
+      </button>
+      <a (click)="cancel()" class="btn btn-medical-white btn-lg btn-min-width">Cancel</a>
+    </div>
+  </div>
+</form>

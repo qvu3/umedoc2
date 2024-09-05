@@ -1,0 +1,12 @@
+#videos{
+ width:100%;
+ min-height: 250px;
+ max-height:350px;   
+ border:1px solid #ddd;
+ border-radius: 5px;
+}
+
+.h-10{
+    height: 10px !important;
+}
+ 

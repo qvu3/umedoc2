@@ -1,0 +1,455 @@
+<div class="content-header row mb-1">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title">Add Staff Profile</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/management']">Management</a>
+          </li>
+          <li class="breadcrumb-item">Add Staff Profile
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+<div class="content-body">
+  <div class="row">
+    <div class="col-12">
+      <div class="card" [appActionCardButton]="'My-Profile'">
+        <div class="card-header">
+
+        </div>
+        <div class="card-content show">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+                  <fieldset class="fieldset-user">
+                    <div class="form-group row clearfix">
+                      <div class="col-md-12">
+                        <app-crop-image-view [typeUpload]="'user'" [link]="'/api/Utility/S3UploadImage'"
+                          [ModelID]="model.ID" name="ProfilePicture" [(ngModel)]="model.ProviderUser.ProfilePicture"
+                          #ProfilePicture="ngModel" [userId]="model.ProviderUser.Id">
+                        </app-crop-image-view>
+                      </div>
+                    </div>
+
+                    <div class="form-group row clearfix text-center">
+                      <div class="col-md-12 text-center">
+                        <label>Role<span class="danger">*</span></label>
+                        <div class="col-md-4" style="left: 33%;">
+                          <select class="form-control" name="Role" [(ngModel)]="model.ProviderUser.Role" #Role="ngModel"
+                            required>
+                            <option value="" disabled>Select Role</option>
+                            <option value="Company_Admin">Company Admin</option>
+                            <option value="Provider">Provider</option>
+                          </select>
+                          <div *ngIf="f.submitted && Role.errors && Role.errors.required"
+                            class="row error-message col-md-12">
+                            Required.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h4 class="form-section"><i class="font-medium-5 icon-line-height la la-user"></i> Personal Info
+                    </h4>
+                    <div class="row col-12 m-0 p-0">
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="text" class="form-control" placeholder="First Name" name="FirstName"
+                            #FirstName="ngModel" [(ngModel)]="model.ProviderUser.FirstName" required>
+                          <div class="form-control-position">
+                            <i class="ft-user"></i>
+                          </div>
+                          <div *ngIf="f.submitted && FirstName.errors && FirstName.errors.required"
+                            class="error-message">
+                            Required.
+                          </div>
+                        </fieldset>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="text" class="form-control" placeholder="Last Name" name="LastName"
+                            #LastName="ngModel" [(ngModel)]="model.ProviderUser.LastName" required>
+                          <div class="form-control-position">
+                            <i class="ft-user"></i>
+                          </div>
+                          <div *ngIf="f.submitted && LastName.errors && LastName.errors.required" class="error-message">
+                            Required.
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+
+                    <div class="row col-12 m-0 p-0">
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <app-date-time-picker [hasTime]="false" [placeholder]="'Date of Birth'" name="DOB"
+                            #DOB="ngModel" [(ngModel)]="model.ProviderUser.DOB"></app-date-time-picker>
+                          <div class="form-control-position">
+                            <i class="la la-birthday-cake"></i>
+                          </div>
+                        </fieldset>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 form-group">
+                        <select class="form-control" name="Gender" [(ngModel)]="model.ProviderUser.Gender"
+                          #Gender="ngModel">
+                          <option value="">Select Gender</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row col-12 m-0 p-0">
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="text" class="form-control" placeholder="Address 1" name="Address1"
+                            #Address1="ngModel" [(ngModel)]="model.ProviderUser.Address1">
+                          <div class="form-control-position">
+                            <i class="la la-map-marker"></i>
+                          </div>
+                        </fieldset>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="text" class="form-control" placeholder="Address 2" name="Address2"
+                            #Address2="ngModel" [(ngModel)]="model.ProviderUser.Address2">
+                          <div class="form-control-position">
+                            <i class="la la-map-marker"></i>
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+
+                    <div class="row col-12 m-0 p-0">
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="text" class="form-control" placeholder="City" name="City" #City="ngModel"
+                            [(ngModel)]="model.ProviderUser.City">
+                          <div class="form-control-position">
+                            <i class="la la-building"></i>
+                          </div>
+                        </fieldset>
+                      </div>
+
+                      <div class="col-md-3 col-sm-3">
+                        <select name="State" class="form-control m-input" [(ngModel)]="model.ProviderUser.State"
+                          #State="ngModel" style="margin-bottom: 1.5rem;">
+                          <option value="" disabled selected>Select State</option>
+                          <option value="{{item.value}}" *ngFor="let item of licensedIns">{{item.name}}</option>
+                        </select>
+                      </div>
+
+                      <div class="col-md-3 col-sm-3">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="text" class="form-control" [textMask]="{mask: maskZipCode}" placeholder="ZipCode"
+                            name="ZipCode" #ZipCode="ngModel" [(ngModel)]="model.ProviderUser.ZipCode">
+                          <div class="form-control-position">
+                            <i class="la la-street-view"></i>
+                          </div>
+                          <div
+                            *ngIf="f.submitted && ZipCode.errors && !ZipCode.errors.required && ZipCode.errors.pattern"
+                            class="error-message">Invalid value
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+
+                    <div class="row col-12 m-0 p-0">
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="text" class="form-control" placeholder="Your Email" name="Username"
+                            #Username="ngModel" [(ngModel)]="model.ProviderUser.Email" required>
+                          <div class="form-control-position">
+                            <i class="la la-envelope"></i>
+                          </div>
+                          <div *ngIf="f.submitted && Username.errors && Username.errors.required" class="error-message">
+                            Required.
+                          </div>
+                        </fieldset>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="text" class="form-control" [textMask]="{mask: maskPhone}"
+                            placeholder="Cell Phone" name="CellPhone" #CellPhone="ngModel"
+                            [(ngModel)]="model.ProviderUser.CellPhone" required>
+                          <div class="form-control-position">
+                            <i class="la la-mobile"></i>
+                          </div>
+                          <div *ngIf="f.submitted && CellPhone.errors && CellPhone.errors.required"
+                            class="error-message">
+                            Required.
+                          </div>
+                          <div
+                            *ngIf="f.submitted && CellPhone.errors && !CellPhone.errors.required && CellPhone.errors.pattern"
+                            class="error-message">Invalid value
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+
+                    <div class="row col-12 m-0 p-0">
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="password" class="form-control" placeholder="Enter Password" name="Password"
+                            #Password="ngModel" [(ngModel)]="model.ProviderUser.Password" minlength="8" required>
+                          <div class="form-control-position">
+                            <i class="la la-key"></i>
+                          </div>
+                          <div *ngIf="f.submitted && Password.errors && Password.errors.required" class="error-message">
+                            Please enter your Password.
+                          </div>
+                          <div
+                            *ngIf="f.submitted && Password.errors && !Password.errors.required && Password.errors.minlength"
+                            class="error-message">
+                            Password must be more than 8 characters.
+                          </div>
+                        </fieldset>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6">
+                        <fieldset class="form-group position-relative has-icon-left">
+                          <input type="password" class="form-control" placeholder="Re-type Password"
+                            name="SecondPassword" #SecondPassword="ngModel"
+                            [(ngModel)]="model.ProviderUser.SecondPassword" minlength="8" [equalTo]="Password" required>
+                          <div class="form-control-position">
+                            <i class="la la-key"></i>
+                          </div>
+                          <div *ngIf="f.submitted && SecondPassword.errors && SecondPassword.errors.required"
+                            class="error-message">
+                            Please enter your Password.
+                          </div>
+                          <div
+                            *ngIf="f.submitted && SecondPassword.errors && !SecondPassword.errors.required && SecondPassword.errors.minlength"
+                            class="error-message">
+                            Password must be more than 8 characters.
+                          </div>
+                          <div
+                            *ngIf="f.submitted && SecondPassword.errors && !SecondPassword.errors.required && !SecondPassword.errors.minlength && SecondPassword.errors.equalTo"
+                            class="error-message">
+                            Password not match.
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset *ngIf="model.ProviderUser && model.ProviderUser.Role=='Provider'">
+                    <h4 class="form-section" *ngIf="model.ProviderUser"><i
+                        class="font-medium-5 icon-line-height la la-user-md"></i> Provider Info</h4>
+                    <div class="form-group row clearfix">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="lastName">
+                            Provider Degree:
+                            <span class="danger">
+                              *
+                            </span>
+                          </label>
+                          <select class="form-control" name="ProviderDegreeID" [(ngModel)]="model.ProviderDegreeID"
+                            #ProviderDegreeID="ngModel" required>
+                            <option [value]="item.ID" *ngFor="let item  of  degrees">{{item.DegreeName}}</option>
+                          </select>
+                          <div *ngIf="f.submitted && ProviderDegreeID.errors && ProviderDegreeID.errors.required"
+                            class="row error-message col-md-12">
+                            Required.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="lastName">
+                            Provider Role:
+                            <span class="danger">
+                              *
+                            </span>
+                          </label>
+                          <select class="form-control" name="ProviderRoleID" [(ngModel)]="model.ProviderRoleID"
+                            #ProviderRoleID="ngModel" required>
+                            <option [value]="item.ID" *ngFor="let item of roles">{{item.RoleName}}</option>
+                          </select>
+                          <div *ngIf="f.submitted && ProviderRoleID.errors && ProviderRoleID.errors.required"
+                            class="row error-message col-md-12">
+                            Required.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="lastName">
+                            Year in Practice:
+                            <span class="danger">
+                              *
+                            </span>
+                          </label>
+                          <input type="number" min="1" step="1" class="form-control" name="YearsInPractice"
+                            [(ngModel)]="model.YearsInPractice" #YearsInPractice="ngModel" required />
+                          <div *ngIf="f.submitted && YearsInPractice.errors && YearsInPractice.errors.required"
+                            class="row error-message col-md-12">
+                            Required.
+                          </div>
+                          <div *ngIf="f.submitted && YearsInPractice.errors && !YearsInPractice.errors.required 
+                          && YearsInPractice.errors.min" class="row error-message col-md-12">
+                            Data Invalid.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="lastName">
+                            NPI Number:
+                          </label>
+                          <input type="text" class="form-control" name="NPINumber" [(ngModel)]="model.NPINumber"
+                            #NPINumber="ngModel" />
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="lastName">
+                            License Number:
+                          </label>
+                          <input type="text" class="form-control" name="LicenseNumber" [(ngModel)]="model.LicenseNumber"
+                            #LicenseNumber="ngModel" />
+
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset *ngIf="model.ProviderUser && model.ProviderUser.Role=='Provider'">
+                    <h4 class="form-section" *ngIf="model.ProviderUser"><i class="font-medium-5 icon-line-height la 
+                      la-graduation-cap"></i>Provider Licenses</h4>
+                    <div class="row">
+                      <div class="form-group mb-1 col-sm-12 col-md-3"><label>License In</label></div>
+                    </div>
+                    <div class="row" *ngFor="let item  of model.ProviderLicenses , let i=index">
+                      <div class="form-group mb-1 col-sm-12 col-md-3">
+                        <select class="form-control" name="LicensedIn_{{i}}" [(ngModel)]="item.LicenseState"
+                          #LicensedIn="ngModel" required>
+                          <option [value]="item.value" *ngFor="let item  of  licensedIns">{{item.name}}</option>
+                        </select>
+                        <div *ngIf="f.submitted && LicensedIn.errors && LicensedIn.errors.required"
+                          class="row error-message col-md-12">
+                          Required.
+                        </div>
+                      </div>
+
+                      <div class="form-group col-sm-12 col-md-3 text-center">
+                        <button type="button" class="btn btn-medical-white" (click)="deleteLicense(i)"> <i
+                            class="ft-x"></i>
+                          Delete</button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <button class="btn btn-medical-white mb-2" type="button" (click)="addLicense()"><i
+                            class="la la-plus"></i>
+                          Add</button>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset *ngIf="model.ProviderUser && model.ProviderUser.Role=='Provider'">
+                    <h4 class="form-section" *ngIf="model.ProviderUser"><i
+                        class="font-medium-5 icon-line-height la la-stethoscope"></i>Specialties</h4>
+                    <div class="form-group row clearfix">
+                      <div class="col-md-3" *ngFor="let item of specialities,let i=index">
+                        <fieldset class="checkbox">
+                          <label>
+                            <input class="icheckbox_flat-green checked" type="checkbox" name="special_{{i}}"
+                              #special="ngModel" [(ngModel)]="item.IsInactived">
+                            {{item.SpecialtyName}}
+                          </label>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <fieldset *ngIf="model.ProviderUser && model.ProviderUser.Role=='Provider'">
+                    <h4 class="form-section" *ngIf="model.ProviderUser"><i class="font-medium-5 icon-line-height la 
+                      la-graduation-cap"></i>Education</h4>
+                    <div class="row">
+                      <div class="form-group mb-1 col-sm-12 col-md-3"><label>Degree Title</label></div>
+                      <div class="form-group mb-1 col-sm-12 col-md-3"><label>University</label></div>
+                      <div class="form-group mb-1 col-sm-12 col-md-3"><label>Graduated In (Year)</label></div>
+                    </div>
+                    <div class="row" *ngFor="let item  of model.Educations , let i=index">
+                      <div class="form-group mb-1 col-sm-12 col-md-3">
+                        <input type="text" name="Degree_{{i}}" #DegreeTitle="ngModel" [(ngModel)]="item.DegreeTitle"
+                          class="form-control" placeholder="Degree Title" required>
+                        <div *ngIf="f.submitted && DegreeTitle.errors && DegreeTitle.errors.required"
+                          class="row error-message col-md-12">
+                          Required.
+                        </div>
+                      </div>
+                      <div class="form-group mb-1 col-sm-12 col-md-3">
+                        <input type="text" class="form-control" name="University_{{i}}" #University="ngModel"
+                          [(ngModel)]="item.University" placeholder="University" required>
+                        <div *ngIf="f.submitted && University.errors && University.errors.required"
+                          class="row error-message col-md-12">
+                          Required.
+                        </div>
+                      </div>
+                      <div class="form-group mb-1 col-sm-12 col-md-3">
+                        <input type="number" min="1" step="1" class="form-control" name="GraduatedOn_{{i}}"
+                          #GraduatedOn="ngModel" [(ngModel)]="item.GraduatedOn" placeholder="Graduated In (Year)"
+                          required />
+                        <div *ngIf="f.submitted && GraduatedOn.errors && GraduatedOn.errors.required"
+                          class="row error-message col-md-12">
+                          Required.
+                        </div>
+                      </div>
+                      <div class="form-group col-sm-12 col-md-3 text-center">
+                        <button type="button" class="btn-medical-white" (click)="deleteEdu(i)"> <i class="ft-x"></i>
+                          Delete</button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <button class="btn btn-medical-white" type="button" (click)="addEdu()"><i
+                            class="la la-plus"></i>
+                          Add</button>
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="pass">Self Description</label>
+                          <textarea class="form-control" name="SelfDescription" #SelfDescription="ngModel"
+                            [(ngModel)]="model.SelfDescription">
+                            </textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <div class="col-md-12 form-actions text-center">
+                    <button type="button" [routerLink]="['/management/manage-staffs']"
+                      class="btn btn-medical-white btn-min-width btn-lg mr-1">
+                      <i class="ft-x"></i>Cancel</button>
+                    <button type="submit" class="btn btn-green btn-min-width btn-lg" [disabled]="Submitting">
+                      <i class="la la-check-square-o"></i> Save</button>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

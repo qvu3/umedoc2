@@ -1,0 +1,219 @@
+@import url(https://registry.npmjs.org/lesshat/-/lesshat-4.0.1.tgz);
+ @import url(https://fonts.googleapis.com/css?family=Iceland);
+ @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,800);
+ body {
+	 background-color: #ecf0f1;
+}
+ .creditcard {
+	 /* position: absolute; */
+	 top: 0;
+	 left: 0;
+	 bottom: 0;
+	 right: 0;
+	 margin: 5px;
+	 max-width: 85.60mm;
+	 max-height: 53.98mm;
+	 color: #fff;
+	 font: 18px/1 'Iceland', monospace;
+	 background: #23189a;
+     border: 1px solid #1e1584;
+     border-radius: 25px;
+	 overflow: hidden;
+}
+ .bank-name {
+	 float: right;
+	 margin-top: 15px;
+	 margin-right: 30px;
+	 font: 800 25px 'Open Sans', Arial, sans-serif;
+}
+ .chip {
+        position: relative;
+        z-index: 1000;
+        width: 50px;
+        height: 40px;
+        margin-top: 50px;
+        margin-bottom: 10px;
+        margin-left: 30px;
+        background: #fffcb1;
+        background: -moz-linear-gradient(-45deg, #fffcb1 0%, #b4a365 100%);
+        background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #fffcb1), color-stop(100%, #b4a365));
+        background: -webkit-linear-gradient(-45deg, #fffcb1 0%, #b4a365 100%);
+        background: -o-linear-gradient(-45deg, #fffcb1 0%, #b4a365 100%);
+        background: -ms-linear-gradient(-45deg, #fffcb1 0%, #b4a365 100%);
+        background: linear-gradient(135deg, #fffcb1 0%, #b4a365 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fffcb1", endColorstr="#b4a365", GradientType=1);
+        border: 1px solid #322d28;
+        -webkit-border-radius: 10px;
+        -webkit-background-clip: padding-box;
+        -moz-border-radius: 10px;
+        -moz-background-clip: padding;
+        border-radius: 10px;
+        background-clip: padding-box;
+        -webkit-box-shadow: 0 1px 2px #322d28, 0 0 5px 0 0 5px rgba(144, 133, 87, 0.25) inset;
+        -moz-box-shadow: 0 1px 2px #322d28, 0 0 5px 0 0 5px rgba(144, 133, 87, 0.25) inset;
+        box-shadow: 0 1px 2px #322d28, 0 0 5px 0 0 5px rgba(144, 133, 87, 0.25) inset;
+        overflow: hidden;
+}
+.chip .side {
+    position: absolute;
+    top: 8px;
+    width: 12px;
+    height: 24px;
+    border: 1px solid #322d28;
+    -webkit-box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1), 0 0 4px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1), 0 0 4px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1), 0 0 4px rgba(0, 0, 0, 0.1) inset;
+}
+.chip .side.left {
+    left: 0;
+    border-left: none;
+    -webkit-border-radius: 0 2px 2px 0;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 0 2px 2px 0;
+    -moz-background-clip: padding;
+    border-radius: 0 2px 2px 0;
+    background-clip: padding-box;
+}
+.chip .side.right {
+    right: 0;
+    border-right: none;
+    -webkit-border-radius: 2px 0 0 2px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 2px 0 0 2px;
+    -moz-background-clip: padding;
+    border-radius: 2px 0 0 2px;
+    background-clip: padding-box;
+}
+.chip .side:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: inline-block;
+    width: 100%;
+    height: 0px;
+    margin: auto;
+    border-top: 1px solid #322d28;
+    -webkit-box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1);
+}
+.chip .vertical {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 8.66666667px;
+    height: 12px;
+    border: 1px solid #322d28;
+    -webkit-box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1), 0 0 4px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1), 0 0 4px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1), 0 0 4px rgba(0, 0, 0, 0.1) inset;
+}
+ .chip .vertical.top {
+	 top: 0;
+	 border-top: none;
+}
+ .chip .vertical.top:after {
+	 top: 12px;
+	 width: 17.333333333333px;
+}
+ .chip .vertical.bottom {
+	 bottom: 0;
+	 border-bottom: none;
+}
+ .chip .vertical.bottom:after {
+	 bottom: 12px;
+}
+.chip .vertical:after {
+    content: '';
+    position: absolute;
+    left: -8.66666667px;
+    display: inline-block;
+    width: 26px;
+    height: 0px;
+    margin: 0;
+    border-top: 1px solid #322d28;
+    -webkit-box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(144, 133, 87, 0.25) inset, 0 0 5px rgba(144, 133, 87, 0.25), 0 0 4px rgba(0, 0, 0, 0.1);
+}
+ .data {
+	 position: relative;
+	 z-index: 100;
+	 margin-left: 30px;
+	 text-transform: uppercase;
+}
+ .data .pan, .data .month, .data .year, .data .year:before, .data .name-on-card, .data .date {
+	 position: relative;
+	 z-index: 20;
+	 letter-spacing: 1px;
+	 text-shadow: 1px 1px 1px #000;
+}
+ .data .pan:before, .data .pan:after, .data .month:before, .data .month:after, .data .year:before, .data .year:after, .data .year:before:before, .data .year:before:after, .data .name-on-card:before, .data .name-on-card:after, .data .date:before, .data .date:after {
+	 position: absolute;
+	 z-index: -10;
+	 content: attr(title);
+	 color: rgba(0,0,0,0.2);
+	 text-shadow: none;
+}
+ .data .pan:before, .data .month:before, .data .year:before, .data .year:before:before, .data .name-on-card:before, .data .date:before {
+	 top: -1px;
+	 left: -1px;
+	 color: rgba(0,0,0,0.1);
+}
+ .data .pan:after, .data .month:after, .data .year:after, .data .year:before:after, .data .name-on-card:after, .data .date:after {
+	 top: 1px;
+	 left: 1px;
+	 z-index: 10;
+}
+ .data .pan {
+	 position: relative;
+	 z-index: 50;
+	 margin: 0;
+	 letter-spacing: 1px;
+	 font-size: 26px;
+}
+ .data .first-digits {
+	 margin: 0;
+	 font: 400 10px/1 'Open Sans', Arial, sans-serif;
+}
+ .data .exp-date-wrapper {
+	 margin-top: 5px;
+	 margin-left: 64px;
+	 line-height: 1;
+	 *zoom: 1;
+}
+ .data .exp-date-wrapper:before, .data .exp-date-wrapper:after {
+	 content: " ";
+	 display: table;
+}
+ .data .exp-date-wrapper:after {
+	 clear: both;
+}
+ .data .exp-date-wrapper .left-label {
+	 float: left;
+	 display: inline-block;
+	 width: 40px;
+	 font: 400 7px/8px 'Open Sans', Arial, sans-serif;
+	 letter-spacing: 0.5px;
+}
+ .data .exp-date-wrapper .exp-date {
+	 display: inline-block;
+	 float: left;
+	 margin-top: -10px;
+	 margin-left: 10px;
+	 text-align: center;
+}
+ .data .exp-date-wrapper .exp-date .upper-labels {
+	 font: 400 7px/1 'Open Sans', Arial, sans-serif;
+}
+ .data .exp-date-wrapper .exp-date .year:before {
+	 content: '/';
+}
+ .data .name-on-card {
+	 margin-top: 10px;
+}
+ 

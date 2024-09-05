@@ -1,0 +1,68 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Disable Insurance</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="col-sm-12 control-label">Reason:</label>
+                        <div class="col-sm-12">
+                            <textarea class="form-control" name="CancelReason" #CancelReason="ngModel"
+                                [(ngModel)]="model.DeclineReason" required> </textarea>
+
+                            <div class="error-message"
+                                *ngIf="f.submitted && CancelReason.errors && CancelReason.errors.required">
+                                Please type your reason to disable.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-12 mx-auto">
+                            <fieldset>
+                                <input class="icheckbox_flat-green checked" type="checkbox"
+                                    [(ngModel)]="model.IsChargePatient" name="IsChargePatient" />
+                                <label for="IsChargePatient">&nbsp;&nbsp;Charge Patient</label>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="model.IsChargePatient">
+                        <label class="col-sm-12 control-label">Amount</label>
+                        <div class="col-sm-12">
+                            <input type="number" min="0" step="1" class="form-control" name="Amount"
+                                [(ngModel)]="model.Amount" #Amount="ngModel" [gt]="0" required />
+                            <div *ngIf="f.submitted && Amount.errors && Amount.errors.required" class="error-message">
+                                Please enter amount.</div>
+                            <div *ngIf="f.submitted && Amount.errors && !Amount.errors.required && !Amount.errors.pattern && (Amount.errors?.lte || Amount.errors?.gt)"
+                                class="error-message">
+                                Amount must be great than 0.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="model.IsChargePatient">
+                        <div class="col-md-12 mx-auto">
+                            <fieldset>
+                                <input class="icheckbox_flat-green checked" type="checkbox"
+                                    [(ngModel)]="model.IsLockPatient" name="IsLockPatient" />
+                                <label for="IsLockPatient">&nbsp;&nbsp;Lock patient's account if Insufficient
+                                    Funds</label>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-min-width btn-green mr-1">Submit</button>
+                    <button type="button" class="btn btn-min-width btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

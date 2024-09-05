@@ -1,0 +1,69 @@
+<div class="row col-lg-12" style="padding:0; margin:0;">
+    <div class="row col-xl-12">
+        <div class="col-xl-4 col-lg-4 col-md-4 px-2">
+            <div class="card border border-info">
+                <div class="card-header" style="border-bottom: 1px solid #E2E0E0">
+                    <strong style="color: #016670">Free</strong>
+                    <span *ngIf="!currentPlan" class="badge badge-sm badge-success pull-right mb-1"
+                        style="bottom: 0;right: 0;">CURRENT PLAN</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 text-left">
+                            <ul>
+                                <li class="mb-1">Basic Umedoc Care Team Support
+                                </li>
+                                <li>Portal Fee Applied Each Visit
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-left">
+                    <strong>Free</strong>
+                </div>
+            </div>
+        </div>
+        <ng-template ngFor let-plan [ngForOf]="subscriptionPlans">
+            <div class="col-xl-4 col-lg-4 col-md-4 px-2">
+                <div class="card border border-info">
+                    <div class="card-header" style="border-bottom: 1px solid #E2E0E0">
+                        <strong style="color:#016670;">{{plan.ProductName}}</strong>
+                        <span *ngIf="currentPlan && this.currentPlan == plan.StripePriceID"
+                            class="badge badge-sm badge-success pull-right mb-1" style="bottom: 0;right: 0;">
+                            CURRENT PLAN</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 text-left">
+                                <ul>
+                                    <li class="mb-1"> Online Umedoc Care Team Support with In-App Message & Assist Request Management System
+                                    </li>
+                                    <li class="mb-1"> Portal Fee Waived
+                                    </li>
+                                    <li class="mb-1"> 1 Week Free Trial
+                                    </li>
+                                    <li *ngIf="plan?.ProductName?.toUpperCase().includes('STUDENT')">
+                                        Student EDU Email Address Required
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <span>Start at </span>
+                        <strong>{{plan.PriceDetail}}</strong>
+                        <button *ngIf="!currentPlan" (click)="showAgreementPlan(plan)" type="button"
+                            class="btn btn-lg btn-block btn-info mt-1">Upgrade</button>
+
+                        <button *ngIf="currentPlan && currentPlan == plan.StripePriceID"
+                            (click)="cancelSubcriptionPlan(currentSubscription)" type="button"
+                            class="btn btn-lg btn-block btn-secondary mt-1">Cancel plan</button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>
+<app-confirm-umecar-agreement #agreementModal (closeModal)="validateCreditCard()"></app-confirm-umecar-agreement>
+<app-card-info #cardInfoModal (closeModal)="closeCardInfo()"></app-card-info>

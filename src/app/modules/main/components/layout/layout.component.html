@@ -1,0 +1,26 @@
+<div appInitMenu="" [isNeedChange]="stringChange" (onChangeMode)="changeMode($event)">
+  <nav
+    class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow navbar-static-top navbar-light navbar-brand-center">
+    <div class="navbar-wrapper" app-header (onChangePassword)="changepassword()"></div>
+  </nav>
+  <div
+    class="header-navbar navbar-expand-sm navbar navbar-horizontal navbar-fixed navbar-light navbar-without-dd-arrow navbar-shadow"
+    role="navigation" data-menu="menu-wrapper">
+    <div class="navbar-container main-menu-content" data-menu="menu-container" app-side-bar
+      (onChangePassword)="changepassword()">
+    </div>
+  </div>
+  <!-- BEGIN: Content-->  
+  <div [ngClass]="{'app-content content':!isHideLayoutMain}">
+    <div [ngClass]="{'content-wrapper':!isHideLayoutMain}">
+      <router-outlet></router-outlet>
+      <app-change-password #changePassModal></app-change-password>
+    </div>
+  </div>
+  <!-- END: Content-->
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
+  <div class="copyright margin_out" app-footer>
+      
+  </div> 
+</div>

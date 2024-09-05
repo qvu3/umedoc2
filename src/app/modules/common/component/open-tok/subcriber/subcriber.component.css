@@ -1,0 +1,29 @@
+.subscriberContainer{
+    width: 100%;
+    height: 100%;
+}
+
+.container-control{
+    position: absolute;
+    top: 15px;
+    left: 30px;
+    z-index: 1000;
+}
+
+.btn-control{
+    border: 2px solid #dc1e1e;
+    background-color: #c7c4c4;
+    padding: 15px;
+    border-radius: 45px;
+}
+.btn-control i{
+    font-size: 30px;
+    color: #dc1e1e;
+    opacity: 1;
+}
+
+.btn-camera{ 
+    position: absolute;
+    top: 75%;
+    left: 3%; 
+}

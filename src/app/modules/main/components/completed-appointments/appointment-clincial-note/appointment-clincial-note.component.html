@@ -1,0 +1,12 @@
+<div class="row" *ngIf="id">
+    <div class="col-md-12">
+        <app-generate-and-fax [appointmentId]="id">
+        </app-generate-and-fax>
+    </div>
+    <div class="col-md-12 mt-2">
+        <app-appointment-document [appointmentId]="id"></app-appointment-document>
+    </div>
+    <div class="col-md-12 mt-5">
+        <app-fax-notification-view [appointmentId]="id"></app-fax-notification-view>
+    </div>
+</div>

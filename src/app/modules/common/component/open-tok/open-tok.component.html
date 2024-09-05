@@ -1,0 +1,39 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog">
+  <div class="modal-dialog modal-xl" style="pointer-events:all;height:96vh;background-color: black;">
+    <!-- <a href="javascript:void(0)" (click)="hide()" style="text-decoration: none;color:#FFF;">
+      <i class="la la-times" style="font-size:35px;"></i>
+    </a> -->
+    <div class="row" style="height:100%">
+      <div class="col-md-12 videos-opentok" *ngIf="session">
+        <app-publisher [session]="session" [isDoctor]="isDoctor" 
+        (onError)="onErrorJoinRoom()"
+        (onLeaveRoom)="publisherLeaveRoom()">
+        </app-publisher>
+        <div class="d-flex">  
+          <div class="row">
+          <div *ngIf="streams.length==1" class="col-md-12" style="width: 100%;height: 100%;">
+            <div *ngFor="let stream of streams">
+              <app-subscriber [stream]="stream" [session]="session" [isDoctor]="isDoctor"
+                (onLeaveRoom)="publisherLeaveRoom()" [totalStream]="streams.length">
+              </app-subscriber>
+            </div>
+          </div>
+          <div *ngIf="streams.length>1"  class="col-md-6 col-sm-12 text-center" 
+            style="width: 100%;height: 100%;">
+            <div *ngFor="let stream of streams">
+              <app-subscriber [stream]="stream" [session]="session" [isDoctor]="isDoctor"
+                (onLeaveRoom)="publisherLeaveRoom()" [totalStream]="streams.length">
+              </app-subscriber>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div *ngIf="streams.length==0" class="text-center" style="height:100%">
+          <h5 class="no-stream-text col-12">Please wait for others to join...</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.modal-dialog -->
+</div>

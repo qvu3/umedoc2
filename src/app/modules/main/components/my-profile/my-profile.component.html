@@ -1,0 +1,146 @@
+<div class="content-header row mb-1">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title">My Profile</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/management']">Management</a>
+          </li>
+          <li class="breadcrumb-item">My Profile
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+<div class="content-body">
+  <div class="row">
+    <div class="col-12">
+      <div class="card" [appActionCardButton]="'My-Profile'">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-12 text-right">
+              <button type="button" [routerLink]="['/','management','edit-my-profile']"
+                class="btn btn-medical-white round">Update My
+                Profile</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row justify-content-end">
+                  <div class="col-sm-2 col-4 text-center">
+                    <img [src]="model.ProviderUser.ProfilePicture" width="100" height="100" style="border-radius:50px;">
+                  </div>
+                  <div class="col-sm-5 col-4">
+                    <div *ngIf="model.ProviderDegree && model.ProviderDegree.ImagePath">
+                      <img [src]="model.ProviderDegree.ImagePath" style="width:60px;" />
+                    </div>
+                    <div class="badge border-left-danger border-right-success round badge-striped"
+                      *ngIf="model.NumberOfAppointmentLike">
+                      <label><strong>{{model.NumberOfAppointmentLike}} </strong></label>
+                      <i class="font-medium-4 icon-line-height la la-thumbs-up ic"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 text-center pt-1">
+                  <h4 class="font-large-1 text-bold-600">{{model.ProviderUser.FirstName}}
+                    {{model.ProviderUser.LastName}}
+                  </h4>
+                </div>
+                <div *ngIf="model.ProviderRole" class="text-center">
+                  <div class="badge badge-info">
+                    {{model.ProviderRole.RoleName}}
+                  </div>
+                </div>
+
+                <h4 class="form-section" *ngIf="model.ProviderUser"><i
+                    class="font-medium-5 icon-line-height la la-user"></i> Personal Info</h4>
+                <div class="col-md-12" *ngIf="model.ProviderUser">
+                  <div class="col-md-12">
+                    <label><strong>Email (not shown to public):</strong></label>
+                    <ul>
+                      <li>
+                        {{model.ProviderUser.Email}}</li>
+                    </ul>
+                  </div>
+                  <div class="col-md-12">
+                    <label><strong>Mobile phone to receive SMS Alerts (not shown to public):</strong></label>
+                    <ul>
+                      <li>
+                        {{model.ProviderUser.CellPhone}}</li>
+                    </ul>
+                  </div>
+                  <div class="col-md-12">
+                    <label><strong>Date of Birth (not shown to public):</strong></label>
+                    <ul>
+                      <li>
+                        {{transformDob(model.ProviderUser.DOB)}}</li>
+                    </ul>
+                  </div>
+                  <div class="col-md-12">
+                    <label><strong>Gender:</strong></label>
+                    <ul>
+                      <li>
+                        {{model.ProviderUser.Gender}}</li>
+                    </ul>
+                  </div>
+                </div>
+                <h4 class="form-section" *ngIf="model.LicensedIn"><i
+                    class="font-medium-5 icon-line-height la la-user-md"></i> Provider Info</h4>
+                <div class="col-md-12 m-t-10  " *ngIf="model.ProviderLicenses">
+                  <label><strong>Qualified or Licensed to Practice in the following States:</strong></label>
+                  <ul>
+                    <li *ngFor="let item of model.ProviderLicenses">
+                      {{item.LicenseState}}</li>
+                  </ul>
+                </div>
+                <div class="col-md-12  m-t-10" *ngIf="model.YearsInPractice">
+                  <label><strong>HealthCare Experience:</strong></label>
+                  <ul>
+                    <li>
+                      {{model.YearsInPractice}} Years</li>
+                  </ul>
+                </div>
+                <div class="col-md-12  m-t-10"
+                  *ngIf="model.SpecialtyAssignments && model.SpecialtyAssignments.length>0">
+                  <label><strong>Specialities:</strong></label>
+                  <ul>
+                    <li *ngFor="let spec of model.SpecialtyAssignments">{{spec.ProviderSpecialty.SpecialtyName}}</li>
+                  </ul>
+                </div>
+
+                <div class="col-md-12  m-t-10" *ngIf="model.ProviderLanguages && model.ProviderLanguages.length>0">
+                  <label><strong>Languages:</strong></label>
+                  <ul>
+                    <li *ngFor="let item of model.ProviderLanguages">{{item.Language}}</li>
+                  </ul>
+                </div>
+
+                <div class="col-md-12  m-t-10" *ngIf="model.Educations && model.Educations.length>0">
+                  <label><strong>Education:</strong></label>
+                  <ul>
+                    <li *ngFor="let edu of model.Educations">{{edu.DegreeTitle}}, {{edu.University}} -
+                      {{edu.GraduatedOn}}
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-12  m-t-10" *ngIf="model.SelfDescription">
+                  <label><strong>Self Description:</strong></label>
+                  <ul>
+                    <li style="white-space: pre-wrap;">
+                      {{model.SelfDescription}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

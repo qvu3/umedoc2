@@ -1,0 +1,47 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Send Prizm Note</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 text-center" *ngIf="documents.length ==0 ">
+                        <h4> Not found any documents</h4>
+                    </div>
+                    <div class="col-md-6 mb-3" *ngIf="documents.length > 0 ">
+                        <div class="form-group">
+                            <label>File Type:</label>
+                            <select  name="SendFileOption" class="form-control" #SendFileOption="ngModel" [(ngModel)]="model.SendFileOption" required>
+                                <option value="Original">Original</option>
+                                <option value="Amendment">Amendment</option>
+                            </select>
+                            <div *ngIf="f.submitted && SendFileOption.errors && SendFileOption.errors.required" class="error-message">Required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-1" *ngIf="documents.length > 0 ">
+                        <h5><strong>Choose the PDF file: </strong></h5>
+                    </div>
+                    <div class="row" *ngFor="let doc of documents">
+                        <div class="col-md-9">
+                            <label class="fancy-radio">
+                                <input type="radio" #AppointmentDocumentID="ngModel" name="AppointmentDocumentID" style="width:20px; height:20px;" [value]="doc.ID" [(ngModel)]="model.AppointmentDocumentID" required>
+                                <span class="label-checkbox"> {{doc.FileName}}</span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" (click)="viewDocument(doc.ID)" class="btn btn-green btn-xs">View</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green" [disabled]="!documents || documents.length ==0 || !model.AppointmentDocumentID">Send</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

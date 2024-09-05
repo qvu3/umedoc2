@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="col-md-12 text-left mb-2">
+        <h4>Login History</h4>
+    </div>
+    <div class="col-md-12" *ngIf="userId">
+        <app-login-history [userId]="userId"></app-login-history>
+    </div>
+</div>

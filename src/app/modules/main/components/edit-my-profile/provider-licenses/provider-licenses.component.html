@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-md-12 text-right"
+        *ngIf="currentUser?.Role == 'Company_Admin' || currentUser?.Role=='Special_Admin' || currentUser?.Role=='Provider'">
+        <button type="button" class="btn btn-medical-white" (click)="AddItem()">Add New License</button>
+    </div>
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" [isFilter]="false" [isLengthChange]="false" appPagingTable="" [aoColumns]="aoColumns"
+                [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink" [aaSorting]="aaSorting" [compRef]="compRef"
+                (tableEvent)="catchTable($event)" style="width: 100%">
+            </table>
+        </div>
+    </div>
+</div>
+<app-provider-license-info #modal (onClosed)="RefreshTable()"></app-provider-license-info>

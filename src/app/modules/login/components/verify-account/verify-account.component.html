@@ -1,0 +1,33 @@
+<div class="form_login form_register form_forgot_password" style="height:100%;">
+  <div class="container">
+    <div class="inner">
+
+      <div class="site_logo">
+        <a href="https://umedoc.com"><img class="img-fluid" src="/assets/image/site-logo.png"></a>
+      </div>
+
+      <div class="form_wider">
+        <h4>Confirm Email</h4>
+        <form>
+          <div class="row">
+            <div class="col-md-12">
+              <div style="text-align:center;" *ngIf="model && model.IsSuccess">
+                <h5>Your account has been activated successfully! Please go back to <a [routerLink]="['/','auth','sign-in']">Login
+                    Page</a> to
+                  continue using our Portal.</h5>
+              </div>
+
+              <div style="text-align:center;" *ngIf="model && !model.IsSuccess">
+                <h5>Oops, We cannot activate your account. Please try again or contact our customer support at info@umedoc.com</h5>
+              </div>
+            </div>
+            <div class="col-md-12 text-center form-group">
+              <button class="btn btn_login" [routerLink]="['/','auth','sign-in']"> Back to
+                Login</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

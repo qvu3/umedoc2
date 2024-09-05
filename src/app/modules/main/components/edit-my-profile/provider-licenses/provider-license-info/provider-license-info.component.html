@@ -1,0 +1,166 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog modal-lg">
+        <form name="form" class="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{model.ID ? 'Edit Provider License':'Add Provider License'}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <label>
+                                State:
+                            </label>
+                            <select class="form-control" name="LicenseState" [(ngModel)]="model.LicenseState"
+                                #LicensedIn="ngModel" required>
+                                <option [value]="item.value" *ngFor="let item  of  licensedIns">{{item.name}}</option>
+                            </select>
+                            <div *ngIf="f.submitted && LicensedIn.errors && LicensedIn.errors.required"
+                                class="row error-message col-md-12">
+                                Required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>
+                                License Number:
+                            </label>
+                            <input class="form-control" placeholder="License Number" type="text"
+                                [(ngModel)]="model.LicenseNumber" name="LicenseNumber" #LicenseNumber="ngModel"
+                                required>
+                            <div *ngIf="f.submitted && LicenseNumber.errors && LicenseNumber.errors.required"
+                                class="error-message">
+                                Required.</div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <label>
+                                DEA Number:
+                            </label>
+                            <input class="form-control" placeholder="DEA Number" type="text"
+                                [(ngModel)]="model.DEANumber" name="DEANumber" #DEANumber="ngModel">
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <label>
+                                Effective Date:
+                            </label>
+                            <app-date-time-picker [placeholder]="'Effective Date'" [isMaxCurrentDate]="false"
+                                name="EffectiveDate" [isDisabled]="false" [hasTime]="false"
+                                [(ngModel)]="model.EffectiveDate" #EffectiveDate="ngModel" required>
+                            </app-date-time-picker>
+                            <div *ngIf="f.submitted && EffectiveDate.errors && EffectiveDate.errors.required"
+                                class="error-message">
+                                Required.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>
+                                Expiration Date:
+                            </label>
+                            <app-date-time-picker [placeholder]="'Expiration Date'" [isMaxCurrentDate]="false"
+                                name="ExpirationDate" [isDisabled]="false" [hasTime]="false"
+                                [(ngModel)]="model.ExpirationDate" #ExpirationDate="ngModel" [gt]="model.EffectiveDate"
+                                required>
+                            </app-date-time-picker>
+                            <div *ngIf="f.submitted && ExpirationDate.errors && ExpirationDate.errors.required"
+                                class="error-message">
+                                Required.</div>
+
+                            <div *ngIf="f.submitted && ExpirationDate.errors && !ExpirationDate.errors.required  && ExpirationDate.errors?.gt"
+                                class="error-message">
+                                Must be greater than Effective Date.</div>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-3">
+                            <fieldset>
+                                <input class="icheckbox_flat-green checked" type="checkbox"
+                                    [(ngModel)]="model.TakeInsurance" name="TakeInsurance" />
+                                <label for="TakeInsurance">&nbsp;&nbsp;Take Insurance</label>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-3">
+                            <fieldset>
+                                <input class="icheckbox_flat-green checked" type="checkbox"
+                                    [(ngModel)]="model.TakeMedicare" name="TakeMedicare" />
+                                <label for="TakeMedicare">&nbsp;&nbsp;Take Medicare</label>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-3">
+                            <fieldset>
+                                <input class="icheckbox_flat-green checked" type="checkbox"
+                                    [(ngModel)]="model.TakeMedicaid" name="TakeMedicaid" />
+                                <label for="TakeMedicaid">&nbsp;&nbsp;Take Medicaid</label>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <label>
+                                DEA Expiration Date:
+                            </label>
+                            <app-date-time-picker [placeholder]="'DEA Expiration Date'" [isMaxCurrentDate]="false"
+                                name="DEAExpirationDate" [isDisabled]="false" [hasTime]="false"
+                                [(ngModel)]="model.DEAExpirationDate" #DEAExpirationDate="ngModel">
+                            </app-date-time-picker>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>
+                                Malpractice Renewal Date:
+                            </label>
+                            <app-date-time-picker [placeholder]="'Malpractice Renewal Date'" [isMaxCurrentDate]="false"
+                                name="MalpracticeRenewalDate" [isDisabled]="false" [hasTime]="false"
+                                [(ngModel)]="model.MalpracticeRenewalDate" #MalpracticeRenewalDate="ngModel">
+                            </app-date-time-picker>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="form-group col-sm-12 col-md-6 text-left">
+                            <label *ngIf="!model.LicenseImageUrlView" class="btn btn-medical-white"
+                                title="Upload the Image" appFileUpload="" [typeUpload]="'provider_license'"
+                                (onCallback)="uploaded($event)" [fileType]="0" (onUploadStatus)="uploadStatus($event)"
+                                [link]="'/api/Utility/S3UploadPrivateProviderLicense'">
+                                <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file"
+                                    accept="image/*" name="LicenseImageUrlView">
+                                <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                                <span>{{isUploading?'Uploading...':'Upload Image'}}</span>
+                            </label>
+                            <div *ngIf="model.LicenseImageUrlView" class="text-left">
+                                <a href="{{model.LicenseImageUrlView}}">
+                                    <img style="max-width: 60px!important;height: 60px!important;"
+                                        class="img-fluid img-thumbnail" [src]="model.LicenseImageUrlView" alt="">
+                                </a>
+                                <div class="pt-1 pb-1 text-center" style="max-width: 60px;">
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="removeAttach()">
+                                        <i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn  btn-green">Save</button>
+                        <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

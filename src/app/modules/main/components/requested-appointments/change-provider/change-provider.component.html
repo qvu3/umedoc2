@@ -1,0 +1,72 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+  role="dialog">
+  <form #f="ngForm" (ngSubmit)="f.form.valid && update()" novalidate>
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 mb-2">
+              <h4>Current Provider:</h4>
+            </div>
+            <div class="col-md-12">
+              <div class="media" *ngIf="currentProvider">
+                <div class="media-left pr-1">
+                  <span class="avatar avatar-online">
+                    <img [src]="currentProvider.ProfilePicture | defaultImg" alt="avatar">
+                  </span>
+                </div>
+                <div class="media-body">
+                  <p class="text-bold-600 mb-0">{{currentProvider.FirstName}} {{currentProvider.LastName}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-2 mb-2">
+              <h4>Switch to:</h4>
+            </div>
+            <input type="hidden" name="providerSelected" #providerSelected [(ngModel)]="selectedProvider" required />
+
+            <div class="col-md-12 mb-2" *ngIf="f.submitted && !f.form.valid">
+              <span class="error-message">Please select a provider: </span>
+            </div>
+            <ng-template ngFor let-provider [ngForOf]="list">
+              <div class="col-md-12 mb-2" *ngIf="provider.Id != currentProvider.Id">
+                <div class="media">
+                  <div class="media-left mr-2">
+                    <fieldset class="radio" style="
+                    -ms-transform: scale(1.4);
+                    -webkit-transform: scale(1.4);
+                    transform: scale(1.4);
+                    position: absolute;
+                    margin-top: 10px;
+                    ">
+                      <label>
+                        <input type="radio" name="provider" [(ngModel)]="selectedProvider" [value]="provider.Id">
+                      </label>
+                    </fieldset>
+                  </div>
+                  <div class="media-left pr-1">
+                    <span class="avatar avatar-online">
+                      <img [src]="provider.ProfilePicture | defaultImg" alt="avatar">
+                      <i *ngIf="provider.IsAvailable"></i>
+                    </span>
+                  </div>
+                  <div class="media-body">
+                    <p class="text-bold-600 mb-0">{{provider.FirstName}} {{provider.LastName}}</p>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-min-width btn-success">Update</button>
+          <button type="button" class="btn btn-min-width btn-outline-primary" (click)="hide()">Cancel</button>
+        </div>
+
+      </div>
+      <!-- /.modal-content -->
+    </div>
+  </form>
+  <!-- /.modal-dialog -->
+</div>

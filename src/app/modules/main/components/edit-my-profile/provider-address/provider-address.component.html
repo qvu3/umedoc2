@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-md-12">
+        <form name="form" class="form-horizontal"
+            (ngSubmit)="(!f.form.valid && scrollToErrorField(f))  || (f.form.valid && save())" #f="ngForm" novalidate>
+            <fieldset class="fieldset-user">
+                <h4 class="form-section" *ngIf="model.ProviderUser"><i
+                        class="font-medium-5 icon-line-height la la-user"></i> Address Info</h4>
+
+                <div class="form-group row clearfix" [ngClass]="{ 'has-error': !Address1.valid }">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Address Line 1:
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" placeholder="Address1" name="Address1"
+                                [(ngModel)]="model.ProviderUser.Address1" #Address1="ngModel" required maxlength="35" />
+                            <div *ngIf="Address1.errors && Address1.errors.required" class="error-message">Required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Address Line 2:
+                            </label>
+                            <input type="text" class="form-control" placeholder="Address2" name="Address2"
+                                [(ngModel)]="model.ProviderUser.Address2" #Address2="ngModel" maxlength="35" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row clearfix"
+                    [ngClass]="{ 'has-error': (!City.valid || !State.valid || !ZipCode.valid) }">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="lastName">
+                                City:
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" placeholder="City" name="City"
+                                [(ngModel)]="model.ProviderUser.City" #City="ngModel" required />
+                            <div *ngIf="City.errors && City.errors.required" class="error-message">Required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="lastName">
+                                State:
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <select name="State" class="form-control m-input" [(ngModel)]="model.ProviderUser.State"
+                                #State="ngModel" required>
+                                <option value="" disabled>Select</option>
+                                <option value="{{item.value}}" *ngFor="let item of us_statelist">{{item.name}}</option>
+                            </select>
+                            <div *ngIf="State.errors && State.errors.required" class="error-message">Required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Zip Code:
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="text" [textMask]="{mask: maskZipCode}" class="form-control" name="ZipCode"
+                                [(ngModel)]="model.ProviderUser.ZipCode" placeholder="Zip" #ZipCode="ngModel"
+                                required />
+                            <div *ngIf="ZipCode.errors && ZipCode.errors.required" class="error-message">Required
+                            </div>
+                            <div *ngIf="ZipCode.errors && !ZipCode.errors.required && ZipCode.errors.pattern"
+                                class="error-message">
+                                Invalid value
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+
+
+            <div class="col-md-12 form-actions text-center">
+                <button type="button" (click)="cancel()"
+                    class="btn btn-medical-white btn-min-width btn-lg mr-1">
+                    <i class="ft-x"></i>Cancel</button>
+                <button type="submit" class="btn btn-green btn-min-width btn-lg" [disabled]="Submitting">
+                    <i class="la la-check-square-o"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>

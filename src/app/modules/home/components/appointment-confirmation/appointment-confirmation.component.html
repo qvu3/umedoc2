@@ -1,0 +1,94 @@
+<div class="block-header">
+  <div class="row" style="padding-top: 55px!important;">
+  </div>
+</div>
+<div class="row clearfix">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="header text-center" style="margin-top:20px;">
+        <img class="rounded-circle user-photo" src="../assets/images/checked.png" alt="Appoinment confirmation">
+        <p style="font-size:18pt;">Thank you for booking with us!</p>
+      </div>
+      <div class="body">
+        <div class="row">
+          <div class="col-md-12 row" style="padding-left: 10%">
+            <h5>
+              <b>Patient Info:</b>
+            </h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 row" style="padding-left: 10%">
+            <div class="col-md-6">
+              <label class="control-label confirm-label" style="width: 35%">Name </label>
+              <span *ngIf="model.PatientUser && model.PatientUser.FirstName">{{model.PatientUser.FirstName}}
+                {{model.PatientUser.LastName}}</span>
+            </div>
+            <div class="col-md-6">
+              <label class="control-label confirm-label" style="width: 35%">Phone </label>
+              <span *ngIf="model.PatientUser">{{model.PatientUser.PhoneNumber}}</span>
+            </div>
+          </div>
+          <div class="col-md-12 row" style="padding-left: 10%">
+            <div class="col-md-6">
+              <label class="control-label confirm-label" style="width: 35%">Email </label>
+              <span *ngIf="model.PatientUser">{{model.PatientUser.Email}}</span>
+            </div>
+            <div class="col-md-6">
+              <label class="control-label confirm-label" style="width: 35%">Address </label>
+              <span *ngIf="model.PatientUser">{{model.PatientUser.Address1}} {{model.PatientUser.Address2}}
+                {{model.PatientUser.City}} {{model.PatientUser.State}} {{model.PatientUser.ZipCode}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 row" style="padding-left: 10%">
+            <h5>
+              <b>Appointment Info:</b>
+            </h5>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 row" style="padding-left: 10%">
+            <div class="col-md-6" *ngIf="model.AppointmentReasonList">
+              <label class="control-label confirm-label" style="width: 35%">Reason of Visit </label>
+              <span
+                *ngIf="model.AppointmentReasonList && model.AppointmentReasonList.length>0">{{generateReasonAssignment(model.AppointmentReasonList)}}</span>
+            </div>
+          </div>
+          <div class="col-md-12 row" style="padding-left: 10%">
+            <div class="col-md-6" *ngIf="model.TransactionPaypal && model.TransactionPaypal.PaymentID">
+              <label class="control-label confirm-label" style="width: 35%">PaymentID# </label>
+              <span>{{model.TransactionPaypal.PaymentID}}</span>
+            </div>
+            <div class="col-md-6" *ngIf="model.TransactionPaypal && model.TransactionPaypal.PaymentID">
+              <label class="control-label confirm-label" style="width: 35%">Payer's Email </label>
+              <span>{{model.TransactionPaypal.Payer_Email}}</span>
+            </div>
+          </div>
+          <div class="col-md-12 row" style="padding-left: 10%">
+            <div class="col-md-6" *ngIf="model.TransactionPaypal && model.TransactionPaypal.PaymentID">
+              <label class="control-label confirm-label" style="width: 35%">Paid by </label>
+              <span>{{model.TransactionPaypal.Payer_FirstName}} {{model.TransactionPaypal.Payer_LastName}}</span>
+            </div>
+            <div class="col-md-6" *ngIf="model.TransactionPaypal && model.TransactionPaypal.PaymentID">
+              <label class="control-label confirm-label" style="width: 35%">Total </label>
+              <span>${{model.TransactionPaypal.Transaction_Total}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div style="padding-top:40px;" class="form-group text-center">
+              <a [routerLink]="['/appointment-room',id]" style='margin-bottom:1px'
+                class='btn btn-outline-primary btn-xs'>
+                <i class='fa fa-youtube-play'> Enter Waiting Room</i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

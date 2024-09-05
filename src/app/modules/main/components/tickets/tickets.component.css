@@ -1,0 +1,36 @@
+.patient-info-heading{
+    font-weight: 900;
+    display: inline-block;
+    width: 100px;
+}
+
+.nav.nav-tabs.nav-linetriangle {
+    border-bottom-color: #199bd8;
+}
+
+.nav.nav-tabs.nav-linetriangle .nav-item a.nav-link.active {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom-color: #199bd8;
+}
+
+.nav.nav-tabs.nav-linetriangle .nav-item a.nav-link.active:before {
+    margin-left: -11px;
+    border-width: 12px;
+    border-top-color: #199bd8;
+}
+
+.nav.nav-tabs.nav-linetriangle .nav-item a.nav-link.active:after {
+    margin-left: -10px;
+    border-width: 10px;
+    border-top-color: #199bd8;
+}
+
+.nav.nav-tabs .nav-item .nav-link {
+    background-color: #FFFFFF;
+}
+
+.nav.nav-tabs .nav-item .nav-link.active {
+    background-color: #199bd8;
+    border-radius: 0.25rem 0.25rem 0 0;
+    color: white !important;
+}

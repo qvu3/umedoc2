@@ -1,0 +1,48 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Pverify Payer</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row clearfix">
+                                <div class="col-sm-12" [ngClass]="{ 'has-error': f.submitted && !PayerName.valid }">
+                                    <label class="col-sm-12 control-label">Insurance Name</label>
+                                    <div class="col-sm-12">
+                                        <input readonly="readonly" type="text" class="form-control"
+                                            placeholder="Insurance Name" name="PayerName" [(ngModel)]="model.PayerName"
+                                            #PayerName="ngModel" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row clearfix">
+                                <div class="col-sm-6">
+                                    <div class="form-group row col-sm-12">
+                                        <div class="col-md-12 mx-auto">
+                                            <fieldset>
+                                                <input class="icheckbox_flat-green checked" type="checkbox"
+                                                    [(ngModel)]="model.ChargeFullAmount" name="ChargeFullAmount" />
+                                                <label for="ChargeFullAmount">&nbsp;&nbsp;Charge Full Amount</label>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn  btn-green" [disabled]="Submitting">Save</button>
+                    <button type="button" class="btn  btn-medical-white" (click)="hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

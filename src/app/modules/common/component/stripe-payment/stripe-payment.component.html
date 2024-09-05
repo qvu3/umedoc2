@@ -1,0 +1,10 @@
+<form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+    <div class="table-responsive group">
+        <div name="card-info" id="card-info" class="field" #cardInfo></div>
+
+        <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+    </div>
+    <button hidden="hidden" type="submit" id="btnSubmit" name="btnSubmit"
+        class="my-super-cool-button pull-right"><span>Pay with
+            Card</span></button>
+</form>

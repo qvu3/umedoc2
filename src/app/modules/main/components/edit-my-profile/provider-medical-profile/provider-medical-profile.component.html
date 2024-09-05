@@ -1,0 +1,257 @@
+<div class="row">
+    <div class="col-md-12">
+        <form name="form" class="form-horizontal"
+            (ngSubmit)="(!f.form.valid && scrollToErrorField(f))  || (f.form.valid && save())" #f="ngForm" novalidate>
+            <fieldset
+                *ngIf="currentUser && (currentUser.Role=='Provider' || currentUser.Role=='Special_Admin' || currentUser.Role=='Company_Admin') ">
+                <h4 class="form-section" *ngIf="model.ProviderUser"><i
+                        class="font-medium-5 icon-line-height la la-user-md"></i> Provider Info</h4>
+                <div class="form-group row clearfix">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Provider Degree:
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <select class="form-control" name="ProviderDegreeID" [(ngModel)]="model.ProviderDegreeID"
+                                #ProviderDegreeID="ngModel" required>
+                                <option [value]="item.ID" *ngFor="let item  of  degrees">{{item.DegreeName}}</option>
+                            </select>
+                            <div *ngIf="f.submitted && ProviderDegreeID.errors && ProviderDegreeID.errors.required"
+                                class="row error-message col-md-12">
+                                Required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Provider Role:
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <select class="form-control" name="ProviderRoleID" [(ngModel)]="model.ProviderRoleID"
+                                #ProviderRoleID="ngModel" required>
+                                <option [value]="item.ID" *ngFor="let item of roles">{{item.RoleName}}</option>
+                            </select>
+                            <div *ngIf="f.submitted && ProviderRoleID.errors && ProviderRoleID.errors.required"
+                                class="row error-message col-md-12">
+                                Required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="lastName">
+                                Year in Practice:
+                                <span class="danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="number" min="0.1" class="form-control" name="YearsInPractice"
+                                [(ngModel)]="model.YearsInPractice" #YearsInPractice="ngModel" required />
+                            <div *ngIf="f.submitted && YearsInPractice.errors && YearsInPractice.errors.required"
+                                class="row error-message col-md-12">
+                                Required.
+                            </div>
+                            <div *ngIf="f.submitted && YearsInPractice.errors && !YearsInPractice.errors.required 
+              && YearsInPractice.errors.min" class="row error-message col-md-12">
+                                Data Invalid.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="lastName">
+                                NPI Number:
+                            </label>
+                            <input type="text" class="form-control" name="NPINumber" [(ngModel)]="model.NPINumber"
+                                #NPINumber="ngModel" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="lastName">
+                                License Number:
+                            </label>
+                            <input type="text" class="form-control" name="LicenseNumber"
+                                [(ngModel)]="model.LicenseNumber" #LicenseNumber="ngModel" />
+
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset *ngIf="model && model.ProviderUser?.Role =='Provider'">
+                <h4 class="form-section" *ngIf="model.ProviderUser"><i
+                        class="font-medium-5 icon-line-height la la-stethoscope"></i>Specialties</h4>
+                <div class="form-group row clearfix">
+                    <div class="col-md-3" *ngFor="let item of specialities,let i=index">
+                        <fieldset class="checkbox">
+                            <label>
+                                <input class="icheckbox_flat-green checked" type="checkbox" name="special_{{i}}"
+                                    #special="ngModel" [(ngModel)]="item.IsInactived">
+                                {{item.SpecialtyName}}
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset *ngIf="model && model.ProviderUser?.Role =='Provider'">
+                <h4 class="form-section" *ngIf="model.ProviderUser"><i class="font-medium-5 icon-line-height la 
+          la-graduation-cap"></i>Education</h4>
+                <div class="row">
+                    <div class="form-group mb-1 col-sm-12 col-md-3"><label>Degree Title</label></div>
+                    <div class="form-group mb-1 col-sm-12 col-md-3"><label>University</label></div>
+                    <div class="form-group mb-1 col-sm-12 col-md-3"><label>Graduated In (Year)</label></div>
+                </div>
+                <div class="row" *ngFor="let item  of model.Educations , let i=index">
+                    <div class="form-group mb-1 col-sm-12 col-md-3">
+                        <input type="text" name="Degree_{{i}}" #DegreeTitle="ngModel" [(ngModel)]="item.DegreeTitle"
+                            class="form-control" placeholder="Degree Title" required>
+                        <div *ngIf="f.submitted && DegreeTitle.errors && DegreeTitle.errors.required"
+                            class="row error-message col-md-12">
+                            Required.
+                        </div>
+                    </div>
+                    <div class="form-group mb-1 col-sm-12 col-md-3">
+                        <input type="text" class="form-control" name="University_{{i}}" #University="ngModel"
+                            [(ngModel)]="item.University" placeholder="University" required>
+                        <div *ngIf="f.submitted && University.errors && University.errors.required"
+                            class="row error-message col-md-12">
+                            Required.
+                        </div>
+                    </div>
+                    <div class="form-group mb-1 col-sm-12 col-md-3">
+                        <input type="text" class="form-control" name="GraduatedOn_{{i}}" #GraduatedOn="ngModel"
+                            [(ngModel)]="item.GraduatedOn" placeholder="Graduated In (Year)" required />
+                        <div *ngIf="f.submitted && GraduatedOn.errors && GraduatedOn.errors.required"
+                            class="row error-message col-md-12">
+                            Required.
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-3 text-center">
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteEdu(i)"> <i
+                                class="ft-x"></i>
+                            Delete</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-outline-info" type="button" (click)="addEdu()"><i class="la la-plus"></i>
+                            Add Education</button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset *ngIf="model && model.ProviderUser?.Role =='Provider'" class="mt-2">
+                <h4 class="form-section" *ngIf="model.ProviderUser"><i
+                        class="font-medium-5 icon-line-height la la-language"></i>Languages</h4>
+
+                <div class="row" *ngFor="let item  of model.ProviderLanguages , let i=index">
+                    <div class="form-group mb-1 col-sm-12 col-md-4">
+                        <select class="form-control" name="Language_{{i}}" [(ngModel)]="item.Language"
+                            #Language="ngModel" required>
+                            <option value="">-- Select Language --</option>
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                        </select>
+                        <div *ngIf="f.submitted && Language.errors && Language.errors.required"
+                            class="row error-message col-md-12">
+                            Required.
+                        </div>
+
+                    </div>
+                    <div class="form-group col-sm-12 col-md-4 text-center">
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteLanguage(i)"> <i
+                                class="ft-x"></i>
+                            Delete</button>
+                    </div>
+                </div>
+                <div class="row form-group error-message col-md-12" *ngIf="!isValidProviderLanguages">
+                    Must be select one record.
+                </div>
+                <div class="row form-group error-message col-md-12" *ngIf="!isValidDuplicateProviderLanguages">
+                    Must be not duplicate value.
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-outline-info" type="button" (click)="addLanguage()">
+                            <i class="la la-plus"></i> Add Language</button>
+                    </div>
+                </div>
+            </fieldset>
+
+
+            <fieldset *ngIf="model && model.ProviderUser?.Role =='Provider'" class="mt-2">
+                <h4 class="form-section" *ngIf="model.ProviderUser"><i
+                        class="font-medium-5 icon-line-height la la-gratipay"></i>Badges</h4>
+                <div class="row" *ngFor="let item  of model.ProviderBadges , let i=index">
+
+                    <div *ngIf="item.ImageUrl" class="form-group col-sm-12 col-md-2">
+                        <a href="{{item.ImageUrl}}" target="_blank">
+                            <img style="max-width: 100px!important;height: 100px!important;"
+                                class="img-fluid img-thumbnail" [src]="item.ImageUrl" alt="">
+                        </a>
+                    </div>
+                    <div style="padding-top:25px;" class="form-group col-sm-12 col-md-2 text-right">
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteBadge(i)"> <i
+                                class="ft-x"></i>
+                            Delete</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="btn btn-outline-info" title="Upload the Image" appFileUpload=""
+                            [typeUpload]="'provider_badge'" (onCallback)="uploaded($event)" [fileType]="0"
+                            (onUploadStatus)="uploadStatus($event)" [link]="'/api/Utility/S3UploadImage'">
+                            <input type="file" [disabled]="(isUploading?true:null)" class="sr-only" name="file"
+                                accept="image/*" name="ImageUrlView">
+                            <i class="fa fa-spinner fa-spin" *ngIf="isUploading"></i>
+                            <span class="la la-plus">{{isUploading?'Uploading...':'Add Badge'}}</span>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset *ngIf="model && model.ProviderUser?.Role =='Provider'" class="mt-2">
+                <h4 class="form-section" *ngIf="model.ProviderUser"><i class="font-medium-5 icon-line-height la 
+                    la-pencil-square"></i>Self Description</h4>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea class="form-control" name="SelfDescription" #SelfDescription="ngModel"
+                                [(ngModel)]="model.SelfDescription">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"
+                    *ngIf="currentUser && (currentUser.Role=='Special_Admin' || currentUser.Role=='Company_Admin') ">
+                    <div class="col-md-12 mx-auto">
+                        <fieldset>
+                            <input class="icheckbox_flat-green checked" type="checkbox" [(ngModel)]="model.IsVerified"
+                                name="IsVerified" />
+                            <label for="IsVerified">&nbsp;&nbsp;Is Verified</label>
+                        </fieldset>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="col-md-12 form-actions text-center">
+                <button type="button" (click)="cancel()" class="btn btn-medical-white btn-min-width btn-lg mr-1">
+                    <i class="ft-x"></i>Cancel</button>
+                <button type="submit" class="btn btn-green btn-min-width btn-lg" [disabled]="Submitting">
+                    <i class="la la-check-square-o"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>

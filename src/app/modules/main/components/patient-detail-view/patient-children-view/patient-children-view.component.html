@@ -1,0 +1,18 @@
+<div class="" style="margin-top: 50px !important; ">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 text-center">
+            <button class="btn btn-green xl" id="btnUpdateProfile" (click)="addChild()"
+                type="button">
+                <i class="la la-plus white"></i> {{'Add New Child' | translate}}
+            </button>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-12" *ngFor="let child of list">
+            <app-child-item [model]="child" (onChangedChild)="getChildren()"></app-child-item>
+        </div>
+    </div>
+
+</div>
+
+<app-patient-child-modal #modal (onClosed)="getChildren()"></app-patient-child-modal>

@@ -1,0 +1,59 @@
+<div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',  keyboard: false}" class="modal fade" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog modal-lg">
+        <form name="form" class="form-horizontal" (ngSubmit)="f.form.valid && signature()" #f="ngForm" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Work Lab Order</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Enter Lab Order:</label>
+                        <div class="col-sm-12">
+                            <textarea rows="5" class="form-control" name="LabOrder" [(ngModel)]="model.LabOrder"
+                                #LabOrder="ngModel" required></textarea>
+                            <!-- <app-ckeditor-classic name="LabOrder" [allowUploadImage]="false" #LabOrder="ngModel"
+                                [(ngModel)]="model.LabOrder" required>
+                            </app-ckeditor-classic> -->
+                            <div *ngIf="f.submitted && LabOrder.errors && LabOrder.errors.required"
+                                class="error-message">
+                                This field is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>ICD-Codes:</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" name="ICDCodes" [(ngModel)]="model.ICDCodes"
+                                #ICDCodes="ngModel" required />
+
+                            <div *ngIf="
+                        f.submitted && ICDCodes.errors && ICDCodes.errors.required
+                      " class="error-message">
+                                This field is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Order Date:</label>
+                        <div class="col-sm-12">
+                            <app-date-time-picker [placeholder]="'Order Date'" [hasTime]="false" name="OrderDate"
+                                [(ngModel)]="model.OrderDate" #OrderDate="ngModel" [isMaxCurrentDate]="false" required>
+                            </app-date-time-picker>
+                            <div *ngIf="f.submitted && OrderDate.errors && OrderDate.errors.required"
+                                class="error-message">
+                                Required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-min-width btn-outline-primary">Continue</button>
+                    <button type="button" class="btn btn-min-width btn-outline-info" (click)="cancel()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
+    </div>
+</div>

@@ -1,0 +1,145 @@
+<form name="form" class="form-horizontal" #f="ngForm" novalidate>
+  <h4 class="form-section"><i class="ft-user"></i> Appointment Info</h4>
+  <div class="row" style="padding-top:30px;">
+    <div class="col-md-12">
+      <div class="form-group row clearfix">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-12 control-label"> Requested At</label>
+            <div class="col-sm-12">
+              <label class="form-control">
+                {{model.CreatedOn | date : 'd MMMM, y hh:mm a'}}
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class="col-sm-12 control-label">Appointment Status</label>
+          <div class="col-sm-12">
+            <select disabled="disabled" class="form-control" name="StatusID" aria-placeholder="Appointment Status" [(ngModel)]="model.StatusID" #StatusID="ngModel" required>
+              <option value="">-- Select --</option>
+              <option value="{{item.ID}}" *ngFor="let item of appointmentStatusList">
+                {{item.StatusName}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-12 clearfix">
+        <div class="row col-md-12 clearfix">
+          <h5>Reason for visit:</h5>
+        </div>
+        <div class="row col-md-12 clearfix ">
+          <div class="col-md-3" *ngFor="let item of listReasons">
+            <div class="col-md-12 mx-auto">
+              <fieldset>
+                <input class="icheckbox_flat-green checked" type="checkbox" [checked]="item.IsChecked" [value]="item.ID" disabled>
+                <label>&nbsp;&nbsp;{{item.ReasonName}}</label>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row clearfix">
+        <div class="col-sm-12">
+          <label class="col-sm-12 control-label">Description</label>
+          <div class="col-sm-12">
+            <textarea class="form-control" name="Description" [(ngModel)]="model.Description" #Description="ngModel" rows="4" cols="50" disabled>
+               </textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row clearfix">
+        <div class="col-sm-12">
+          <div appImgGallery="" [source]="model.AppointmentImageList" class="col-sm-12 list-unstyled row clearfix" *ngIf="model.AppointmentImageList && model.AppointmentImageList.length > 0">
+            <ng-template ngFor let-item [ngForOf]="model.AppointmentImageList">
+              <div class="col-lg-1 col-md-6 col-sm-12 m-b-30">
+                <a href="{{item.ImageName}}">
+                  <img style="max-width: 60px!important;height: 60px!important;" class="img-fluid img-thumbnail" [src]="item.ImageName" alt="">
+                </a>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="form-section"><i class="ft-user"></i> Encounter Detail</h4>
+  <div class="row" style="padding-top:30px;">
+    <div class="col-md-12">
+      <ul class="list-unstyled patient-info-card">
+        <li>
+          <span class="patient-info-heading">Reason: </span>
+          <span class="info">{{model.ApptCategoryName}} </span> <span>
+            {{ model.GenerateReasonAssignment }} </span>
+        </li>
+        <li>
+          <span class="patient-info-heading">Description: </span>
+          <span>{{ model.Description }} </span>
+        </li>
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">Weight: </span>
+          <span class="info">{{model.WeightLossPrecheck.Weight}} (lbs)</span>
+        </li>
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">Height: </span>
+          <span>{{ convertToFeets( model.WeightLossPrecheck.Height)}} </span>
+        </li>
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">BMI: </span>
+          <span>{{calculateBMI(model.WeightLossPrecheck.Weight , model.WeightLossPrecheck.Height)}} </span>
+        </li>
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">Blood Pressure: </span>
+          <span>{{ model.WeightLossPrecheck.BloodPressure? "Yes": "No" }} </span>
+        </li>
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">Cancer: </span>
+          <span>{{ model.WeightLossPrecheck.Cancer? "Yes": "No" }} </span>
+        </li>
+
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">Kidney Disease: </span>
+          <span>{{ model.WeightLossPrecheck.KidneyDisease? "Yes": "No" }} </span>
+        </li>
+
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">Pancreatitis: </span>
+          <span>{{ model.WeightLossPrecheck.Pancreatitis? "Yes": "No" }} </span>
+        </li>
+
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">SemaglutideAllergy: </span>
+          <span>{{ model.WeightLossPrecheck.SemaglutideAllergy? "Yes": "No" }} </span>
+        </li>
+
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">Pregnant: </span>
+          <span>{{ model.WeightLossPrecheck.Pregnant? "Yes": "No" }} </span>
+        </li>
+
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">Diabetic: </span>
+          <span>{{ model.WeightLossPrecheck.Diabetic? "Yes": "No" }} </span>
+        </li>
+
+        <li *ngIf="model.WeightLossPrecheck">
+          <span class="patient-info-heading">Suicide: </span>
+          <span>{{ model.WeightLossPrecheck.Suicide? "Yes": "No" }} </span>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+  <h4 class="form-section"><i class="ft-user"></i> Patient Info</h4>
+  <div class="row" style="padding-top:30px;">
+    <div class="col-md-12">
+      <app-patient-profile-view [appointmentID]="id"> </app-patient-profile-view>
+    </div>
+  </div>
+</form>

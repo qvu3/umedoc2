@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-empty-chat',
-  standalone: true,
-  imports: [],
   templateUrl: './empty-chat.component.html',
-  styleUrl: './empty-chat.component.css'
+  styleUrls: ['./empty-chat.component.css']
 })
-export class EmptyChatComponent {
+export class EmptyChatComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
 
 }

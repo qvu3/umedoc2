@@ -1,0 +1,213 @@
+<div appInitMenu="" [isNeedChange]="stringChange" (onChangeMode)="changeMode($event)">
+  <nav *ngIf="!isPatientProfilePage"
+    class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow navbar-static-top navbar-light navbar-brand-center">
+    <div class="navbar-wrapper" app-header></div>
+  </nav>
+
+  <!-- BEGIN: Content-->
+  <div [ngClass]="{'app-content content':!isPatientProfilePage}" [id]="isPatientProfilePage?'content1':''">
+    <div [ngClass]="{'container-fluid':isPatientProfilePage}">
+      <div [ngClass]="{'row p-80':isPatientProfilePage}">
+        <div class="col-lg-2 col-md-9" *ngIf="isPatientProfilePage">
+          <img src="/assets/logo_login.png" alt="" class="img-fluid mb-30">
+          <!--mob view-->
+          <nav class="navbar navbar-expand-lg navbar-light  d-md-none d-lg-none">
+            <button id="toggleMenuMobilePatient" class="navbar-toggler" type="button" data-toggle="collapse"
+              data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              <span class="badge badge-danger" style="font-size: 10px;"
+                *ngIf="TotalMessageUnRead + totalAppt + totalGroupAppt > 0">{{TotalMessageUnRead + totalAppt +
+                totalGroupAppt}}</span>
+            </button>
+            <div class="collapse navbar-collapse mt-1" id="navbarNav">
+              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link" id="v-pills-home-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-profile']">
+              <img src="/assets/patient/imgs/iconfinder_ic_dashboard.png" alt="" class="img-fluid w-26">{{'Dashboard' |
+              translate}}</a>
+            <a class="nav-link" id="v-pills-profile-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-my-profile']">
+              <img src="/assets/patient/imgs/icons.png" alt="" class="img-fluid w-26">{{'My profile' | translate}}</a>
+            <a class="nav-link" id="v-pills-messages-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-prefer-pharmacy']">
+              <img src="/assets/patient/imgs/iconfinder_Capsule_2415607.png" alt="" class="img-fluid w-26">{{'Preferred
+              pharmacy' | translate}}</a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-credit-card']">
+              <img src="/assets/patient/imgs/iconfinder_credit_card_1814100.png" alt="" class="img-fluid w-26">
+              {{'Billing' | translate}}</a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-insurance']"><img
+                src="/assets/patient/imgs/iconfinder___insurance_shield_protection_safety_3668850.png" alt=""
+                class="img-fluid w-26"> {{'Insurance' | translate}}
+            </a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-storage']"><img
+                src="/assets/patient/imgs/iconfinder_Tilda_Icons_1ed_list_3586362%20(1).png" alt=""
+                class="img-fluid w-26"> {{'Medical Documents' | translate}}</a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']" [routerLink]="['/billings']"
+              style="position: relative;"><img
+                src="/assets/patient/imgs/iconfinder_Tilda_Icons_1ed_list_3586362%20(1).png" alt=""
+                class="img-fluid w-26">
+              {{'Patient Statements' | translate}}<span class="badge badge-danger" style="position: absolute;right:5px;"
+                *ngIf="totalBalanceBilling >0">{{totalBalanceBilling}}</span>
+            </a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-children']" style="position: relative;"><img
+                src="/assets/patient/imgs/icons.png" alt=""
+                class="img-fluid w-26">
+              {{'Children' | translate}}
+            </a>
+            <hr>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-history']">
+              <img src="/assets/patient/imgs/layer1.png" alt="" class="img-fluid w-26">{{'Appointment history' |
+              translate}} <span class="badge badge-danger round"
+                *ngIf="caculateGroupApptPatient() > 0">{{caculateGroupApptPatient()}}</span></a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-tickets']">
+              <img src="/assets/patient/imgs/iconfinder_Tilda_Icons_1ed_list_3586362%20(1).png" alt="" class="img-fluid w-26">
+              {{'Umecare' | translate}} 
+              <span class="badge badge-danger" *ngIf="totalTicketWaiting>0">{{totalTicketWaiting}}</span>
+              <span class="badge badge-danger">New</span>
+            </a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-prescription']">
+              <img
+                src="/assets/patient/imgs/iconfinder_06_medicine_medical_pharmacy_health_prescription_pill_drug_5969600.png"
+                alt="" class="img-fluid w-26"> {{'Prescription history' | translate}}
+            </a>
+
+            <a class="nav-link" id="v-pills-settings-tab" [routerLink]="['/patient-messages']">
+              <img src="/assets/patient/imgs/iconfinder___insurance_shield_protection_safety_3668850.png" alt="" class="img-fluid w-26"> Chat <span
+                class="badge badge-danger" *ngIf="TotalMessageUnRead>0">{{TotalMessageUnRead}}</span></a>
+
+            <a class="nav-link" id="v-pills-settings-tab" href="https://www.umedoc.com/faqs/" target="_blank"><img
+                src="/assets/patient/imgs/iconfinder_reference_1348650.png" alt="" class="img-fluid w-26"> {{'Help' |
+              translate}}</a>
+
+            <a class="nav-link" (click)="invitePatientUser()" id="v-pills-settings-tab" href="javascript:void(0)"><img
+                src="/assets/patient/imgs/icons.png" alt="" class="img-fluid w-26"> {{'Invite' | translate}}</a>
+              </div>
+            </div>
+          </nav>
+          <!--                end of mob view-->
+          <div class="nav flex-column nav-pills d-sm-none d-xs-none d-md-block d-lg-block" id="v-pills-tab"
+            role="tablist" aria-orientation="vertical">
+            <a class="nav-link" id="v-pills-home-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-profile']">
+              <img src="/assets/patient/imgs/iconfinder_ic_dashboard.png" alt="" class="img-fluid w-26">{{'Dashboard' |
+              translate}}</a>
+            <a class="nav-link" id="v-pills-profile-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-my-profile']">
+              <img src="/assets/patient/imgs/icons.png" alt="" class="img-fluid w-26">{{'My profile' | translate}}</a>
+            <a class="nav-link" id="v-pills-messages-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-prefer-pharmacy']">
+              <img src="/assets/patient/imgs/iconfinder_Capsule_2415607.png" alt="" class="img-fluid w-26">{{'Preferred
+              pharmacy' | translate}}</a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-credit-card']">
+              <img src="/assets/patient/imgs/iconfinder_credit_card_1814100.png" alt="" class="img-fluid w-26">
+              {{'Billing' | translate}}</a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-insurance']"><img
+                src="/assets/patient/imgs/iconfinder___insurance_shield_protection_safety_3668850.png" alt=""
+                class="img-fluid w-26"> {{'Insurance' | translate}}
+            </a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-storage']"><img
+                src="/assets/patient/imgs/iconfinder_Tilda_Icons_1ed_list_3586362%20(1).png" alt=""
+                class="img-fluid w-26"> {{'Medical Documents' | translate}}</a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']" [routerLink]="['/billings']"
+              style="position: relative;"><img
+                src="/assets/patient/imgs/iconfinder_Tilda_Icons_1ed_list_3586362%20(1).png" alt=""
+                class="img-fluid w-26">
+              {{'Patient Statements' | translate}}<span class="badge badge-danger" style="position: absolute;right:5px;"
+                *ngIf="totalBalanceBilling >0">{{totalBalanceBilling}}</span>
+            </a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-children']" style="position: relative;"><img
+                src="/assets/patient/imgs/icons.png" alt=""
+                class="img-fluid w-26">
+              {{'Children' | translate}}
+            </a>
+            <hr>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-history']">
+              <img src="/assets/patient/imgs/layer1.png" alt="" class="img-fluid w-26">{{'Appointment history' |
+              translate}} <span class="badge badge-danger round"
+                *ngIf="caculateGroupApptPatient() > 0">{{caculateGroupApptPatient()}}</span></a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-tickets']">
+              <img src="/assets/patient/imgs/iconfinder_Tilda_Icons_1ed_list_3586362%20(1).png" alt="" class="img-fluid w-26">
+              {{'Umecare' | translate}} 
+              <span class="badge badge-danger" *ngIf="totalTicketWaiting>0">{{totalTicketWaiting}}</span>
+              <span class="badge badge-danger">New</span>
+            </a>
+            <a class="nav-link" id="v-pills-settings-tab" [routerLinkActive]="['active']"
+              [routerLink]="['/patient-prescription']">
+              <img
+                src="/assets/patient/imgs/iconfinder_06_medicine_medical_pharmacy_health_prescription_pill_drug_5969600.png"
+                alt="" class="img-fluid w-26"> {{'Prescription history' | translate}}
+            </a>
+
+            <a class="nav-link" id="v-pills-settings-tab" [routerLink]="['/patient-messages']">
+              <img src="/assets/patient/imgs/iconfinder___insurance_shield_protection_safety_3668850.png" alt="" class="img-fluid w-26">Tech Support<span
+                class="badge badge-danger" *ngIf="TotalMessageUnRead>0">{{TotalMessageUnRead}}</span></a>
+
+            <a class="nav-link" id="v-pills-settings-tab" href="https://www.umedoc.com/faqs/" target="_blank"><img
+                src="/assets/patient/imgs/iconfinder_reference_1348650.png" alt="" class="img-fluid w-26"> {{'Help' |
+              translate}}</a>
+
+            <a class="nav-link" (click)="invitePatientUser()" id="v-pills-settings-tab" href="javascript:void(0)"><img
+                src="/assets/patient/imgs/icons.png" alt="" class="img-fluid w-26"> {{'Invite' | translate}}</a>
+            <div>
+              <app-select-language [colClass]="'col-12 mt-1'"></app-select-language>
+            </div>
+
+          </div>
+
+        </div>
+        <div [ngClass]="{'col-lg-10 col-md-9 col-12 mt-60 mb-30':isPatientProfilePage}">
+          <div [ngClass]="{'content-wrapper':!isPatientProfilePage}">
+            <div [ngClass]="{'background':isPatientProfilePage}" style="min-height: 85vh;">
+              <div class="row" *ngIf="isPatientProfilePage">
+                <div class="col-lg-8 col-8">
+                  <h1>{{title}}</h1>
+                </div>
+                <div class="col-lg-4 col-4 p-0 text-right">
+                  <a style="color: #0A93BD;font-size: 17px;background-color: transparent;" class="dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:void(0)">
+                    {{currentUser.FirstName}} </a>
+                  <div class="dropdown-menu">
+                    <a *ngIf="currentUser.Role && currentUser.Role != 'Patient'" class="dropdown-item"
+                      [routerLink]="['/','management','my-profile']"><i class="ft-user"></i> {{'My profile' |
+                      translate}}
+                    </a>
+                    <a *ngIf="currentUser.Role && currentUser.Role == 'Patient'" class="dropdown-item"
+                      [routerLink]="['/','patient-my-profile']"><i class="ft-user"></i> {{'My profile' | translate}}</a>
+                    <a class="dropdown-item" (click)="changepassword()"><i class="ft-lock"></i> {{'Change password' |
+                      translate}}</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" (click)="signOut()"><i
+                        class="ft-power"></i>{{'Logout' | translate}}</a>
+                  </div>
+                  <a class="ml-1" routerLink="">
+                    <img [src]="currentUser.ProfilePicture" width="100" height="100"
+                      class="rounded-circle img-fluid w-40">
+                  </a>
+                </div>
+              </div>
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END: Content-->
+  <div class="sidenav-overlay" *ngIf="!isPatientProfilePage"></div>
+  <div class="drag-target" *ngIf="!isPatientProfilePage"></div>
+  <div class="copyright margin_out" app-footer *ngIf="!isPatientProfilePage"></div>
+  <app-change-password #changePassModal></app-change-password>
+  <app-patient-invite-modal #inviteUserModal></app-patient-invite-modal>
+</div>

@@ -1,0 +1,24 @@
+<div *ngIf="!isExistSubscriptionPlan" class="row clearfix mt-4">
+    <div class="col-md-12">
+        <app-billing-plan [patientID]="currentUser.Id"> </app-billing-plan>
+    </div>
+</div>
+
+<div *ngIf="isExistSubscriptionPlan" class="row clearfix mt-4">
+    <div class="col-md-12">
+        <div class="card" style="height: 100%;">
+            <div class="card-content">
+                <div class="col-md-12 mt-2 mb-2 text-right">
+                    <button type="button" class="btn btn-green" (click)="newTicket()"><i class="fa fa-plus"></i> Umecare Request</button>
+                </div>
+                <div class="col-md-12">
+                    <table class="table  display" [isFilter]="false" [isLengthChange]="false" appPagingTable=""
+                        [aoColumns]="aoColumns" [aoColumnDefs]="aoColumnDefs" [serverLink]="serverLink"
+                        [aaSorting]="aaSorting" [compRef]="compRef" (tableEvent)="catchTable($event)"
+                        style="width: 100%">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

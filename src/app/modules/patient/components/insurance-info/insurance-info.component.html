@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-12 mt-2">
+            <p class="lead text-bold-500" style="font-size: 1.5rem;">Insurance</p>
+            <hr style="border-top: 1px solid rgba(0, 0, 0, 0.5)">
+            <div class="text-center">
+                <p class="text-bold-700">
+                    <i style="font-size: 17px;" class="fa fa-id-card"></i>
+                    Please add your insurance by clicking button below.
+                </p>
+                <button type="button" class="btn btn-green round" (click)="addInsurance()"> Add
+                    Insurance</button>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngFor="let item of patientModel.PatientInsurances" class="col-sm-12 text-center text-md-left">
+                <div>
+                    <div class="col-md-12 mt-2">
+                        <div class="text-bold-500 mb-1">Insurance Name:
+                            {{item.InsuranceName}}</div>
+                        <div class="text-bold-500 mb-1">Beneficiary Number :
+                            {{item.BeneficiaryNumber}}
+                        </div>
+                        <div class="text-bold-500 mb-1">Group Number :
+                            {{item.GroupNumber}}</div>
+
+                        <div *ngIf="item.IsHMOPlan" class="text-bold-500 mb-1">
+                            I have HMO plan</div>
+
+                        <div *ngIf="!item.IsHMOPlan" class="text-bold-500 mb-1">
+                            I don't have HMO plan</div>
+                            
+                        <div *ngIf="item.DontKnowCopay ===true" class="text-bold-500 mb-1">
+                            Copay: Don't known</div>
+
+                        <div *ngIf="item.DontKnowCopay === undefined || item.DontKnowCopay === null || item.DontKnowCopay ===false"
+                            class="text-bold-500 mb-1">Copay:
+                            ${{item.PatientCopay}}</div>
+
+                        <div *ngIf="item.IsHMOPlan" class="text-bold-600 mb-1">
+                            Please note that there is a $69 charge, which will be reversed once the visit is approved, while obtaining the approval for the visit from your insurance company.
+                        </div>
+                        <div *ngIf="item.DontKnowCopay ===true && !item.IsHMOPlan" class="text-bold-600 mb-1">
+                            An amount of {{companyModel.DontKnowCopayPrice | currency}} will be held on your credit card while we verify your insurance and copay amount.
+                        </div>
+
+                        <div>
+                            <button type="button" class="btn btn-sm btn-info mr-1"
+                                (click)="changeInsurance(item.ID)">Update</button>
+                            <button type="button" class="btn btn-sm btn-danger"
+                                (click)="removeItemInsurance(item.ID)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+                <hr style="border-top: 1px solid rgba(0, 0, 0, 0.5)">
+            </div>
+        </div>
+        <div class="text-center">
+            <i style="font-size: 22px;" class="fa fa-info-circle warning"></i>
+            <span class="text-bold-600"> Willfully entering of false insurance and
+                payment information is
+                not permitted and will be prosecuted to the maximal extent of the
+                law.</span>
+        </div>
+    </div>
+</div>
+<app-insurance-update #insuranceUpdateModal (closeModal)="onCloseInsurance($event)"></app-insurance-update>

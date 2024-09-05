@@ -1,0 +1,98 @@
+<div class="row">
+  <div class="row col-md-12 ml-0 mr-0 mb-3">
+    <div class="col-md-6">
+      <label>From Date: </label>
+      <app-date-time-picker name="FromDate" #FromDate="ngModel" [hasTime]="false" [isMaxCurrentDate]="false"
+        [(ngModel)]="from">
+      </app-date-time-picker>
+    </div>
+    <div class="col-md-6">
+      <label>To Date: </label>
+      <app-date-time-picker name="ToDate" #ToDate="ngModel" [hasTime]="false" [(ngModel)]="to"
+        [isMaxCurrentDate]="false">
+      </app-date-time-picker>
+    </div>
+    <div class="col-md-12 text-center mt-1">
+      <button class="btn round btn-green btn-min-width" type="button"
+        (click)="search();searchReason();searchDetect()">Apply</button>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h4 class="mt-1 mb-2 text-center">Appointment Status</h4>
+    <canvas #columnStacked style="min-height:20vh; max-height:50vh;"></canvas>
+  </div>
+  <!-- <div class="col-md-6">
+    <h4 class="mt-1 mb-2 text-center">Appointment Reason</h4>
+    <canvas #barStacked style="min-height:50vh; max-height:50vh;"></canvas>
+  </div> -->
+
+  <div class="col-md-6">
+    <h4 class="mt-1 mb-2 text-center">Appointment Detect</h4>
+    <canvas #pieStacked style="min-height:50vh; max-height:50vh;"></canvas>
+  </div>
+
+  <div class="row col-md-12 mt-50">
+    <div class="col-lg-3 ">
+      <div class="card pull-up">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media d-flex">
+              <div class="media-body text-center">
+                <h6 class="text-muted">New Signup </h6>
+                <h1 style="font-size: 5rem; color: #ef3fa8;">{{countInfoModel.NewSignup}}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="card pull-up">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media d-flex">
+              <div class="media-body text-center">
+                <h6 class="text-muted">New Dependents </h6>
+                <h1 style="font-size: 5rem; color: #00d0ff;">{{countInfoModel.NewDependents}}</h1>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 ">
+      <div class="card pull-up">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media d-flex">
+              <div class="media-body text-center">
+                <h6 class="text-muted">Completed Apts </h6>
+                <h1 style="font-size: 5rem; color: #ff8d3c;">{{countInfoModel.CompletedAppts}}</h1>
+              </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 ">
+      <div class="card pull-up">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media d-flex">
+              <div class="media-body text-center">
+                <h6 class="text-muted">Cancelled Apts </h6>
+                <h1 style="font-size: 5rem; color: #616a69;">{{countInfoModel.CancelledAppts}}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
