@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { AppointmentNoteModel } from '../models/appointment-note.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 
 @Injectable()
 export class AppointmentNoteService extends BaseService<AppointmentNoteModel>{
@@ -13,17 +13,17 @@ export class AppointmentNoteService extends BaseService<AppointmentNoteModel>{
         this.resource = `${Global.apiUrl}/api/AppointmentNote`;
     }
 
-    CountAppointmentNote(appointmentId){
+    CountAppointmentNote(appointmentId: any){
         let url = Global.apiUrl + `/api/Appointment/CountAppointmentNote/${appointmentId}`;
         return this.http.get(url) as Observable<number>;
     }
 
-    SaveDraftNote(entity){
+    SaveDraftNote(entity: any){
         let url = Global.apiUrl + `/api/AppointmentNote/SaveDraftNote`;
         return this.http.post(url,entity) as Observable<boolean>;
     }
 
-    LoadDraftNote(appointmentId){
+    LoadDraftNote(appointmentId: any){
         let url = Global.apiUrl + `/api/AppointmentNote/LoadDraftNote/${appointmentId}`;
         return this.http.get(url) as Observable<AppointmentDraftNoteModel>;
     }

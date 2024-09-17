@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { Observable } from 'rxjs';
 import { PatientInsuranceModel, S3Model } from '../models/patient-insurance.model';
 

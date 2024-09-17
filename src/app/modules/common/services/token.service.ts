@@ -5,7 +5,7 @@ import UserModel from '../models/user.model';
 @Injectable()
 export class TokenService {
 
-  getCurrentUser(): UserModel {
+  getCurrentUser(): UserModel | null {
     //const strValue = sessionStorage.getItem(Global.currentUser);
     const strValue = sessionStorage.getItem(Global.currentUser);
     if (strValue) {

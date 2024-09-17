@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { LoginHistoryModel } from '../models/login-history.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
-import { Observable } from 'rxjs/Observable';
+import Global from '../../../Global';
+import { Observable } from 'rxjs';
 declare var $: any;
 
 @Injectable()

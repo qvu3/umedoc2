@@ -13,7 +13,8 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 declare var $: any;
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-    @BlockUI() blockUI: NgBlockUI;
+    @BlockUI()
+    blockUI!: NgBlockUI;
     constructor(public auth: TokenService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const user = this.auth.getCurrentUser();

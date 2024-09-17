@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { Observable } from 'rxjs';
 import { ProviderLicenseModel } from '../models/provider-license.model';
 
@@ -12,7 +12,7 @@ export class ProviderLicenseService extends BaseService<ProviderLicenseModel>{
         this.resource = `${Global.apiUrl}/api/ProviderLicense`;
     }
 
-    SearchAsync(criteria) {
+    SearchAsync(criteria: any) {
         let url = Global.apiUrl + `/api/ProviderLicense/SearchAsync`;
         return this.httpClient.post(url, criteria) as Observable<ProviderLicenseModel[]>;
     }

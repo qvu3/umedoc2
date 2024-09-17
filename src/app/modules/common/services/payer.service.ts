@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { PayerModel } from '../models/payer.model';
 import { BaseService } from './base.service';
 

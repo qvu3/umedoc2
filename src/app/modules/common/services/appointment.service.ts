@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
 import { AppointmentModel } from '../models/appointment.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BaseService, PageData } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { Observable } from 'rxjs';
 import { ToxBoxModel } from '../models/toxbox.model';
 import TransactionPaypalModel from '../models/transaction-paypal.model';
 import { AuditStackAppointmentModel, AuditAppointmentReasonModel, DetectAppointmentModel } from '../models/audit-stack-appointment.model';
-import { SetupIntentResponseModel, CardInfoModel } from '../models/stripe-info.model';
+import { SetupIntentResponseModel, CardInfoModel, StripeInfoModel } from '../models/stripe-info.model';
 import StripeTransactionInfoModel from '../models/stripe-transaction-info.model';
 import { ParticipantModel } from '../models/participant.model';
 import { AppointmentHistoryInfoModel } from '../models/appointment-history-info.model';
@@ -24,78 +24,78 @@ export class AppointmentService extends BaseService<AppointmentModel>{
         this.resource = `${Global.apiUrl}/api/Appointment`;
     }
 
-    SendPrizmPatientPrescriptions(model){
+    SendPrizmPatientPrescriptions(model: any){
         let url = Global.apiUrl + `/api/Appointment/SendPrizmPatientPrescriptions`;
         return this.httpClient.post(url ,model) as Observable<any>;
     }
 
-    SendPrizmPatientNotes(model){
+    SendPrizmPatientNotes(model: any){
         let url = Global.apiUrl + `/api/Appointment/SendPrizmPatientNotes`;
         return this.httpClient.post(url ,model) as Observable<any>;
     }
 
-    GetPrizmInfo(appointmentId){
+    GetPrizmInfo(appointmentId: any){
         let url = Global.apiUrl + `/api/Appointment/GetPrizmInfo/${appointmentId}`;
         return this.httpClient.get(url) as Observable<Prizm_IntakeModel>;
     }
 
-    GetCoinBaseInfo(appointmentId){
+    GetCoinBaseInfo(appointmentId: string){
         let url = Global.apiUrl + `/api/Appointment/GetCoinBaseInfo/${appointmentId}`;
         return this.httpClient.get(url) as Observable<CoinBasseChargeInfo>;
     }
 
-    CheckCancelApptPayCryto(appointmentId){
+    CheckCancelApptPayCryto(appointmentId: any){
         let url = Global.apiUrl + `/api/Appointment/CancelPayWithCrypto/${appointmentId}`;
         return this.httpClient.post(url,{}) as Observable<string>;
     }
 
-    CheckCompletedlApptPayCryto(appointmentId){
+    CheckCompletedlApptPayCryto(appointmentId: any){
         let url = Global.apiUrl + `/api/Appointment/CompletedPayWithCrypto/${appointmentId}`;
         return this.httpClient.post(url,{}) as Observable<string>;
     }
 
 
 
-    GetViewSubmission(id){
+    GetViewSubmission(id: string){
         let url = Global.apiUrl + `/api/Appointment/ViewSubmission/${id}`;
         return this.httpClient.get(url) as Observable<string>;
     }
 
-    CancelledVaccineSchedulerAppointment(appointmentId) {
+    CancelledVaccineSchedulerAppointment(appointmentId: any) {
         let url = `${Global.apiUrl}/api/VaccineAppt/CancelledAppointment/${appointmentId}`;
         return this.httpClient.post(url, {}) as Observable<boolean>;
     }
 
-    GetVaccineScheduleApptById(id){
+    GetVaccineScheduleApptById(id: any){
         let url = Global.apiUrl + `/api/VaccineAppt/${id}`;
         return this.httpClient.get(url) as Observable<VaccineApptModel>;
     }
-    GetIncludeVaccineScheduleApptById(id){
+    GetIncludeVaccineScheduleApptById(id: any){
         let url = Global.apiUrl + `/api/VaccineAppt/GetIncludeById/${id}`;
         return this.httpClient.get(url) as Observable<VaccineApptModel>;
     }
 
-    RescheduleVaccineScheduleAppt(entity){
+    RescheduleVaccineScheduleAppt(entity: any){
         let url = Global.apiUrl + `/api/VaccineAppt/RescheduleAppointment`;
         return this.httpClient.post(url, entity) as Observable<string>;
     }
 
-    CreateVaccineScheduleAppt(entity){
+    CreateVaccineScheduleAppt(entity: any){
         let url = Global.apiUrl + `/api/VaccineAppt/CreateAppointment`;
         return this.httpClient.post(url, entity) as Observable<string>;
     }
 
-    CreateRange(entity) {
+    CreateRange(entity: any) {
         let url = Global.apiUrl + `/api/VaccineAppt/CreateRange`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
-    UpdateAppointmentSlot(entity) {
+    UpdateAppointmentSlot(entity: any) {
         let url = Global.apiUrl + `/api/VaccineAppt/UpdateSlot`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
-    GetVaccineSlots(entity){
+    GetVaccineSlots(entity: any){
         let url = Global.apiUrl + `/api/VaccineAppt/GetVaccineSlots`;
         return this.httpClient.post(url, entity) as Observable<VaccineApptSlotModel[]>;
     }
@@ -116,7 +116,7 @@ export class AppointmentService extends BaseService<AppointmentModel>{
     }
 
 
-    PatientAppointmentByPassPayment(model) {
+    PatientAppointmentByPassPayment(model: any) {
         let headers = new HttpHeaders({ 'IsFromWebApp': 'true' });
         let url = Global.apiUrl + `/api/Appointment/PatientAppointmentByPassPayment`;
         return this.httpClient.post(url, model, { headers: headers }) as Observable<AppointmentModel>;
@@ -132,45 +132,45 @@ export class AppointmentService extends BaseService<AppointmentModel>{
     //     return this.httpClient.post(url, entity) as Observable<boolean>;
     // }
 
-    GetPaymentStripeInfo(id) {
+    GetPaymentStripeInfo(id: any) {
         let url = Global.apiUrl + `/api/Appointment/GetPaymentStripeInfo/${id}`;
         return this.httpClient.get(url) as Observable<StripeTransactionInfoModel>;
     }
 
-    RefundStripeAppointment(entity) {
+    RefundStripeAppointment(entity: any) {
         let url = Global.apiUrl + '/api/Appointment/RefundingPaymentMethod';
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
-    ChargePaymentMethod(chargeInfo) {
+    ChargePaymentMethod(chargeInfo: any) {
         let url = Global.apiUrl + `/api/Appointment/ChargePaymentMethod`;
         return this.httpClient.post(url, chargeInfo) as Observable<boolean>;
     }
 
-    SaveRequestAppointmentByCustomerAndCard(entity) {
+    SaveRequestAppointmentByCustomerAndCard(entity: any) {
         let headers = new HttpHeaders({ 'IsFromWebApp': 'true' });
         let url = Global.apiUrl + `/api/Appointment/SaveRequestAppointmentByCustomerAndCard`;
         return this.httpClient.post(url, entity, { headers: headers }) as Observable<AppointmentModel>;
     }
 
-    SaveRequestAppointmentByCustomerAndCardByCoin(entity) {
+    SaveRequestAppointmentByCustomerAndCardByCoin(entity: any) {
         let headers = new HttpHeaders({ 'IsFromWebApp': 'true' });
         let url = Global.apiUrl + `/api/Appointment/SaveRequestAppointmentByCustomerAndCardByCoin`;
         return this.httpClient.post(url, entity, { headers: headers }) as Observable<AppointmentModel>;
     }
 
-    SaveRequestAppointmentByCustomerAndCardFuture(entity) {
+    SaveRequestAppointmentByCustomerAndCardFuture(entity: any) {
         let headers = new HttpHeaders({ 'IsFromWebApp': 'true' });
         let url = Global.apiUrl + `/api/Appointment/SaveRequestAppointmentByCustomerAndCardFuture`;
         return this.httpClient.post(url, entity, { headers: headers }) as Observable<AppointmentModel>;
     }
 
-    RescheduleAppointment(entity) {
+    RescheduleAppointment(entity: AppointmentModel) {
         let url = Global.apiUrl + `/api/Appointment/RescheduleAppointment`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
-    CreatePayment(entity) {
+    CreatePayment(entity: AppointmentModel) {
         let promise = new Promise((resolve, reject) => {
             let url = Global.apiUrl + `/api/Appointment/CreatePayment`;
             this.httpClient.post(url, entity)
@@ -183,7 +183,7 @@ export class AppointmentService extends BaseService<AppointmentModel>{
         return promise;
     }
 
-    ExecutePayment(entity) {
+    ExecutePayment(entity: { paymentID: any; payerID: any; appointment: AppointmentModel; }) {
         let promise = new Promise((resolve, reject) => {
             let url = Global.apiUrl + `/api/Appointment/ExecutePayment`;
             this.httpClient.post(url, entity)
@@ -212,28 +212,28 @@ export class AppointmentService extends BaseService<AppointmentModel>{
     }
 
 
-    SetLiked(id) {
+    SetLiked(id: string) {
         let url = Global.apiUrl + `/api/Appointment/SetLiked/${id}`;
         return this.httpClient.get(url) as Observable<boolean>;
     }
 
 
-    ViewCompletedNotes(note) {
+    ViewCompletedNotes(note: any) {
         let url = Global.apiUrl + `/api/Appointment/ViewCompletedNotes`;
         return this.httpClient.post(url, note) as Observable<boolean>;
     }
 
-    SearchHistoryAppointmentByCriteria(criteria) {
+    SearchHistoryAppointmentByCriteria(criteria: any) {
         let url = Global.apiUrl + `/api/Appointment/SearchHistoryAppointmentByCriteria`;
         return this.httpClient.post(url, criteria) as Observable<PageData<AppointmentModel>>;
     }
 
-    InSessionAppointment(appointmentId) {
+    InSessionAppointment(appointmentId: any) {
         let url = `${this.resource}/InSessionAppointment/${appointmentId}`;
         return this.httpClient.post(url, appointmentId) as Observable<AppointmentModel>;
     }
 
-    CancelledAppointment(appointmentId) {
+    CancelledAppointment(appointmentId: any) {
         let url = `${this.resource}/CancelledAppointment/${appointmentId}`;
         return this.httpClient.post(url, { 'CancelReason': '' }) as Observable<boolean>;
     }
@@ -248,53 +248,53 @@ export class AppointmentService extends BaseService<AppointmentModel>{
         return this.httpClient.post(url, model) as Observable<boolean>;
     }
 
-    CompletedAppointment(appointmentId, wasreferral) {
+    CompletedAppointment(appointmentId: any, wasreferral: any) {
         let url = `${this.resource}/CompletedAppointment/${appointmentId}/${wasreferral}`;
         return this.httpClient.post(url, appointmentId) as Observable<boolean>;
     }
 
-    GenerateTokenPublisher(sessionId) {
+    GenerateTokenPublisher(sessionId: string) {
         let url = `${this.resource}/GenerateTokenPublisher/${sessionId}`;
         return this.httpClient.get(url) as Observable<ToxBoxModel>;
     }
 
-    GenerateTokenSubcriber(sessionId) {
+    GenerateTokenSubcriber(sessionId: any) {
         let url = `${this.resource}/GenerateTokenSubcriber/${sessionId}`;
         return this.httpClient.get(url) as Observable<ToxBoxModel>;
     }
 
-    GetDashboardCountInfo(fromDate, toDate) {
+    GetDashboardCountInfo(fromDate: any, toDate: any) {
         let url = `${this.resource}/GetDashboardCountInfo/${fromDate ? fromDate : null}/${toDate ? toDate : null}`;
         return this.httpClient.get(url) as Observable<DashboardCountInfoModel>;
     }
 
-    AuditAppointment(fromDate, toDate) {
+    AuditAppointment(fromDate: any, toDate: any) {
         let url = `${this.resource}/AuditAppointment/${fromDate ? fromDate : null}/${toDate ? toDate : null}`;
         return this.httpClient.get(url) as Observable<Array<AuditStackAppointmentModel>>;
     }
 
-    AuditAppointmentReason(fromDate, toDate) {
+    AuditAppointmentReason(fromDate: any, toDate: any) {
         let url = `${this.resource}/AuditAppointmentReason/${fromDate ? fromDate : null}/${toDate ? toDate : null}`;
         return this.httpClient.get(url) as Observable<Array<AuditAppointmentReasonModel>>;
     }
 
-    GetDetectAppointment(fromDate, toDate) {
+    GetDetectAppointment(fromDate: any, toDate: any) {
         let url = `${this.resource}/GetDetectAppointment/${fromDate ? fromDate : null}/${toDate ? toDate : null}`;
         return this.httpClient.get(url) as Observable<Array<DetectAppointmentModel>>;
     }
 
-    ChangeProvider(appointmentId, providerId) {
+    ChangeProvider(appointmentId: string, providerId: string) {
         let url = `${this.resource}/ChangeProvider/${appointmentId}/${providerId}`;
         return this.httpClient.post(url, {}) as Observable<boolean>;
     }
 
-    UpdateInsuranceInfo(model) {
+    UpdateInsuranceInfo(model: any) {
         let url = `${this.resource}/UpdateInsuranceInfo`;
         return this.httpClient.post(url, model) as Observable<boolean>;
     }
 
 
-    CreatePaymentMethod(model) {
+    CreatePaymentMethod(model: StripeInfoModel) {
         let url = `${this.resource}/CreatePaymentMethod`;
         return this.httpClient.post(url, model) as Observable<AppointmentModel>;
     }
@@ -304,32 +304,32 @@ export class AppointmentService extends BaseService<AppointmentModel>{
         return this.httpClient.get(url) as Observable<SetupIntentResponseModel>;
     }
 
-    CheckValidCardInfoAsync(customerID, cardID) {
+    CheckValidCardInfoAsync(customerID: any, cardID: any) {
         let url = `${this.resource}/checkvalidcardinfo/${customerID}/${cardID}`;
         return this.httpClient.get(url) as Observable<CardInfoModel>;
     }
 
-    CheckPatientRequestedAppointment(userId) {
+    CheckPatientRequestedAppointment(userId: any) {
         let url = `${this.resource}/checkpatientrequestedappointment/${userId}`;
         return this.httpClient.get(url) as Observable<boolean>;
     }
 
-    SaveCustomerCardInfoAsync(token) {
+    SaveCustomerCardInfoAsync(token: any) {
         let url = `${this.resource}/SaveCustomerCardInfoAsync/${token}`;
         return this.httpClient.post(url, null) as Observable<boolean>;
     }
 
-    createMeetingToken(appointmentId) {
+    createMeetingToken(appointmentId: string) {
         let url = `${this.resource}/meeting_token/${appointmentId}`;
         return this.http.post(url, appointmentId) as Observable<string>;
     }
 
-    getParticipants(roomName) {
+    getParticipants(roomName: any) {
         let url = `${this.resource}/GetParticipants/${roomName}`;
         return this.http.get(url) as Observable<Array<ParticipantModel>>;
     }
 
-    InviteGuestToVideoSession(entity) {
+    InviteGuestToVideoSession(entity: any) {
         let url = Global.apiUrl + `/api/Appointment/InviteGuestToVideoSession`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
@@ -349,17 +349,17 @@ export class AppointmentService extends BaseService<AppointmentModel>{
         return this.httpClient.post(url, null);
     }
 
-    CapturePaymentIntent(appointmentID, amount) {
+    CapturePaymentIntent(appointmentID: any, amount: any) {
         let url = Global.apiUrl + `/api/Appointment/CapturePaymentIntent/${appointmentID}/${amount}`;
         return this.httpClient.post(url, null);
     }
 
-    CancelledPaymentIntent(appointmentID) {
+    CancelledPaymentIntent(appointmentID: any) {
         let url = Global.apiUrl + `/api/Appointment/CancelledPaymentIntent/${appointmentID}`;
         return this.httpClient.post(url, null);
     }
 
-    SearchAppointmentHistoryInfo(criteria) {
+    SearchAppointmentHistoryInfo(criteria: any) {
         let url = Global.apiUrl + `/api/Appointment/SearchAppointmentHistoryInfo`;
         return this.httpClient.post(url, criteria) as Observable<PageData<AppointmentHistoryInfoModel>>;
     }
@@ -369,22 +369,22 @@ export class AppointmentService extends BaseService<AppointmentModel>{
         return this.httpClient.get(url) as Observable<number>;
     }
 
-    DeclineInvalidInsurance(apptId){
+    DeclineInvalidInsurance(apptId: any){
         let url = Global.apiUrl + `/api/Appointment/DeclineInvalidInsurance/${apptId}`;
         return this.httpClient.post(url, null) as Observable<boolean>;
     }
 
-    DeclineOutOfNetwork(apptId){
+    DeclineOutOfNetwork(apptId: any){
         let url = Global.apiUrl + `/api/Appointment/DeclineOutOfNetwork/${apptId}`;
         return this.httpClient.post(url, null) as Observable<boolean>;
     }
 
-    SaveAppointmentRating(entity){
+    SaveAppointmentRating(entity: any){
         let url = Global.apiUrl + `/api/Appointment/SaveAppointmentRating`;
         return this.httpClient.post(url, entity) as Observable<AppointmentModel>;
     }
 
-    DownloadGenerateExcelReport(criteria) {
+    DownloadGenerateExcelReport(criteria: any) {
         let url = Global.apiUrl + `/api/Appointment/GenerateExcelReport`;
         return this.http.post(url, criteria, { observe: 'response', responseType: 'blob' });
     }

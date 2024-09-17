@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { VideoCallHistoryModel } from '../models/video-call-history.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
-import { Observable } from 'rxjs/Observable';
+import Global from '../../../Global';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class VideoCallHistoryService extends BaseService<VideoCallHistoryModel>{
@@ -12,7 +12,7 @@ export class VideoCallHistoryService extends BaseService<VideoCallHistoryModel>{
         this.resource = `${Global.apiUrl}/api/VideoCallHistory`;
     }
 
-    GetByAppointmentID(id) {
+    GetByAppointmentID(id: any) {
         let url = `${this.resource}/GetByAppointmentID/${id}`;
         return this.http.get(url) as Observable<string[]>;
     }

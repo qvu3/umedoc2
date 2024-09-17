@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { ProviderProfileModel } from '../models/provider-profile.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { Observable } from 'rxjs';
 import { ApptCategoryModel } from '../models/appt-category.model';
 import { ProviderServiceAssignmentModel } from '../models/provider-service-assignment.model';
 import { ProviderProfileViewModel } from '../models/provider-profile-request.model';
 import { TileAvailableModel } from '../models/tile-available.model';
 import { ProviderLicenseModel } from '../models/provider-license.model';
-import { ProviderCountOnDateViewModel } from '../models/provider-count-on-date.model';
+import { ProviderCountOnDateCriteriaModel, ProviderCountOnDateViewModel } from '../models/provider-count-on-date.model';
 import UserModel from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
@@ -19,7 +19,7 @@ export class ProviderProfileService extends BaseService<ProviderProfileModel>{
     this.resource = `${Global.apiUrl}/api/ProviderProfile`;
   }
 
-  GetBackupProviders(appointmentId){
+  GetBackupProviders(appointmentId: any){
     let url = Global.apiUrl + `/api/ProviderProfile/GetBackupProviders/${appointmentId}`;
     return this.httpClient.get(url) as Observable<ProviderProfileViewModel[]>;
   }
@@ -29,7 +29,7 @@ export class ProviderProfileService extends BaseService<ProviderProfileModel>{
     return this.httpClient.get(url) as Observable<number>;
   }
 
-  GetIsAvailable(isScheduler, state) {
+  GetIsAvailable(isScheduler: any, state: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/GetIsAvailable/${isScheduler}/${state}`;
     return this.httpClient.get(url) as Observable<ProviderProfileModel[]>;
   }
@@ -39,52 +39,52 @@ export class ProviderProfileService extends BaseService<ProviderProfileModel>{
     return this.httpClient.get(url) as Observable<ProviderProfileModel[]>;
   }
 
-  GetIncludeById(id) {
+  GetIncludeById(id: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/GetIncludeById/${id}`;
     return this.httpClient.get(url) as Observable<ProviderProfileModel>;
   }
 
-  UpdateTransaction(entity) {
+  UpdateTransaction(entity: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/UpdateTransaction`;
     return this.httpClient.post(url, entity) as Observable<boolean>;
   }
 
-  AutoSaveAvatar(id, avatar) {
+  AutoSaveAvatar(id: string, avatar: any) {
     let url = `${Global.apiUrl}/api/ProviderProfile/${id}/AutoSaveAvatar?avatar=${avatar}`;
     return this.httpClient.post(url, avatar) as Observable<boolean>;
   }
 
-  UpdateIsAvailable(userId, isAvailable) {
+  UpdateIsAvailable(userId: any, isAvailable: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/UpdateIsAvailable/${userId}/${isAvailable}`;
     return this.httpClient.post(url, isAvailable) as Observable<boolean>;
   }
 
-  UpdateIsBackupAvailable(userId, isBackupAvailable){
+  UpdateIsBackupAvailable(userId: any, isBackupAvailable: any){
     let url = Global.apiUrl + `/api/ProviderProfile/UpdateIsBackupAvailable/${userId}/${isBackupAvailable}`;
     return this.httpClient.post(url, isBackupAvailable) as Observable<boolean>;
   }
 
-  UpdateProviderIsAvailable(userId) {
+  UpdateProviderIsAvailable(userId: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/UpdateProviderIsAvailable/${userId}`;
     return this.httpClient.get(url) as Observable<boolean>;
   }
 
-  UpdateProviderIsBackup(userId) {
+  UpdateProviderIsBackup(userId: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/UpdateProviderIsBackup/${userId}`;
     return this.httpClient.get(url) as Observable<boolean>;
   }
 
-  UpdatePersonalInfo(entity) {
+  UpdatePersonalInfo(entity: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/PersonalInfo`;
     return this.httpClient.post(url, entity) as Observable<boolean>;
   }
 
-  UpdateAddressInfo(entity) {
+  UpdateAddressInfo(entity: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/AddressInfo`;
     return this.httpClient.post(url, entity) as Observable<boolean>;
   }
 
-  UpdateMedicalProfile(entity) {
+  UpdateMedicalProfile(entity: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/MedicalProfile`;
     return this.httpClient.post(url, entity) as Observable<boolean>;
   }
@@ -100,7 +100,7 @@ export class ProviderProfileService extends BaseService<ProviderProfileModel>{
     return this.httpClient.get(url) as Observable<boolean>;
   }
 
-  SaveStaff(entity) {
+  SaveStaff(entity: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/SaveStaff`;
     return this.httpClient.post(url, entity) as Observable<boolean>;
   }
@@ -115,62 +115,62 @@ export class ProviderProfileService extends BaseService<ProviderProfileModel>{
     return this.httpClient.get(url) as Observable<ApptCategoryModel[]>;
   }
 
-  AddProviderService(entity) {
+  AddProviderService(entity: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/AssignedProviderService`;
     return this.httpClient.post(url, entity) as Observable<boolean>;
   }
 
-  UpdateProviderService(entity) {
+  UpdateProviderService(entity: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/UpdateProviderService`;
     return this.httpClient.put(url, entity) as Observable<boolean>;
   }
 
-  DeleteProviderService(id) {
+  DeleteProviderService(id: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/DeleteProviderService/${id}`;
     return this.httpClient.delete(url);
   }
 
-  GetProviderService(id) {
+  GetProviderService(id: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/GetProviderService/${id}`;
     return this.httpClient.get(url) as Observable<ProviderServiceAssignmentModel>;
   }
 
-  GetProviders(state, gender, isOnDemand) {
+  GetProviders(state: any, gender: any, isOnDemand: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/GetProviders?state=${state}&gender=${gender}&isOnDemand=${isOnDemand}`;
     return this.httpClient.get(url) as Observable<ProviderProfileModel[]>;
   }
 
-  GetRequestProviders(appointment) {
+  GetRequestProviders(appointment: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/GetRequestProviders`;
     return this.httpClient.post(url, appointment) as Observable<ProviderProfileViewModel[]>;
   }
 
-  GetAvailableFollowUpProviders(appointment) {
+  GetAvailableFollowUpProviders(appointment: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/GetAvailableFollowUpProviders`;
     return this.httpClient.post(url, appointment) as Observable<ProviderProfileViewModel[]>;
   }
 
-  GetProviderRescheduleAvailableFuture(appointmentID) {
+  GetProviderRescheduleAvailableFuture(appointmentID: string) {
     let url = Global.apiUrl + `/api/ProviderProfile/GetProviderRescheduleAvailableFuture/${appointmentID}`;
     return this.httpClient.get(url) as Observable<ProviderProfileModel[]>;
   }
 
-  CheckTileAvailable(state) {
+  CheckTileAvailable(state: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/CheckTileAvailable?&state=${state}`;
     return this.httpClient.get(url) as Observable<TileAvailableModel>;
   }
 
-  GetProviderLicenses(providerId) {
+  GetProviderLicenses(providerId: any) {
     let url = Global.apiUrl + `/api/ProviderProfile/GetProviderLicenses/${providerId}`;
     return this.httpClient.get(url) as Observable<ProviderLicenseModel[]>;
   }
 
-  GetListAvailableApptCategory(state , isCheckSlot = true) {
+  GetListAvailableApptCategory(state: any , isCheckSlot = true) {
     let url = Global.apiUrl + `/api/ProviderProfile/GetListAvailableApptCategory?&state=${state}&isCheckSlot=${isCheckSlot}`;
     return this.httpClient.get(url) as Observable<ApptCategoryModel[]>;
   }
 
-  GetCountProviderOnDate(criteria){
+  GetCountProviderOnDate(criteria: ProviderCountOnDateCriteriaModel){
     let url = Global.apiUrl + `/api/ProviderProfile/GetCountProviderOnDate`;
     return this.httpClient.post(url , criteria) as Observable<ProviderCountOnDateViewModel[]>;
   }

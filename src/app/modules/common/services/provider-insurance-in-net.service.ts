@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { ProviderInsuranceInNetModel } from '../models/provider-insurance-in-net.model';
 import { BaseService } from './base.service';
 

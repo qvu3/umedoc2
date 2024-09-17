@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { PageViewHistoryModel } from '../models/page-view-history.model';
 import { BaseService } from './base.service';
 

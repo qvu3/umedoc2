@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { GroupApptModel } from '../models/group-appt.model';
 import { BaseService } from './base.service';
 
@@ -14,7 +14,7 @@ export class GroupApptService extends BaseService<GroupApptModel>{
     this.resource = `${Global.apiUrl}/api/GroupAppt`;
   }
 
-  GetAll(isScheduled) {
+  GetAll(isScheduled: any) {
     let url = Global.apiUrl + `/api/GroupAppt/GetAll/${isScheduled}`;
     return this.httpClient.get(url) as Observable<GroupApptModel[]>;
   }
@@ -24,27 +24,27 @@ export class GroupApptService extends BaseService<GroupApptModel>{
     return this.httpClient.get(url) as Observable<GroupApptModel[]>;
   }
 
-  GetByGroupProviderID(providerID) {
+  GetByGroupProviderID(providerID: any) {
     let url = Global.apiUrl + `/api/GroupAppt/GetByGroupProviderID/${providerID}`;
     return this.httpClient.get(url) as Observable<GroupApptModel[]>;
   }
 
-  GetIncludeByID(id) {
+  GetIncludeByID(id: any) {
     let url = Global.apiUrl + `/api/GroupAppt/GetIncludeByID/${id}`;
     return this.httpClient.get(url) as Observable<GroupApptModel>;
   }
 
-  createMeetingToken(apptId) {
+  createMeetingToken(apptId: any) {
     let url = Global.apiUrl + `/api/GroupAppt/meeting_token/${apptId}`;
     return this.http.post(url, apptId) as Observable<string>;
   }
 
-  CheckAvailableGroupApptSlots(state) {
+  CheckAvailableGroupApptSlots(state: any) {
     let url = Global.apiUrl + `/api/GroupAppt/CheckAvailableGroupApptSlots/${state}`;
     return this.httpClient.get(url) as Observable<boolean>;
   }
 
-  Cancelled(id) {
+  Cancelled(id: any) {
     let url = Global.apiUrl + `/api/GroupAppt/Cancelled/${id}`;
     return this.httpClient.post(url, null) as Observable<GroupApptModel>;
   }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { GroupApptPatientModel } from '../models/group-appt-patient.model';
 import { BaseService } from './base.service';
 
@@ -19,18 +19,18 @@ export class GroupApptPatientService extends BaseService<GroupApptPatientModel>{
     return this.httpClient.get(url) as Observable<GroupApptPatientModel[]>;
   }
 
-  SaveInviteUser(entity) {
+  SaveInviteUser(entity: any) {
     let url = Global.apiUrl + `/api/GroupApptPatient/SaveInviteUser`;
     return this.httpClient.post(url, entity) as Observable<GroupApptPatientModel>;
   }
 
 
-  GetAllGroupApptPatientByUserID(patientID) {
+  GetAllGroupApptPatientByUserID(patientID: any) {
     let url = Global.apiUrl + `/api/GroupApptPatient/GetAllGroupApptPatientByUserID/${patientID}`;
     return this.httpClient.get(url) as Observable<GroupApptPatientModel[]>;
   }
 
-  Cancelled(id) {
+  Cancelled(id: any) {
     let url = Global.apiUrl + `/api/GroupApptPatient/Cancelled/${id}`;
     return this.httpClient.post(url, null) as Observable<GroupApptPatientModel>;
   }

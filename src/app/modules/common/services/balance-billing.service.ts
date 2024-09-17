@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { InsuranceBalanceBillingModel } from '../models/balance-billing.model';
 import { PatientProfileModel } from '../models/patient-profile.model';
 import { BaseService } from './base.service';
@@ -15,12 +15,12 @@ export class BalanceBillingService extends BaseService<InsuranceBalanceBillingMo
     this.resource = `${Global.apiUrl}/api/BalanceBilling`;
   }
 
-  payNow(id) {
+  payNow(id: any) {
     let url = Global.apiUrl + `/api/BalanceBilling/PayNow/${id}`;
     return this.httpClient.post(url, null) as Observable<boolean>;
   }
 
-  getPatientInfo(id) {
+  getPatientInfo(id: any) {
     let url = Global.apiUrl + `/api/BalanceBilling/GetPatientInfo/${id}`;
     return this.httpClient.get(url) as Observable<PatientProfileModel>;
   }
@@ -30,7 +30,7 @@ export class BalanceBillingService extends BaseService<InsuranceBalanceBillingMo
     return this.httpClient.get(url) as Observable<number>;
   }
 
-  createOrUpdateCardInfo(cardInfo) {
+  createOrUpdateCardInfo(cardInfo: any) {
     let url = Global.apiUrl + `/api/BalanceBilling/UpdateCardInfo`;
     return this.http.post(url, cardInfo) as Observable<boolean>;
   }

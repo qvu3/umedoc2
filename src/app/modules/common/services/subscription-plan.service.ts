@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import Global from 'src/app/Global'; 
+import Global from '../../../Global'; 
 import { SubscriptionPlanModel } from '../models/subscription-plan.model';
  import { BaseService } from './base.service';
 
@@ -19,7 +19,7 @@ export class SubscriptionPlanService extends BaseService<SubscriptionPlanModel>{
     return this.httpClient.get(url) as Observable<SubscriptionPlanModel[]>;
   }
 
-  GetById(id) {
+  GetById(id: any) {
     let url = Global.apiUrl + `/api/SubscriptionPlan/GetById/${id}`;
     return this.httpClient.get(url) as Observable<SubscriptionPlanModel>;
   } 

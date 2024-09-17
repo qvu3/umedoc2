@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AppointmentDocumentModel } from '../models/appointment-document.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { Observable } from 'rxjs';
 import { ProviderGroupModel } from '../models/provider-group.model';
 import { ProviderGroupAssignmentModel } from '../models/provider-group-assignment.model';
@@ -15,22 +15,22 @@ export class ProviderGroupService extends BaseService<ProviderGroupModel>{
         this.resource = `${Global.apiUrl}/api/ProviderGroup`;
     } 
 
-    GetAssigned(groupId){
+    GetAssigned(groupId: any){
         let url = `${this.resource}/GetAssigned/${groupId}`;
         return this.http.get(url) as Observable<ProviderGroupAssignmentModel[]>;
     }
     
-    AddAssign(entity){
+    AddAssign(entity: any){
         let url = `${this.resource}/AddAssign`;
         return this.http.post(url,entity) as Observable<boolean>; 
     }
 
-    DeleteAssign(id){
+    DeleteAssign(id: any){
         let url = `${this.resource}/DeleteAssign/${id}`;
         return this.http.delete(url) as Observable<boolean>; 
     }
 
-    GetProviders(groupId){
+    GetProviders(groupId: any){
         let url = `${this.resource}/GetProviders/${groupId}`;
         return this.http.get(url) as Observable<UserModel[]>;
     }

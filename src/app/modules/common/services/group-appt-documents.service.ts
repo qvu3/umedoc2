@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { Observable } from 'rxjs';
 import { GroupApptDocumentsModel } from '../models/group-appt-documents.model';
 
@@ -13,17 +13,17 @@ export class GroupApptDocumentsService extends BaseService<GroupApptDocumentsMod
         this.resource = `${Global.apiUrl}/api/GroupApptDocuments`;
     }
 
-    Download(id) {
+    Download(id: any) {
         let url = Global.apiUrl + `/api/GroupApptDocuments/Download?id=${id}`;
         return this.httpClient.get(url, { observe: 'response', responseType: 'blob' });
     }
  
-    GetDocumentsByGroupApptID(id){
+    GetDocumentsByGroupApptID(id: any){
         let url = Global.apiUrl + `/api/GroupApptDocuments/GetDocumentsByGroupApptID/${id}`;
         return this.http.get(url) as Observable<GroupApptDocumentsModel[]>;
     } 
 
-    View(id) {
+    View(id: any) {
         let url = Global.apiUrl + `/api/GroupApptDocuments/View/${id}`;
         return this.httpClient.get(url) as Observable<string>;
     }

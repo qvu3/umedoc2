@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Global from '../../../Global';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { PageData } from './base.service';
 import { CPTModel, ICDModel, ModifierModel, PlaceOfServiceModel } from '../models/cpt.model';
 import { InsuranceListModel } from '../models/insurance_list.model';
@@ -17,7 +17,7 @@ export class UtilityService {
 
   }
 
-  GenerateTwilioToken(pageUrl) {
+  GenerateTwilioToken(pageUrl: string) {
     let url = Global.apiUrl + `/api/Appointment/GenerateTwilioToken?role=${pageUrl}`;
     return this.http.get(url) as Observable<string>;
   }
@@ -39,22 +39,22 @@ export class UtilityService {
     return this.http.get(url) as Observable<InsuranceListModel[]>;
   }
 
-  SearchCPT(criteria) {
+  SearchCPT(criteria: any) {
     let url = `${Global.apiUrl}/api/Utility/SearchCPT`;
     return this.http.post(url, criteria) as Observable<PageData<CPTModel>>;
   }
 
-  SearchICD(criteria) {
+  SearchICD(criteria: any) {
     let url = `${Global.apiUrl}/api/Utility/SearchICD`;
     return this.http.post(url, criteria) as Observable<PageData<ICDModel>>;
   }
 
-  SearchModifier(criteria) {
+  SearchModifier(criteria: any) {
     let url = `${Global.apiUrl}/api/Utility/SearchModifier`;
     return this.http.post(url, criteria) as Observable<PageData<ModifierModel>>;
   }
 
-  SearchPlace(criteria) {
+  SearchPlace(criteria: any) {
     let url = `${Global.apiUrl}/api/Utility/SearchPlace`;
     return this.http.post(url, criteria) as Observable<PageData<PlaceOfServiceModel>>;
   }
@@ -64,17 +64,17 @@ export class UtilityService {
     return this.http.get(url)  as Observable<number>;
   }
 
-  CountHeadWaitingAppointment(appointmentId){
+  CountHeadWaitingAppointment(appointmentId: any){
     let url= `${Global.apiUrl}/api/Appointment/${appointmentId}/CountHeadWaitingAppointment`;
     return this.http.get(url)  as Observable<number>;
   }
 
-  GetLinkS3Private(path){
+  GetLinkS3Private(path: any){
     let url=`${Global.apiUrl}/api/Utility/GetS3PrivateImage?key=${path}`;
     return this.http.get(url)  as Observable<string>;
   }
   
-  GetThumbnailS3Image(path){
+  GetThumbnailS3Image(path: string){
     let url=`${Global.apiUrl}/api/Utility/GetThumbnailS3Image?key=${path}`;
     return this.http.get(url)  as Observable<string>;
   }

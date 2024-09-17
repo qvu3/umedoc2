@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProviderEducationModel } from '../models/provider-education.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 
 @Injectable()
 export class ProviderEducationService extends BaseService<ProviderEducationModel>{

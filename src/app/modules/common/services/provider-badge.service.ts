@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ProviderBadgeModel } from '../models/provider-badge.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
-import { Observable } from 'rxjs/Observable';
+import Global from '../../../Global';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ProviderBadgeService extends BaseService<ProviderBadgeModel>{
@@ -12,7 +12,7 @@ export class ProviderBadgeService extends BaseService<ProviderBadgeModel>{
         this.resource = `${Global.apiUrl}/api/ProviderBadge`;
     }
 
-    GetByProviderID(id){
+    GetByProviderID(id: any){
         let url  = `${this.resource}/GetByProviderID/${id}`;
         return  this.http.get(url) as Observable<string[]>;
     }

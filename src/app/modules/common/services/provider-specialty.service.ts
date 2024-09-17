@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProviderSpecialtyModel } from '../models/provider-specialty.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { Observable } from 'rxjs';
 
 @Injectable()

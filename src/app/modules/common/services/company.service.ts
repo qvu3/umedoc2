@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CompanyModel } from '../models/company.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class CompanyService extends BaseService<CompanyModel>{
     this.resource = `${Global.apiUrl}/api/Company`;
   }
 
-  CheckDiscountCode(code) {
+  CheckDiscountCode(code: any) {
     let url = `${Global.apiUrl}/api/Company/CheckDiscountCode?code=${code}`;
     return this.httpClient.get(url) as Observable<boolean>;
   }

@@ -19,22 +19,22 @@ export class UserService extends BaseService<UserModel>{
         this.resource = Global.apiUrl + '/api/User';
     }
 
-    addCombineUser(newUserId , oldUserId){
+    addCombineUser(newUserId: any , oldUserId: any){
         let url = Global.apiUrl +  `/api/CombineUserAcct/AddCombineUser/${newUserId}/${oldUserId}`;
         return this.httpClient.post(url,null) as Observable<boolean>;
     }
 
-    removeCombineUser(newUserId , oldUserId){
+    removeCombineUser(newUserId: any , oldUserId: any){
         let url = Global.apiUrl +  `/api/CombineUserAcct/RemoveCombineUser/${newUserId}/${oldUserId}`;
         return this.httpClient.delete(url) as Observable<boolean>;
     }
 
-    getCombineUserByPatientID(patientId){
+    getCombineUserByPatientID(patientId: any){
         let url = Global.apiUrl +  `/api/CombineUserAcct/getByPatientID/${patientId}`;
         return this.httpClient.get(url) as Observable<CombineUserAcctModel[]>;
     }
 
-    addPatientAdmin(entity) {
+    addPatientAdmin(entity: UserModel) {
         let url = Global.apiUrl +  `/api/User/AddPatientAdmin`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
@@ -50,13 +50,13 @@ export class UserService extends BaseService<UserModel>{
         return this.httpClient.get(url) as Observable<PartnerCompanyModel[]>;
     }
 
-    getSMSStatusHistory(sid){
+    getSMSStatusHistory(sid: any){
         let url = Global.apiUrl + `/api/User/GetSMSStatusHistory/${sid}`;
         return this.httpClient.get(url) as Observable<SMSStatusHistoryModel[]>;
     }
 
 
-    resendConfirm(id) {
+    resendConfirm(id: any) {
         let url = Global.apiUrl + `/api/User/ResendConfirm/${id}`;
         return this.httpClient.get(url) as Observable<boolean>;
     }
@@ -71,49 +71,49 @@ export class UserService extends BaseService<UserModel>{
         return this.httpClient.get(url) as Observable<UserModel>;
     }
 
-    ChangePasswordUser(entity) {
+    ChangePasswordUser(entity: UserModel) {
         let url = `${this.resource}/ChangePasswordUser`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
-    ResetPasswordUser(entity) {
+    ResetPasswordUser(entity: UserModel) {
         let url = `${this.resource}/ResetPasswordUser`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
-    ResetLoginAttemptUser(entity) {
+    ResetLoginAttemptUser(entity: any) {
         let url = `${this.resource}/ResetLoginAttemptUser`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
 
-    EmailConfirmation(confirmModel) {
+    EmailConfirmation(confirmModel: any) {
         let url = Global.apiUrl + `/api/Verify/ConfirmEmail`;
         return this.httpClient.post(url, confirmModel) as Observable<EmailConfirmModel>;
     }
 
 
-    AppointmentFeedback(appointmentId) {
+    AppointmentFeedback(appointmentId: any) {
         let url = Global.apiUrl + `/api/Verify/AppointmentFeedback/${appointmentId}`;
         return this.httpClient.get(url) as Observable<EmailConfirmModel>;
     }
 
-    ForgotPassword(email, companyId) {
+    ForgotPassword(email: any, companyId: any) {
         let url = Global.apiUrl + `/api/User/ForgotPassword/${email}/${companyId}`;
         return this.httpClient.post(url, {}) as Observable<boolean>;
     }
 
-    ResendSMSVerify(entity) {
+    ResendSMSVerify(entity: any) {
         let url = Global.apiUrl + `/api/User/ResendSMSVerify`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
-    VerifySMS(code) {
+    VerifySMS(code: any) {
         let url = Global.apiUrl + `/api/User/VerifySMS/${code}`;
         return this.httpClient.post(url, {}) as Observable<boolean>;
     }
 
-    RecoverPassword(entity) {
+    RecoverPassword(entity: any) {
         let url = Global.apiUrl + `/api/User/RecoverPassword`;
         return this.httpClient.post(url, entity) as Observable<UserModel>;
     }
@@ -123,17 +123,17 @@ export class UserService extends BaseService<UserModel>{
         return this.httpClient.get(url) as Observable<UserModel[]>;
     }
 
-    SearchHealthDataGroup(patientId) {
+    SearchHealthDataGroup(patientId: any) {
         let url = Global.apiUrl + `/api/User/SearchHealthDataGroup/${patientId}`;
         return this.httpClient.get(url) as Observable<HealthKitDataGroupModel[]>;
     }
 
-    SearchHealthDataLine(criteria) {
+    SearchHealthDataLine(criteria: any) {
         let url = Global.apiUrl + `/api/User/HealthDataGroupChart`;
         return this.httpClient.post(url, criteria) as Observable<HealthKitDataLine>;
     }
 
-    GetHealthLastest(patientId) {
+    GetHealthLastest(patientId: any) {
         let url = Global.apiUrl + `/api/User/GetHealthLastest/${patientId}`;
         return this.httpClient.get(url) as Observable<HealthKitDataModel[]>;
     }
@@ -143,17 +143,17 @@ export class UserService extends BaseService<UserModel>{
         return this.httpClient.get(url) as Observable<UserModel[]>;
     }
 
-    UpdateProfile(patientProfileId, user) {
+    UpdateProfile(patientProfileId: any, user: any) {
         let url = Global.apiUrl + `/api/User/UpdateProfile/${patientProfileId}`;
         return this.httpClient.put(url, user) as Observable<boolean>;
     }
 
-    UpdateAddress(patientProfileId, user) {
+    UpdateAddress(patientProfileId: any, user: any) {
         let url = Global.apiUrl + `/api/User/UpdateAddress/${patientProfileId}`;
         return this.httpClient.put(url, user) as Observable<boolean>;
     }
 
-    InviteUser(user) {
+    InviteUser(user: any) {
         let url = Global.apiUrl + `/api/User/InviteUser`;
         return this.httpClient.post(url, user) as Observable<boolean>;
     }

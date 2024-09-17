@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { PatientProfileModel } from '../models/patient-profile.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { Observable } from 'rxjs';
 import { AllergyInfoModel, PharmacyModel, DoseTokenInfoModel, DosePatientPrescription } from '../models/allergy-info.model';
+import UserModel from '../models/user.model';
+import { PharmacyCriteria } from '../criterias/pharmacy.criteiral';
 
 @Injectable()
 export class PatientProfileService extends BaseService<PatientProfileModel>{
@@ -23,22 +25,22 @@ export class PatientProfileService extends BaseService<PatientProfileModel>{
         return this.httpClient.get(url) as Observable<PatientProfileModel[]>;
     }
 
-    Save(entity) {
+    Save(entity: any) {
         let url = Global.apiUrl + `/api/PatientProfile/Save`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
-    UpdatePatientInfo(entity) {
+    UpdatePatientInfo(entity: any) {
         let url = Global.apiUrl + `/api/PatientProfile/Update`;
         return this.httpClient.post(url, entity) as Observable<PatientProfileModel>;
     }
 
-    UpdatePharmacy(entity) {
+    UpdatePharmacy(entity: any) {
         let url = Global.apiUrl + `/api/PatientProfile/UpdatePharmacy`;
         return this.httpClient.post(url, entity) as Observable<boolean>;
     }
 
-    GetByAppointment(appointmentId) {
+    GetByAppointment(appointmentId: any) {
         let url = Global.apiUrl + `/api/PatientProfile/GetByAppointment?appointmentId=${appointmentId}`;
         return this.httpClient.get(url) as Observable<PatientProfileModel>;
     }
@@ -48,17 +50,17 @@ export class PatientProfileService extends BaseService<PatientProfileModel>{
         return this.httpClient.get(url) as Observable<PatientProfileModel>;
     }
 
-    UpdateChildInfo(user){
+    UpdateChildInfo(user: UserModel){
         let url = Global.apiUrl + `/api/PatientProfile/UpdateChildInfo`;
         return this.httpClient.post(url,user) as Observable<boolean>;
     }
 
-    DeleteChild(id){
+    DeleteChild(id: string){
         let url = Global.apiUrl + `/api/PatientProfile/DeleteChild/${id}`;
         return this.httpClient.delete(url);
     }
 
-    CheckExistedApptCompleted(patientId){
+    CheckExistedApptCompleted(patientId: any){
         let url = Global.apiUrl + `/api/Appointment/CheckExistedApptCompleted/${patientId}`;
         return this.httpClient.get(url) as Observable<boolean>;
     }
@@ -68,12 +70,12 @@ export class PatientProfileService extends BaseService<PatientProfileModel>{
         return this.httpClient.get(url) as Observable<PatientProfileModel>;
     }
 
-    SearchAllergy(q) {
+    SearchAllergy(q: any) {
         let url = Global.apiUrl + `/api/PatientProfile/SearchAllergy/${q}`;
         return this.httpClient.get(url) as Observable<AllergyInfoModel[]>;
     }
 
-    SearchPharmacy(criteria) {
+    SearchPharmacy(criteria: PharmacyCriteria) {
         let url = Global.apiUrl + `/api/PatientProfile/SearchPharamcy`;
         return this.httpClient.post(url, criteria) as Observable<PharmacyModel[]>;
     }
@@ -93,7 +95,7 @@ export class PatientProfileService extends BaseService<PatientProfileModel>{
         return this.httpClient.get(url) as Observable<Array<DosePatientPrescription>>;
     }
 
-    GetPatientPrescriptionByPatient(patientId){
+    GetPatientPrescriptionByPatient(patientId: string){
         let url = Global.apiUrl + `/api/PatientProfile/GetPatientPrescriptionByPatient/${patientId}`;
         return this.httpClient.get(url) as Observable<Array<DosePatientPrescription>>;
     }
@@ -108,47 +110,47 @@ export class PatientProfileService extends BaseService<PatientProfileModel>{
         return this.httpClient.post(url, null) as Observable<boolean>;
     }
 
-    UpdateInsurance(model) {
+    UpdateInsurance(model: any) {
         let url = Global.apiUrl + `/api/PatientProfile/UpdateInsurance`;
         return this.httpClient.post(url, model) as Observable<boolean>;
     }
 
-    createOrUpdateCardInfo(cardInfo) {
+    createOrUpdateCardInfo(cardInfo: any) {
         let url = Global.apiUrl + `/api/PatientProfile/UpdateCardInfo`;
         return this.http.post(url, cardInfo) as Observable<boolean>;
     }
 
-    GetInsurances(patientId) {
+    GetInsurances(patientId: any) {
         let url = Global.apiUrl + `/api/PatientProfile/GetInsurances/${patientId}`;
         return this.httpClient.get(url) as Observable<PatientProfileModel>;
     }
 
-    UpdateEmergency(patient) {
+    UpdateEmergency(patient: any) {
         let url = Global.apiUrl + `/api/PatientProfile/UpdateEmergency`;
         return this.httpClient.post(url, patient) as Observable<PatientProfileModel>;
     }
 
-    UpdateAllergies(patient){
+    UpdateAllergies(patient: any){
         let url = Global.apiUrl + `/api/PatientProfile/UpdateAllergies`;
         return this.httpClient.post(url, patient) as Observable<PatientProfileModel>;
     }
  
-    UpdateMedicationConditions(patient){
+    UpdateMedicationConditions(patient: any){
         let url = Global.apiUrl + `/api/PatientProfile/UpdateMedicationConditions`;
         return this.httpClient.post(url, patient) as Observable<PatientProfileModel>;
     }
 
-    UpdateMedications(patient){
+    UpdateMedications(patient: any){
         let url = Global.apiUrl + `/api/PatientProfile/UpdateMedications`;
         return this.httpClient.post(url, patient) as Observable<PatientProfileModel>;
     }
 
-    CreateChild(patient){
+    CreateChild(patient: PatientProfileModel){
         let url = Global.apiUrl + `/api/PatientProfile/CreateChild`;
         return this.httpClient.post(url, patient) as Observable<PatientProfileModel>;
     }
 
-    UpdateDiscoverFrom(entity){
+    UpdateDiscoverFrom(entity: any){
         let url = Global.apiUrl + `/api/PatientProfile/UpdateDiscoverFrom`; 
         return this.httpClient.post(url, entity) as Observable<PatientProfileModel>;
     }
