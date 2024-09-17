@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DoseTokenInfoModel } from '../../common/models/allergy-info.model';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PatientProfileService } from '../../common/services/patient-profile.service'; 
@@ -11,7 +11,7 @@ import { PatientProfileService } from '../../common/services/patient-profile.ser
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-  patientid: number;
+  patientid!: number;
   url: any;
   constructor(activeRouter: ActivatedRoute,
     private sanitizer: DomSanitizer,

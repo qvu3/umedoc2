@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../common/guard/guard';
-import { RoleConstants } from 'src/app/Global';
+import { RoleConstants } from '../../Global';
 import { DoseViewComponent } from './dose-view/dose-view.component';
 import { NotificationComponent } from './notification/notification.component';
 

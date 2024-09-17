@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientProfileService } from '../../common/services/patient-profile.service';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 import { DoseTokenInfoModel } from '../../common/models/allergy-info.model';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./dose-view.component.css']
 })
 export class DoseViewComponent implements OnInit {
-  patientid: number;
+  patientid!: number;
   url: any;
   constructor(activeRouter: ActivatedRoute,
     private sanitizer: DomSanitizer,
