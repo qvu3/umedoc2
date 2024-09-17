@@ -1,20 +1,20 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import Global from 'src/app/Global';
-import { BaseComponent } from 'src/app/modules/base.component';
-import { PverifyInsuranceModalComponent } from 'src/app/modules/common/component/pverify-insurance-modal/pverify-insurance-modal.component';
- import { CompanyModel } from 'src/app/modules/common/models/company.model';
-import { GroupApptPatientModel } from 'src/app/modules/common/models/group-appt-patient.model';
- import { PatientProfileModel } from 'src/app/modules/common/models/patient-profile.model';
-import { PverifyPatientInsuranceModel } from 'src/app/modules/common/models/pverify-patient-insurance.model';
-import { AppointmentSlotService } from 'src/app/modules/common/services/appointment-slot.service';
-import { AuthenticationService } from 'src/app/modules/common/services/authentication.service';
-import { CompanyService } from 'src/app/modules/common/services/company.service';
-import { CommonDialogService } from 'src/app/modules/common/services/dialog.service';
-import { PatientInsuranceService } from 'src/app/modules/common/services/patient-insurance.service';
-import { PatientProfileService } from 'src/app/modules/common/services/patient-profile.service';
-import { PverifyPatientInsuranceService } from 'src/app/modules/common/services/pverify-patient-insurance.service';
-import { UtilityService } from 'src/app/modules/common/services/utility.service';
+import Global from '../../../../../Global';
+import { BaseComponent } from '../../../../base.component';
+import { PverifyInsuranceModalComponent } from '../../../../common/component/pverify-insurance-modal/pverify-insurance-modal.component';
+ import { CompanyModel } from '../../../../common/models/company.model';
+import { GroupApptPatientModel } from '../../../../common/models/group-appt-patient.model';
+ import { PatientProfileModel } from '../../../../common/models/patient-profile.model';
+import { PverifyPatientInsuranceModel } from '../../../../common/models/pverify-patient-insurance.model';
+import { AppointmentSlotService } from '../../../../common/services/appointment-slot.service';
+import { AuthenticationService } from '../../../../common/services/authentication.service';
+import { CompanyService } from '../../../../common/services/company.service';
+import { CommonDialogService } from '../../../../common/services/dialog.service';
+import { PatientInsuranceService } from '../../../../common/services/patient-insurance.service';
+import { PatientProfileService } from '../../../../common/services/patient-profile.service';
+import { PverifyPatientInsuranceService } from '../../../../common/services/pverify-patient-insurance.service';
+import { UtilityService } from '../../../../common/services/utility.service';
  
 @Component({
   selector: 'app-step-appt-insurance',
@@ -23,12 +23,13 @@ import { UtilityService } from 'src/app/modules/common/services/utility.service'
 })
 export class StepApptInsuranceComponent extends BaseComponent implements AfterViewInit {
   model: GroupApptPatientModel = new GroupApptPatientModel();
-  companyModel: CompanyModel;
-  patientModel: PatientProfileModel;
+  companyModel: CompanyModel = new CompanyModel;
+  patientModel: PatientProfileModel = new PatientProfileModel;
   us_statelist: any;
-  apptCategoryID: string;
+  apptCategoryID!: string;
   insurances: PverifyPatientInsuranceModel[] = [];
-  @ViewChild('modal') pverifyAddInsuranceModal: PverifyInsuranceModalComponent;
+  @ViewChild('modal')
+  pverifyAddInsuranceModal!: PverifyInsuranceModalComponent;
   constructor(private authService: AuthenticationService,
     private router: Router,
     private patientProfileService: PatientProfileService,
@@ -42,11 +43,11 @@ export class StepApptInsuranceComponent extends BaseComponent implements AfterVi
     private cdChanged: ChangeDetectorRef) {
     super(authService);
 
-    this.model = this.authService.groupApptPatient;
+    this.model = this.authService.groupApptPatient || new GroupApptPatientModel();
     this.model.isAddInsurance = false;
   }
 
-  ngAfterViewInit(): void {
+  override ngAfterViewInit(): void {
     this.getPatientProfileEntity();
     this.getCurrentCompanyInfo();
     this.us_statelist = Global.US_StateList;
@@ -98,7 +99,7 @@ export class StepApptInsuranceComponent extends BaseComponent implements AfterVi
   }
 
 
-  selectUseInsurance(value) {
+  selectUseInsurance(value: boolean) {
     this.model.isAddInsurance = value;
   }
 
@@ -111,7 +112,7 @@ export class StepApptInsuranceComponent extends BaseComponent implements AfterVi
     return this.model.isAddInsurance == false || (this.model.isAddInsurance && this.patientModel && this.insurances && this.insurances.length > 0 && this.insurances.find(x => x.Status == 'Enabled'));
   }
 
-  changePVerifyInsurance(event) {
+  changePVerifyInsurance(event: PverifyPatientInsuranceModel[]) {
     this.insurances = event;
   }
 

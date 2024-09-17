@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GuidLineComponent } from './guid-line.component';
 
@@ -6,7 +6,7 @@ describe('GuidLineComponent', () => {
   let component: GuidLineComponent;
   let fixture: ComponentFixture<GuidLineComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GuidLineComponent ]
     })

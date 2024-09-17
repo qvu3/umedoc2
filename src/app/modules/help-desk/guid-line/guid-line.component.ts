@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core'; 
 import { DomSanitizer } from '@angular/platform-browser';
-import Global from 'src/app/Global';
+import Global from '../../../Global';
 @Component({
   selector: 'app-guid-line',
   templateUrl: './guid-line.component.html',

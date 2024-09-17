@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HelpDeskLayoutComponent } from './help-desk-layout.component';
 
@@ -6,7 +6,7 @@ describe('HelpDeskLayoutComponent', () => {
   let component: HelpDeskLayoutComponent;
   let fixture: ComponentFixture<HelpDeskLayoutComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ HelpDeskLayoutComponent ]
     })

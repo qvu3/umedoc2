@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BaseComponent } from 'src/app/modules/base.component';
-import { GroupApptPatientModel } from 'src/app/modules/common/models/group-appt-patient.model';
-import { GroupApptModel } from 'src/app/modules/common/models/group-appt.model';
-import { AuthenticationService } from 'src/app/modules/common/services/authentication.service';
-import { CommonDialogService } from 'src/app/modules/common/services/dialog.service';
-import { GroupApptService } from 'src/app/modules/common/services/group-appt.service';
-import { ProviderProfileComponent } from 'src/app/modules/home/components/request-appointment/provider-profile/provider-profile.component';
+import { BaseComponent } from '../../../../../modules/base.component';
+import { GroupApptPatientModel } from '../../../../../modules/common/models/group-appt-patient.model';
+import { GroupApptModel } from '../../../../../modules/common/models/group-appt.model';
+import { AuthenticationService } from '../../../../../modules/common/services/authentication.service';
+import { CommonDialogService } from '../../../../../modules/common/services/dialog.service';
+import { GroupApptService } from '../../../../../modules/common/services/group-appt.service';
+import { ProviderProfileComponent } from '../../../../../modules/home/components/request-appointment/provider-profile/provider-profile.component';
 
 @Component({
   selector: 'app-step-group-session',
@@ -16,18 +16,19 @@ import { ProviderProfileComponent } from 'src/app/modules/home/components/reques
 export class StepGroupSessionComponent extends BaseComponent implements OnInit {
   model: GroupApptPatientModel = new GroupApptPatientModel();
   providers: Array<GroupApptModel> = new Array<GroupApptModel>();
-  @ViewChild('modal') modal: ProviderProfileComponent;
-  constructor(public authenticationService: AuthenticationService,
+  @ViewChild('modal')
+  modal!: ProviderProfileComponent;
+  constructor(public override authenticationService: AuthenticationService,
     private router: Router,
     private activeRouter: ActivatedRoute,
     private dialog: CommonDialogService,
     private groupApptService: GroupApptService) {
     super(authenticationService);
-    this.model = this.authenticationService.groupApptPatient;
+    this.model = this.authenticationService.groupApptPatient || new GroupApptPatientModel();
     this.model.PatientID = this.currentUser.Id;
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.getAllGroupAppts();
   }
 
@@ -39,14 +40,14 @@ export class StepGroupSessionComponent extends BaseComponent implements OnInit {
     });
   }
 
-  selectDoctor(provider) {
+  selectDoctor(provider: GroupApptModel) {
     this.model.ProviderID = provider.ProviderID;
     this.model.GroupApptID = provider.ID;
     this.model.GroupAppt = provider;
     this.model.IsBooked = provider.IsBooked;
   }
 
-  viewProfile(providerID) {
+  viewProfile(providerID: any) {
     this.modal.show(providerID);
   }
 

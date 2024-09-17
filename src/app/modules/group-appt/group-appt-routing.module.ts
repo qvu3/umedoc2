@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RoleConstants } from 'src/app/Global';
+import { RoleConstants } from '../../Global';
 import { CanDeactiveRequest } from '../common/guard/can-deactive.request';
 import { AuthGuard } from '../common/guard/guard';
  import { BookApptComponent } from './components/book-appt/book-appt.component';
